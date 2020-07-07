@@ -31,6 +31,11 @@
     --background: url(./assets/basic/background.png) center;
 }
 
+.background-image-default {
+    --background: url(./assets/basic/background-default.png) center;
+    // z-index: 1;
+}
+
 .footer-shadow {
     box-shadow: 1px -2px 6px 0px #50505029;
 }
@@ -105,4 +110,18 @@
 
 .clockin {
     --background: var(--ion-color-clockin);
+}
+
+.contents {
+    .bg-img {
+        position: fixed;
+        bottom: 62%;
+        width: 250%;
+        display: flex;
+        left: -75%;
+    }
+
+    .content {
+        position: absolute;
+    }
 }
