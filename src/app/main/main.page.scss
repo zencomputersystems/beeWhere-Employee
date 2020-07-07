@@ -1,14 +1,49 @@
 :host {
-    // .contents {
-    //     .bg-img {
-    //         position: fixed;
-    //         bottom: 62%;
-    //         width: 250%;
-    //         display: flex;
-    //         left: -75%;
-    //     }
-    //     .content {
-    //         position: absolute;
-    //     }
-    // }
+    .user-header {
+        color: #ffffff;
+        display: flex;
+        margin: 21px;
+        ion-item-group {
+            align-self: center;
+            ion-avatar {
+                background-color: white;
+                padding: 3px;
+                width: 64.34px;
+            }
+        }
+        
+        .company-title {
+            display: flex;
+            font-size: 12px;
+        }
+    }
+
+    .main-info {
+        margin: 22px;
+        background: #ffff;
+        background-color: white;
+        box-shadow: 0 3px 10px #50505029;
+
+        ion-card-content {
+            ion-card-title {
+                font-size: 15px;
+                font-weight: bold;
+                padding: 0;
+                margin-bottom: 3px;
+            }
+
+            ion-card-subtitle {
+                font-size: 12px;
+                color: var(--ion-color-text);
+            }
+        }
+    }
+
+    .clockin {
+        color: var(--ion-color-clockin);
+    }
+
+    .clockout {
+        color: var(--ion-color-red);
+    }
 }

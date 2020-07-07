@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import * as sampledata from '../sampledata.json';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.page.html',
-  styleUrls: ['./main.page.scss'],
+  selector: "app-main",
+  templateUrl: "./main.page.html",
+  styleUrls: ["./main.page.scss"],
 })
 export class MainPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  public data = require('../sampledata.json');
 
   ngOnInit() {
+    console.log(this.data);
   }
-
 }

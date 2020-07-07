@@ -35,6 +35,10 @@ const routes: Routes = [
     path: 'support',
     loadChildren: () => import('./support/support.module').then( m => m.SupportPageModule)
   },
+  {
+    path: 'clock-out',
+    loadChildren: () => import('./clock-out/clock-out.module').then( m => m.ClockOutPageModule)
+  },
 ];
 
 @NgModule({

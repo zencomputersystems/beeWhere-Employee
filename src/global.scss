@@ -123,5 +123,21 @@
 
     .content {
         position: absolute;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+
+        .header {
+            display: flex;
+            place-content: space-between;
+            // margin: 22px;
+            margin: 45px 22px 22px;
+            font-size: 23px;
+            color: var(--color);
+            font-weight: normal;
+
+            ion-img {
+                width: 23px;
+            }
+        }
     }
 }
