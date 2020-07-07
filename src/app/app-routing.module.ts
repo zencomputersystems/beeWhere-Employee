@@ -8,14 +8,38 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'startup',
     pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'startup',
+    loadChildren: () => import('./startup/startup.module').then( m => m.StartupPageModule)
+  },
+  {
+    path: 'main',
+    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
+  },
+  {
+    path: 'clock-in',
+    loadChildren: () => import('./clock-in/clock-in.module').then( m => m.ClockInPageModule)
+  },
+  {
+    path: 'inbox-details',
+    loadChildren: () => import('./inbox-details/inbox-details.module').then( m => m.InboxDetailsPageModule)
+  },
+  {
+    path: 'support',
+    loadChildren: () => import('./support/support.module').then( m => m.SupportPageModule)
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, useHash: true })
   ],
   exports: [RouterModule]
 })

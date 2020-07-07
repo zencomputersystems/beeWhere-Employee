@@ -74,6 +74,21 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  // text color theme
+  --ion-color-text: #707070;
+  --ion-color-text-header: #7069D8;
+  --ion-color-text-tasklist: #43425D;
+  --ion-color-red: #F05858;
+
+  // font size theme
+  --ion-text: 11px;
+  --ion-text-12: 12px;
+
+  // general color theme
+  --ion-color-clockin: #2ECC71;
+  --ion-color-clockout: #F8BB40;
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -225,4 +240,18 @@
 
     --ion-tab-bar-background: #1f1f1f;
   }
+}
+
+@font-face {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  src: url("/src/assets/basic/fonts/Poppins/Poppins-Medium.ttf");
+}
+
+:root,
+:root[mode="md"],
+:root[mode="ios"] {
+  --ion-font-family: 'Poppins', sans-serif;
+  font-family: var(--ion-font-family) !important;
 }
