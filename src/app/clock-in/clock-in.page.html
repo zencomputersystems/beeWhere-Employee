@@ -1,9 +1,36 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>clockIn</ion-title>
+<ion-footer class="footer-shadow">
+  <ion-toolbar class="footer" color="dark">
+    <ion-item-group>
+      <div routerLink="/main" class="footer-label">
+        <ion-img src="../../assets/basic/home.png"></ion-img>
+        <ion-label>
+          Main
+        </ion-label>
+      </div>
+      <div routerLink="/inbox-details" class="footer-label">
+        <ion-img src="../../assets/basic/bell.png"></ion-img>
+        <ion-label>
+          Inbox
+        </ion-label>
+      </div>
+      <div routerLink="/support" class="footer-label">
+        <ion-img src="../../assets/basic/support.png"></ion-img>
+        <ion-label>
+          Support
+        </ion-label>
+      </div>
+      <div style="flex: 2"></div>
+    </ion-item-group>
   </ion-toolbar>
-</ion-header>
+</ion-footer>
+
+<div class="clockin-button">
+  <ion-button shape="round" fill="outline" class="clockin" routerLink="/clock-in">
+    <ion-label>Clock In Now</ion-label>
+  </ion-button>
+</div>
+
 
 <ion-content>
-
+  Clock in page
 </ion-content>
