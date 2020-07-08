@@ -10,19 +10,19 @@
     .text-group {
         text-align: center;
         margin: 0 43px 20px;
-
+        max-width: 250px;
         .title {
-            font-size: 36px;
+            font-size: var(--ion-text-36);
             padding-bottom: 13px;
         }
 
         .subtitle {
-            font-size: 23px;
+            font-size: var(--ion-text-23);
         }
 
         .text {
             font-weight: lighter;
-            font-size: 12px;
+            font-size: var(--ion-text-12);
         }
     }
 
@@ -38,7 +38,7 @@
         border-radius: 4px;
         width: 167px;
         color: #7069D8;
-        font-size: 13px;
+        font-size: var(--ion-text-13);
         box-shadow: 4px 4px 4px #50505029;
     }
     

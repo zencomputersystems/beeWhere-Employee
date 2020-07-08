@@ -85,16 +85,20 @@
 
     ion-button {
         text-transform: capitalize;
-        height: 99.73px;
-        width: 99.73px;
-        --border-radius: 57px;
-        border-radius: 57px;
+        // height: 99.73px;
+        // width: 99.73px;
+        // --border-radius: 57px;
+        // border-radius: 57px;
+        width: calc(99.73px + (199.46 - 99.73) * ((100vw - 300px) / (1600 - 300)));
+        height: calc(99.73px + (199.46 - 99.73) * ((100vw - 300px) / (1600 - 300)));
+        --border-radius: calc(57px + (144 - 57) * ((100vw - 300px) / (1600 - 300)));
+        border-radius: calc(57px + (144 - 57) * ((100vw - 300px) / (1600 - 300)));
         box-shadow: 0 3px 6px #50505029;
         --border-width: 4px;
         --border-color: #FFFFFF;
         // --background: var(--ion-color-clockin);
         ion-label {
-            font-size: 13px;
+            font-size: var(--ion-text-13);//13px;
             white-space: pre-wrap;
             opacity: 100%;
             color: #FFFFFF;
@@ -117,26 +121,30 @@
         position: fixed;
         bottom: 62%;
         width: 250%;
-        display: flex;
         left: -75%;
+        display: flex;
+        // width: calc(100%*2);
+        // left: -50%;
+        // bottom: 60%;
     }
 
     .content {
         position: absolute;
         width: -webkit-fill-available;
         height: -webkit-fill-available;
+        padding: 12% 7% 0% 7%;
 
         .header {
             display: flex;
             place-content: space-between;
-            // margin: 22px;
-            margin: 45px 22px 22px;
-            font-size: 23px;
+            margin-bottom: 7%;
+            // margin: 45px 22px 22px;
+            font-size: var(--ion-text-23);
             color: var(--color);
             font-weight: normal;
 
             ion-img {
-                width: 23px;
+                width: 1em;// 23px;
             }
         }
     }

@@ -9,9 +9,19 @@ import * as sampledata from '../sampledata.json';
 export class MainPage implements OnInit {
   constructor() {}
 
-  public data = require('../sampledata.json');
+  /**
+   * Get sample data from json
+   * @memberof MainPage
+   */
+  public data = require("../sampledata.json");
+
+  /**
+   * Get current datetime
+   * @memberof MainPage
+   */
+  public currDate = new Date().toISOString();
 
   ngOnInit() {
-    console.log(this.data);
+    console.log(this.currDate);
   }
 }

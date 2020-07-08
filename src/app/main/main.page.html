@@ -44,7 +44,7 @@
         </ion-avatar>
       </ion-item-group>
       <ion-item-group>
-        <ion-title>
+        <ion-title class="greeting">
           Good Day, {{data.userInfo.username}}!
         </ion-title>
         <ion-title class="company-title ">
@@ -71,6 +71,24 @@
           <ion-card-subtitle>
             Don't forget to clock out.
           </ion-card-subtitle>
+        </div>
+        <div class="time-display">
+          <ion-title class="time">
+            <ion-label class="hour">
+              {{currDate | date: 'hh:mm'}}
+            </ion-label>
+            <ion-label class="am-pm">
+              {{currDate | date: 'a'}}
+            </ion-label>
+          </ion-title>
+          <ion-title class="day">
+            <ion-label>
+              {{currDate | date: 'd MMM yyyy'}}
+            </ion-label>
+            <ion-label>
+              {{currDate | date: 'EEEE'}}
+            </ion-label>
+          </ion-title>
         </div>
         
       </ion-card-content>
