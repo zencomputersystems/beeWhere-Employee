@@ -93,4 +93,30 @@
             }
         }
     }
+
+    .notification-info {
+        display: flex;
+        align-items: center;
+        flex-flow: nowrap row;
+        margin: 1em 0;
+
+        ion-img {
+            width: var(--ion-text-24);
+            height: var(--ion-text-24);
+            margin-right: 0.5em;
+        }
+        ion-label {
+            font-size: var(--ion-text-11);
+            color: var(--ion-color-text);
+            opacity: 80%;
+        }
+
+        .bell-noti {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            margin-left: 15px;
+            margin-top: -7px;
+        }
+    }
 }

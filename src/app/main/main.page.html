@@ -90,8 +90,18 @@
             </ion-label>
           </ion-title>
         </div>
-        
       </ion-card-content>
     </ion-card>
+
+    <ion-item-group class="notification-info"
+      *ngIf="data.notifications.info.approval !=0 || data.notifications.info.updates !=0">
+      <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
+      <ion-img src="../../assets/basic/bell.png"></ion-img>
+      <ion-label *ngIf="data.notifications.info.approval">{{data.notifications.info.approval}} items require approval
+      </ion-label>
+      <ion-label *ngIf="data.notifications.info.approval !=0 && data.notifications.info.updates !=0">,&nbsp;</ion-label>
+      <ion-label *ngIf="data.notifications.info.updates !- 0"> {{data.notifications.info.updates}} new
+        updates</ion-label>
+    </ion-item-group>
   </div>
 </ion-content>
