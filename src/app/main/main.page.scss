@@ -192,4 +192,79 @@
         font-style: italic;
         opacity: 80%;
     }
+
+    .clockin-content {
+        margin: 0.75em;
+        padding: 0;
+    }
+
+    .clock-setting {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.7em;
+    }
+
+    .clock-label {
+        flex: 1;
+        text-align: center;
+        // background: var(--ion-color-clockin);
+        color: var(--ion-color-light-contrast);
+        margin: 0 1em 0 0;
+        height: var(--ion-text-33);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--ion-text-3);
+    }
+
+    .clk-in {
+        background: var(--ion-color-clockin);
+    }
+
+    .clk-out {
+        background: var(--ion-color-clockout);
+    }
+
+    .clock-list {
+        display: flex;
+        flex-flow: column nowrap;
+        flex: 2.5;
+        background: var(--ion-color-light-contrast);
+        padding: 0;
+        font-size: var(--ion-text-12);
+        color: var(--ion-color-text);
+        opacity: 100%;
+    }
+
+    .activities-setting {
+        display: flex;
+        flex-flow: column nowrap;
+        background: var(--ion-color-light-contrast);
+
+        ion-list {
+            display: flex;
+            flex-flow: row nowrap;
+            background: var(--ion-color-light-contrast);
+            padding: 0;
+            margin-bottom: 0.5em;
+            align-items: center;
+
+            ion-checkbox {
+                margin-right: 1em;
+                width: var(--ion-text-20);
+                height: var(--ion-text-20);
+                --background: var(--ion-color-text-header);
+                --background-checked: var(--ion-color-text-header);
+                --border-color-checked: transparent;
+            }
+
+            ion-label {
+                flex: 12;
+                white-space: pre-wrap;
+                color: var(--ion-color-text-tasklist);
+                font-size: var(--ion-text-11);
+                opacity: 80%;
+            }
+        }
+    }
 }

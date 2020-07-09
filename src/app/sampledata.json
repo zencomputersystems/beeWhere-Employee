@@ -68,7 +68,143 @@
         ],
         "clockIn": {
             "status": false,
-            "historicalClockIn": []
+            "historicalClockIn_noData": [],
+            "historicalClockIn": [
+                {
+                    "clockInDate": "2020-07-05T09:14:45.807Z",
+                    "list": [
+                        {
+                            "clockInTime": "2020-07-05T09:14:45.807Z",
+                            "clockInLocation": "Petaling Jaya, Selangor",
+                            "clockOutTime": "2020-07-05T12:14:45.807Z",
+                            "clockOutLocation": "Petaling Jaya, Selangor",
+                            "jobType": "Site",
+                            "clientCode": "HDC",
+                            "projectCode": "SW325",
+                            "projectDesc": "Halal Integrated Platform with Halal Development Corporation Sdn Bhd",
+                            "activityList": [
+                                {
+                                    "status": true,
+                                    "activity": "This is my first task"
+                                },
+                                {
+                                    "status": true,
+                                    "activity": "This is my second task This is my second task This is my second task This is my second task This is my second task"
+                                },
+                                {
+                                    "status": false,
+                                    "activity": "This is my third task"
+                                }
+                            ]
+                        }, 
+                        {
+                            "clockInTime": "2020-07-05T12:16:45.807Z",
+                            "clockInLocation": "Cyberjaya, Selangor",
+                            "clockOutTime": "2020-07-05T20:20:45.807Z",
+                            "clockOutLocation": "Cyberjaya, Selangor",
+                            "jobType": "Office",
+                            "clientCode": null,
+                            "projectCode": null,
+                            "projectDesc": null,
+                            "activityList": [{
+                                    "status": true,
+                                    "activity": "This is my fourth task"
+                                },
+                                {
+                                    "status": true,
+                                    "activity": "This is my fifth task"
+                                },
+                                {
+                                    "status": false,
+                                    "activity": "This is my sixth task"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "clockInDate": "2020-07-06T08:14:45.807Z",
+                    "list": [
+                        {
+                            "clockInTime": "2020-07-06T08:14:45.807Z",
+                            "clockInLocation": "Cyberjaya, Selangor",
+                            "clockOutTime": "2020-07-06T17:14:45.807Z",
+                            "clockOutLocation": "Cyberjaya, Selangor",
+                            "jobType": "Office",
+                            "clientCode": null,
+                            "projectCode": null,
+                            "projectDesc": null,
+                            "activityList": [{
+                                    "status": true,
+                                    "activity": "This is my first 1 task"
+                                },
+                                {
+                                    "status": true,
+                                    "activity": "This is my second 1 task"
+                                },
+                                {
+                                    "status": false,
+                                    "activity": "This is my third 1 task"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "clockInDate": "2020-07-07T08:14:45.807Z",
+                    "list": [
+                        {
+                            "clockInTime": "2020-07-07T08:14:45.807Z",
+                            "clockInLocation": "Presint 11, Putrajaya",
+                            "clockOutTime": "2020-07-06T18:14:45.807Z",
+                            "clockOutLocation": "Presint 11, Putrajaya",
+                            "jobType": "Home",
+                            "clientCode": null,
+                            "projectCode": null,
+                            "projectDesc": null,
+                            "activityList": [{
+                                    "status": true,
+                                    "activity": "This is my first task"
+                                },
+                                {
+                                    "status": true,
+                                    "activity": "This is my second task"
+                                },
+                                {
+                                    "status": true,
+                                    "activity": "This is my third task"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "clockInDate": "2020-07-08T09:14:45.807Z",
+                    "list": [{
+                        "clockInTime": "2020-07-08T09:14:45.807Z",
+                        "clockInLocation": "Dpulze, Cyberjaya Selangor",
+                        "clockOutTime": "2020-07-08T19:14:45.807Z",
+                        "clockOutLocation": "Dpulze, Cyberjaya Selangor",
+                        "jobType": "Others",
+                        "clientCode": "Hartalaga",
+                        "projectCode": "HR057",
+                        "projectDesc": "Design & Develop New Web Application for Hospitalization Module",
+                        "activityList": [{
+                                "status": true,
+                                "activity": "This is my a task"
+                            },
+                            {
+                                "status": true,
+                                "activity": "This is my b task"
+                            },
+                            {
+                                "status": false,
+                                "activity": "This is my c task"
+                            }
+                        ]
+                    }]
+                }
+            ]
 
         },
         "notifications": {

@@ -107,7 +107,7 @@
 
     <ng-container *ngIf="data.userInfo.clockIn.historicalClockIn.length > 0; else noPrevClockInRecord">
       <ion-item-group class="history-clockin" *ngFor="let histClock of data.userInfo.clockIn.historicalClockIn">
-        <ion-title *ngIf="histClock.length > 0">
+        <ion-title>
           {{histClock.clockInDate | date: 'd MMM yyyy'}}
         </ion-title>
         <ion-card *ngFor="let histList of histClock.list">
@@ -125,6 +125,41 @@
           <ion-card-subtitle class="description-project" *ngIf="histList.projectDesc !== null">
             {{histList.projectDesc}}
           </ion-card-subtitle>
+          <ion-card-content class="clockin-content">
+            <ion-item-group class="clock-setting">
+              <ion-label class="clock-label clk-in">
+                Clock In
+              </ion-label>
+              <ion-list class="clock-list">
+                <ion-text>
+                  {{histList.clockInTime | date: 'hh:mm a'}}
+                </ion-text>
+                <ion-text>
+                  {{histList.clockInLocation}}
+                </ion-text>
+              </ion-list>
+            </ion-item-group>
+            <ion-item-group class="clock-setting">
+              <ion-label class="clock-label clk-out">
+                Clock Out
+              </ion-label>
+              <ion-list class="clock-list">
+                <ion-text>
+                  {{histList.clockOutTime | date: 'hh:mm a'}}
+                </ion-text>
+                <ion-text>
+                  {{histList.clockOutLocation}}
+                </ion-text>
+              </ion-list>
+            </ion-item-group>
+
+            <ion-item-group class="activities-setting">
+              <ion-list *ngFor="let activities of histList.activityList">
+                <ion-checkbox mode="ios"></ion-checkbox>
+                <ion-label>{{activities.activity}}</ion-label>
+              </ion-list>
+            </ion-item-group>
+          </ion-card-content>
         </ion-card>
       </ion-item-group>
     </ng-container>
@@ -135,5 +170,7 @@
         </ion-card>
       </ion-item-group> 
     </ng-template>
+
+
   </div>
 </ion-content>

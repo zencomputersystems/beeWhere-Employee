@@ -25,5 +25,12 @@ export class MainPage implements OnInit {
     console.log(this.currDate);
     console.log(this.data);
     console.log(this.data.userInfo.clockIn.historicalClockIn.length);
+    // setInterval(this.currDate, 1000);
+  }
+
+  timeRefresh() {
+    this.currDate = new Date().toISOString();
+    console.log(this.currDate);
+    return setInterval(this.currDate, 1000);
   }
 }
