@@ -155,7 +155,7 @@
 
             <ion-item-group class="activities-setting">
               <ion-list *ngFor="let activities of histList.activityList">
-                <ion-checkbox mode="ios"></ion-checkbox>
+                <ion-checkbox mode="ios" [(ngModel)]="activities.status" disabled></ion-checkbox>
                 <ion-label>{{activities.activity}}</ion-label>
               </ion-list>
             </ion-item-group>
