@@ -82,6 +82,7 @@
   --ion-color-red: #F05858;
 
   // font size theme
+  --ion-text-3: calc(3px + (6 - 3) * ((100vw - 300px) / (1600 - 300))); // 11px;
   --ion-text-11: calc(11px + (21 - 11) * ((100vw - 300px) / (1600 - 300))); // 11px;
   --ion-text-12: calc(12px + (22 - 12) * ((100vw - 300px) / (1600 - 300))); // 12px;
   --ion-text-13: calc(13px + (25 - 13) * ((100vw - 300px) / (1600 - 300)));
@@ -92,6 +93,7 @@
   --ion-text-24: calc(24px + (36 - 24) * ((100vw - 300px) / (1600 - 300)));
   --ion-text-36: calc(36px + (46 - 36) * ((100vw - 300px) / (1600 - 300)));
   --ion-text-44: calc(44px + (66 - 44) * ((100vw - 300px) / (1600 - 300)));
+  --ion-text-58: calc(58px + (116 - 58) * ((100vw - 300px) / (1600 - 300)));
 
   // general color theme
   --ion-color-clockin: #2ECC71;

@@ -119,4 +119,77 @@
             margin-top: -7px;
         }
     }
+
+    .history-clockin {
+        ion-title {
+            color: var(--ion-color-text);
+            font-size: var(--ion-text-15);
+            font-weight: bold;
+            opacity: 100%;
+            padding: 0;
+        }
+
+        ion-card {
+            background: var(--ion-color-primary-contrast);
+            box-shadow: 0 3px 10px #50505029;
+            margin: 1.2em 0;
+
+            ion-card-title {
+                margin: 0.75em;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: var(--ion-text-15);
+                color: var(--ion-color-text-header);
+                font-weight: bold;
+
+                ion-card-subtitle {
+                    display: flex;
+                    flex-flow: row nowrap;
+
+                    ion-label {
+                        --color: var(--ion-color-primary-contrast);
+                        padding: 0.2em 0.7em;
+                        min-width: var(--ion-text-58);
+                        height: var(--ion-text-23);
+                        font-size: var(--ion-text-12);
+                        text-align: center;
+                        border-radius: var(--ion-text-3);
+                        display: flex;
+                        place-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                    }
+
+                    .label-client {
+                        background: var(--ion-color-text-header);
+                        margin-right: 0.15em;
+                    }
+
+                    .label-project {
+                        background: var(--ion-color-red);
+                        margin-left: 0.15em;
+                    }
+                }
+            }
+
+            .description-project {
+                font-size: var(--ion-text-11);
+                font-style: italic;
+                margin: 0.75em;
+                color: var(--ion-color-text);
+                opacity: 80%;
+            }
+        }
+    }
+
+    .history-clockin-no-record {
+        min-height: 8em;
+        font-size: var(--ion-text-11);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-style: italic;
+        opacity: 80%;
+    }
 }

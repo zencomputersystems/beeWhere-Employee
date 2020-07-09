@@ -23,5 +23,7 @@ export class MainPage implements OnInit {
 
   ngOnInit() {
     console.log(this.currDate);
+    console.log(this.data);
+    console.log(this.data.userInfo.clockIn.historicalClockIn.length);
   }
 }

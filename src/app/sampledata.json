@@ -1,16 +1,81 @@
 {
     "userInfo": {
         "username": "Jasmine",
-        "companyName": "Zen Computer Systems Sdn Bhd"
-    },
-    "clockIn": {
-        "status": true
-    
-    },
-    "notifications": {
-        "info" : {
-            "approval": 1,
-            "updates": 2
+        "companyName": "Zen Computer Systems Sdn Bhd",
+        "projectType": [
+            {
+                "office": {
+                    "client": [
+                        {
+                            "name": null,
+                            "project": []
+                        }
+                    ]
+                }
+            },
+            {
+                "site": {
+                    "client": [
+                        {
+                            "name": "halal sdn bhd",
+                            "code": "HDC",
+                            "project": [
+                                {
+                                    "name": "halal integration platform",
+                                    "code": "HIP",
+                                    "description": "Halal Intergrated Platform with Halal Development Corporation Sdn Bhd"
+                                },
+                                {
+                                    "name": "halal ecommerce",
+                                    "code": "HE",
+                                    "description": "Halal ecommerce Platform with Halal Development Corporation Sdn Bhd"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "home": {
+                    "client": [
+                        {
+                            "name": null,
+                            "project": []
+                        }
+                    ]
+                }
+            },
+            {
+                "others": {
+                    "client": [
+                        {
+                            "name": "halal sdn bhd",
+                            "code": "HDC",
+                            "project": [
+                                {
+                                    "name": "halal integration platform",
+                                    "code": "HIP"
+                                },
+                                {
+                                    "name": "halal ecommerce",
+                                    "code": "HE"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "clockIn": {
+            "status": false,
+            "historicalClockIn": []
+
+        },
+        "notifications": {
+            "info": {
+                "approval": 2,
+                "updates": 2
+            }
         }
     }
 }
