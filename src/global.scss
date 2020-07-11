@@ -128,6 +128,14 @@
         // bottom: 60%;
     }
 
+    .bg-img-others {
+        position: absolute;
+        bottom: 70%;
+        width: 250%;
+        left: -75%;
+        display: flex;
+    }
+
     .content {
         position: absolute;
         width: -webkit-fill-available;
