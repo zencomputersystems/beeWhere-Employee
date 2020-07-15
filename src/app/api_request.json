@@ -1,0 +1,533 @@
+2. To get current logged basic user info
+
+Response:
+{
+    "username": "Tarmimi",
+    "companyName": "Zen Computer Systems Sdn Bhd",
+    "profilePictureUrl": "https://.......",
+    "profileSetting": {
+        "calendar":{
+            "restDay": ["saturday", "sunday"] // get from calendar profile setup
+        },
+        "workingHour": {
+            "start": "08:00:00.000",
+            "end": "17:00:00.000",
+        },
+        "entitlement": {
+            "claimEntitlement": true // refer to leave entitlement setup, apply entitlement (ot, RL) based on leave type
+        }
+    }
+}
+
+3. To get historical clockin acitivities
+
+Response:
+[
+    {
+        "date": 1594627200000, //timestamp
+        "list": [
+            {
+                "projectType": "site",
+                "clientCode": "LHDN",
+                "projectCode": "AM",
+                "projectDescription": "Migrate all apps",
+                "contractCode": "C1",
+                "contractDescription": "1st contract",
+                "clockIn": {
+                    "time": 1594627240000, //timestamp
+                    "location": {
+                        "lalitude": 2.910842,
+                        "logitude": 101.650152
+                    }
+                },
+                "clockOut": {
+                    "time": 1594659820000, //timestamp
+                    "location": {
+                        "lalitude": 2.910842,
+                        "logitude": 101.650152
+                    }
+                },
+                "taskList": [{
+                        "taskName": "First task today",
+                        "status": true
+                    },
+                    {
+                        "taskName": "Second task today",
+                        "status": true
+                    },
+                    {
+                        "taskName": "Third task today",
+                        "status": false
+                    }
+                ],
+            },
+            .
+            .
+            .
+        ],
+        "remarks": null
+    },
+    { /// example if user on leave on
+        "date": 1594368000000,
+        "list":[],
+        "remarks": {
+            "leave": "Annual Leave - Fullday"
+        }
+    }
+]
+
+4. To get list of user 's new notifications & updated 
+{
+    "approval":[
+        {
+            "message": "Request to approve clock out",
+            "time": 1594620004000
+        },
+        {
+            "message": "Request to approve clock in",
+            "time": 1594360804000
+        },
+        {
+            "message": "Request to approve overtime",
+            "time": 1594274404000
+        }
+    ],
+    "newNpdate":[
+        {
+            "message":"Your clock out request has been approved",
+            "time": 1594242004000
+        },
+        {
+            "message":"Your clock in request has been approved",
+            "time": 1594036804000
+        }
+    ]
+}
+
+5. To get job types list & details for this user
+
+Request:
+{
+    "user_guid": "xxxxx",
+}
+
+Responds:
+[
+    {
+        "types": "office",
+        "viewPremission": {
+            "geofiltering": false,
+            "client": true,
+            "project": true,
+            "contract": true,
+            "activites": true
+        },
+        "client": []
+    },
+    {
+        "types": "home",
+        "viewPremission": {
+            "geofiltering": false,
+            "client": true,
+            "project": true,
+            "contract": true,
+            "activites": true
+        },
+        "client": [
+            {
+                "abbrv": "CD1",
+                "name": "Client 1",
+                "location": [{
+                        "lat": 2.998444,
+                        "long": 101.714715
+                    },
+                    {
+                        "lat": 2.926282,
+                        "long": 101.641180
+                    },
+                    {
+                        "lat": 2.989167,
+                        "long": 101.615344
+                    },
+                    {
+                        "lat": 2.926806,
+                        "long": 101.651245
+                    }
+                ],
+                "project": [
+                    {
+                        "socNo": "PJ1",
+                        "name": "Application Developement 1"
+                    },
+                    {
+                        "socNo": "PJ2",
+                        "name": "Application Developement 2"
+                    }
+                ],
+                "contract": [
+                    {
+                        "contractNo": "CNT001",
+                        "name": "Application Developments",
+                        "description": "Description for Application Developments"
+                    },
+                    {
+                        "contractNo": "CNT002",
+                        "name": "Web Developments",
+                        "description": "Description for Web Developments"
+                    },
+                    {
+                        "contractNo": "CNT003",
+                        "name": "Mobile Developments",
+                        "description": "Description for Mobile Developments"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "types": "site",
+        "viewPremission": {
+            "geofiltering": true,
+            "client": true,
+            "project": true,
+            "contract": true,
+            "activites": true
+        },
+        "client": [
+            {
+                "abbrv": "SWT",
+                "name": "Sri Wangsa Technology",
+                "location": [
+                    {
+                        "lat": 3.0738379,
+                        "long": 101.5183469
+                    },
+                    {
+                        "lat": 2.921600,
+                        "long": 101.650965
+                    }
+                ],
+                "project": [
+                    {
+                        "socNo": "SER09",
+                        "name": "Web Application Migration",
+                    }
+                ],
+                "contract": []
+            },
+            {
+                "abbrv": "CD1",
+                "name": "Client 1",
+                "location": [
+                    {
+                        "lat": 2.998444,
+                        "long": 101.714715
+                    },
+                    {
+                        "lat": 2.926282,
+                        "long": 101.641180
+                    },
+                    {
+                        "lat": 2.989167,
+                        "long": 101.615344
+                    },
+                    {
+                        "lat": 2.926806,
+                        "long": 101.651245
+                    }
+                ],
+                "project": [
+                    {
+                        "socNo": "PJ1",
+                        "name": "Application Developement 1"
+                    },
+                    {
+                        "socNo": "PJ2",
+                        "name": "Application Developement 2"
+                    }
+                ],
+                "contract": [
+                    {
+                        "contractNo": "CNT001",
+                        "name": "Application Developments",
+                        "description": "Description for Application Developments"
+                    },
+                    {
+                        "contractNo": "CNT002",
+                        "name": "Web Developments",
+                        "description": "Description for Web Developments"
+                    },
+                    {
+                        "contractNo": "CNT003",
+                        "name": "Mobile Developments",
+                        "description": "Description for Mobile Developments"
+                    }
+                ]
+            },
+            {
+                "abbrv": "CD2",
+                "name": "Client 2",
+                "location": [{
+                    "lat": 2.921600,
+                    "long": 101.650965
+                }],
+                "project": [
+                    {
+                        "socNo": "PJ-CD2",
+                        "name": "Mobile Application Development"
+                    }
+                ],
+                "contract": []
+            }
+        ]
+    },
+    {
+        "types": "others",
+        "viewPremission": {
+            "geofiltering": false,
+            "client": true,
+            "project": true,
+            "contract": true,
+            "activites": true
+        },
+        "client": [
+            {
+                "abbrv": "SWT",
+                "name": "Sri Wangsa Technology",
+                "location": [{
+                        "lat": 3.0738379,
+                        "long": 101.5183469
+                    },
+                    {
+                        "lat": 2.921600,
+                        "long": 101.650965
+                    }
+                ],
+                "project": [{
+                    "socNo": "SER09",
+                    "name": "Web Application Migration",
+                }],
+                "contract": []
+            },
+            {
+                "abbrv": "CD1",
+                "name": "Client 1",
+                "location": [{
+                        "lat": 2.998444,
+                        "long": 101.714715
+                    },
+                    {
+                        "lat": 2.926282,
+                        "long": 101.641180
+                    },
+                    {
+                        "lat": 2.989167,
+                        "long": 101.615344
+                    },
+                    {
+                        "lat": 2.926806,
+                        "long": 101.651245
+                    }
+                ],
+                "project": [
+                    {
+                        "socNo": "PJ1",
+                        "name": "Application Developement 1"
+                    },
+                    {
+                        "socNo": "PJ2",
+                        "name": "Application Developement 2"
+                    }
+                ],
+                "contract": [{
+                        "contractNo": "CNT001",
+                        "name": "Application Developments",
+                        "description": "Description for Application Developments"
+                    },
+                    {
+                        "contractNo": "CNT002",
+                        "name": "Web Developments",
+                        "description": "Description for Web Developments"
+                    },
+                    {
+                        "contractNo": "CNT003",
+                        "name": "Mobile Developments",
+                        "description": "Description for Mobile Developments"
+                    }
+                ]
+            },
+            {
+                "abbrv": "CD2",
+                "name": "Client 2",
+                "location": [{
+                    "lat": 2.921600,
+                    "long": 101.650965
+                }],
+                "project": [{
+                    "socNo": "PJ-CD2",
+                    "name": "Mobile Application Development"
+                }],
+                "contract": []
+            }
+        ]
+    }
+]
+
+6. To post user's clockin data
+
+Request:
+{
+    "user_guid": "xxxxx",
+    "clockin_Time": "yyyy", //timestamp
+    "jobType": "site",
+    "location": {
+        "lat": 2.926282,
+        "long": 101.641180
+    },
+    "client": {
+        "abbrv": "CD1",
+        "name": "Client 1",
+        "project": {
+            "socNo": "PJ1",
+            "name": "Application Developement 1"
+        },
+        "contract": {
+            "contractNo": "CNT001",
+            "name": "Application Developments",
+            "description": "Description for Application Developments"
+        }
+    },
+    "activityList": [
+        {
+            "status": false,
+            "name": "To do today 1st task",
+        },
+        {
+            "status": false,
+            "name": "To do today 2nd task",
+        },
+        {
+            "status": false,
+            "name": "To do today 3rd task",
+        },
+    ]
+}
+
+Response:
+{
+    //status success to post
+}
+
+7. To get latest clock in time
+Request:
+{
+    "user_guid": "xxxxx"
+}
+
+Response:
+{
+    "clockin_Time": "yyyy"
+}
+
+8. To get clocked in info based on clock in time
+request:
+{
+    "user_guid": "xxxxx",
+    "clockin_Time": "yyyy" //timestamp
+}
+
+response:
+{
+    "clockin_Time": "yyyy", //timestamp
+    "jobType": "site",
+    "location": {
+        "lat": 2.926282,
+        "long": 101.641180
+    },
+    "client": {
+        "abbrv": "CD1",
+        "name": "Client 1",
+        "project": {
+            "socNo": "PJ1",
+            "name": "Application Developement 1"
+        },
+        "contract": {
+            "contractNo": "CNT001",
+            "name": "Application Developments",
+            "description": "Description for Application Developments"
+        }
+    },
+    "activityList": [{
+            "status": false,
+            "name": "To do today 1st task",
+        },
+        {
+            "status": false,
+            "name": "To do today 2nd task",
+        },
+        {
+            "status": false,
+            "name": "To do today 3rd task",
+        },
+    ]
+}
+
+9. To post user 's clock out
+
+Request:
+{
+    "user_guid": "xxxxx",
+    "clockin_Time": "yyyy", //timestamp
+    "clockout_Time": "zzzz", //timestamp
+    "location": {
+        "lat": 2.926282,
+        "long": 101.641180
+    }
+}
+
+Response:
+{
+    //return successfully clocked out status
+}
+
+10. to update user's activity list
+
+Request:
+{
+    "user_guid": "xxxxx",
+    "clockin_Time": "yyyy",
+    "activities": [
+        {
+            "status": true,
+            "name": "To do today 1st task",
+        },
+        {
+            "status": true,
+            "name": "To do today 2nd task",
+        },
+        {
+            "status": true,
+            "name": "To do today 3rd task",
+        }
+    ]
+}
+
+Response:
+{
+    //success update data
+}
+
+11. To post user request in support *tbc
+Request:
+{
+    "user_guid": "xxxxx",
+    "datetime": "mmmm",
+    "subject": "forget to clockout yesterday",
+    "supportingDocument": "qqqqq", //url for file upload
+    "description": "clock out by 8PM"
+}
+
+Response:
+{
+    //success send request
+}

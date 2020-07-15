@@ -36,6 +36,110 @@
     <ion-item-group class="header">
       <ion-label>beeWhere</ion-label>
     </ion-item-group>
-    <div>clockin</div>
+    <!-- <div>clockin</div> -->
+
+    <!-- notification card -->
+    <ion-card class="main-info">
+      <ion-card-content>
+        <div>
+        <!-- <div *ngIf="data.userInfo.clockIn.status == false"> -->
+          <ion-card-title class="clockin">
+            Clock In Success
+          </ion-card-title>
+          <ion-card-subtitle>
+            Good Job!
+          </ion-card-subtitle>
+        </div>
+        <!-- <div *ngIf="data.userInfo.clockIn.status == true">
+          <ion-card-title class="clockout">
+            Clock out
+          </ion-card-title>
+          <ion-card-subtitle>
+            Don't forget to clock out.
+          </ion-card-subtitle>
+        </div> -->
+        <div class="time-display">
+          <ion-title class="time">
+            <ion-label class="hour">
+              {{currTime | date: 'hh:mm'}}
+            </ion-label>
+            <ion-label class="am-pm">
+              {{currTime | date: 'a'}}
+            </ion-label>
+          </ion-title>
+          <ion-title class="day">
+            <ion-label>
+              {{currTime | date: 'd MMM yyyy'}}
+            </ion-label>
+            <ion-label>
+              {{currTime | date: 'EEEE'}}
+            </ion-label>
+          </ion-title>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- notifications approval -->
+    <ion-item-group class="notification-info"
+      *ngIf="data.userInfo.notifications.info.approval !=0 || data.userInfo.notifications.info.updates !=0">
+      <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
+      <ion-img src="../../assets/basic/bell.png"></ion-img>
+      <ion-label *ngIf="data.userInfo.notifications.info.approval">{{data.userInfo.notifications.info.approval}} items
+        require
+        approval
+      </ion-label>
+      <ion-label *ngIf="data.userInfo.notifications.info.approval !=0 && data.userInfo.notifications.info.updates !=0">
+        ,&nbsp;</ion-label>
+      <ion-label *ngIf="data.userInfo.notifications.info.updates !- 0"> {{data.userInfo.notifications.info.updates}} new
+        updates</ion-label>
+    </ion-item-group>
+
+    <ion-item-group class="current-clockin">
+        <ion-title>
+          {{currTime | date: 'd MMM yyyy'}}
+        </ion-title>
+
+        <ion-card>
+          <ion-card-title>
+            Job Types
+          </ion-card-title>
+          <ion-card-subtitle>
+            <ion-segment [(ngModel)]="jobType">
+              <ion-segment-button value="office">
+                <ion-label>Office</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="site">
+                <ion-label>Site</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="home">
+                <ion-label>Home</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="other1">
+                <ion-label>Others</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-card-subtitle>
+
+          <ion-card-content>
+            <span [ngSwitch]="jobType">
+              <p *ngSwitchCase="'office'">
+                office
+              </p>
+              <p *ngSwitchCase="'site'">
+              site
+              </p>
+              <p *ngSwitchCase="'home'">
+                home
+              </p>
+              <p *ngSwitchCase="'other1'">
+                other1
+              </p>
+              <p *ngSwitchDefault>
+              office
+              </p>
+            </span>
+          </ion-card-content>
+        </ion-card>
+    </ion-item-group>
   </div>
 </ion-content>
