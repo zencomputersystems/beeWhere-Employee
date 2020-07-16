@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalFnService } from 'src/services/global-fn.service';
-import * as sampleData from 'src/app/sampledata.json';
+// import * as sampleData from 'src/app/sampledata.json';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
@@ -21,18 +21,19 @@ export class ClockInPage implements OnInit {
     this.data = this.cinGlobalFn.sampleDataList();
     console.log("curr time");
     console.log(this.currTime);
+    console.log(this.data);
+    console.log(this.data.userInfo.attendanceProfile);
     this.getLoc();
+    // const time1:any = new Date(1594633144000);
+    // const time2: any = new Date();
+    // console.log('time1');
+    // console.log(time1);
+    // console.log(time2);
+    // const difftime = time1 - time2;
+    // console.log(difftime);
+    // console.log(Math.floor(difftime / 60e3));
 
-    const time1:any = new Date(1594633144000);
-    const time2: any = new Date();
-    console.log('time1');
-    console.log(time1);
-    console.log(time2);
-    const difftime = time1 - time2;
-    console.log(difftime);
-    console.log(Math.floor(difftime / 60e3));
-
-    setInterval(this.test, 1000);
+    // setInterval(this.test, 1000);
   }
 
   test() {

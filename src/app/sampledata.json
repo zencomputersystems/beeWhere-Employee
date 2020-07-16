@@ -2,67 +2,49 @@
     "userInfo": {
         "username": "Jasmine",
         "companyName": "Zen Computer Systems Sdn Bhd",
-        "projectType": [
+        "attendanceProfile": [
             {
-                "office": {
-                    "client": [
-                        {
-                            "name": null,
-                            "project": []
-                        }
-                    ]
+                "types": "office",
+                "enable": true,
+                "viewPremission": {
+                    "geofiltering": false,
+                    "client": false,
+                    "project": false,
+                    "contract": false,
+                    "activites": true
                 }
             },
             {
-                "site": {
-                    "client": [
-                        {
-                            "name": "halal sdn bhd",
-                            "code": "HDC",
-                            "project": [
-                                {
-                                    "name": "halal integration platform",
-                                    "code": "HIP",
-                                    "description": "Halal Intergrated Platform with Halal Development Corporation Sdn Bhd"
-                                },
-                                {
-                                    "name": "halal ecommerce",
-                                    "code": "HE",
-                                    "description": "Halal ecommerce Platform with Halal Development Corporation Sdn Bhd"
-                                }
-                            ]
-                        }
-                    ]
+                "types": "home",
+                "enable": true,
+                "viewPremission": {
+                    "geofiltering": false,
+                    "client": false,
+                    "project": false,
+                    "contract": false,
+                    "activites": true
                 }
             },
             {
-                "home": {
-                    "client": [
-                        {
-                            "name": null,
-                            "project": []
-                        }
-                    ]
+                "types": "site",
+                "enable": true,
+                "viewPremission": {
+                    "geofiltering": true,
+                    "client": true,
+                    "project": true,
+                    "contract": true,
+                    "activites": true
                 }
             },
             {
-                "others": {
-                    "client": [
-                        {
-                            "name": "halal sdn bhd",
-                            "code": "HDC",
-                            "project": [
-                                {
-                                    "name": "halal integration platform",
-                                    "code": "HIP"
-                                },
-                                {
-                                    "name": "halal ecommerce",
-                                    "code": "HE"
-                                }
-                            ]
-                        }
-                    ]
+                "types": "others",
+                "enable": true,
+                "viewPremission": {
+                    "geofiltering": false,
+                    "client": true,
+                    "project": true,
+                    "contract": true,
+                    "activites": true
                 }
             }
         ],
