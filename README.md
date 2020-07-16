@@ -40,7 +40,7 @@ If only plugins has changed
 $ npx cap sync
 ```
 
-For both copy your web code and update your plugins
+For both copy your web code and update your plugins 
 ```bash
 $ npx cap sync
 ```
