@@ -213,5 +213,66 @@
                 "updates": 2
             }
         }
-    }
+    },
+    "client": [
+        {
+            "clientId": "CL001",
+            "clientName": "LEMBAGA HASIL DALAM NEGERI",
+            "clientCode": "LHDN",
+            "clientLocation": [
+                {
+                    "lat": 2.910842,
+                    "long": 101.650152
+                },
+                {
+                    "lat": 2.912008,
+                    "long": 101.651691
+                },
+                {
+                    "lat": 3.315325,
+                    "long": 101.535676
+                }
+            ],
+            "project": [
+                {
+                    "id": "PROJ001",
+                    "name": "Application Migaration",
+                    "code": "AM",
+                    "description": "Migrate all apps"
+                },
+                {
+                    "id": "PROJ002",
+                    "name": "Mobile App Development",
+                    "code": "MAD",
+                    "description": "Develop mobile app for android and ios"
+                },
+                {
+                    "id": "PROJ003",
+                    "name": "Application intergration with hardware",
+                    "code": "AIH",
+                    "description": "Intergrate apps with new hardware"
+                }
+            ],
+            "contract": [
+                {
+                    "id": "CONT001",
+                    "name": "Contract 1",
+                    "code": "C1",
+                    "description": "1st contract"
+                },
+                {
+                    "id": "CONT002",
+                    "name": "Contract 2",
+                    "code": "C2",
+                    "description": "2nd contract"
+                },
+                {
+                    "id": "CONT003",
+                    "name": "Contract 3",
+                    "code": "C3",
+                    "description": "3rd contract"
+                }
+            ]
+        }
+    ]
 }
