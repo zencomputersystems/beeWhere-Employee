@@ -8,15 +8,11 @@ import { ClockInPageRoutingModule } from './clock-in-routing.module';
 
 import { ClockInPage } from './clock-in.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geofence } from '@ionic-native/geofence/ngx';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ClockInPageRoutingModule,
-  ],
-  providers: [Geolocation],
-  declarations: [ClockInPage]
+  imports: [CommonModule, FormsModule, IonicModule, ClockInPageRoutingModule],
+  providers: [Geolocation, Geofence],
+  declarations: [ClockInPage],
 })
 export class ClockInPageModule {}

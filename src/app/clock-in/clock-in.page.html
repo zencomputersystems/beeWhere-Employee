@@ -100,7 +100,7 @@
         </ion-title>
         <ion-card>
           <ion-card-title>
-            Job Types
+            Job Types 
           </ion-card-title>
           <ion-card-subtitle>
             <ion-segment [(ngModel)]="jobType">
@@ -108,20 +108,7 @@
                 <ion-segment-button *ngIf="job.enable" value={{job.types}}>
                   <ion-label>{{job.types}}</ion-label>
                 </ion-segment-button>
-
               </ng-container>
-              <!-- <ion-segment-button value="office">
-                <ion-label>Office</ion-label>
-              </ion-segment-button>
-              <ion-segment-button value="site">
-                <ion-label>Site</ion-label>
-              </ion-segment-button>
-              <ion-segment-button value="home">
-                <ion-label>Home</ion-label>
-              </ion-segment-button>
-              <ion-segment-button value="other">
-                <ion-label>Others</ion-label>
-              </ion-segment-button> -->
             </ion-segment>
           </ion-card-subtitle>
 
@@ -129,6 +116,24 @@
             <span [ngSwitch]="jobType">
               <p *ngSwitchCase="'office'">
                 office
+                <ion-list>
+                  geofence status: {{test1}}
+                  <ion-label>
+                    lat: {{lat}}
+                  </ion-label>
+                  <ion-label>
+                    long: {{long}}
+                  </ion-label>
+                  <ion-label>
+                    latW: {{locWatch.lat}}
+                  </ion-label>
+                  <ion-label>
+                    longW: {{locWatch.long}}
+                  </ion-label>
+                  <ion-label>
+                    geofLoc: {{respo}}
+                  </ion-label>
+                </ion-list>
               </p>
               <p *ngSwitchCase="'site'">
               site
