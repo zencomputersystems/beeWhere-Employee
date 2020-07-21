@@ -100,7 +100,7 @@
         </ion-title>
         <ion-card>
           <ion-card-title>
-            Job Types
+            Job Types 
           </ion-card-title>
           <ion-card-subtitle>
             <ion-segment [(ngModel)]="jobType">
@@ -108,41 +108,97 @@
                 <ion-segment-button *ngIf="job.enable" value={{job.types}}>
                   <ion-label>{{job.types}}</ion-label>
                 </ion-segment-button>
-
               </ng-container>
-              <!-- <ion-segment-button value="office">
-                <ion-label>Office</ion-label>
-              </ion-segment-button>
-              <ion-segment-button value="site">
-                <ion-label>Site</ion-label>
-              </ion-segment-button>
-              <ion-segment-button value="home">
-                <ion-label>Home</ion-label>
-              </ion-segment-button>
-              <ion-segment-button value="other">
-                <ion-label>Others</ion-label>
-              </ion-segment-button> -->
             </ion-segment>
           </ion-card-subtitle>
 
-          <ion-card-content>
-            <span [ngSwitch]="jobType">
-              <p *ngSwitchCase="'office'">
-                office
+          <ion-card-content class="clockin-details">
+            <ng-container *ngFor="let jobDtl of data.userInfo.attendanceProfile">
+              <span [ngSwitch]="jobType">
+              <p *ngSwitchCase="jobDtl.types">
+                <!-- <ion-list>
+                  geofence status 12: {{test1}}
+                  <ion-label>
+                    lat1 : {{lat}}
+                  </ion-label>
+                  <ion-label>
+                    long: {{long}}
+                  </ion-label>
+                  <ion-label>
+                    latW: {{locWatch.lat}}
+                  </ion-label>
+                  <ion-label>
+                    longW: {{locWatch.long}}
+                  </ion-label>
+                  <ion-label>
+                    geofLoc: {{respo}}
+                  </ion-label>
+                </ion-list> -->
+                {{jobType}}
+                {{jobDtl.types}}
+                <ion-item-group *ngIf="jobDtl.viewPremission.geofiltering">
+                  <ion-img src="../../assets/basic/location.png"></ion-img>
+                  <ion-label>{{locWatch.lat}},&nbsp;{{locWatch.long}}</ion-label>
+                </ion-item-group>
+                <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.client">
+                  <ion-title>Client</ion-title>
+                  <ion-select ok-text="Okay" cancel-text="Dismiss" [(ngModel)]="selectedClient">
+                    <ion-select-option selected value="none">None</ion-select-option>
+                    <ion-select-option *ngFor="let client of data.client" value={{client.clientId}}>
+                      {{client.clientCode}} - {{client.clientName}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item-group>
+
+                <!-- <ion-item-group class="clients"> 
+                  <ion-title>Client</ion-title>
+                    <mat-select [(ngModel)]="selectedClient" name="client">
+                      <mat-option value="null">None</mat-option>
+                      <mat-option *ngFor="let client of data.client" value={{client}}
+                        (onSelectionChange)="selectClient(client)">
+                        {{client.clientCode}} - {{client.clientName}}
+                      </mat-option>
+                    </mat-select>
+                </ion-item-group> -->
+                <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.project">
+                  <ion-title>Project Selection</ion-title>
+                    <ion-select ok-text="Okay" cancel-text="Dismiss"
+                      [(ngModel)]="selectedProject">
+                      <ion-select-option selected value="none">None</ion-select-option>
+                      <ng-container *ngFor="let clientData of data.client">
+                        <ng-container *ngIf="selectedClient === clientData.clientId">
+                          <ion-select-option *ngFor="let project of clientData.project" value={{project.id}}>
+                            {{project.code}} - {{project.name}}
+                          </ion-select-option>
+                        </ng-container>
+                      </ng-container>
+                    </ion-select>
+                    <!-- <mat-select [(ngModel)]="selectedProject" name="client">
+                      <mat-option [value]="null">None</mat-option>
+                      <mat-option *ngFor="let project of data.client.project" [value]="client.clientId">
+                        {{client.clientCode}} - {{client.clientName}}
+                      </mat-option>
+                    </mat-select> -->
+                </ion-item-group>
+
+                <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.contract">
+                  <!-- <ion-item> -->
+                  <ion-title>Contract Selection</ion-title>
+                    <ion-select ok-text="Okay" cancel-text="Dismiss" [(ngModel)]="selectedContract">
+                      <ion-select-option selected value="none">None</ion-select-option>
+                      <ng-container *ngFor="let clientData of data.client">
+                        <ng-container *ngIf="selectedClient === clientData.clientId">
+                          <ion-select-option *ngFor="let contract of clientData.contract" value={{contract.id}}>
+                            {{contract.code}} - {{contract.name}}
+                          </ion-select-option>
+                        </ng-container>
+                      </ng-container>
+                    </ion-select>
+                  <!-- </ion-item> -->
+                </ion-item-group>
               </p>
-              <p *ngSwitchCase="'site'">
-              site
-              </p>
-              <p *ngSwitchCase="'home'">
-                home
-              </p>
-              <p *ngSwitchCase="'other1'">
-                other1
-              </p>
-              <p *ngSwitchDefault>
-              office
-              </p>
-            </span>
+              </span>
+            </ng-container>
           </ion-card-content>
         </ion-card>
     </ion-item-group>

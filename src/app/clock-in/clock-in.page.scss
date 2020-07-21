@@ -176,4 +176,58 @@
         }
     }
 
+    .clockin-details {
+        ion-item-group {
+            display: flex;
+            margin-bottom: 0.75em;
+
+            ion-img {
+                width: var(--ion-text-20);
+                height: var(--ion-text-20);
+                opacity: 80%;
+                margin-right: 0.5em;
+            }
+
+            ion-label {
+                font-size: var(--ion-text-12);
+                align-self: center;
+                --color: var(--ion-color-text);
+            }
+
+            ion-title {
+                font-size: var(--ion-text-13);
+                color: var(--ion-color-grey-808495);
+                margin-bottom: 0.5em;
+            }
+        }
+    }
+
+    .clients {
+        flex-flow: column;
+        ion-select {
+            border: 1px solid #50505029;
+            border-radius: 7px;
+            padding: 0.5em 0.75em;
+            height: var(--ion-text-40);
+            font-size: var(--ion-text-13);
+            opacity: 80%;
+            color: var(--ion-color-text);
+        }
+        mat-select {
+            border: 1px solid #50505029;
+            height: var(--ion-text-40);
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            padding: 1em;
+            font-size: var(--ion-text-13);
+            opacity: 80%;
+            color: var(--ion-color-text);
+            border-radius: 6px;
+            ::ng-deep .mat-select-arrow-wrapper {
+                color: #43425D;
+            }
+        }
+    }
+
 }

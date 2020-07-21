@@ -1,7 +1,8 @@
 {
   "name": "mAttendance",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
