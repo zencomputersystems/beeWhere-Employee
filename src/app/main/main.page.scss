@@ -208,7 +208,7 @@
         flex: 1;
         text-align: center;
         // background: var(--ion-color-clockin);
-        color: var(--ion-color-light-contrast);
+        color: var(--ion-color-white);
         margin: 0 1em 0 0;
         height: var(--ion-text-33);
         display: flex;
@@ -231,7 +231,7 @@
         display: flex;
         flex-flow: column nowrap;
         flex: 2.5;
-        background: var(--ion-color-light-contrast);
+        background: var(--ion-color-white);
         padding: 0;
         font-size: var(--ion-text-12);
         color: var(--ion-color-text);
@@ -241,12 +241,12 @@
     .activities-setting {
         display: flex;
         flex-flow: column nowrap;
-        background: var(--ion-color-light-contrast);
+        background: var(--ion-color-white);
 
         ion-list {
             display: flex;
             flex-flow: row nowrap;
-            background: var(--ion-color-light-contrast);
+            background: var(--ion-color-white);
             padding: 0;
             margin-bottom: 0.5em;
             align-items: center;

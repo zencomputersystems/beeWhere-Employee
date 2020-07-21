@@ -180,7 +180,6 @@
         ion-item-group {
             display: flex;
             margin-bottom: 0.75em;
-
             ion-img {
                 width: var(--ion-text-20);
                 height: var(--ion-text-20);
@@ -199,7 +198,63 @@
                 color: var(--ion-color-grey-808495);
                 margin-bottom: 0.5em;
             }
+
+            ion-list {
+                background: #fff;
+                border: 1px solid #50505029;
+                border-radius: 7px;
+                padding: var(--ion-text-14) 0;
+
+                ion-item-sliding {
+                    ion-item {
+                        --background: var(--ion-color-white);
+                        --color: var(--ion-color-text-tasklist);
+                        align-items: center;
+                        font-size: var(--ion-text-11);
+                        opacity: 80%;
+
+                        ion-checkbox {
+                            width: var(--ion-text-20);
+                            height: var(--ion-text-20);
+                            --background: var(--ion-color-text-header);
+                            --background-checked: var(--ion-color-text-header);
+                            --border-color-checked: transparent;
+                            --checkmark-width: 0.175em;
+                            margin-right: 1em;
+                        }
+                    }
+                }
+                div {
+                    display: flex;
+                    align-items: center;
+
+                    ion-checkbox {
+                        width: var(--ion-text-20);
+                        height: var(--ion-text-20);
+                        --background: var(--ion-color-text-header);
+                        --background-checked: var(--ion-color-text-header);
+                        --border-color-checked: transparent;
+                        --checkmark-width: 0.175em;
+                    }
+
+                    ion-input{
+                        opacity: 80%;
+                        color: var(--ion-color-text-tasklist);
+                        margin: 0 0.5em;
+                    }
+
+                    ion-textarea {
+                        opacity: 80%;
+                        color: var(--ion-color-text-tasklist);
+                        // margin: 0 0.5em;
+                    }
+                }
+            }
         }
+    }
+
+    .activity-list {
+        flex-flow: column;
     }
 
     .clients {

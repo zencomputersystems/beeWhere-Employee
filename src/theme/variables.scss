@@ -75,17 +75,21 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-  // text color theme
+  // general & text color theme
   --ion-color-text: #707070;
   --ion-color-text-header: #7069D8;
   --ion-color-text-tasklist: #43425D;
   --ion-color-red: #F05858;
   --ion-color-grey-808495: #808495;
+  --ion-color-white: #ffffff;
+  --ion-color-clockin: #2ECC71;
+  --ion-color-clockout: #F8BB40;
+  --ion-color-submit: #7069D8;
 
   // font size theme
-  --ion-text-3: calc(3px + (6 - 3) * ((100vw - 300px) / (1600 - 300))); // 11px;
-  --ion-text-11: calc(11px + (21 - 11) * ((100vw - 300px) / (1600 - 300))); // 11px;
-  --ion-text-12: calc(12px + (22 - 12) * ((100vw - 300px) / (1600 - 300))); // 12px;
+  --ion-text-3: calc(3px + (6 - 3) * ((100vw - 300px) / (1600 - 300)));
+  --ion-text-11: calc(11px + (21 - 11) * ((100vw - 300px) / (1600 - 300)));
+  --ion-text-12: calc(12px + (22 - 12) * ((100vw - 300px) / (1600 - 300))); 
   --ion-text-13: calc(13px + (25 - 13) * ((100vw - 300px) / (1600 - 300)));
   --ion-text-14: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
   --ion-text-15: calc(15px + (27 - 15) * ((100vw - 300px) / (1600 - 300)));
@@ -99,14 +103,11 @@
   --ion-text-44: calc(44px + (66 - 44) * ((100vw - 300px) / (1600 - 300)));
   --ion-text-58: calc(58px + (116 - 58) * ((100vw - 300px) / (1600 - 300)));
 
-  // general color theme
-  --ion-color-clockin: #2ECC71;
-  --ion-color-clockout: #F8BB40;
-  --ion-color-submit: #7069D8;
 
 }
 
 @media (prefers-color-scheme: dark) {
+  // @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
    * -------------------------------------------
