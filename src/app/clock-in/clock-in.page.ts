@@ -11,15 +11,37 @@ import { Geofence } from '@ionic-native/geofence/ngx';
 export class ClockInPage implements OnInit {
   public currTime = new Date().toISOString();
   public data;
+  /**
+   * To bind data of enabled job type
+   * @memberof ClockInPage
+   */
   public jobType = "office";
   public test1;
   public lat;
   public long;
   public locWatch = {
     lat: null,
-    long: null
+    long: null,
   };
   public respo: any;
+
+  /**
+   * To bind id of selected client
+   * @memberof ClockInPage
+   */
+  public selectedClient = "none";
+
+  /**
+   * To bind id of selected project
+   * @memberof ClockInPage
+   */
+  public selectedProject = "none";
+
+  /**
+   * To bind id of selected contract
+   * @memberof ClockInPage
+   */
+  public selectedContract = "none";
   constructor(
     public cinGlobalFn: GlobalFnService,
     private geolocation: Geolocation,
@@ -67,8 +89,8 @@ export class ClockInPage implements OnInit {
 
         const fence = {
           id: new Date().toISOString(),
-          latitude: resp.coords.latitude,
-          longitude: resp.coords.longitude,
+          latitude: 2.9270567, // resp.coords.latitude,
+          longitude: 101.6511282, // resp.coords.longitude,
           radius: 5,
           transitionType: 3,
           notification: {
@@ -84,9 +106,9 @@ export class ClockInPage implements OnInit {
           (err) => console.log("Geofence failed to add")
         );
 
-        this.geofence.onTransitionReceived((res) => {
+        this.geofence.onTransitionReceived().subscribe((res) => {
           this.respo = res;
-        })
+        });
       })
       .catch((error) => {
         console.log("Error getting location", error);
@@ -103,5 +125,10 @@ export class ClockInPage implements OnInit {
       // data.coords.latitude
       // data.coords.longitude
     });
+  }
+
+  selectClient(data) {
+    console.log("selectClient data");
+    console.log(data);
   }
 }
