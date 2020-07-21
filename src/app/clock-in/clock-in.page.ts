@@ -42,6 +42,13 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   public selectedContract = "none";
+
+  /**
+   * To bind new task value
+   * @memberof ClockInPage
+   */
+  public newTask;
+
   constructor(
     public cinGlobalFn: GlobalFnService,
     private geolocation: Geolocation,
@@ -130,5 +137,15 @@ export class ClockInPage implements OnInit {
   selectClient(data) {
     console.log("selectClient data");
     console.log(data);
+  }
+
+  deleteTask(item) {
+    console.log("deleteTask");
+    console.log(item);
+  }
+
+  addNewTask(data) {
+    console.log("addNewTask");
+    console.log(data); 
   }
 }

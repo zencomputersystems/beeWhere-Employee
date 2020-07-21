@@ -203,7 +203,8 @@
                 background: #fff;
                 border: 1px solid #50505029;
                 border-radius: 7px;
-                padding: var(--ion-text-14) 0;
+                // padding: var(--ion-text-14) 0;
+                padding: 0 1em;
 
                 ion-item-sliding {
                     ion-item {
@@ -221,9 +222,29 @@
                             --border-color-checked: transparent;
                             --checkmark-width: 0.175em;
                             margin-right: 1em;
+                            left: -10px;
+
+                            textarea {
+                                padding: 0;
+                            }
                         }
                     }
+
+                    ion-item-option {
+                        --background: var(--ion-color-white);
+                        --color: var(--ion-color-danger);
+                    }
                 }
+
+                ion-button {
+                    width: -webkit-fill-available;
+                    --color: var(--ion-color-text-header);
+                    opacity: 80%;
+                    --border-color: var(--ion-color-text-header);
+                    margin-bottom: 1em;
+                    --border-width: 1px;
+                }
+
                 div {
                     display: flex;
                     align-items: center;
@@ -283,6 +304,14 @@
                 color: #43425D;
             }
         }
+    }
+
+    .empty-task {
+        text-decoration: underline;
+    }
+
+    .exist-task {
+        text-decoration: none;
     }
 
 }

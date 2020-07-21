@@ -200,34 +200,21 @@
                 <ion-item-group class="activity-list">
                   <ion-title>Activity List</ion-title>
                   <ion-list>
-                    <ion-item>
-                      <ion-label>Input</ion-label>
-                      <ion-input></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-label>Toggle</ion-label>
-                      <ion-toggle slot="end"></ion-toggle>
-                    </ion-item>
-                    <ion-item>
-                      <ion-label>Radio</ion-label>
-                      <ion-radio slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item>
-                      <ion-label>Checkbox</ion-label>
-                      <ion-checkbox slot="start"></ion-checkbox>
-                    </ion-item>
-                  </ion-list>
-                  <ion-list>
                     <ion-item-sliding>
                       <ion-item lines="none">
-                        <ion-checkbox slot="start" mode="ios"></ion-checkbox>
-                        <!-- <ion-input type="text" placeholder="Add task here"></ion-input> -->
-                        <ion-textarea placeholder="Add task here"></ion-textarea>
+                        <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
+                        <!-- <ion-checkbox slot="start" mode="ios" *ngIf="newTask.length > 0 "></ion-checkbox> -->
+                        <ion-input type="text" placeholder="Add task here    " [(ngModel)]="newTask"
+                          ionChange=addNewTask(newTask)
+                          inputmode="text" type="text"
+                          enterkeyhint="done" ></ion-input>
+                        <!-- <ion-textarea placeholder="Add task here" inputmode="text" type="text" enterkeyhint="done"></ion-textarea> -->
                       </ion-item>
                       <ion-item-options side="end">
-                        <ion-item-option onClick="unread(item)">Unread</ion-item-option>
+                        <ion-item-option (click)="deleteTask($event)">Del</ion-item-option>
                       </ion-item-options>
                     </ion-item-sliding>
+                    <ion-button fill="outline">+</ion-button>
                   </ion-list>
                   <!-- <ion-list>
                     <div>
