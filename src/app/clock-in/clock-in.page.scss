@@ -204,9 +204,12 @@
                 border: 1px solid #50505029;
                 border-radius: 7px;
                 // padding: var(--ion-text-14) 0;
-                padding: 0 1em;
+                padding: var(--ion-text-14);
 
                 ion-item-sliding {
+                    height: var(--ion-text-33);
+                    display: flex;
+                    align-items: center;
                     ion-item {
                         --background: var(--ion-color-white);
                         --color: var(--ion-color-text-tasklist);
@@ -222,6 +225,8 @@
                             --border-color-checked: transparent;
                             --checkmark-width: 0.175em;
                             margin-right: 1em;
+                            margin-top: 0;
+                            margin-bottom: 0;
                             left: -10px;
 
                             textarea {

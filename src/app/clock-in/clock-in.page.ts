@@ -49,6 +49,8 @@ export class ClockInPage implements OnInit {
    */
   public newTask;
 
+  public checkAddNew = [];
+  
   constructor(
     public cinGlobalFn: GlobalFnService,
     private geolocation: Geolocation,
@@ -146,6 +148,19 @@ export class ClockInPage implements OnInit {
 
   addNewTask(data) {
     console.log("addNewTask");
-    console.log(data); 
+    console.log(data);
+  }
+
+  onKeyPress(event) {
+    if (event.code === 'Enter') {
+      console.log("onKeyPress");
+      console.log(event);
+      console.log(this.newTask);
+      console.log(this.checkAddNew);
+      this.checkAddNew.push({ status: false, desc: this.newTask });
+      console.log(this.checkAddNew);
+      this.newTask = null;
+    }
+
   }
 }
