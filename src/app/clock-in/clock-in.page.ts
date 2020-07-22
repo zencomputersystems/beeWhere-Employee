@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalFnService } from 'src/services/global-fn.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
+import { GlobalApiService } from 'src/services/global-api.service';
 
 @Component({
   selector: "app-clock-in",
@@ -72,7 +73,8 @@ export class ClockInPage implements OnInit {
   constructor(
     public cinGlobalFn: GlobalFnService,
     private geolocation: Geolocation,
-    public geofence: Geofence
+    public geofence: Geofence,
+    public cinService: GlobalApiService
   ) {
     geofence.initialize().then(
       () => console.log("Geofence plugin ready"),
