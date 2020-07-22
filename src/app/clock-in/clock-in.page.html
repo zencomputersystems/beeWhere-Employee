@@ -142,8 +142,9 @@
                   <ion-title>Client</ion-title>
                   <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedClient"
                     (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)">
-                    <ion-select-option selected value="none">None</ion-select-option>
-                    <ion-select-option *ngFor="let client of data.client" value={{client.clientId}}>
+                    <ion-select-option selected [value]="clientNone">None</ion-select-option>
+                    <ion-select-option *ngFor="let client of data.client" [value]="client">
+                    <!-- <ion-select-option *ngFor="let client of data.client" value={{client.clientId}}> -->
                       {{client.clientCode}} - {{client.clientName}}
                     </ion-select-option>
                   </ion-select>
@@ -163,10 +164,12 @@
                   <ion-title>Project Selection</ion-title>
                     <ion-select ok-text="OK" cancel-text="Dismiss"
                       [(ngModel)]="selectedProject">
-                      <ion-select-option selected value="none">None</ion-select-option>
+                      <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
+                      <!-- <ion-select-option selected value="none">None</ion-select-option> -->
                       <ng-container *ngFor="let clientData of data.client">
-                        <ng-container *ngIf="selectedClient === clientData.clientId">
-                          <ion-select-option *ngFor="let project of clientData.project" value={{project.id}}>
+                        <ng-container *ngIf="selectedClient.clientId === clientData.clientId">
+                          <ion-select-option *ngFor="let project of clientData.project" [value]="project">
+                          <!-- <ion-select-option *ngFor="let project of clientData.project" value={{project.id}}> -->
                             {{project.code}} - {{project.name}}
                           </ion-select-option>
                         </ng-container>
@@ -183,10 +186,11 @@
                 <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.contract">
                   <ion-title>Contract Selection</ion-title>
                   <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedContract">
-                    <ion-select-option selected value="none">None</ion-select-option>
+                    <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
                     <ng-container *ngFor="let clientData of data.client">
-                      <ng-container *ngIf="selectedClient === clientData.clientId">
-                        <ion-select-option *ngFor="let contract of clientData.contract" value={{contract.id}}>
+                      <ng-container *ngIf="selectedClient.clientId === clientData.clientId">
+                        <ion-select-option *ngFor="let contract of clientData.contract" [value]="contract">
+                          <!-- <ion-select-option *ngFor="let contract of clientData.contract" value={{contract.id}}> -->
                           {{contract.code}} - {{contract.name}}
                         </ion-select-option>
                       </ng-container>
@@ -200,7 +204,7 @@
                     <ion-item-sliding *ngFor="let list of checkAddNew">
                       <ion-item lines="none">
                         <ion-checkbox slot="start" mode="ios" [checked]=list.status ></ion-checkbox>
-                        <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.activity"
+                        <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.activity" 
                           inputmode="text" type="text" enterkeyhint="done"></ion-input>
                       </ion-item>
                       <ion-item-options side="end">

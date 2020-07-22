@@ -37,19 +37,35 @@ export class ClockInPage implements OnInit {
    * To bind id of selected client
    * @memberof ClockInPage
    */
-  public selectedClient = "none";
+  public selectedClient;
+
+  public clientNone = {
+    clientCode: null,
+    clientId: "none",
+    clientLocation: [],
+    clientName: null,
+    contract: [],
+    project: [],
+  };
 
   /**
    * To bind id of selected project
    * @memberof ClockInPage
    */
-  public selectedProject = "none";
+  public selectedProject;
+
+  public projectContractNone = {
+    code: null,
+    description: null,
+    id: "none",
+    name: null,
+  };
 
   /**
    * To bind id of selected contract
    * @memberof ClockInPage
    */
-  public selectedContract = "none";
+  public selectedContract;
 
   /**
    * To bind new task value
@@ -88,6 +104,9 @@ export class ClockInPage implements OnInit {
    */
   ngOnInit() {
     this.data = this.cinGlobalFn.sampleDataList();
+    this.selectedClient = this.clientNone;
+    this.selectedProject = this.projectContractNone;
+    this.selectedContract = this.projectContractNone;
     console.log("curr time");
     console.log(this.currTime);
     console.log(this.data);
@@ -215,23 +234,22 @@ export class ClockInPage implements OnInit {
       list: [
         {
           activityList: this.checkAddNew,
-          clientCode: this.selectedClient,
-          clockInLocation: this.locWatch.lat + ', ' + this.locWatch.long,
+          clientCode: this.selectedClient.clientCode,
+          clockInLocation: this.locWatch.lat + ", " + this.locWatch.long,
           clockInTime: this.currTime,
           clockOutLocation: null,
           clockOutTime: null,
           jobType: this.jobType,
-          projectCode: this.selectedProject,
-          projectDesc: 'project desc',
-          contractCode: this.selectedContract,
-          contractDesc: 'contract desc'
-        }
-      ]
+          projectCode: this.selectedProject.code,
+          projectDesc: this.selectedProject.description,
+          contractCode: this.selectedContract.code,
+          contractDesc: this.selectedContract.description,
+        },
+      ],
     };
     console.log(clockinObj);
     console.log(this.data.userInfo.clockIn);
     this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
     console.log(this.data.userInfo.clockIn);
-
   }
 }
