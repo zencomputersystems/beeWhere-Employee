@@ -24,9 +24,14 @@
   </ion-toolbar>
 </ion-footer>
 
-<div class="clockin-button clockin">
+<div class="clockin-button clockin" *ngIf="!this.data.userInfo.clockIn.status">
   <ion-button shape="round" fill="outline" class="clockin" routerLink="/clock-in">
     <ion-label>Clock In Now</ion-label>
+  </ion-button>
+</div>
+<div class="clockin-button clockout" *ngIf="this.data.userInfo.clockIn.status">
+  <ion-button shape="round" fill="outline" class="clockout" routerLink="/clock-in">
+    <ion-label>Clock Out</ion-label>
   </ion-button>
 </div>
  

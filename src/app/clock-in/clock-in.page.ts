@@ -226,6 +226,10 @@ export class ClockInPage implements OnInit {
     }
   }
 
+  /**
+   * To bind data and save clockin
+   * @memberof ClockInPage
+   */
   saveClockIn() {
     console.log("saveClockIn");
     console.log(this.checkAddNew);
@@ -247,9 +251,8 @@ export class ClockInPage implements OnInit {
         },
       ],
     };
-    console.log(clockinObj);
-    console.log(this.data.userInfo.clockIn);
     this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
-    console.log(this.data.userInfo.clockIn);
+    this.data.userInfo.clockIn.status = true;
+    // Object.assign(this.data.userInfo.clockIn.historicalClockIn, clockinObj);
   }
 }
