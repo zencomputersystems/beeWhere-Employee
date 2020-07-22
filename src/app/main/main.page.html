@@ -139,7 +139,7 @@
                 </ion-text>
               </ion-list>
             </ion-item-group>
-            <ion-item-group class="clock-setting">
+            <ion-item-group class="clock-setting" *ngIf="histList.clockOutTime !== null">
               <ion-label class="clock-label clk-out">
                 Clock Out
               </ion-label>

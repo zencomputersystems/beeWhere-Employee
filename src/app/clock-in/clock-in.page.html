@@ -25,7 +25,7 @@
 </ion-footer>
 
 <div class="clockin-button">
-  <ion-button shape="round" fill="outline" class="submits" routerLink="/main">
+  <ion-button shape="round" fill="outline" class="submits" routerLink="/main" (click)="saveClockIn()">
     <ion-label>Save</ion-label>
   </ion-button>
 </div>
@@ -141,7 +141,7 @@
                 <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.client">
                   <ion-title>Client</ion-title>
                   <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedClient"
-                    onload="getClientList(jobDtl.viewPremission)">
+                    (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)">
                     <ion-select-option selected value="none">None</ion-select-option>
                     <ion-select-option *ngFor="let client of data.client" value={{client.clientId}}>
                       {{client.clientCode}} - {{client.clientName}}
@@ -200,7 +200,7 @@
                     <ion-item-sliding *ngFor="let list of checkAddNew">
                       <ion-item lines="none">
                         <ion-checkbox slot="start" mode="ios" [checked]=list.status ></ion-checkbox>
-                        <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.desc" 
+                        <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.activity"
                           inputmode="text" type="text" enterkeyhint="done"></ion-input>
                       </ion-item>
                       <ion-item-options side="end">

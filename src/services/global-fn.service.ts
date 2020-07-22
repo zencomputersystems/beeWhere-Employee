@@ -59,7 +59,7 @@ export class GlobalFnService {
        taskList.push({
         id: taskList.length,
         status: false,
-        desc: newTask,
+        activity: newTask,
       });
     }
     return taskList;

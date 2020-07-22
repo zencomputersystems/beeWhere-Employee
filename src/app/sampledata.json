@@ -66,14 +66,17 @@
                             "projectDesc": "Halal Integrated Platform with Halal Development Corporation Sdn Bhd",
                             "activityList": [
                                 {
+                                    "id": 1,
                                     "status": true,
                                     "activity": "This is my first task"
                                 },
                                 {
+                                    "id": 2,
                                     "status": true,
                                     "activity": "This is my second task This is my second task This is my second task This is my second task This is my second task"
                                 },
                                 {
+                                    "id": 3,
                                     "status": false,
                                     "activity": "This is my third task"
                                 }
@@ -88,15 +91,19 @@
                             "clientCode": null,
                             "projectCode": null,
                             "projectDesc": null,
-                            "activityList": [{
+                            "activityList": [
+                                {
+                                    "id": 1,
                                     "status": true,
                                     "activity": "This is my fourth task"
                                 },
                                 {
+                                    "id": 2,
                                     "status": true,
                                     "activity": "This is my fifth task"
                                 },
                                 {
+                                    "id": 3,
                                     "status": false,
                                     "activity": "This is my sixth task"
                                 }
@@ -117,14 +124,17 @@
                             "projectCode": null,
                             "projectDesc": null,
                             "activityList": [{
+                                    "id": 1,
                                     "status": true,
                                     "activity": "This is my first 1 task"
                                 },
                                 {
+                                    "id": 2,
                                     "status": true,
                                     "activity": "This is my second 1 task"
                                 },
                                 {
+                                    "id": 3,
                                     "status": false,
                                     "activity": "This is my third 1 task"
                                 }
@@ -145,14 +155,17 @@
                             "projectCode": null,
                             "projectDesc": null,
                             "activityList": [{
+                                    "id": 1,
                                     "status": true,
                                     "activity": "This is my first task"
                                 },
                                 {
+                                    "id": 2,
                                     "status": true,
                                     "activity": "This is my second task"
                                 },
                                 {
+                                    "id": 3,
                                     "status": true,
                                     "activity": "This is my third task"
                                 }
@@ -172,14 +185,17 @@
                         "projectCode": "HR057",
                         "projectDesc": "Design & Develop New Web Application for Hospitalization Module",
                         "activityList": [{
+                                "id": 1,
                                 "status": true,
                                 "activity": "This is my a task"
                             },
                             {
+                                "id": 2,
                                 "status": true,
                                 "activity": "This is my b task"
                             },
                             {
+                                "id": 3,
                                 "status": false,
                                 "activity": "This is my c task"
                             }

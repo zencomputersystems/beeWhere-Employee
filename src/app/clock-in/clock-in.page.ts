@@ -93,7 +93,6 @@ export class ClockInPage implements OnInit {
     console.log(this.data);
     console.log(this.data.userInfo.attendanceProfile);
     this.getLoc();
-    this.getClientList();
     // const time1:any = new Date(1594633144000);
     // const time2: any = new Date();
     // console.log('time1');
@@ -140,7 +139,7 @@ export class ClockInPage implements OnInit {
           notification: {
             id: 1,
             title: "You cross the line",
-            text: "You just arrive to the point.",
+            text: "You just arrive to zen",
             openAppOnClick: true,
           },
         };
@@ -188,6 +187,7 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   addNewTask(event) {
+    console.log(event);
     this.checkAddNew = this.cinGlobalFn.addTask(
       event,
       this.newTask,
@@ -196,9 +196,42 @@ export class ClockInPage implements OnInit {
     this.newTask = null;
   }
 
-  getClientList(enableGeofiltering) {
-    console.log("getClientList");
+  getClientList(enableGeofiltering, clientList) {
     console.log(enableGeofiltering);
-    console.log(this.data);
+    if (enableGeofiltering) {
+      console.log("getClientList: true");
+      console.log(clientList);
+    } else {
+      console.log("getClientList: false");
+      console.log(clientList);
+    }
+  }
+
+  saveClockIn() {
+    console.log("saveClockIn");
+    console.log(this.checkAddNew);
+    const clockinObj = {
+      clockInDate: this.currTime.substring(0, 10),
+      list: [
+        {
+          activityList: this.checkAddNew,
+          clientCode: this.selectedClient,
+          clockInLocation: this.locWatch.lat + ', ' + this.locWatch.long,
+          clockInTime: this.currTime,
+          clockOutLocation: null,
+          clockOutTime: null,
+          jobType: this.jobType,
+          projectCode: this.selectedProject,
+          projectDesc: 'project desc',
+          contractCode: this.selectedContract,
+          contractDesc: 'contract desc'
+        }
+      ]
+    };
+    console.log(clockinObj);
+    console.log(this.data.userInfo.clockIn);
+    this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
+    console.log(this.data.userInfo.clockIn);
+
   }
 }
