@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalFnService } from 'src/services/global-fn.service';
-// import * as sampleData from 'src/app/sampledata.json';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
+
 @Component({
   selector: "app-clock-in",
   templateUrl: "./clock-in.page.html",
@@ -10,12 +10,19 @@ import { Geofence } from '@ionic-native/geofence/ngx';
 })
 export class ClockInPage implements OnInit {
   public currTime = new Date().toISOString();
+
+  /**
+   * To bind value from sampledata.json
+   * @memberof ClockInPage
+   */
   public data;
+
   /**
    * To bind data of enabled job type
    * @memberof ClockInPage
    */
   public jobType = "office";
+
   public test1;
   public lat;
   public long;
@@ -49,8 +56,19 @@ export class ClockInPage implements OnInit {
    */
   public newTask;
 
+  /**
+   * To bind the array of created tasks list
+   * @memberof ClockInPage
+   */
   public checkAddNew = [];
-  
+
+  /**
+   * Creates an instance of ClockInPage.
+   * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
+   * @param {Geolocation} geolocation To get the methods from geolocation
+   * @param {Geofence} geofence To get the methods from geofence
+   * @memberof ClockInPage
+   */
   constructor(
     public cinGlobalFn: GlobalFnService,
     private geolocation: Geolocation,
@@ -62,6 +80,10 @@ export class ClockInPage implements OnInit {
     );
   }
 
+  /**
+   * To initialize clock-in component
+   * @memberof ClockInPage
+   */
   ngOnInit() {
     this.data = this.cinGlobalFn.sampleDataList();
     console.log("curr time");
@@ -81,11 +103,21 @@ export class ClockInPage implements OnInit {
     // setInterval(this.test, 1000);
   }
 
+  /**
+   * Test get current time
+   * @memberof ClockInPage
+   */
   test() {
     this.currTime = new Date().toISOString();
     // console.log(this.currTime);
   }
 
+  /**
+   * To get current location positions (latitude & longitude),
+   * watch location positions. and add geofence on specific location based on
+   * determined latitude and longitude
+   * @memberof ClockInPage
+   */
   getLoc() {
     this.geolocation
       .getCurrentPosition()
@@ -136,31 +168,28 @@ export class ClockInPage implements OnInit {
     });
   }
 
-  selectClient(data) {
-    console.log("selectClient data");
-    console.log(data);
+  /**
+   * Event to delete the selected task after delete button is being hit.
+   * @param {*} selList selected task
+   * @param {*} list task list
+   * @memberof ClockInPage
+   */
+  onDeleteTask(selList, list) {
+    this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list);
   }
 
-  deleteTask(item) {
-    console.log("deleteTask");
-    console.log(item);
-  }
-
-  addNewTask(data) {
-    console.log("addNewTask");
-    console.log(data);
-  }
-
-  onKeyPress(event) {
-    if (event.code === "Enter" && this.newTask.length > 0) {
-      console.log("onKeyPress");
-      console.log(event);
-      console.log(this.newTask);
-      console.log(this.checkAddNew);
-      this.checkAddNew.push({ status: false, desc: this.newTask });
-      console.log(this.checkAddNew);
-      this.newTask = null;
-    }
-
+  /**
+   * To append new task list after enter being hit on activity list.
+   * The process will proceed once the task's length is more than 0
+   * @param {*} event keypress enter event
+   * @memberof ClockInPage
+   */
+  addNewTask(event) {
+    this.checkAddNew = this.cinGlobalFn.addTask(
+      event,
+      this.newTask,
+      this.checkAddNew
+    );
+    this.newTask = null;
   }
 }
