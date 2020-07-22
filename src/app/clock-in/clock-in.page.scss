@@ -28,6 +28,24 @@
 // }
 
 :host {
+
+    ion-toolbar {
+        ion-label {
+            --color: var(--ion-color-text);
+            opacity: 80%;
+        }
+
+        .main-support {
+            opacity:50%;
+            // width: var(--ion-text-20);
+            // height: var(--ion-text-21);
+        }
+
+        // .bell {
+        //     // width: var(--ion-text-24);
+        //     // height: var(--ion-text-24);
+        // }
+    }
     .main-info {
         margin: 0px; // 22px;
         background: #ffff;

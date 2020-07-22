@@ -1,20 +1,20 @@
 <ion-footer class="footer-shadow">
   <ion-toolbar class="footer" color="dark">
     <ion-item-group>
-      <div routerLink="/main" class="footer-label">
-        <ion-img src="../../assets/basic/home.png"></ion-img>
+      <div class="footer-label">
+        <ion-img src="../../assets/basic/home-disable.png" class="main-support"></ion-img>
         <ion-label>
           Main
         </ion-label>
       </div>
-      <div routerLink="/inbox-details" class="footer-label">
-        <ion-img src="../../assets/basic/bell.png"></ion-img>
+      <div class="footer-label">
+        <ion-img src="../../assets/basic/bell-disable.png" ></ion-img>
         <ion-label>
           Inbox
         </ion-label>
       </div>
-      <div routerLink="/support" class="footer-label">
-        <ion-img src="../../assets/basic/support.png"></ion-img>
+      <div class="footer-label">
+        <ion-img src="../../assets/basic/support-disable.png" class="main-support"></ion-img>
         <ion-label>
           Support
         </ion-label>
@@ -134,8 +134,6 @@
                     geofLoc: {{respo}}
                   </ion-label>
                 </ion-list> -->
-                {{jobType}}
-                {{jobDtl.types}}
                 <ion-item-group *ngIf="jobDtl.viewPremission.geofiltering">
                   <ion-img src="../../assets/basic/location.png"></ion-img>
                   <ion-label>{{locWatch.lat}},&nbsp;{{locWatch.long}}</ion-label>
@@ -182,19 +180,17 @@
                 </ion-item-group>
 
                 <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.contract">
-                  <!-- <ion-item> -->
                   <ion-title>Contract Selection</ion-title>
-                    <ion-select ok-text="Okay" cancel-text="Dismiss" [(ngModel)]="selectedContract">
-                      <ion-select-option selected value="none">None</ion-select-option>
-                      <ng-container *ngFor="let clientData of data.client">
-                        <ng-container *ngIf="selectedClient === clientData.clientId">
-                          <ion-select-option *ngFor="let contract of clientData.contract" value={{contract.id}}>
-                            {{contract.code}} - {{contract.name}}
-                          </ion-select-option>
-                        </ng-container>
+                  <ion-select ok-text="Okay" cancel-text="Dismiss" [(ngModel)]="selectedContract">
+                    <ion-select-option selected value="none">None</ion-select-option>
+                    <ng-container *ngFor="let clientData of data.client">
+                      <ng-container *ngIf="selectedClient === clientData.clientId">
+                        <ion-select-option *ngFor="let contract of clientData.contract" value={{contract.id}}>
+                          {{contract.code}} - {{contract.name}}
+                        </ion-select-option>
                       </ng-container>
-                    </ion-select>
-                  <!-- </ion-item> -->
+                    </ng-container>
+                  </ion-select>
                 </ion-item-group>
 
                 <ion-item-group class="activity-list">
@@ -217,21 +213,9 @@
                           (keyup.enter)="addNewTask($event)"
                           inputmode="text" type="text"
                           enterkeyhint="done" ></ion-input>
-                        <!-- <ion-textarea placeholder="Add task here" inputmode="text" type="text" enterkeyhint="done"></ion-textarea> -->
                       </ion-item>
                     </ion-item-sliding>
                   </ion-list>
-                  <!-- <ion-list>
-                    <div>
-                      <ion-checkbox mode="ios"></ion-checkbox>
-                      <ion-input type="text" placeholder="Add task here"></ion-input>
-                    </div>
-                    <div>
-                      <ion-checkbox mode="ios"></ion-checkbox>
-                      <ion-textarea placeholder="Add task here"></ion-textarea>
-                      
-                    </div> 
-                  </ion-list> -->
                 </ion-item-group>
               </p>
               </span>
