@@ -152,7 +152,7 @@ export class ClockInPage implements OnInit {
   }
 
   onKeyPress(event) {
-    if (event.code === 'Enter') {
+    if (event.code === "Enter" && this.newTask.length > 0) {
       console.log("onKeyPress");
       console.log(event);
       console.log(this.newTask);
