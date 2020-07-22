@@ -192,6 +192,7 @@
                         align-items: center;
                         font-size: var(--ion-text-11);
                         opacity: 80%;
+                        width: -webkit-fill-available;
 
                         ion-checkbox {
                             width: var(--ion-text-20);
