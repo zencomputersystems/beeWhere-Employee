@@ -93,6 +93,7 @@ export class ClockInPage implements OnInit {
     console.log(this.data);
     console.log(this.data.userInfo.attendanceProfile);
     this.getLoc();
+    this.getClientList();
     // const time1:any = new Date(1594633144000);
     // const time2: any = new Date();
     // console.log('time1');
@@ -193,5 +194,11 @@ export class ClockInPage implements OnInit {
       this.checkAddNew
     );
     this.newTask = null;
+  }
+
+  getClientList(enableGeofiltering) {
+    console.log("getClientList");
+    console.log(enableGeofiltering);
+    console.log(this.data);
   }
 }

@@ -140,7 +140,8 @@
                 </ion-item-group>
                 <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.client">
                   <ion-title>Client</ion-title>
-                  <ion-select ok-text="Okay" cancel-text="Dismiss" [(ngModel)]="selectedClient">
+                  <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedClient"
+                    onload="getClientList(jobDtl.viewPremission)">
                     <ion-select-option selected value="none">None</ion-select-option>
                     <ion-select-option *ngFor="let client of data.client" value={{client.clientId}}>
                       {{client.clientCode}} - {{client.clientName}}
@@ -160,7 +161,7 @@
                 </ion-item-group> -->
                 <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.project">
                   <ion-title>Project Selection</ion-title>
-                    <ion-select ok-text="Okay" cancel-text="Dismiss"
+                    <ion-select ok-text="OK" cancel-text="Dismiss"
                       [(ngModel)]="selectedProject">
                       <ion-select-option selected value="none">None</ion-select-option>
                       <ng-container *ngFor="let clientData of data.client">
@@ -181,7 +182,7 @@
 
                 <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.contract">
                   <ion-title>Contract Selection</ion-title>
-                  <ion-select ok-text="Okay" cancel-text="Dismiss" [(ngModel)]="selectedContract">
+                  <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedContract">
                     <ion-select-option selected value="none">None</ion-select-option>
                     <ng-container *ngFor="let clientData of data.client">
                       <ng-container *ngIf="selectedClient === clientData.clientId">
