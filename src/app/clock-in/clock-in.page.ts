@@ -177,7 +177,7 @@ export class ClockInPage implements OnInit {
           id: new Date().toISOString(),
           latitude: 2.9270567, // resp.coords.latitude,
           longitude: 101.6511282, // resp.coords.longitude,
-          radius: 5,
+          radius: 500,
           transitionType: 3,
           notification: {
             id: 1,
@@ -231,12 +231,23 @@ export class ClockInPage implements OnInit {
    */
   addNewTask(event) {
     console.log(event);
-    this.checkAddNew = this.cinGlobalFn.addTask(
-      event,
-      this.newTask,
-      this.checkAddNew
-    );
-    this.newTask = null;
+    console.log(this.newTask);
+    console.log(JSON.stringify(this.checkAddNew));
+    console.log(this.checkAddNew.length);
+    // this.checkAddNew = this.cinGlobalFn.addTask(
+    //   event,
+    //   this.newTask,
+    //   this.checkAddNew
+    // );
+
+    if (event.code === "Enter" && this.newTask.length > 0) {
+      this.checkAddNew.push({
+        id: this.checkAddNew.length,
+        status: false,
+        activity: this.newTask,
+      });
+      this.newTask = null;
+    }
   }
 
   getClientList(enableGeofiltering, clientList) {
@@ -249,7 +260,18 @@ export class ClockInPage implements OnInit {
       console.log(clientList);
     }
   }
-
+  onKey(evt) {
+    console.log('onKey');
+    console.log(evt.code);
+    console.log(evt.key);
+    console.log(evt.keyCode);
+    console.log(evt);
+    console.log(JSON.stringify(evt.code, null, " "));
+    console.log(JSON.stringify(evt.key, null, " "));
+    console.log(JSON.stringify(evt.keyCode, null, " "));
+    console.log(JSON.stringify(evt, null, " "));
+    
+  }
   /**
    * To bind data and save clockin
    * @memberof ClockInPage

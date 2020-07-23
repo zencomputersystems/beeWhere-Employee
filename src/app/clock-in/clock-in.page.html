@@ -136,7 +136,10 @@
                 </ion-list> -->
                 <ion-item-group *ngIf="jobDtl.viewPremission.geofiltering">
                   <ion-img src="../../assets/basic/location.png"></ion-img>
-                  <ion-label>{{locWatch.lat}},&nbsp;{{locWatch.long}}</ion-label>
+                  <ion-label *ngIf="locWatch.lat !== null || locWatch.long !== null">
+                    {{locWatch.lat}},&nbsp;{{locWatch.long}}</ion-label>
+                  <ion-label *ngIf="locWatch.lat === null || locWatch.long === null">
+                    Getting current location..</ion-label>
                 </ion-item-group>
                 <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.client">
                   <ion-title>Client</ion-title>

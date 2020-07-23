@@ -1,3 +1,4 @@
+import { GlobalFnService } from 'src/services/global-fn.service';
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
@@ -20,13 +21,25 @@ export class ClockOutPage implements OnInit {
    */
   public coutTime = new Date().toISOString();
 
+  /**
+   * Bind data of location (latitude, longitude)
+   * @memberof ClockOutPage
+   */
   public currLocation = { lat: null, long: null };
 
-  constructor(public coutGeolocation: Geolocation) {}
+  /**
+   * Bind value of new task/activity to be added
+   * @memberof ClockOutPage
+   */
+  public coutNewActivity;
 
+  constructor(public coutGeolocation: Geolocation, public coutGlobalFn: GlobalFnService) {}
+
+  /**
+   * Initialize this page methods and properties
+   * @memberof ClockOutPage
+   */
   ngOnInit() {
-    // coutGeolocation
-    Log.d("myTag", "This is my message");
     this.coutGeolocation.getCurrentPosition().then((loc) => {
       this.currLocation.lat = loc.coords.latitude;
       this.currLocation.long = loc.coords.longitude;

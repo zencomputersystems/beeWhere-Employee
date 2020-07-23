@@ -44,6 +44,14 @@ export class GlobalFnService {
    */
   deleteTask(selectedTask, taskList) {
     return (taskList = taskList.filter((data) => {
+      if (data.id !== selectedTask.id) {
+        console.log('data.id !== selectedTask.id')
+        console.log(data);
+      } else {
+        console.log('dssds')
+        console.log(data);
+      }
+
       return data.id !== selectedTask.id;
     }));
   }
@@ -55,13 +63,24 @@ export class GlobalFnService {
    * @memberof ClockInPage
    */
   addTask(event, newTask, taskList) {
+    console.log('addTask')
+    console.log(JSON.stringify(taskList))
+    console.log(taskList.lenth)
     if (event.code === "Enter" && newTask.length > 0) {
-       taskList.push({
+       taskList = taskList.push({
         id: taskList.length,
         status: false,
         activity: newTask,
       });
+      // taskList = taskList.concat({
+      //   id: taskList.length,
+      //   status: false,
+      //   activity: newTask,
+      // });
     }
+    console.log('lalalala')
+    console.log(JSON.stringify(taskList))
+
     return taskList;
   }
 }
