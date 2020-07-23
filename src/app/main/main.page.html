@@ -142,8 +142,11 @@
                 <ion-text>
                   {{histList.clockInTime | date: 'hh:mm a'}}
                 </ion-text>
-                <ion-text>
+                <ion-text *ngIf="histList.clockInLocation !== 'null, null'">
                   {{histList.clockInLocation}}
+                </ion-text>
+                <ion-text *ngIf="histList.clockInLocation === 'null, null'">
+                  No location
                 </ion-text>
               </ion-list>
             </ion-item-group>
@@ -155,8 +158,11 @@
                 <ion-text>
                   {{histList.clockOutTime | date: 'hh:mm a'}}
                 </ion-text>
-                <ion-text>
+                <ion-text *ngIf="histList.clockOutLocation !== 'null, null'">
                   {{histList.clockOutLocation}}
+                </ion-text>
+                <ion-text *ngIf="histList.clockOutLocation === 'null, null'">
+                  No location
                 </ion-text>
               </ion-list>
             </ion-item-group>

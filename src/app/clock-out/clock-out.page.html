@@ -118,7 +118,8 @@
             <ion-list>
               <ion-item-sliding *ngFor="let aList of histList.activityList">
                 <ion-item lines="none">
-                  <ion-checkbox slot="start" mode="ios" [checked]=aList.status></ion-checkbox>
+                  <ion-checkbox slot="start" mode="ios" [(ngModel)]="aList.status">
+                  </ion-checkbox>
                   <ion-input type="text" placeholder="Add task here    " [(ngModel)]="aList.activity" inputmode="text"
                     type="text" enterkeyhint="done"></ion-input>
                 </ion-item>

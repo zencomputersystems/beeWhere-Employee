@@ -49,14 +49,14 @@ export class ClockOutPage implements OnInit {
   }
 
   updateActivityList() {
-    console.log(this.coutTime);
-    console.log(this.currLocation);
     const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
     Object.assign(tempArr[0].list.slice(-1)[0], { 
       clockOutLocation: this.currLocation.lat + ", " + this.currLocation.long,
       clockOutTime: this.coutTime
     });
     console.log(tempArr[0].list.slice(-1)[0]);
+    this.data.userInfo.clockIn.status = false;
+
 
 
   }
