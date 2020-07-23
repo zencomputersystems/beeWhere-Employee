@@ -44,6 +44,21 @@ export class ClockOutPage implements OnInit {
       this.currLocation.lat = loc.coords.latitude;
       this.currLocation.long = loc.coords.longitude;
     });
+    const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
+    console.log(tempArr[0].list.slice(-1)[0]);
+  }
+
+  updateActivityList() {
+    console.log(this.coutTime);
+    console.log(this.currLocation);
+    const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
+    Object.assign(tempArr[0].list.slice(-1)[0], { 
+      clockOutLocation: this.currLocation.lat + ", " + this.currLocation.long,
+      clockOutTime: this.coutTime
+    });
+    console.log(tempArr[0].list.slice(-1)[0]);
+
+
   }
 
 }

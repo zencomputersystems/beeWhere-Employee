@@ -44,13 +44,13 @@ export class GlobalFnService {
    */
   deleteTask(selectedTask, taskList) {
     return (taskList = taskList.filter((data) => {
-      if (data.id !== selectedTask.id) {
-        console.log('data.id !== selectedTask.id')
-        console.log(data);
-      } else {
-        console.log('dssds')
-        console.log(data);
-      }
+      // if (data.id !== selectedTask.id) {
+      //   console.log('data.id !== selectedTask.id')
+      //   console.log(data);
+      // } else {
+      //   console.log('dssds')
+      //   console.log(data);
+      // }
 
       return data.id !== selectedTask.id;
     }));
