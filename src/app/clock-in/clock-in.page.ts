@@ -1,24 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalFnService } from 'src/services/global-fn.service';
-// import * as sampleData from 'src/app/sampledata.json';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
+import { GlobalApiService } from 'src/services/global-api.service';
+
+/**
+ * Clockin component
+ * @export
+ * @class ClockInPage
+ * @implements {OnInit}
+ */
 @Component({
   selector: "app-clock-in",
   templateUrl: "./clock-in.page.html",
   styleUrls: ["./clock-in.page.scss"],
 })
 export class ClockInPage implements OnInit {
+  
+  /**
+   * Get value of current time in ISO format
+   * @memberof ClockInPage
+   */
   public currTime = new Date().toISOString();
+
+  /**
+   * To bind value from sampledata.json
+   * @memberof ClockInPage
+   */
   public data;
+
   /**
    * To bind data of enabled job type
    * @memberof ClockInPage
    */
   public jobType = "office";
+
   public test1;
   public lat;
   public long;
+
+  /**
+   * Bind data of locations (latitude & longitude) that being updated every few minutes
+   * @memberof ClockInPage
+   */
   public locWatch = {
     lat: null,
     long: null,
@@ -29,23 +53,68 @@ export class ClockInPage implements OnInit {
    * To bind id of selected client
    * @memberof ClockInPage
    */
-  public selectedClient = "none";
+  public selectedClient;
+
+  /**
+   * Set value of empty client
+   * @memberof ClockInPage
+   */
+  public clientNone = {
+    clientCode: null,
+    clientId: "none",
+    clientLocation: [],
+    clientName: null,
+    contract: [],
+    project: [],
+  };
 
   /**
    * To bind id of selected project
    * @memberof ClockInPage
    */
-  public selectedProject = "none";
+  public selectedProject;
+
+  /**
+   * Set value of empty project/contract
+   * @memberof ClockInPage
+   */
+  public projectContractNone = {
+    code: null,
+    description: null,
+    id: "none",
+    name: null,
+  };
 
   /**
    * To bind id of selected contract
    * @memberof ClockInPage
    */
-  public selectedContract = "none";
+  public selectedContract;
+
+  /**
+   * To bind new task value
+   * @memberof ClockInPage
+   */
+  public newTask;
+
+  /**
+   * To bind the array of created tasks list
+   * @memberof ClockInPage
+   */
+  public checkAddNew = [];
+
+  /**
+   * Creates an instance of ClockInPage.
+   * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
+   * @param {Geolocation} geolocation To get the methods from geolocation
+   * @param {Geofence} geofence To get the methods from geofence
+   * @memberof ClockInPage
+   */
   constructor(
     public cinGlobalFn: GlobalFnService,
     private geolocation: Geolocation,
-    public geofence: Geofence
+    public geofence: Geofence,
+    public cinService: GlobalApiService
   ) {
     geofence.initialize().then(
       () => console.log("Geofence plugin ready"),
@@ -53,8 +122,15 @@ export class ClockInPage implements OnInit {
     );
   }
 
+  /**
+   * To initialize clock-in component
+   * @memberof ClockInPage
+   */
   ngOnInit() {
     this.data = this.cinGlobalFn.sampleDataList();
+    this.selectedClient = this.clientNone;
+    this.selectedProject = this.projectContractNone;
+    this.selectedContract = this.projectContractNone;
     console.log("curr time");
     console.log(this.currTime);
     console.log(this.data);
@@ -72,11 +148,21 @@ export class ClockInPage implements OnInit {
     // setInterval(this.test, 1000);
   }
 
+  /**
+   * Test get current time
+   * @memberof ClockInPage
+   */
   test() {
     this.currTime = new Date().toISOString();
     // console.log(this.currTime);
   }
 
+  /**
+   * To get current location positions (latitude & longitude),
+   * watch location positions. and add geofence on specific location based on
+   * determined latitude and longitude
+   * @memberof ClockInPage
+   */
   getLoc() {
     this.geolocation
       .getCurrentPosition()
@@ -91,12 +177,12 @@ export class ClockInPage implements OnInit {
           id: new Date().toISOString(),
           latitude: 2.9270567, // resp.coords.latitude,
           longitude: 101.6511282, // resp.coords.longitude,
-          radius: 5,
+          radius: 500,
           transitionType: 3,
           notification: {
             id: 1,
             title: "You cross the line",
-            text: "You just arrive to the point.",
+            text: "You just arrive to zen",
             openAppOnClick: true,
           },
         };
@@ -127,8 +213,92 @@ export class ClockInPage implements OnInit {
     });
   }
 
-  selectClient(data) {
-    console.log("selectClient data");
-    console.log(data);
+  /**
+   * Event to delete the selected task after delete button is being hit.
+   * @param {*} selList selected task
+   * @param {*} list task list
+   * @memberof ClockInPage
+   */
+  onDeleteTask(selList, list) {
+    this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list);
+  }
+
+  /**
+   * To append new task list after enter being hit on activity list.
+   * The process will proceed once the task's length is more than 0
+   * @param {*} event keypress enter event
+   * @memberof ClockInPage
+   */
+  addNewTask(event) {
+    console.log(event);
+    console.log(this.newTask);
+    console.log(JSON.stringify(this.checkAddNew));
+    console.log(this.checkAddNew.length);
+    // this.checkAddNew = this.cinGlobalFn.addTask(
+    //   event,
+    //   this.newTask,
+    //   this.checkAddNew
+    // );
+
+    if (event.code === "Enter" && this.newTask.length > 0) {
+      this.checkAddNew.push({
+        id: this.checkAddNew.length,
+        status: false,
+        activity: this.newTask,
+      });
+      this.newTask = null;
+    }
+  }
+
+  getClientList(enableGeofiltering, clientList) {
+    console.log(enableGeofiltering);
+    if (enableGeofiltering) {
+      console.log("getClientList: true");
+      console.log(clientList);
+    } else {
+      console.log("getClientList: false");
+      console.log(clientList);
+    }
+  }
+  onKey(evt) {
+    console.log('onKey');
+    console.log(evt.code);
+    console.log(evt.key);
+    console.log(evt.keyCode);
+    console.log(evt);
+    console.log(JSON.stringify(evt.code, null, " "));
+    console.log(JSON.stringify(evt.key, null, " "));
+    console.log(JSON.stringify(evt.keyCode, null, " "));
+    console.log(JSON.stringify(evt, null, " "));
+    
+  }
+  /**
+   * To bind data and save clockin
+   * @memberof ClockInPage
+   */
+  saveClockIn() {
+    // console.log("saveClockIn");
+    // console.log(this.checkAddNew);
+    const clockinObj = {
+      clockInDate: this.currTime.substring(0, 10),
+      list: [
+        {
+          activityList: this.checkAddNew,
+          clientCode: this.selectedClient.clientCode,
+          clockInLocation: this.locWatch.lat + ", " + this.locWatch.long,
+          clockInTime: this.currTime,
+          clockOutLocation: null,
+          clockOutTime: null,
+          jobType: this.jobType,
+          projectCode: this.selectedProject.code,
+          projectDesc: this.selectedProject.description,
+          contractCode: this.selectedContract.code,
+          contractDesc: this.selectedContract.description,
+        },
+      ],
+    };
+    this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
+    this.data.userInfo.clockIn.status = true;
+    // Object.assign(this.data.userInfo.clockIn.historicalClockIn, clockinObj);
   }
 }

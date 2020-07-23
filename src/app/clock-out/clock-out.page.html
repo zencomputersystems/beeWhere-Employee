@@ -25,7 +25,7 @@
 </ion-footer>
 
 <div class="clockin-button">
-  <ion-button shape="round" fill="outline" class="submits" routerLink="/main">
+    <ion-button shape="round" fill="outline" class="submits" routerLink="/main" (click)="updateActivityList()">
     <ion-label>Save</ion-label>
   </ion-button>
 </div>
@@ -35,8 +35,111 @@
   <div class="content">
     <ion-item-group class="header">
       <ion-label>beeWhere</ion-label>
-      <!-- <ion-img src="../../assets/basic/logout.png"></ion-img> -->
     </ion-item-group>
-    <div>clockout</div>
+
+    <ion-card class="main-info">
+      <ion-card-content>
+        <div>
+          <!-- <div *ngIf="data.userInfo.clockIn.status == true"> -->
+          <ion-card-title >
+            Clock out
+          </ion-card-title>
+          <ion-card-subtitle>
+            Good Job!
+          </ion-card-subtitle>
+        </div>
+        <div class="time-display">
+          <ion-title class="time">
+            <ion-label class="hour">
+              {{coutTime | date: 'hh:mm'}}
+            </ion-label>
+            <ion-label class="am-pm">
+              {{coutTime | date: 'a'}}
+            </ion-label>
+          </ion-title>
+          <ion-title class="day">
+            <ion-label>
+              {{coutTime | date: 'd MMM yyyy'}}
+            </ion-label>
+            <ion-label>
+              {{coutTime | date: 'EEEE'}}
+            </ion-label>
+          </ion-title>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-item-group class="notification-info"
+      *ngIf="data.userInfo.notifications.info.approval !=0 || data.userInfo.notifications.info.updates !=0">
+      <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
+      <ion-img src="../../assets/basic/bell.png"></ion-img>
+      <ion-label *ngIf="data.userInfo.notifications.info.approval">{{data.userInfo.notifications.info.approval}} items require
+        approval
+      </ion-label>
+      <ion-label *ngIf="data.userInfo.notifications.info.approval !=0 && data.userInfo.notifications.info.updates !=0">,&nbsp;</ion-label>
+      <ion-label *ngIf="data.userInfo.notifications.info.updates !- 0"> {{data.userInfo.notifications.info.updates}} new
+        updates</ion-label>
+    </ion-item-group>
+
+
+    <ion-item-group class="last-clockin" *ngFor="let histClock of data.userInfo.clockIn.historicalClockIn.slice(-1)">
+      <ion-title>
+        {{histClock.clockInDate | date: 'd MMM yyyy'}}
+      </ion-title>
+      <ion-card *ngFor="let histList of histClock.list.slice(-1)">
+        <ion-card-title>
+          {{histList.jobType}}
+          <ion-card-subtitle>
+            <ion-label class="label-client" *ngIf="histList.clientCode !== null">
+              {{histList.clientCode}}
+            </ion-label>
+            <ion-label class="label-project" *ngIf="histList.projectCode !== null">
+              {{histList.projectCode}}
+            </ion-label>
+            <ion-label class="label-contract" *ngIf="histList.contractCode !== null">
+              {{histList.contractCode}}
+            </ion-label>
+          </ion-card-subtitle>
+        </ion-card-title>
+        <ion-card-subtitle class="description-project" *ngIf="histList.projectDesc !== null">
+          {{histList.projectDesc}}
+        </ion-card-subtitle>
+        <ion-card-content class="clockout-content">
+          <ion-item-group>
+            <ion-img src="../../assets/basic/location.png"></ion-img>
+            <ion-label *ngIf="currLocation.lat !== null || currLocation.long !== null">
+              {{currLocation.lat}},&nbsp;{{currLocation.long}}</ion-label>
+            <ion-label *ngIf="currLocation.lat === null || currLocation.long === null">
+              Getting current location..</ion-label>
+          </ion-item-group>
+
+          <ion-item-group class="activity-list">
+            <ion-title>Activity List</ion-title>
+            <ion-list>
+              <ion-item-sliding *ngFor="let aList of histList.activityList">
+                <ion-item lines="none">
+                  <ion-checkbox slot="start" mode="ios" [checked]=aList.status></ion-checkbox>
+                  <ion-input type="text" placeholder="Add task here    " [(ngModel)]="aList.activity" inputmode="text"
+                    type="text" enterkeyhint="done"></ion-input>
+                </ion-item>
+                <ion-item-options side="end">
+                  <ion-item-option (click)="histList.activityList=coutGlobalFn.deleteTask(aList, histList.activityList);">
+                    Del</ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
+              <ion-item-sliding>
+                <ion-item lines="none">
+                  <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
+                  <ion-input type="text" placeholder="Add task here    " [(ngModel)]="coutNewActivity"
+                    (keyup.enter)="coutGlobalFn.addTask($event, coutNewActivity, histList.activityList);coutNewActivity=null;" 
+                    inputmode="text" type="text" enterkeyhint="done"></ion-input>
+                </ion-item>
+              </ion-item-sliding>
+            </ion-list>
+          </ion-item-group>
+        </ion-card-content>
+      </ion-card>
+    </ion-item-group>
+
   </div>
 </ion-content>

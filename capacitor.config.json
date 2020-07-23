@@ -1,13 +1,18 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "com.example.app",
   "appName": "mAttendance",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
   "webDir": "www",
-  "plugins": {
-    "SplashScreen": {
-      "launchShowDuration": 0
+  "npmClient": "npm",
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "android-minSdkVersion": "19",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "false",
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000"
     }
-  },
-  "cordova": {}
+  }
 }

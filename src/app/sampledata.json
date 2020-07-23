@@ -64,16 +64,20 @@
                             "clientCode": "HDC",
                             "projectCode": "SW325",
                             "projectDesc": "Halal Integrated Platform with Halal Development Corporation Sdn Bhd",
+                            "contractCode": null,
                             "activityList": [
                                 {
+                                    "id": 1,
                                     "status": true,
                                     "activity": "This is my first task"
                                 },
                                 {
+                                    "id": 2,
                                     "status": true,
                                     "activity": "This is my second task This is my second task This is my second task This is my second task This is my second task"
                                 },
                                 {
+                                    "id": 3,
                                     "status": false,
                                     "activity": "This is my third task"
                                 }
@@ -88,15 +92,20 @@
                             "clientCode": null,
                             "projectCode": null,
                             "projectDesc": null,
-                            "activityList": [{
+                            "contractCode": null,
+                            "activityList": [
+                                {
+                                    "id": 1,
                                     "status": true,
                                     "activity": "This is my fourth task"
                                 },
                                 {
+                                    "id": 2,
                                     "status": true,
                                     "activity": "This is my fifth task"
                                 },
                                 {
+                                    "id": 3,
                                     "status": false,
                                     "activity": "This is my sixth task"
                                 }
@@ -116,15 +125,19 @@
                             "clientCode": null,
                             "projectCode": null,
                             "projectDesc": null,
+                            "contractCode": null,
                             "activityList": [{
+                                    "id": 1,
                                     "status": true,
                                     "activity": "This is my first 1 task"
                                 },
                                 {
+                                    "id": 2,
                                     "status": true,
                                     "activity": "This is my second 1 task"
                                 },
                                 {
+                                    "id": 3,
                                     "status": false,
                                     "activity": "This is my third 1 task"
                                 }
@@ -144,15 +157,19 @@
                             "clientCode": null,
                             "projectCode": null,
                             "projectDesc": null,
+                            "contractCode": null,
                             "activityList": [{
+                                    "id": 1,
                                     "status": true,
                                     "activity": "This is my first task"
                                 },
                                 {
+                                    "id": 2,
                                     "status": true,
                                     "activity": "This is my second task"
                                 },
                                 {
+                                    "id": 3,
                                     "status": true,
                                     "activity": "This is my third task"
                                 }
@@ -162,29 +179,51 @@
                 },
                 {
                     "clockInDate": "2020-07-08T09:14:45.807Z",
-                    "list": [{
-                        "clockInTime": "2020-07-08T09:14:45.807Z",
-                        "clockInLocation": "Dpulze, Cyberjaya Selangor",
-                        "clockOutTime": "2020-07-08T19:14:45.807Z",
-                        "clockOutLocation": "Dpulze, Cyberjaya Selangor",
-                        "jobType": "Others",
-                        "clientCode": "Hartalaga",
-                        "projectCode": "HR057",
-                        "projectDesc": "Design & Develop New Web Application for Hospitalization Module",
-                        "activityList": [{
-                                "status": true,
-                                "activity": "This is my a task"
-                            },
-                            {
-                                "status": true,
-                                "activity": "This is my b task"
-                            },
-                            {
-                                "status": false,
-                                "activity": "This is my c task"
-                            }
-                        ]
-                    }]
+                    "list": [
+                        {
+                            "clockInTime": "2020-07-08T09:14:45.807Z",
+                            "clockInLocation": "Dpulze, Cyberjaya Selangor",
+                            "clockOutTime": "2020-07-08T11:14:45.807Z",
+                            "clockOutLocation": "Dpulze, Cyberjaya Selangor",
+                            "jobType": "Others",
+                            "clientCode": "Hartalaga",
+                            "projectCode": "HR057",
+                            "projectDesc": "Design & Develop New Web Application for Hospitalization Module",
+                            "contractCode": null,
+                            "activityList": [{
+                                    "id": 1,
+                                    "status": true,
+                                    "activity": "This is my a task"
+                                }
+                            ]
+                        }, {
+                            "clockInTime": "2020-07-08T11:15:45.807Z",
+                            "clockInLocation": "Dpulze, Cyberjaya Selangor",
+                            "clockOutTime": null,
+                            "clockOutLocation": null,
+                            "jobType": "Others",
+                            "clientCode": "Hartalaga",
+                            "projectCode": "HR057",
+                            "projectDesc": "Design & Develop New Web Application for Hospitalization Module",
+                            "contractCode": "CRT20",
+                            "activityList": [{
+                                    "id": 1,
+                                    "status": true,
+                                    "activity": "This is my a task"
+                                },
+                                {
+                                    "id": 2,
+                                    "status": true,
+                                    "activity": "This is my b task"
+                                },
+                                {
+                                    "id": 3,
+                                    "status": false,
+                                    "activity": "This is my c task"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
 
