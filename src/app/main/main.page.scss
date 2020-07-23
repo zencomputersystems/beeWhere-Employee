@@ -147,7 +147,7 @@
                 ion-card-subtitle {
                     display: flex;
                     flex-flow: row nowrap;
-
+                    
                     ion-label {
                         --color: var(--ion-color-primary-contrast);
                         padding: 0.2em 0.7em;
@@ -156,7 +156,7 @@
                         font-size: var(--ion-text-12);
                         text-align: center;
                         border-radius: var(--ion-text-3);
-                        display: flex;
+                        display: none;
                         place-items: center;
                         justify-content: center;
                         font-weight: bold;
@@ -164,12 +164,22 @@
 
                     .label-client {
                         background: var(--ion-color-text-header);
-                        margin-right: 0.15em;
+                        margin: 0 0.075em;
+                        display: flex;
+
                     }
 
                     .label-project {
                         background: var(--ion-color-red);
-                        margin-left: 0.15em;
+                        display: flex;
+                        margin: 0 0.075em;
+
+                    }
+
+                    .label-contract {
+                        background: var(--ion-color-pink-f8409c);
+                        display: flex;
+                        margin: 0 0.075em;
                     }
                 }
             }

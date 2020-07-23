@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "121406158038",
+    "firebase_url": "https://mobile-attendance-zen.firebaseio.com",
+    "project_id": "mobile-attendance-zen",
+    "storage_bucket": "mobile-attendance-zen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121406158038:android:8844cefb7d6ad3da46c577",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121406158038-ti1nqknjofkvk1aanu19tv4jb709ufa9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW1lxej0hIkMXdw8ZIBlmsxxR6qMBqhVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "121406158038-ti1nqknjofkvk1aanu19tv4jb709ufa9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

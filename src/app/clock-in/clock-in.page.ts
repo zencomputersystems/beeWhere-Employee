@@ -4,12 +4,23 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
 import { GlobalApiService } from 'src/services/global-api.service';
 
+/**
+ * Clockin component
+ * @export
+ * @class ClockInPage
+ * @implements {OnInit}
+ */
 @Component({
   selector: "app-clock-in",
   templateUrl: "./clock-in.page.html",
   styleUrls: ["./clock-in.page.scss"],
 })
 export class ClockInPage implements OnInit {
+  
+  /**
+   * Get value of current time in ISO format
+   * @memberof ClockInPage
+   */
   public currTime = new Date().toISOString();
 
   /**
@@ -27,6 +38,11 @@ export class ClockInPage implements OnInit {
   public test1;
   public lat;
   public long;
+
+  /**
+   * Bind data of locations (latitude & longitude) that being updated every few minutes
+   * @memberof ClockInPage
+   */
   public locWatch = {
     lat: null,
     long: null,
@@ -39,6 +55,10 @@ export class ClockInPage implements OnInit {
    */
   public selectedClient;
 
+  /**
+   * Set value of empty client
+   * @memberof ClockInPage
+   */
   public clientNone = {
     clientCode: null,
     clientId: "none",
@@ -54,6 +74,10 @@ export class ClockInPage implements OnInit {
    */
   public selectedProject;
 
+  /**
+   * Set value of empty project/contract
+   * @memberof ClockInPage
+   */
   public projectContractNone = {
     code: null,
     description: null,
@@ -231,8 +255,8 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   saveClockIn() {
-    console.log("saveClockIn");
-    console.log(this.checkAddNew);
+    // console.log("saveClockIn");
+    // console.log(this.checkAddNew);
     const clockinObj = {
       clockInDate: this.currTime.substring(0, 10),
       list: [
