@@ -4,42 +4,42 @@ import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
-  selector: "app-clock-out",
-  templateUrl: "./clock-out.page.html",
-  styleUrls: ["./clock-out.page.scss"],
+  selector: 'app-clock',
+  templateUrl: './clock.page.html',
+  styleUrls: ['./clock.page.scss'],
 })
-export class ClockOutPage implements OnInit {
+export class ClockPage implements OnInit {
 
   /**
    * Retrieve sample data from sampledata.json
-   * @memberof ClockOutPage
+   * @memberof ClockPage
    */
   public data = require("../sampledata.json");
 
   /**
    * Get and bind clocked out time in ISO format
-   * @memberof ClockOutPage
+   * @memberof ClockPage
    */
   public coutTime = new Date().toISOString();
 
   /**
    * Bind data of location (latitude, longitude)
-   * @memberof ClockOutPage
+   * @memberof ClockPage
    */
   public currLocation = { lat: null, long: null };
 
   /**
    * Bind value of new task/activity to be added
-   * @memberof ClockOutPage
+   * @memberof ClockPage
    */
   public coutNewActivity;
 
   public pageState;
-  constructor(public coutGeolocation: Geolocation, public coutGlobalFn: GlobalFnService, public _Activatedroute: ActivatedRoute) {}
+  constructor(public coutGeolocation: Geolocation, public coutGlobalFn: GlobalFnService, public _Activatedroute: ActivatedRoute) { }
 
   /**
    * Initialize this page methods and properties
-   * @memberof ClockOutPage
+   * @memberof ClockPage
    */
   ngOnInit() {
     this.coutGeolocation.getCurrentPosition().then((loc) => {
@@ -61,7 +61,7 @@ export class ClockOutPage implements OnInit {
 
   updateActivityList() {
     const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
-    Object.assign(tempArr[0].list.slice(-1)[0], { 
+    Object.assign(tempArr[0].list.slice(-1)[0], {
       clockOutLocation: this.currLocation.lat + ", " + this.currLocation.long,
       clockOutTime: this.coutTime
     });

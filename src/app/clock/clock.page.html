@@ -25,7 +25,7 @@
 </ion-footer>
 
 <div class="clockin-button">
-    <ion-button shape="round" fill="outline" class="submits" routerLink="/main" (click)="updateActivityList()">
+  <ion-button shape="round" fill="outline" class="submits" routerLink="/main" (click)="updateActivityList()">
     <ion-label>Save</ion-label>
   </ion-button>
 </div>
@@ -41,7 +41,7 @@
       <ion-card-content>
         <div>
           <!-- <div *ngIf="data.userInfo.clockIn.status == true"> -->
-          <ion-card-title >
+          <ion-card-title>
             Clock out
           </ion-card-title>
           <ion-card-subtitle>
@@ -73,10 +73,12 @@
       *ngIf="data.userInfo.notifications.info.approval !=0 || data.userInfo.notifications.info.updates !=0">
       <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
       <ion-img src="../../assets/basic/bell.png"></ion-img>
-      <ion-label *ngIf="data.userInfo.notifications.info.approval">{{data.userInfo.notifications.info.approval}} items require
+      <ion-label *ngIf="data.userInfo.notifications.info.approval">{{data.userInfo.notifications.info.approval}} items
+        require
         approval
       </ion-label>
-      <ion-label *ngIf="data.userInfo.notifications.info.approval !=0 && data.userInfo.notifications.info.updates !=0">,&nbsp;</ion-label>
+      <ion-label *ngIf="data.userInfo.notifications.info.approval !=0 && data.userInfo.notifications.info.updates !=0">
+        ,&nbsp;</ion-label>
       <ion-label *ngIf="data.userInfo.notifications.info.updates !- 0"> {{data.userInfo.notifications.info.updates}} new
         updates</ion-label>
     </ion-item-group>
@@ -124,7 +126,8 @@
                     type="text" enterkeyhint="done"></ion-input>
                 </ion-item>
                 <ion-item-options side="end">
-                  <ion-item-option (click)="histList.activityList=coutGlobalFn.deleteTask(aList, histList.activityList);">
+                  <ion-item-option
+                    (click)="histList.activityList=coutGlobalFn.deleteTask(aList, histList.activityList);">
                     Del</ion-item-option>
                 </ion-item-options>
               </ion-item-sliding>
@@ -132,7 +135,7 @@
                 <ion-item lines="none">
                   <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
                   <ion-input type="text" placeholder="Add task here    " [(ngModel)]="coutNewActivity"
-                    (keyup.enter)="coutGlobalFn.addTask($event, coutNewActivity, histList.activityList);coutNewActivity=null;" 
+                    (keyup.enter)="coutGlobalFn.addTask($event, coutNewActivity, histList.activityList);coutNewActivity=null;"
                     inputmode="text" type="text" enterkeyhint="done"></ion-input>
                 </ion-item>
               </ion-item-sliding>

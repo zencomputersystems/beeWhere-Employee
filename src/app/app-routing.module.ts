@@ -36,8 +36,13 @@ const routes: Routes = [
     loadChildren: () => import('./support/support.module').then( m => m.SupportPageModule)
   },
   {
-    path: 'clock-out',
+    path: 'clock-out/:id/:time',
+    
     loadChildren: () => import('./clock-out/clock-out.module').then( m => m.ClockOutPageModule)
+  },
+  {
+    path: 'clock/:id/:time',
+    loadChildren: () => import('./clock/clock.module').then( m => m.ClockPageModule)
   },
 ];
 

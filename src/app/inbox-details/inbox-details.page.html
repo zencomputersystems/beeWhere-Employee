@@ -1,5 +1,5 @@
 <ion-footer class="footer-shadow">
-  <ion-toolbar class="footer" color="dark">
+  <ion-toolbar class="footer">
     <ion-item-group>
       <div routerLink="/main" class="footer-label">
         <ion-img src="../../assets/basic/home.png"></ion-img>
@@ -30,12 +30,12 @@
   </ion-button>
 </div>
 <div class="clockin-button clockout" *ngIf="this.data.userInfo.clockIn.status">
-  <ion-button shape="round" fill="outline" class="clockout" routerLink="/clock-out">
+  <ion-button shape="round" fill="outline" class="clockout" routerLink="/clock/out/0">
     <ion-label>Clock Out</ion-label>
   </ion-button>
 </div>
 
-<ion-content color="dark" class="contents">
+<ion-content class="contents">
   <ion-img class="bg-img-others" src="../../assets/basic/background-default.png"></ion-img>
   <div class="content">
     <ion-item-group class="header">
