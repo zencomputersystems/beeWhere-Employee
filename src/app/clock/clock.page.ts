@@ -35,7 +35,9 @@ export class ClockPage implements OnInit {
   public coutNewActivity;
 
   public pageState;
-  constructor(public coutGeolocation: Geolocation, public coutGlobalFn: GlobalFnService, public _Activatedroute: ActivatedRoute) { }
+
+  public currData;
+  constructor(public coutGeolocation: Geolocation, public coutGlobalFn: GlobalFnService, public activatedRoute: ActivatedRoute) { }
 
   /**
    * Initialize this page methods and properties
@@ -46,30 +48,72 @@ export class ClockPage implements OnInit {
       this.currLocation.lat = loc.coords.latitude;
       this.currLocation.long = loc.coords.longitude;
     });
-    const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
-    console.log(tempArr[0].list.slice(-1)[0]);
-    this._Activatedroute.paramMap.subscribe(item => {
+    console.log(this.data.userInfo.clockIn.historicalClockIn);
+    // console.log(this.data.userInfo.clockIn.historicalClockIn.slice(-1));
+    // const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
+    this.activatedRoute.paramMap.subscribe(item => {
       this.pageState = item;
     });
+    // console.log(this.pageState.params.time);
+    // console.log(new Date(this.pageState.params.time).setHours(0, 0, 0, 0));
+    // console.log(this.pageState);
     this.checkState(this.pageState);
   }
 
   checkState(state) {
-    console.log(state);
+    return (state.params.id === 'edit') ? this.editMode() : this.clockOutMode();
   }
 
+  editMode() {
+    console.log('editmode');
+    this.data.userInfo.clockIn.historicalClockIn.filter(item => {
+      if (new Date(item.clockInDate).setHours(0, 0, 0, 0) === new Date(this.pageState.params.time).setHours(0, 0, 0, 0)) {
+        this.currData = item.list.filter(itemList => {
+          if (itemList.clockInTime === this.pageState.params.time) {
+            // console.log(itemList);
+            return itemList;
+          }
+        });
+      }
+    });
+    console.log(this.currData);
+  }
+
+  clockOutMode() {
+    console.log('clockOutMode');
+    console.log(this.data.userInfo.clockIn.historicalClockIn.slice(-1));
+    this.data.userInfo.clockIn.historicalClockIn.slice(-1).filter( item => {
+      // console.log(item.list.slice(-1));
+      this.currData = item.list.slice(-1);
+    });
+    // this.currData = this.data.userInfo.clockIn.historicalClockIn.slice(-1)[0].list;
+    // this.data.userInfo.clockIn.historicalClockIn.filter(item => {
+    //   if (new Date(item.clockInDate).setHours(0, 0, 0, 0) === new Date(this.pageState.params.time).setHours(0, 0, 0, 0)) {
+    //     this.currData = item.list.filter(itemList => {
+    //       if (itemList.clockInTime === this.pageState.params.time) {
+    //         // console.log(itemList);
+    //         return itemList;
+    //       }
+    //     });
+    //   }
+    // });
+    console.log(this.currData);
+  }
 
   updateActivityList() {
-    const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
-    Object.assign(tempArr[0].list.slice(-1)[0], {
-      clockOutLocation: this.currLocation.lat + ", " + this.currLocation.long,
-      clockOutTime: this.coutTime
-    });
-    console.log(tempArr[0].list.slice(-1)[0]);
-    this.data.userInfo.clockIn.status = false;
-
-
-
+    // const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
+    if (this.pageState.params.id === 'out') {
+      Object.assign(this.currData, {
+      // Object.assign(tempArr[0].list.slice(-1)[0], {
+        clockOutLocation: this.currLocation.lat + ", " + this.currLocation.long,
+        clockOutTime: this.coutTime
+      });
+      this.data.userInfo.clockIn.status = false;
+    }
+    else {
+      this.data.userInfo.clockIn.status = true;
+    }
+    console.log(this.currData);
   }
 
 }
