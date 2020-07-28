@@ -9,6 +9,8 @@ export class InboxDetailsPage implements OnInit {
   
   public data = require("../sampledata.json");
 
+  public curTime = new Date().toISOString();
+  
   constructor() {}
 
   ngOnInit() {}
