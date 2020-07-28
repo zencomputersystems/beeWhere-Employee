@@ -71,6 +71,14 @@
     opacity: 80%;
     --color: var(--ion-color-text-header);
     color: var(--ion-color-text-header);
+
+    .inbox-noti {
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        margin-left: 10.2%;
+        margin-top: 0.4%;
+    }
 }
 
 .clockin-button {
