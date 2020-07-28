@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { GlobalFnService } from 'src/services/global-fn.service';
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -33,7 +34,8 @@ export class ClockOutPage implements OnInit {
    */
   public coutNewActivity;
 
-  constructor(public coutGeolocation: Geolocation, public coutGlobalFn: GlobalFnService) {}
+  public pageState;
+  constructor(public coutGeolocation: Geolocation, public coutGlobalFn: GlobalFnService, public _Activatedroute: ActivatedRoute) {}
 
   /**
    * Initialize this page methods and properties
@@ -46,7 +48,16 @@ export class ClockOutPage implements OnInit {
     });
     const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
     console.log(tempArr[0].list.slice(-1)[0]);
+    this._Activatedroute.paramMap.subscribe(item => {
+      this.pageState = item;
+    });
+    this.checkState(this.pageState);
   }
+
+  checkState(state) {
+    console.log(state);
+  }
+
 
   updateActivityList() {
     const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);

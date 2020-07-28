@@ -21,7 +21,7 @@ export class ClockInPage implements OnInit {
    * Get value of current time in ISO format
    * @memberof ClockInPage
    */
-  public currTime = new Date().toISOString();
+  public currTime: any = new Date().toISOString();
 
   /**
    * To bind value from sampledata.json
@@ -277,10 +277,9 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   saveClockIn() {
-    // console.log("saveClockIn");
-    // console.log(this.checkAddNew);
+    const temp: any = new Date(this.currTime).setHours(0, 0, 0, 0);
     const clockinObj = {
-      clockInDate: this.currTime.substring(0, 10),
+      clockInDate: new Date(temp).toISOString(),
       list: [
         {
           activityList: this.checkAddNew,
@@ -297,7 +296,23 @@ export class ClockInPage implements OnInit {
         },
       ],
     };
+    // const checkExist: boolean = this.data.userInfo.clockIn.historicalClockIn.filter( list => {
+    //   console.log(list)
+    //   if (list.clockInDate === clockinObj.clockInDate) {
+    //     console.log('list');
+    //   //   Object.assign(list, clockinObj); 
+    //     return true;
+    //   } else {
+    //     console.log('list 2');
+    //     return false;
+        
+    //   }
+    // });
+    // console.log(checkExist)
+    // if (checkExist === false) {
     this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
+    // }
+    console.log(this.data.userInfo.clockIn.historicalClockIn);
     this.data.userInfo.clockIn.status = true;
     // Object.assign(this.data.userInfo.clockIn.historicalClockIn, clockinObj);
   }
