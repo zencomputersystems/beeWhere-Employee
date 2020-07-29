@@ -121,6 +121,8 @@
     }
 
     .history-clockin {
+        margin-top: 1.2em;
+
         ion-title {
             color: var(--ion-color-text);
             font-size: var(--ion-text-15);
@@ -194,15 +196,15 @@
         }
     }
 
-    .history-clockin-no-record {
-        min-height: 8em;
-        font-size: var(--ion-text-11);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-style: italic;
-        opacity: 80%;
-    }
+    // .history-clockin-no-record {
+    //     min-height: 8em;
+    //     // font-size: var(--ion-text-11);
+    //     // display: flex;
+    //     // align-items: center;
+    //     // justify-content: center;
+    //     // font-style: italic;
+    //     // opacity: 80%;
+    // }
 
     .clockin-content {
         margin: 0.75em;

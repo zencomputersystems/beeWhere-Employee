@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class SupportPage implements OnInit {
 
   constructor() { }
+  public data = require("../sampledata.json");
 
   ngOnInit() {
   }
