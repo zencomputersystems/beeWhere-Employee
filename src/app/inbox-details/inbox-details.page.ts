@@ -68,4 +68,8 @@ export class InboxDetailsPage implements OnInit {
 
     return this.daysDifference;
   }
+
+  toISO(time) {
+    return new Date(time).toISOString();
+  }
 }

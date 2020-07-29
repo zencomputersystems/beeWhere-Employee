@@ -94,24 +94,31 @@
             <ion-card-subtitle>{{aprvdata.message}}</ion-card-subtitle>
             <ion-label class="time-label"> Added&nbsp;
               <span [ngSwitch]="dayDiff(aprvdata.timestamp)">
-                <p *ngSwitchCase="0">a moment&nbsp;</p>
-                <p *ngSwitchCase="1">
-                1 day&nbsp;
-                </p>
-                <p *ngSwitchDefault>
-                  {{daysDifference}} days&nbsp;
-                </p>
+                <div *ngIf="daysDifference < 30">
+                  <p *ngSwitchCase="0"></p>
+                  <p *ngSwitchCase="1">
+                    1 day&nbsp;
+                  </p>
+                  <p *ngSwitchDefault>
+                    {{daysDifference}} days&nbsp;
+                  </p>
+                </div>
+                <div *ngIf="daysDifference >= 30">
+                  on {{toISO(aprvdata.timestamp) | date: 'd MMM yyyy'}}
+                </div>
               </span>
               <span [ngSwitch]="hoursDifference">
-                <p *ngSwitchCase="0"></p>
-                <p *ngSwitchCase="1">
-                  1 hour&nbsp;
-                </p>
-                <p *ngSwitchDefault>
-                  {{hoursDifference}} hours&nbsp;
-                </p>
+                <div *ngIf="daysDifference < 30">
+                  <p *ngSwitchCase="0"></p>
+                  <p *ngSwitchCase="1">
+                    1 hour&nbsp;
+                  </p>
+                  <p *ngSwitchDefault>
+                    {{hoursDifference}} hours&nbsp;
+                  </p>
+                </div>
               </span>
-              ago
+              <div *ngIf="daysDifference < 30">ago</div>
             </ion-label>
           </div>
         </ion-card-content>
@@ -132,24 +139,31 @@
             <ion-card-subtitle>{{upddata.message}}</ion-card-subtitle>
             <ion-label class="time-label"> Added&nbsp;
               <span [ngSwitch]="dayDiff(upddata.timestamp)">
-                <p *ngSwitchCase="0">a moment&nbsp;</p>
-                <p *ngSwitchCase="1">
-                  1 day&nbsp;
-                </p>
-                <p *ngSwitchDefault>
-                  {{daysDifference}} days&nbsp;
-                </p>
+                <div *ngIf="daysDifference < 30">
+                  <p *ngSwitchCase="0"></p>
+                  <p *ngSwitchCase="1">
+                    1 day&nbsp;
+                  </p>
+                  <p *ngSwitchDefault>
+                    {{daysDifference}} days&nbsp;
+                  </p>
+                </div>
+                <div *ngIf="daysDifference >= 30">
+                  on {{toISO(upddata.timestamp) | date: 'd MMM yyyy'}}
+                </div>
               </span>
               <span [ngSwitch]="hoursDifference">
-                <p *ngSwitchCase="0"></p>
-                <p *ngSwitchCase="1">
-                  1 hour&nbsp;
-                </p>
-                <p *ngSwitchDefault>
-                  {{hoursDifference}} hours&nbsp;
-                </p>
+                <div *ngIf="daysDifference < 30">
+                  <p *ngSwitchCase="0"></p>
+                  <p *ngSwitchCase="1">
+                    1 hour&nbsp;
+                  </p>
+                  <p *ngSwitchDefault>
+                    {{hoursDifference}} hours&nbsp;
+                  </p>
+                </div>
               </span>
-              ago
+              <div *ngIf="daysDifference < 30">ago</div>
             </ion-label>
           </div>
         </ion-card-content>
