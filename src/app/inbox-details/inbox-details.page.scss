@@ -103,10 +103,12 @@
                     margin-bottom: 0.3em;
                 }
 
-                ion-label {
+                ion-label,
+                p {
                     color: var(--ion-color-text);
                     opacity: 80%;
                     font-size: var(--ion-text-10);
+                    margin: 0;
                 }
             }
         }
@@ -118,5 +120,10 @@
         margin-left: 1em;
         border-bottom: 1px solid #70707038;
         padding-bottom: 0.75em;
+    }
+
+    .time-label {
+        display: flex;
+        align-items: center;
     }
 }
