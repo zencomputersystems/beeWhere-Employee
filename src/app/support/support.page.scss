@@ -124,6 +124,9 @@
     .support-content {
         ion-item-group {
             margin: 1.2em 0;
+            display: flex;
+            flex-flow: column;
+
             ion-label {
                 font-size: var(--ion-text-13);
                 color: var(--ion-color-grey-808495);
@@ -131,13 +134,32 @@
             }
 
             ion-input, 
-            ion-textarea {
+            ion-textarea,
+            ion-select {
                 border: 1px solid #50505029;
                 border-radius: var(--ion-text-3);
                 font-size: var(--ion-text-11);
                 margin: 1em 0;
             }
 
+            ion-select {
+                padding-right: var(--ion-text-12);
+            }
+
+            ion-button {
+                width: -webkit-fill-available;
+                text-transform: capitalize;
+                --background: var(--ion-color-text-header);
+                --color: var(--ion-color-white);
+                font-size: var(--ion-text-12);
+                margin: 1em auto;
+            }
+
+            ion-text {
+                color: var(--ion-color-grey-808495);
+                font-size: var(--ion-text-12);
+                margin-bottom: 0.2em;
+            }
         }
     }
     

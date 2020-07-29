@@ -10,7 +10,7 @@ export class SupportPage implements OnInit {
   public curSTime = new Date().toISOString();
   public data = require("../sampledata.json");
 
-  public supportType = 'suggestion';
+  public supportType = 'request';
   constructor() { }
 
   ngOnInit() {
