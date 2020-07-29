@@ -39,6 +39,89 @@
     <ion-item-group class="header">
       <ion-label>beeWhere</ion-label>
     </ion-item-group>
-    <div>support</div>
+    
+    <ion-card class="main-info">
+      <ion-card-content>
+        <div>
+          <!-- <div *ngIf="data.userInfo.clockIn.status == true"> -->
+          <ion-card-title *ngIf="data.userInfo.clockIn.status == true" class="clockout">
+            Clock out
+          </ion-card-title>
+          <ion-card-subtitle *ngIf="data.userInfo.clockIn.status == true">
+            Don't forget to clock out
+          </ion-card-subtitle>
+          <ion-card-title *ngIf="data.userInfo.clockIn.status == false" class="clockin">
+            Clock In
+          </ion-card-title>
+          <ion-card-subtitle *ngIf="data.userInfo.clockIn.status == false">
+            You haven't clock in yet.
+          </ion-card-subtitle>
+        </div>
+        <div class="time-display">
+          <ion-title class="time">
+            <ion-label class="hour">
+              {{curSTime | date: 'hh:mm'}}
+            </ion-label>
+            <ion-label class="am-pm">
+              {{curSTime | date: 'a'}}
+            </ion-label>
+          </ion-title>
+          <ion-title class="day">
+            <ion-label>
+              {{curSTime | date: 'd MMM yyyy'}}
+            </ion-label>
+            <ion-label>
+              {{curSTime | date: 'EEEE'}}
+            </ion-label>
+          </ion-title>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="support-body">
+      <ion-title>How can we help you today?</ion-title>
+      <ion-card>
+        <ion-card-header>
+          <ion-segment [(ngModel)]="supportType">
+            <ion-segment-button value="request">
+              <ion-label>Request</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="suggestion">
+              <ion-label>Suggestion</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-card-header>
+        
+        <ion-card-content class="support-content">
+          <span [ngSwitch]="supportType">
+            <p *ngSwitchCase="'suggestion'">
+              <ion-item-group>
+                <ion-label>Subject</ion-label>
+                <ion-input type="text"></ion-input>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label>Message</ion-label>
+                <ion-textarea class="message-box"></ion-textarea>
+              </ion-item-group>
+            </p>
+            <p *ngSwitchDefault>
+              <ion-item-group>
+                <ion-label>Request Type</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label>Subject</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label>Supporting Document</ion-label>
+              </ion-item-group>
+              <ion-item-group>
+                <ion-label>Description</ion-label>
+              </ion-item-group>
+            </p>
+          </span>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
   </div>
 </ion-content>

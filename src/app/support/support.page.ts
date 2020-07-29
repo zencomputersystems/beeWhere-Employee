@@ -7,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SupportPage implements OnInit {
 
-  constructor() { }
+  public curSTime = new Date().toISOString();
   public data = require("../sampledata.json");
 
+  public supportType = 'suggestion';
+  constructor() { }
+
   ngOnInit() {
+    console.log(this.supportType);
   }
 
 }
