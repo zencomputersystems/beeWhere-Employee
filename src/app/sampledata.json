@@ -229,8 +229,8 @@
 
         },
         "notifications": {
-            "approval": [],
-            "approval0": [
+            "approval0": [],
+            "approval": [
                 {
                     "timestamp": 1594559472000,
                     "message": "You didn't clock out on 11/7/2020. Please request clock out or overtime"
@@ -244,7 +244,11 @@
                     "message": "Approval 2/7/2020"
                 },
                 {
-                    "timestamp": 1593789072000,
+                    "timestamp": 1593358056000,
+                    "message": "Approval 28/6/2020"
+                },
+                {
+                    "timestamp": 1596008019872,
                     "message": "Approval 3/7/2020"
                 }
             ],
