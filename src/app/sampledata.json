@@ -232,7 +232,49 @@
             "info": {
                 "approval": 2,
                 "updates": 2
-            }
+            },
+            "approval": [
+                {
+                    "timestamp": 1594559472000,
+                    "message": "You didn't clock out on 11/7/2020. Please request clock out or overtime"
+                },
+                {
+                    "timestamp": 1595949072000,
+                    "message": "You didn't clock out on 27/7/2020. Please request clock out or overtime"
+                },
+                {
+                    "timestamp": 1593702672000,
+                    "message": "Approval 2/7/2020"
+                },
+                {
+                    "timestamp": 1593789072000,
+                    "message": "Approval 3/7/2020"
+                }
+            ],
+            "updates": [
+                {
+                    "timestamp": 1595990298000,
+                    "message": "Overtime request on 12/7/2020 has been approved"
+                },
+                {
+                    "timestamp": 1595925498000,
+                    "message": "Clock out request on 28/7/2020 has been approved"
+                },
+                {
+                    "timestamp": 1593616272000,
+                    "message": "Update 1/7/2020"
+                },
+                {
+                    "timestamp": 1593702672000,
+                    "message": "Update 2/7/2020"
+                },
+                {
+                    "timestamp": 1593789072000,
+                    "message": "Update 3/7/2020"
+                }
+                
+            ]
+
         }
     },
     "client": [
