@@ -169,7 +169,18 @@
         }
     }
 }
- 
+
+.no-record {
+    min-height: 8em;
+    font-size: var(--ion-text-11);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+    opacity: 80%;
+    width: -webkit-fill-available;
+}
+
 :root {
     ion-alert {
         --background: var(--ion-color-white);

@@ -85,31 +85,37 @@
 
     <ion-item-group class="inbox-body">
       <ion-title>Approval Required</ion-title>
-      <ion-card>
-        <ion-card-content>
+      <ion-card *ngIf="data.userInfo.notifications.approval.length > 0">
+        <ion-card-content *ngFor="let aprvdata of data.userInfo.notifications.approval">
           <div>
             <ion-img src="../../assets/basic/bell-red.png"></ion-img>
           </div>
           <div class="card-content">
-            <ion-card-subtitle>This important task need you to approve</ion-card-subtitle>
+            <ion-card-subtitle>{{aprvdata.message}}</ion-card-subtitle>
             <ion-label>Added 1 hours ago</ion-label>
           </div>
         </ion-card-content>
+      </ion-card>
+      <ion-card *ngIf="data.userInfo.notifications.approval.length <= 0">
+        <ion-card-content class="no-record">No approval record</ion-card-content>
       </ion-card>
     </ion-item-group>
 
     <ion-item-group class="inbox-body">
       <ion-title>New Upates</ion-title>
-      <ion-card>
-        <ion-card-content>
+      <ion-card *ngIf="data.userInfo.notifications.updates.length > 0">
+        <ion-card-content *ngFor="let upddata of data.userInfo.notifications.updates">
           <div>
             <ion-img src="../../assets/basic/bell.png"></ion-img>
           </div>
           <div class="card-content">
-            <ion-card-subtitle>This important task need you to approve</ion-card-subtitle>
+            <ion-card-subtitle>{{upddata.message}}</ion-card-subtitle>
             <ion-label>Added 1 hours ago</ion-label>
           </div>
         </ion-card-content>
+      </ion-card>
+      <ion-card *ngIf="data.userInfo.notifications.updates.length <= 0">
+        <ion-card-content class="no-record">No updates record</ion-card-content>
       </ion-card>
     </ion-item-group>
   </div>

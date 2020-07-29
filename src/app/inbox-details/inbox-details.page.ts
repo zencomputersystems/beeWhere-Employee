@@ -7,11 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InboxDetailsPage implements OnInit {
   
-  public data = require("../sampledata.json");
+  public data = require('../sampledata.json');
 
   public curTime = new Date().toISOString();
   
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.data);
+    console.log(this.data.userInfo.notifications);
+    console.log(this.data.userInfo.notifications.approval);
+    console.log(this.data.userInfo.notifications.updates);
+  }
 }
