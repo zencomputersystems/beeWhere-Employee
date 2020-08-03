@@ -8,13 +8,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SupportPage implements OnInit {
 
+  /**
+   * Bind current time in ISO format
+   * @memberof SupportPage
+   */
   public curSTime = new Date().toISOString();
+
+  /**
+   * Get sample data from json
+   * @memberof SupportPage
+   */
   public data = require("../sampledata.json");
 
+  /**
+   * Bind support type either requestForm or suggestionForm. Initialized as requestForm
+   * @memberof SupportPage
+   */
   public supportType = 'requestForm';
 
+  /**
+   * Bind form values
+   * @type {FormGroup}
+   * @memberof SupportPage
+   */
   public mform: FormGroup;
 
+  /**
+   * Creates an instance of SupportPage.
+   * @param {FormBuilder} formbuilder get methods from FormBuilder
+   * @memberof SupportPage
+   */
   constructor( public formbuilder: FormBuilder ) {
     this.mform = formbuilder.group({
       supportType: this.supportType,
@@ -31,20 +54,18 @@ export class SupportPage implements OnInit {
     });
   }
 
+  /**
+   * Initialize methods in this page
+   * @memberof SupportPage
+   */
   ngOnInit() {
-    console.log(this.supportType);
-    // this.mform.valueChanges.subscribe(data => {
-    //   if (data.supportType !== this.supportType) {
-    //     this.supportType = data.supportType;
-    //     // this.mform.reset();
-    //     console.log(this.mform);
-    //   }
-    //   // this.supportType = data.supportType;
-    //   // this.mform.reset();
-
-    // });
   }
 
+  /**
+   * Will be executed once submit button is pressed.
+   * Get the validated form then post it
+   * @memberof SupportPage
+   */
   submitForm() {
     console.log(this.getFormControls('request'));
     console.log(this.mform.value);
@@ -61,6 +82,12 @@ export class SupportPage implements OnInit {
 
   }
 
+  /**
+   * Get form validation states based on type (request or suggestion)
+   * @param {*} type
+   * @returns
+   * @memberof SupportPage
+   */
   getFormControls(type) {
     return (type === 'request') ? this.mform.controls.requestForm.controls : this.mform.controls.suggestionForm.controls;
   }

@@ -434,3 +434,15 @@ Response:
 {
     //success send request
 }
+
+14. to upload any document to azure (especially in .png/.jpeg/.jpg/.pdf)
+Request: 
+{
+    ....
+}
+Response:
+{
+    "link": "https://zencloudservicesstore.blob.core.windows.net/cloudservices/beewhere/1596443318_Screen Shot 20200709 at 5.19.51 PM.png",
+    "folder": "beewhere",
+    "filename": "1596443318_Screen Shot 20200709 at 5.19.51 PM.png"
+}
