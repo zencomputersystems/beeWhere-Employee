@@ -138,14 +138,22 @@
             ion-input, 
             ion-textarea,
             ion-select {
+                padding-left: var(--ion-text-11);
                 border: 1px solid #50505029;
                 border-radius: var(--ion-text-3);
                 font-size: var(--ion-text-11);
                 margin: 1em 0;
             }
 
+            textarea {
+                padding-left: 0;
+            }
+
             ion-select {
+                padding-left: var(--ion-text-11);
                 padding-right: var(--ion-text-12);
+                font-size: var(--ion-text-11);
+                opacity: 80%;
             }
 
             ion-button {
