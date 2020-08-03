@@ -98,7 +98,7 @@
                         text-transform: capitalize;
                         flex: 1;
                         --color: var(--ion-color-text-header);
-                        opacity: 80%;
+                        opacity: 100%;
                         min-width: 1em;
                         --background-checked: var(--ion-color-text-header);
                         --color-checked: #ffffff;
@@ -110,6 +110,8 @@
                         --indicator-height: 0px;
                         --border-width: 1px;
                         --border-style: solid;
+                        font-weight: bold;
+                        font-size: var(--ion-text-12);
 
                         ion-label {
                             margin: 0;
@@ -153,6 +155,7 @@
                 --color: var(--ion-color-white);
                 font-size: var(--ion-text-12);
                 margin: 1em auto;
+                font-weight: bold;
             }
 
             ion-text {
