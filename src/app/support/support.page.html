@@ -28,7 +28,9 @@
 </ion-footer>
 
 <div class="clockin-button">
-  <ion-button shape="round" fill="outline" class="submits" routerLink="/clock-in">
+  <!-- <ion-button shape="round" fill="outline" class="submits" routerLink="/clock-in" onsubmit="submitForm()"
+    [disabled]="!mform.value.valid"> -->
+    <ion-button shape="round" fill="outline" class="submits" (click)="submitForm()">
     <ion-label>Submit</ion-label>
   </ion-button>
 </div>
@@ -81,54 +83,69 @@
     <div class="support-body">
       <ion-title>How can we help you today?</ion-title>
       <ion-card>
-        <ion-card-header>
-          <ion-segment [(ngModel)]="supportType">
-            <ion-segment-button value="request">
-              <ion-label>Request</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="suggestion">
-              <ion-label>Suggestion</ion-label>
-            </ion-segment-button>
-          </ion-segment>
-        </ion-card-header>
-        
-        <ion-card-content class="support-content">
-          <span [ngSwitch]="supportType">
-            <p *ngSwitchCase="'suggestion'">
-              <ion-item-group>
-                <ion-label>Subject</ion-label>
-                <ion-input type="text"></ion-input>
-              </ion-item-group>
-              <ion-item-group>
-                <ion-label>Message</ion-label>
-                <ion-textarea class="message-box"></ion-textarea>
-              </ion-item-group>
-            </p>
-            <p *ngSwitchDefault>
-              <ion-item-group>
-                <ion-label>Request Type</ion-label>
-                <ion-select placeholder="Select">
-                  <ion-select-option value="overtime">Overtime</ion-select-option>
-                  <ion-select-option value="requestclocks">Clock In/Clock Out Request</ion-select-option>
-                </ion-select>
-              </ion-item-group>
-              <ion-item-group>
-                <ion-label>Subject</ion-label>
-                <ion-input type="text"></ion-input>
-              </ion-item-group>
-              <ion-item-group>
-                <ion-label>Supporting Document</ion-label>
-                <ion-button fill="clear">Add file</ion-button>
-                <ion-text>No file chosen</ion-text>
-                <ion-text>You can upload the following filetypes: .jpg , .jpeg , .png , .pdf</ion-text>
-              </ion-item-group>
-              <ion-item-group>
-                <ion-label>Description</ion-label>
-                <ion-textarea class="message-box"></ion-textarea>
-              </ion-item-group>
-            </p>
-          </span>
-        </ion-card-content>
+        <form [formGroup]="mform">
+          <ion-card-header>
+            <ion-segment formControlName="supportType" (click)="changeSegmentType()">
+              <!-- <ion-segment [(ngModel)]="supportType"> -->
+              <ion-segment-button value="requestForm">
+                <ion-label>Request</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="supportType">
+                <ion-label>Suggestion</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-card-header>
+          
+          <ion-card-content class="support-content">
+            <span [ngSwitch]="supportType">
+              <p *ngSwitchCase="'supportType'" formGroupName="suggestionForm">
+                <ion-item-group>
+                  <div class="error-note">
+                    <ion-label>Subject</ion-label>
+                    <ion-note *ngIf="!getFormControls('support').title.valid">
+                      *required</ion-note>
+                  </div>
+                  <ion-input type="text" formControlName="title"></ion-input>
+                </ion-item-group>
+                <ion-item-group>
+                  <ion-label>Message</ion-label>
+                  <ion-textarea class="message-box" formControlName="description"></ion-textarea>
+                </ion-item-group>
+              </p>
+              <p *ngSwitchDefault formGroupName="requestForm">
+                <ion-item-group>
+                  <div class="error-note">
+                    <ion-label>Request Type</ion-label>
+                    <ion-note *ngIf="!getFormControls('request').type.valid">
+                      *required</ion-note>
+                  </div>
+                  <ion-select placeholder="Select" formControlName="type">
+                    <ion-select-option value="overtime">Overtime</ion-select-option>
+                    <ion-select-option value="requestclocks">Clock In/Clock Out Request</ion-select-option>
+                  </ion-select>
+                </ion-item-group>
+                <ion-item-group>
+                  <div class="error-note">
+                    <ion-label>Subject</ion-label>
+                    <ion-note *ngIf="!getFormControls('request').title.valid">
+                      *required</ion-note>
+                  </div>
+                  <ion-input type="text" formControlName="title"></ion-input>
+                </ion-item-group>
+                <ion-item-group>
+                  <ion-label>Supporting Document</ion-label>
+                  <ion-button fill="clear">Add file</ion-button>
+                  <ion-text>No file chosen</ion-text>
+                  <ion-text>You can upload the following filetypes: .jpg , .jpeg , .png , .pdf</ion-text>
+                </ion-item-group>
+                <ion-item-group>
+                  <ion-label>Description</ion-label>
+                  <ion-textarea class="message-box" formControlName="description"></ion-textarea>
+                </ion-item-group>
+              </p>
+            </span>
+          </ion-card-content>
+        </form>
       </ion-card>
     </div>
 

@@ -128,6 +128,17 @@
     --background: var(--ion-color-clockout);
 }
 
+.error-note {
+    display: flex;
+    align-items: center;
+    ion-note {
+        margin-left: 0.5em;
+        font-size: var(--ion-text-10);
+        color: var(--ion-color-red);
+    }
+
+}
+
 .contents {
     .bg-img {
         position: absolute;
