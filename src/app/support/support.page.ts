@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -89,6 +89,8 @@ export class SupportPage implements OnInit {
    * @memberof SupportPage
    */
   getFormControls(type) {
-    return (type === 'request') ? this.mform.controls.requestForm.controls : this.mform.controls.suggestionForm.controls;
+    return (type === 'request') ? (this.mform.get('requestForm') as FormArray).controls 
+    : (this.mform.get('suggestionForm') as FormArray).controls;
+    // return (type === 'request') ?  this.mform.controls.requestForm.controls : this.mform.controls.suggestionForm.controls;
   }
 }
