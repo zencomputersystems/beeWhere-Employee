@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -12,7 +12,7 @@ import { Geofence } from '@ionic-native/geofence/ngx';
 import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ClockInPageRoutingModule, MatSelectModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, IonicModule, ClockInPageRoutingModule, MatSelectModule],
   providers: [Geolocation, Geofence],
   declarations: [ClockInPage],
 })
