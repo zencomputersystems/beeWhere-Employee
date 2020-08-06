@@ -82,6 +82,10 @@
     }
 }
 
+.history {
+    transform: scaleX(-1);
+}
+
 .clockin-button {
     display: flex;
     position: fixed;
@@ -128,6 +132,14 @@
 .clockout {
     --background: var(--ion-color-clockout);
 }
+.clockin-title {
+    color: var(--ion-color-clockin);
+}
+
+.clockout-title {
+    color: var(--ion-color-red);
+}
+
 
 .error-note {
     display: flex;

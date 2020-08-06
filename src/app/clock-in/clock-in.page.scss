@@ -46,10 +46,6 @@
         }
     }
 
-    .clockin {
-        color: var(--ion-color-clockin);
-    }
-
     .time-display {
         display: flex;
         flex-flow: row;
@@ -351,14 +347,10 @@
         text-decoration: none;
     }
 
-    .clockout {
-        color: var(--ion-color-clockout);
-    }
-
     .description-project {
         font-size: var(--ion-text-11);
         font-style: italic;
-        margin: 0.75em;
+        margin: 0.5em 1em;
         color: var(--ion-color-text);
         opacity: 80%;
     }

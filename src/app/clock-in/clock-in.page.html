@@ -7,7 +7,20 @@
           Main
         </ion-label>
       </div>
-      <div class="footer-label" routerLink="/inbox-details">
+      <div routerLink="/main" class="footer-label">
+        <ion-img class="history" src="../../assets/basic/history.png"></ion-img>
+        <ion-label>
+          History
+        </ion-label>
+      </div>
+      <div class="footer-label">
+        <ion-img src="../../assets/basic/report.png"></ion-img>
+        <ion-label>
+          Report
+        </ion-label>
+      </div>
+
+      <!-- <div class="footer-label" routerLink="/inbox-details">
         <ion-img class="inbox-noti" src="../../assets/basic/ellipse-notification.png"
           *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
         </ion-img>
@@ -15,16 +28,15 @@
         <ion-label>
           Inbox
         </ion-label>
-      </div>
-      <div class="footer-label" routerLink="/support">
+      </div> -->
+      <!-- <div class="footer-label" routerLink="/support">
         <ion-img src="../../assets/basic/support.png" class="main-support"></ion-img>
         <ion-label>
           Support
         </ion-label>
-      </div>
+      </div> -->
       <div class="footer-label" routerLink="/support">
-        <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
-        <!-- <ion-img src="../../assets/basic/support.png" class="main-support"></ion-img> -->
+        <ion-icon></ion-icon>
         <ion-label>
           More
         </ion-label>
@@ -39,6 +51,41 @@
     <ion-label>Save</ion-label>
   </ion-button>
 </div> -->
+<ion-fab vertical="bottom" horizontal="center" slot="fixed" style="left: 58%;">
+  <ion-fab-button style="--background: transparent;
+    --border-radius: 0;
+    --box-shadow: none;
+    --color: var(--ion-color-text-header);
+    opacity: 80%;">
+      <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button style="width: 60px; height: 60px;">
+      <div class="footer-label" routerLink="/inbox-details" style="
+    width: 50px;
+    text-align: -webkit-center;">
+        <ion-img class="inbox-noti" src="../../assets/basic/ellipse-notification.png" style="
+    margin-left: 44.2%;"
+          *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
+        </ion-img>
+        <ion-img src="../../assets/basic/bell.png" style="width: 24px;"></ion-img>
+        <ion-label>
+          Inbox
+        </ion-label>
+      </div>
+    </ion-fab-button>
+    <ion-fab-button style="width: 60px; height: 60px;">
+      <div class="footer-label" routerLink="/support" style="
+    width: 50px;
+    text-align: -webkit-center;">
+        <ion-img src="../../assets/basic/support.png" class="main-support" style="width: 24px;"></ion-img>
+        <ion-label>
+          Support
+        </ion-label>
+      </div>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
 <div class="clockin-button clockin" *ngIf="!this.data.userInfo.clockIn.status">
   <!-- <ion-button shape="round" fill="outline" class="clockin" (click)="chg()"> -->
   <ion-button shape="round" fill="outline" class="clockin" (click)="saveClockIn('in')">
@@ -80,7 +127,7 @@
       <ion-card-content>
         <!-- <div> -->
         <div *ngIf="!data.userInfo.clockIn.status">
-          <ion-card-title class="clockin">
+          <ion-card-title class="clockin-title">
             Clock In
           </ion-card-title>
           <ion-card-subtitle>
@@ -94,8 +141,8 @@
           </ion-card-subtitle> -->
         </div>
         <div *ngIf="this.data.userInfo.clockIn.status">
-          <ion-card-title class="clockout">
-            Clock In Success
+          <ion-card-title class="clockout-title">
+            Clocked In
           </ion-card-title>
           <ion-card-subtitle>
             Don't forget to clock out.
