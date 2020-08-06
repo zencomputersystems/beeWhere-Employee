@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { GlobalFnService } from 'src/services/global-fn.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -103,6 +104,8 @@ export class ClockInPage implements OnInit {
    */
   public checkAddNew = [];
 
+
+  public clocksForm: FormGroup;
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -114,12 +117,44 @@ export class ClockInPage implements OnInit {
     public cinGlobalFn: GlobalFnService,
     private geolocation: Geolocation,
     public geofence: Geofence,
-    public cinService: GlobalApiService
+    public cinService: GlobalApiService,
+    public clkFormBuilder: FormBuilder
   ) {
     geofence.initialize().then(
       () => console.log("Geofence plugin ready"),
       (err) => console.log(err)
     );
+
+    this.clocksForm = clkFormBuilder.group({
+      dateToday: "",
+      jobtype: "office",
+      inTime: ["", Validators.required],
+      inLocationName: "",
+      inLocationLat: null,
+      inLocationLong: null,
+      outTime: ["", Validators.required],
+      outLocationName: "",
+      outLocationLat: "",
+      outLocationLong: "",
+      selectedClient: clkFormBuilder.group({
+        code: null,
+        description: null,
+        id: "none",
+        name: null
+      }),
+      selectedProject: clkFormBuilder.group({
+        code: null,
+        description: null,
+        id: "none",
+        name: null
+      }),
+      selectedContract: clkFormBuilder.group({
+        code: null,
+        description: null,
+        id: "none",
+        name: null,
+      })
+    });
   }
 
   /**
@@ -131,10 +166,11 @@ export class ClockInPage implements OnInit {
     this.selectedClient = this.clientNone;
     this.selectedProject = this.projectContractNone;
     this.selectedContract = this.projectContractNone;
-    console.log("curr time");
-    console.log(this.currTime);
-    console.log(this.data);
-    console.log(this.data.userInfo.attendanceProfile);
+    // console.log("curr time");
+    // console.log(this.currTime);
+    // console.log(this.data);
+    // console.log(this.data.userInfo.attendanceProfile);
+    console.log(this.clocksForm);
     this.getLoc();
     // const time1:any = new Date(1594633144000);
     // const time2: any = new Date();
@@ -157,6 +193,53 @@ export class ClockInPage implements OnInit {
     // console.log(this.currTime);
   }
 
+  chg() {
+    console.log(this.clocksForm)
+  }
+
+  chooseClient(evt) {
+    console.log(evt.detail.value)
+    this.clocksForm.controls.selectedClient.patchValue({
+      code: evt.detail.value.clientCode,
+      description: null,
+      id: evt.detail.value.clientId,
+      name: evt.detail.value.clientName
+    });
+
+  }
+
+  chooseOpt(type, evt) {
+  
+    switch (type) {
+      case 'project':
+        this.clocksForm.controls.selectedProject.patchValue({
+          code: evt.detail.value.code,
+          description: evt.detail.value.description,
+          id: evt.detail.value.id,
+          name: evt.detail.value.name
+        });
+        break;
+
+      case 'contract':
+        this.clocksForm.controls.selectedContract.patchValue({
+          code: evt.detail.value.code,
+          description: evt.detail.value.description,
+          id: evt.detail.value.id,
+          name: evt.detail.value.name
+        });
+        break;
+
+      default: //client by default
+        this.clocksForm.controls.selectedClient.patchValue({
+          code: evt.detail.value.clientCode,
+          description: null,
+          id: evt.detail.value.clientId,
+          name: evt.detail.value.clientName
+        });
+        break;
+    }
+
+  }
   /**
    * To get current location positions (latitude & longitude),
    * watch location positions. and add geofence on specific location based on
@@ -167,11 +250,11 @@ export class ClockInPage implements OnInit {
     this.geolocation
       .getCurrentPosition()
       .then((resp) => {
-        console.log("resp get current position");
-        console.log(resp.coords.latitude);
+        // console.log("resp get current position");
+        // console.log(resp.coords.latitude);
         this.lat = resp.coords.latitude;
         this.long = resp.coords.longitude;
-        console.log(resp.coords.longitude);
+        // console.log(resp.coords.longitude);
 
         const fence = {
           id: new Date().toISOString(),
@@ -207,6 +290,12 @@ export class ClockInPage implements OnInit {
       console.log(data.coords.longitude);
       this.locWatch.lat = data.coords.latitude;
       this.locWatch.long = data.coords.longitude;
+      // this.clocksForm.patchValue({
+      //   inLocationLat: data.coords.latitude,
+      //   inLocationLong: data.coords.longitude
+      // });
+      // inLocationLat: this.locWatch.lat,
+      //   inLocationLong: this.locWatch.long,
       // data can be a set of coordinates, or an error (if an error occurred).
       // data.coords.latitude
       // data.coords.longitude
@@ -276,26 +365,52 @@ export class ClockInPage implements OnInit {
    * To bind data and save clockin
    * @memberof ClockInPage
    */
-  saveClockIn() {
+  saveClockIn(type) {
     const temp: any = new Date(this.currTime).setHours(0, 0, 0, 0);
+    const timeNow = new Date().toISOString();
+    switch (type) {
+      case 'in':
+        this.clocksForm.patchValue({
+          inLocationName: this.locWatch.lat + ", " + this.locWatch.long,
+          inLocationLat: this.locWatch.lat,
+          inLocationLong: this.locWatch.long,
+          inTime: timeNow
+        });
+        this.data.userInfo.clockIn.status = true;
+        break;
+
+      case 'out':
+        this.clocksForm.patchValue({
+          outLocationName: this.locWatch.lat + ", " + this.locWatch.long,
+          outLocationLat: this.locWatch.lat,
+          outLocationLong: this.locWatch.long,
+          outTime: timeNow
+        });
+        this.data.userInfo.clockIn.status = false;
+        break;
+    }
+
     const clockinObj = {
       clockInDate: new Date(temp).toISOString(),
       list: [
         {
           activityList: this.checkAddNew,
-          clientCode: this.selectedClient.clientCode,
-          clockInLocation: this.locWatch.lat + ", " + this.locWatch.long,
-          clockInTime: this.currTime,
-          clockOutLocation: null,
-          clockOutTime: null,
-          jobType: this.jobType,
-          projectCode: this.selectedProject.code,
-          projectDesc: this.selectedProject.description,
-          contractCode: this.selectedContract.code,
-          contractDesc: this.selectedContract.description,
+          clientCode: this.clocksForm.controls.selectedClient.get('code').value, // this.selectedClient.clientCode,
+          clockInLocation: this.clocksForm.get('inLocationName').value, // this.locWatch.lat + ", " + this.locWatch.long,
+          clockInTime: this.clocksForm.get('inTime').value, // this.currTime,
+          clockOutLocation: this.clocksForm.get('outLocationName').value, // null,
+          clockOutTime: this.clocksForm.get('outTime').value, // null,
+          jobType: this.clocksForm.get('jobtype').value, // this.jobType,
+          projectCode: this.clocksForm.controls.selectedProject.get('code').value, // this.selectedProject.code,
+          projectDesc: this.clocksForm.controls.selectedProject.get('description').value, // this.selectedProject.description,
+          contractCode: this.clocksForm.controls.selectedContract.get('code').value, // this.selectedContract.code,
+          contractDesc: this.clocksForm.controls.selectedContract.get('description').value, // this.selectedContract.description,
         },
       ],
     };
+
+    console.log(clockinObj);
+    console.log(this.clocksForm);
     // const checkExist: boolean = this.data.userInfo.clockIn.historicalClockIn.filter( list => {
     //   console.log(list)
     //   if (list.clockInDate === clockinObj.clockInDate) {
@@ -311,9 +426,11 @@ export class ClockInPage implements OnInit {
     // console.log(checkExist)
     // if (checkExist === false) {
     this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
+    if (type === 'out') {
+      this.checkAddNew = [];
+    }
     // }
-    console.log(this.data.userInfo.clockIn.historicalClockIn);
-    this.data.userInfo.clockIn.status = true;
+    // console.log(this.data.userInfo.clockIn.historicalClockIn);
     // Object.assign(this.data.userInfo.clockIn.historicalClockIn, clockinObj);
   }
 }

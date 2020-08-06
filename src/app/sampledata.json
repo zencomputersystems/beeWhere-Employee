@@ -316,6 +316,12 @@
                     "name": "Application intergration with hardware",
                     "code": "AIH",
                     "description": "Intergrate apps with new hardware"
+                },
+                {
+                    "id": "PROJ004",
+                    "name": "444",
+                    "code": "AI4444",
+                    "description": "Intergrate apps with new hardware"
                 }
             ],
             "contract": [

@@ -1,7 +1,10 @@
 2. To get current logged basic user info
+Request:
+{}
 
 Response:
 {
+    "user_guid": "098bf05d-0862-cb50-dbc2-d4068b91f246",
     "username": "Tarmimi",
     "companyName": "Zen Computer Systems Sdn Bhd",
     "profilePictureUrl": "https://.......",
@@ -19,23 +22,27 @@ Response:
     }
 }
 
-3. To get historical clockin acitivities
-
+3. To get historical clockin acitivities for grouped by day
+- TBC: get list for 2 weeks data only
+Request:
+{
+    "user_guid": "098bf05d-0862-cb50-dbc2-d4068b91f246",
+}
 Response:
 [
     {
-        "date": 1594627200000, //timestamp
+        "date": 1594627200000, //timestamp 
         "list": [
             {
-                "projectType": "site",
-                "clientCode": "LHDN",
-                "projectCode": "AM",
-                "projectDescription": "Migrate all apps",
-                "contractCode": "C1",
-                "contractDescription": "1st contract",
+
+                "CLOCK_ID": "CLK001",
+                "CLIENT_ID": "CL001",
+                "PROJECT_ID": "PROJ001",
+                "CONTRACT_ID": "CONT001",
                 "clockIn": {
                     "time": 1594627240000, //timestamp
                     "location": {
+                        "name": "LHDN Cyberjaya, Cyberjaya, 63000 Cyberjaya, Selangor, Malaysia",
                         "lalitude": 2.910842,
                         "logitude": 101.650152
                     }
@@ -43,27 +50,54 @@ Response:
                 "clockOut": {
                     "time": 1594659820000, //timestamp
                     "location": {
+                        "name": "LHDN Cyberjaya, Cyberjaya, 63000 Cyberjaya, Selangor, Malaysia",
                         "lalitude": 2.910842,
                         "logitude": 101.650152
                     }
                 },
-                "taskList": [{
-                        "taskName": "First task today",
-                        "status": true
-                    },
-                    {
-                        "taskName": "Second task today",
-                        "status": true
-                    },
-                    {
-                        "taskName": "Third task today",
-                        "status": false
-                    }
-                ],
-            },
-            .
-            .
-            .
+            }
+            // {
+            //     "projectType": "site",
+            //     "clientCode": "LHDN",
+            //     "projectCode": "AM",
+            //     "projectDescription": "Migrate all apps",
+            //     "contractCode": "C1",
+            //     "contractDescription": "1st contract",
+            //     "clockIn": {
+            //         "time": 1594627240000, //timestamp
+            //         "location": {
+            //             "lalitude": 2.910842,
+            //             "logitude": 101.650152
+            //         }
+            //     },
+            //     "clockOut": {
+            //         "time": 1594659820000, //timestamp
+            //         "location": {
+            //             "lalitude": 2.910842,
+            //             "logitude": 101.650152
+            //         }
+            //     },
+            //     "activityList": [
+            //         {
+            //             "id": 1,
+            //             "taskName": "First task today",
+            //             "status": true
+            //         },
+            //         {
+            //             "id": 2,
+            //             "taskName": "Second task today",
+            //             "status": true
+            //         },
+            //         {
+            //             "id": 3,
+            //             "taskName": "Third task today",
+            //             "status": false
+            //         }
+            //     ],
+            // },
+            // .
+            // .
+            // .
         ],
         "remarks": null
     },
@@ -280,147 +314,166 @@ Respond:
 
 Request:
 {
-    "user_guid": "xxxxx",
-    "clockin_Time": "yyyy", //timestamp
+    "user_guid": "098bf05d-0862-cb50-dbc2-d4068b91f246",
+    "clockin_Time": "1594627240000", //timestamp
     "jobType": "site",
     "location": {
+        "name": "LHDN Cyberjaya, Cyberjaya, 63000 Cyberjaya, Selangor, Malaysia",
         "lat": 2.926282,
         "long": 101.641180
     },
-    "client": {
-        "abbrv": "CD1",
-        "name": "Client 1",
-        "project": {
-            "socNo": "PJ1",
-            "name": "Application Developement 1"
-        },
-        "contract": {
-            "contractNo": "CNT001",
-            "name": "Application Developments",
-            "description": "Description for Application Developments"
-        }
-    },
-    "activityList": [
-        {
-            "status": false,
-            "name": "To do today 1st task",
-        },
-        {
-            "status": false,
-            "name": "To do today 2nd task",
-        },
-        {
-            "status": false,
-            "name": "To do today 3rd task",
-        },
-    ]
+    "CLIENT_ID": "CL001",
+    "PROJECT_ID": "PROJ001",
+    "CONTRACT_ID": "CONT001"
 }
 
 Response:
 {
     //status success to post
+    "CLOCK_ID": "CLK001"
 }
 
-9. To get latest clock in time
-Request:
-{
-    "user_guid": "xxxxx"
+9. To post user 's clock out based on user_guid & clock_id
+
+Request: {
+    "user_guid": "098bf05d-0862-cb50-dbc2-d4068b91f246",
+    "CLOCK_ID": "CLK001",
+    "CLOCKOUT_TIME": 1594659820000, //timestamp
+    "CLOCKOUT_LAT": 2.926282,
+    "CLOCKOUT_LONG": 101.641180,
+    "CLOCKOUT_NAME": "LHDN Cyberjaya, Cyberjaya, 63000 Cyberjaya, Selangor, Malaysia"
 }
 
-Response:
-{
-    "clockin_Time": "yyyy"
-}
-
-10. To get clocked in info based on clock in time
-request:
-{
-    "user_guid": "xxxxx",
-    "clockin_Time": "yyyy" //timestamp
-}
-
-response:
-{
-    "clockin_Time": "yyyy", //timestamp
-    "jobType": "site",
-    "location": {
-        "lat": 2.926282,
-        "long": 101.641180
-    },
-    "client": {
-        "abbrv": "CD1",
-        "name": "Client 1",
-        "project": {
-            "socNo": "PJ1",
-            "name": "Application Developement 1"
-        },
-        "contract": {
-            "contractNo": "CNT001",
-            "name": "Application Developments",
-            "description": "Description for Application Developments"
-        }
-    },
-    "activityList": [{
-            "status": false,
-            "name": "To do today 1st task",
-        },
-        {
-            "status": false,
-            "name": "To do today 2nd task",
-        },
-        {
-            "status": false,
-            "name": "To do today 3rd task",
-        },
-    ]
-}
-
-11. To post user 's clock out
-
-Request:
-{
-    "user_guid": "xxxxx",
-    "clockin_Time": "yyyy", //timestamp
-    "clockout_Time": "zzzz", //timestamp
-    "location": {
-        "lat": 2.926282,
-        "long": 101.641180
-    }
-}
-
-Response:
-{
+Response: {
     //return successfully clocked out status
 }
 
-12. to update user's activity list
+10. To get clocked in info based on CLOCK_ID from table 5
+request: {
+    "user_guid": "098bf05d-0862-cb50-dbc2-d4068b91f246",
+    "CLOCK_ID": "CLK001"
+}
 
+response: {
+    "JOB_TYPE": "site",
+    "CLOCKIN_TIME": 1594627240000,
+    "CLOCKIN_LAT": 2.910842,
+    "CLOCKIN_LONG": 101.650152,
+    "CLOCKIN_NAME": "LHDN Cyberjaya, Cyberjaya, 63000 Cyberjaya, Selangor, Malaysia",
+    "CLOCKOUT_TIME": 1594659820000,
+    "CLOCKOUT_LAT": 2.910842,
+    "CLOCKOUT_LONG": 101.650152,
+    "CLOCKOUT_NAME": "LHDN Cyberjaya, Cyberjaya, 63000 Cyberjaya, Selangor, Malaysia",
+    "CLIENT_ID": "CL001",
+    "PROJECT_ID": "PROJ001",
+    "CONTRACT_ID": "CONT001"
+}
+
+11. To post activity list based on user_guid & clockin_id
+Request: 
+{
+    "user_guid": "098bf05d-0862-cb50-dbc2-d4068b91f246",
+    "CLOCK_ID": "CLK001"
+}
+
+response:
+[
+    {
+        "ACTIVITY_NAME": "First task today",
+        "ACTIVITY_STATUS": true
+    },
+    .
+    .
+    .
+]
+
+12. To get activity list based on user_guid & clockin_id
+Request: {
+    "user_guid": "098bf05d-0862-cb50-dbc2-d4068b91f246",
+    "CLOCK_ID": "CLK001"
+}
+
+response: 
+[
+    {
+        "ACTIVITY_ID": "ACT001",
+        "ACTIVITY_NAME": "First task today",
+        "ACTIVITY_STATUS": true
+    },
+    .
+    .
+    .
+]
+
+13. To get client / project / contract 's info based on token and CLIENT_ID/PROJECT_ID/CONTRACT_ID
+-token = "client" / "project" / "contract"
 Request:
 {
-    "user_guid": "xxxxx",
-    "clockin_Time": "yyyy",
-    "activities": [
-        {
-            "status": true,
-            "name": "To do today 1st task",
-        },
-        {
-            "status": true,
-            "name": "To do today 2nd task",
-        },
-        {
-            "status": true,
-            "name": "To do today 3rd task",
-        }
-    ]
+    "REQ_ID": "CL001" or "PROJ001" or "CONT001"
+
 }
 
 Response:
+// if token === "client"
 {
-    //success update data
+    "CLIENT_NAME": "LEMBAGA HASIL DALAM NEGERI",
+    "CLIENT_ABBR": "LHDN",
+}
+// if token === "project"
+{
+    "PROJECT_NAME": "Application Migaration",
+    "PROJECT_SOC_NO": "AM",
+    "PROJECT_DESC": "Migrate all apps",
+}
+// if token === "contract"
+{
+    "CONTRACT_NAME": "Contract 1",
+    "CONTRACT_NO": "C1",
+    "CONTRACT_DESC": "1st contract",
 }
 
-13. To post user request in support *tbc
+
+
+// KIV this one
+// 9. To get latest clock in time
+// Request:
+// {
+//     "user_guid": "xxxxx"
+// }
+
+// Response:
+// {
+//     "clockin_Time": "yyyy"
+// }
+
+// 12. to update user's activity list based on clockin_id and user_guid
+
+// Request:
+// {
+//     "user_guid": "098bf05d-0862-cb50-dbc2-d4068b91f246",
+//     "CLOCK_ID": "CLK001",
+//     "activityList": [
+//         {
+//             "status": true,
+//             "name": "To do today 1st task",
+//         },
+//         {
+//             "status": true,
+//             "name": "To do today 2nd task",
+//         },
+//         {
+//             "status": true,
+//             "name": "To do today 3rd task",
+//         }
+//     ]
+// }
+
+// Response:
+// {
+//     //success update data
+// }
+
+14. To post user request in support *tbc
 Request:
 {
     "user_guid": "xxxxx",
@@ -435,7 +488,7 @@ Response:
     //success send request
 }
 
-14. to upload any document to azure (especially in .png/.jpeg/.jpg/.pdf)
+15. to upload any document to azure (especially in .png/.jpeg/.jpg/.pdf)
 Request: 
 {
     ....

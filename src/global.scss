@@ -50,7 +50,8 @@
             flex: 1;
             text-align: -webkit-center;
 
-            ion-img {
+            ion-img,
+            ion-icon {
                 width: 1.5rem;
                 height: 1.5rem;
                 margin-bottom: 5px;
@@ -76,9 +77,14 @@
         position: absolute;
         width: 7px;
         height: 7px;
-        margin-left: 10.2%;
+        // margin-left: 10.2%;
         margin-top: 0.4%;
+        margin-left: 44.2%;
     }
+}
+
+.history {
+    transform: scaleX(-1);
 }
 
 .clockin-button {
@@ -127,6 +133,14 @@
 .clockout {
     --background: var(--ion-color-clockout);
 }
+.clockin-title {
+    color: var(--ion-color-clockin);
+}
+
+.clockout-title {
+    color: var(--ion-color-red);
+}
+
 
 .error-note {
     display: flex;
@@ -204,6 +218,9 @@
         .alert-radio-group {
             border: none;
         }
+        .alert-wrapper.sc-ion-alert-md {
+            width: -webkit-fill-available;
+        }
 
         .sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md,
         .alert-radio-icon {
@@ -226,6 +243,33 @@
         }
         .alert-button.sc-ion-alert-md {
             color: var(--ion-color-text-header);
+        }
+    }
+
+    ion-fab {
+        left: 58%;
+
+        .more-button {
+            --background: transparent;
+            --border-radius: 0;
+            --box-shadow: none;
+            --color: var(--ion-color-text-header);
+            opacity: 80%;
+        }
+
+        ion-fab-list {
+            ion-fab-button {
+                width: 60px;
+                height: 60px;
+                --background: #ffffff;
+                div {
+                    width: 50px;
+                    text-align: -webkit-center;
+                    ion-img {
+                        width: 24px;
+                    }
+                }
+            }
         }
     }
 }

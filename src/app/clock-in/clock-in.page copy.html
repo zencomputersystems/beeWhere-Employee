@@ -1,0 +1,291 @@
+<ion-footer class="footer-shadow">
+  <ion-toolbar class="footer">
+    <ion-item-group>
+      <div routerLink="/clock-in" class="footer-label">
+        <ion-img src="../../assets/basic/home.png"></ion-img>
+        <ion-label>
+          Main
+        </ion-label>
+      </div>
+      <div class="footer-label">
+        <ion-img class="inbox-noti" src="../../assets/basic/ellipse-notification.png"
+          *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
+        </ion-img>
+        <ion-img src="../../assets/basic/bell.png" ></ion-img>
+        <ion-label>
+          Inbox
+        </ion-label>
+      </div>
+      <div class="footer-label">
+        <ion-img src="../../assets/basic/support.png" class="main-support"></ion-img>
+        <ion-label>
+          Support
+        </ion-label>
+      </div>
+      <div style="flex: 2"></div>
+    </ion-item-group>
+  </ion-toolbar>
+</ion-footer>
+
+<!-- <div class="clockin-button">
+  <ion-button shape="round" fill="outline" class="submits" routerLink="/main" (click)="saveClockIn()">
+    <ion-label>Save</ion-label>
+  </ion-button>
+</div> -->
+<div class="clockin-button clockin" *ngIf="!this.data.userInfo.clockIn.status">
+  <ion-button shape="round" fill="outline" class="clockin" (click)="saveClockIn()">
+    <ion-label>Clock In Now</ion-label>
+  </ion-button>
+</div>
+<div class="clockin-button clockout" *ngIf="this.data.userInfo.clockIn.status">
+  <ion-button shape="round" fill="outline" class="clockout" >
+    <!-- <ion-button shape="round" fill="outline" class="clockout" [routerLink]="['/clock', 'out', 0]"> -->
+    <ion-label>Clock Out</ion-label>
+  </ion-button>
+</div>
+
+<ion-content class="contents">
+  <ion-img class="bg-img" src="../../assets/basic/background-default.png"></ion-img>
+  <div class="content">
+    <ion-item-group class="header">
+      <ion-label>beeWhere</ion-label>
+    </ion-item-group>
+    <ion-item-group class="user-header">
+      <ion-item-group>
+        <ion-avatar>
+          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+        </ion-avatar>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-title class="greeting">
+          Good Day, {{data.userInfo.username}}!
+        </ion-title>
+        <ion-title class="company-title ">
+          {{data.userInfo.companyName}}
+        </ion-title>
+      </ion-item-group>
+    </ion-item-group>
+    <!-- <div>clockin</div> -->
+
+    <!-- notification card -->
+    <ion-card class="main-info">
+      <ion-card-content>
+        <!-- <div> -->
+        <div *ngIf="!data.userInfo.clockIn.status">
+          <ion-card-title class="clockin">
+            Clock In
+          </ion-card-title>
+          <ion-card-subtitle>
+            You haven't clock in yet.
+          </ion-card-subtitle>
+          <!-- <ion-card-title class="clockin">
+            Clock In Success
+          </ion-card-title> -->
+          <!-- <ion-card-subtitle>
+            Good Job!
+          </ion-card-subtitle> -->
+        </div>
+        <div *ngIf="this.data.userInfo.clockIn.status">
+          <ion-card-title class="clockout">
+            Clock out
+          </ion-card-title>
+          <ion-card-subtitle>
+            Don't forget to clock out.
+          </ion-card-subtitle>
+        </div>
+        <div class="time-display">
+          <ion-title class="time">
+            <ion-label class="hour">
+              {{currTime | date: 'hh:mm'}}
+            </ion-label>
+            <ion-label class="am-pm">
+              {{currTime | date: 'a'}}
+            </ion-label>
+          </ion-title>
+          <ion-title class="day">
+            <ion-label>
+              {{currTime | date: 'd MMM yyyy'}}
+            </ion-label>
+            <ion-label>
+              {{currTime | date: 'EEEE'}}
+            </ion-label>
+          </ion-title>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- notifications approval -->
+    <ion-item-group class="notification-info" routerLink="/inbox-details"
+      *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
+      <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
+      <ion-img src="../../assets/basic/bell.png"></ion-img>
+      <ion-label *ngIf="data.userInfo.notifications.approval.length">{{data.userInfo.notifications.approval.length}} items
+        require
+        approval
+      </ion-label>
+      <ion-label *ngIf="data.userInfo.notifications.approval.length !=0 && data.userInfo.notifications.updates.length !=0">
+        ,&nbsp;</ion-label>
+      <ion-label *ngIf="data.userInfo.notifications.updates.length !- 0"> {{data.userInfo.notifications.updates.length}} new
+        updates</ion-label>
+    </ion-item-group>
+
+    <ion-item-group class="current-clockin">
+      <form [formGroup]="clocksForm">
+        <ion-title formControlName="dateToday">
+          {{currTime | date: 'd MMM yyyy'}}
+        </ion-title>
+        <ion-card *ngIf="!this.data.userInfo.clockIn.status">
+          <ion-card-title>
+            Job Types 
+          </ion-card-title>
+          <ion-card-subtitle>
+            <ion-segment [(ngModel)]="jobType" formControlName="type">
+            <!-- <ion-segment [(ngModel)]="jobType"> -->
+              <ng-container *ngFor="let job of data.userInfo.attendanceProfile">
+                <ion-segment-button *ngIf="job.enable" value={{job.types}}>
+                  <ion-label>{{job.types}}</ion-label>
+                </ion-segment-button>
+              </ng-container>
+            </ion-segment>
+          </ion-card-subtitle>
+
+          <ion-card-content class="clockin-details">
+            <ng-container *ngFor="let jobDtl of data.userInfo.attendanceProfile">
+              <span [ngSwitch]="jobType">
+              <p *ngSwitchCase="jobDtl.types">
+                <!-- <ion-list>
+                  geofence status 12: {{test1}}
+                  <ion-label>
+                    lat1 : {{lat}}
+                  </ion-label>
+                  <ion-label>
+                    long: {{long}}
+                  </ion-label>
+                  <ion-label>
+                    latW: {{locWatch.lat}}
+                  </ion-label>
+                  <ion-label>
+                    longW: {{locWatch.long}}
+                  </ion-label>
+                  <ion-label>
+                    geofLoc: {{respo}}
+                  </ion-label>
+                </ion-list> -->
+                <ion-item-group *ngIf="jobDtl.viewPremission.geofiltering">
+                  <ion-img src="../../assets/basic/location.png"></ion-img>
+                  <ion-label *ngIf="locWatch.lat !== null || locWatch.long !== null">
+                    {{locWatch.lat}},&nbsp;{{locWatch.long}}</ion-label>
+                  <ion-label *ngIf="locWatch.lat === null || locWatch.long === null">
+                    Getting current location..</ion-label>
+                </ion-item-group>
+                <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.client">
+                  <ion-title>Client</ion-title>
+                  <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedClient"
+                    (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)">
+                    <ion-select-option selected [value]="clientNone">None</ion-select-option>
+                    <ion-select-option *ngFor="let client of data.client" [value]="client">
+                    <!-- <ion-select-option *ngFor="let client of data.client" value={{client.clientId}}> -->
+                      {{client.clientCode}} - {{client.clientName}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item-group>
+
+                <!-- <ion-item-group class="clients"> 
+                  <ion-title>Client</ion-title>
+                    <mat-select [(ngModel)]="selectedClient" name="client">
+                      <mat-option value="null">None</mat-option>
+                      <mat-option *ngFor="let client of data.client" value={{client}}
+                        (onSelectionChange)="selectClient(client)">
+                        {{client.clientCode}} - {{client.clientName}}
+                      </mat-option>
+                    </mat-select>
+                </ion-item-group> -->
+                <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.project">
+                  <ion-title>Project Selection</ion-title>
+                    <ion-select ok-text="OK" cancel-text="Dismiss"
+                      [(ngModel)]="selectedProject">
+                      <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
+                      <!-- <ion-select-option selected value="none">None</ion-select-option> -->
+                      <ng-container *ngFor="let clientData of data.client">
+                        <ng-container *ngIf="selectedClient.clientId === clientData.clientId">
+                          <ion-select-option *ngFor="let project of clientData.project" [value]="project">
+                          <!-- <ion-select-option *ngFor="let project of clientData.project" value={{project.id}}> -->
+                            {{project.code}} - {{project.name}}
+                          </ion-select-option>
+                        </ng-container>
+                      </ng-container>
+                    </ion-select>
+                    <!-- <mat-select [(ngModel)]="selectedProject" name="client">
+                      <mat-option [value]="null">None</mat-option>
+                      <mat-option *ngFor="let project of data.client.project" [value]="client.clientId">
+                        {{client.clientCode}} - {{client.clientName}}
+                      </mat-option>
+                    </mat-select> -->
+                </ion-item-group>
+
+                <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.contract">
+                  <ion-title>Contract Selection</ion-title>
+                  <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedContract">
+                    <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
+                    <ng-container *ngFor="let clientData of data.client">
+                      <ng-container *ngIf="selectedClient.clientId === clientData.clientId">
+                        <ion-select-option *ngFor="let contract of clientData.contract" [value]="contract">
+                          <!-- <ion-select-option *ngFor="let contract of clientData.contract" value={{contract.id}}> -->
+                          {{contract.code}} - {{contract.name}}
+                        </ion-select-option>
+                      </ng-container>
+                    </ng-container>
+                  </ion-select>
+                </ion-item-group>
+
+                <ion-item-group class="activity-list">
+                  <ion-title>Activity List</ion-title>
+                  <ion-list>
+                    <ion-item-sliding *ngFor="let list of checkAddNew">
+                      <ion-item lines="none">
+                        <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.status"></ion-checkbox>
+                        <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.activity" 
+                          inputmode="text" type="text" enterkeyhint="done"></ion-input>
+                      </ion-item>
+                      <ion-item-options side="end">
+                        <ion-item-option (click)="onDeleteTask(list, checkAddNew)">Del</ion-item-option>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                    <ion-item-sliding>
+                      <ion-item lines="none">
+                        <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
+                        <ion-input type="text" placeholder="Add task here    " [(ngModel)]="newTask"
+                          (keyup.enter)="addNewTask($event)"
+                          inputmode="text" type="text"
+                          enterkeyhint="done" ></ion-input>
+                      </ion-item>
+                    </ion-item-sliding>
+                  </ion-list>
+                </ion-item-group>
+              </p>
+              </span>
+            </ng-container>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            clock out
+          <ion-card-title>
+            {{jobType}}
+            <!-- <ion-card-subtitle>
+              <ion-label class="label-client" *ngIf="histClock.clientCode !== null">
+                {{histClock.clientCode}}
+              </ion-label>
+              <ion-label class="label-project" *ngIf="histClock.projectCode !== null">
+                {{histClock.projectCode}}
+              </ion-label>
+              <ion-label class="label-contract" *ngIf="histClock.contractCode !== null">
+                {{histClock.contractCode}}
+              </ion-label>
+            </ion-card-subtitle> -->
+          </ion-card-title>
+        </ion-card>
+      </form>
+    </ion-item-group>
+  </div>
+</ion-content>

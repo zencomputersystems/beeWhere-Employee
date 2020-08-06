@@ -1,15 +1,30 @@
 :host {
 
-    // ion-toolbar {
-    //     ion-label {
-    //         --color: var(--ion-color-text);
-    //         opacity: 80%;
-    //     }
-
-    //     .main-support {
-    //         opacity:50%;
-    //     }
-    // }
+    .user-header {
+        color: #ffffff;
+        display: flex;
+        // margin: 21px;
+        margin-bottom: 7%;
+        ion-item-group {
+            align-self: center;
+            ion-avatar {
+                background-color: white;
+                padding: 3px;
+                width: 64.34px;
+            }
+        }
+        .greeting {
+            font-size: var(--ion-text-16);
+            line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
+        }
+        
+        .company-title {
+            display: flex;
+            // font-size: 12px;
+            font-size: var(--ion-text-12);
+        }
+    }
+    
     .main-info {
         margin: 0px; // 22px;
         background: #ffff;
@@ -29,10 +44,6 @@
                 color: var(--ion-color-text);
             }
         }
-    }
-
-    .clockin {
-        color: var(--ion-color-clockin);
     }
 
     .time-display {
@@ -122,6 +133,46 @@
                 font-size: var(--ion-text-15);
                 color: var(--ion-color-text-header);
                 font-weight: bold;
+                text-transform: capitalize;
+
+                ion-card-subtitle {
+                    display: flex;
+                    flex-flow: row nowrap;
+
+                    ion-label {
+                        --color: var(--ion-color-primary-contrast);
+                        padding: 0.2em 0.7em;
+                        min-width: var(--ion-text-58);
+                        height: var(--ion-text-23);
+                        font-size: var(--ion-text-12);
+                        text-align: center;
+                        border-radius: var(--ion-text-3);
+                        display: none;
+                        place-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                    }
+
+                    .label-client {
+                        background: var(--ion-color-text-header);
+                        margin: 0 0.075em;
+                        display: flex;
+
+                    }
+
+                    .label-project {
+                        background: var(--ion-color-red);
+                        display: flex;
+                        margin: 0 0.075em;
+
+                    }
+
+                    .label-contract {
+                        background: var(--ion-color-pink-f8409c);
+                        display: flex;
+                        margin: 0 0.075em;
+                    }
+                }
             }
 
             ion-segment {
@@ -294,6 +345,14 @@
 
     .exist-task {
         text-decoration: none;
+    }
+
+    .description-project {
+        font-size: var(--ion-text-11);
+        font-style: italic;
+        margin: 0.5em 1em;
+        color: var(--ion-color-text);
+        opacity: 80%;
     }
 
 }

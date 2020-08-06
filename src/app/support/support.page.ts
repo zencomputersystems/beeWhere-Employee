@@ -91,6 +91,5 @@ export class SupportPage implements OnInit {
   getFormControls(type) {
     return (type === 'request') ? (this.mform.get('requestForm') as FormArray).controls 
     : (this.mform.get('suggestionForm') as FormArray).controls;
-    // return (type === 'request') ?  this.mform.controls.requestForm.controls : this.mform.controls.suggestionForm.controls;
   }
 }
