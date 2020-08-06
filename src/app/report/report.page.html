@@ -107,13 +107,13 @@
       <ion-card-content>
         <div>
           <!-- <div *ngIf="data.userInfo.clockIn.status == true"> -->
-          <ion-card-title *ngIf="data.userInfo.clockIn.status == true" class="clockout">
-            Clock out
+          <ion-card-title *ngIf="data.userInfo.clockIn.status == true" class="clockout-title">
+            Clocked In
           </ion-card-title>
           <ion-card-subtitle *ngIf="data.userInfo.clockIn.status == true">
             Don't forget to clock out
           </ion-card-subtitle>
-          <ion-card-title *ngIf="data.userInfo.clockIn.status == false" class="clockin">
+          <ion-card-title *ngIf="data.userInfo.clockIn.status == false" class="clockin-title">
             Clock In
           </ion-card-title>
           <ion-card-subtitle *ngIf="data.userInfo.clockIn.status == false">
