@@ -47,8 +47,8 @@
           Report
         </ion-label>
       </div>
-      <div class="footer-label" style="height: 1.4rem;">
-        <ion-icon></ion-icon>
+      <div class="footer-label" style="height: 1.5rem;">
+        <ion-icon style="margin-bottom: 2px;"></ion-icon>
         <ion-label>
           More
         </ion-label>
@@ -109,11 +109,13 @@
           </ion-card-subtitle>
         </div>
         <div *ngIf="this.pageState.params.id == 'edit'">
-          <!-- <div *ngIf="data.userInfo.clockIn.status == true"> -->
-          <ion-card-title *ngIf="data.userInfo.clockIn.status == true">
-            Clock out
+          <ion-card-title *ngIf="data.userInfo.clockIn.status == true" class="clockout-title">
+            Clocked In
           </ion-card-title>
-          <ion-card-title *ngIf="data.userInfo.clockIn.status == false">
+          <ion-card-subtitle *ngIf="data.userInfo.clockIn.status == true">
+            Don't forget to clock out
+          </ion-card-subtitle>
+          <ion-card-title *ngIf="data.userInfo.clockIn.status == false" class="clockin-title">
             Clock In
           </ion-card-title>
           <ion-card-subtitle *ngIf="data.userInfo.clockIn.status == false">
