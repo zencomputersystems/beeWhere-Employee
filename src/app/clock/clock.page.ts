@@ -110,9 +110,9 @@ export class ClockPage implements OnInit {
       });
       this.data.userInfo.clockIn.status = false;
     }
-    else {
-      this.data.userInfo.clockIn.status = true;
-    }
+    // else {
+    //   // this.data.userInfo.clockIn.status = true;
+    // }
     console.log(this.currData);
   }
 
