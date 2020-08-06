@@ -217,6 +217,9 @@
         .alert-radio-group {
             border: none;
         }
+        .alert-wrapper.sc-ion-alert-md {
+            width: -webkit-fill-available;
+        }
 
         .sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md,
         .alert-radio-icon {
