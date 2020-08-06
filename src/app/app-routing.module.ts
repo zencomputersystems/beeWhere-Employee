@@ -44,6 +44,10 @@ const routes: Routes = [
     path: 'clock/:id/:time',
     loadChildren: () => import('./clock/clock.module').then( m => m.ClockPageModule)
   },
+  {
+    path: 'report',
+    loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
+  },
 ];
 
 @NgModule({
