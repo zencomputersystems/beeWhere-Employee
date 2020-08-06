@@ -77,8 +77,9 @@
         position: absolute;
         width: 7px;
         height: 7px;
-        margin-left: 10.2%;
+        // margin-left: 10.2%;
         margin-top: 0.4%;
+        margin-left: 44.2%;
     }
 }
 
@@ -242,6 +243,33 @@
         }
         .alert-button.sc-ion-alert-md {
             color: var(--ion-color-text-header);
+        }
+    }
+
+    ion-fab {
+        left: 58%;
+
+        .more-button {
+            --background: transparent;
+            --border-radius: 0;
+            --box-shadow: none;
+            --color: var(--ion-color-text-header);
+            opacity: 80%;
+        }
+
+        ion-fab-list {
+            ion-fab-button {
+                width: 60px;
+                height: 60px;
+                --background: #ffffff;
+                div {
+                    width: 50px;
+                    text-align: -webkit-center;
+                    ion-img {
+                        width: 24px;
+                    }
+                }
+            }
         }
     }
 }

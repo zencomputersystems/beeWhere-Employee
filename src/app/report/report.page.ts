@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportPage implements OnInit {
 
+  public curRTime = new Date().toISOString();
+
+  public data = require('../sampledata.json');
   constructor() { }
 
   ngOnInit() {
