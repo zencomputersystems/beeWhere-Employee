@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment.prod';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -48,7 +49,7 @@ export class LoginPage implements OnInit {
    * @memberof LoginPage
    */
   onChangeRememberMe(evt) {
-    return localStorage.setItem("rmbr", evt.detail.checked);
+    return localStorage.setItem('rmbr', evt.detail.checked);
   }
 
   /**
@@ -77,5 +78,13 @@ export class LoginPage implements OnInit {
    */
   onLogin() {
     this.checkRememberMe(localStorage.getItem("rmbr"));
+  }
+
+  onForgotPassword() { 
+    return window.location.href = environment.URL_FPASS + '/#/forgot-password/user';
+  }
+  
+  s() {
+    console.log('isRemember');
   }
 }
