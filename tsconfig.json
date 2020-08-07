@@ -16,9 +16,9 @@
       "dom"
     ],
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@services/*": ["src/services/*"],
-      "@environments/*": ["src/environments/*"]
+      "@app/*": ["./src/app/*"],
+      "@services/*": ["./src/services/*"],
+      "@environments/*": ["./src/environments/*"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true  
