@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
    * Bind value of remember user password and email
    * @memberof LoginPage
    */
-  public rememberMe = localStorage.getItem("rmbr");
+  public rememberMe = Boolean(localStorage.getItem("rmbr"));
 
   /**
    * Creates an instance of LoginPage.
