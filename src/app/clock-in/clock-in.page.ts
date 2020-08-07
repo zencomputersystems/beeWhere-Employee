@@ -1,9 +1,9 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { GlobalFnService } from 'src/services/global-fn.service';
+import { GlobalFnService } from '@services/global-fn.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
-import { GlobalApiService } from 'src/services/global-api.service';
+import { GlobalApiService } from '@services/global-api.service';
 
 /**
  * Clockin component

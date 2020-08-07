@@ -1,6 +1,6 @@
-import { environment } from 'src/environments/environment.prod';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '@environments/environment';
 
 /**
  * Component to construct login page
