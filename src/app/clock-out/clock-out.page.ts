@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { GlobalFnService } from 'src/services/global-fn.service';
+import { GlobalFnService } from '@services/global-fn.service';
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 

@@ -19,7 +19,8 @@ export class GlobalFnService {
    * @memberof GlobalFnService
    */
   sampleDataList() {
-    return require("src/app/sampledata.json");
+    return require("@app/sampledata.json")
+    // return require("src/app/sampledata.json");
   }
 
   /**
