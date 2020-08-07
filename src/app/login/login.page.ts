@@ -27,6 +27,11 @@ export class LoginPage implements OnInit {
    */
   public rememberMe = localStorage.getItem("rmbr");
 
+  /**
+   * Creates an instance of LoginPage.
+   * @param {FormBuilder} lFormBuilder to get methods from FormBuilder
+   * @memberof LoginPage
+   */
   constructor(public lFormBuilder: FormBuilder) {
     this.lForm = lFormBuilder.group({
       email: [localStorage.getItem("email"), Validators.required],
@@ -39,7 +44,9 @@ export class LoginPage implements OnInit {
    * Initialization of this component
    * @memberof LoginPage
    */
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.rememberMe);
+  }
 
   /**
    * Will be executed when the remember me checkbox is fired
@@ -48,8 +55,9 @@ export class LoginPage implements OnInit {
    * @param {*} evt Checkbox event
    * @memberof LoginPage
    */
-  onChangeRememberMe(evt) {
-    return localStorage.setItem('rmbr', evt.detail.checked);
+  onChangeRememberMe(token) {
+    this.rememberMe =
+      (token === "clickedOnLabel") ? !this.rememberMe : this.rememberMe;
   }
 
   /**
@@ -59,32 +67,37 @@ export class LoginPage implements OnInit {
    * @param {*} isRemember
    * @memberof LoginPage
    */
-  checkRememberMe(isRemember) {
-    console.log(isRemember);
-    if (isRemember === "true") {
-      console.log(this.lForm);
+  checkRememberMe() {
+    localStorage.setItem("rmbr", this.rememberMe.toString());
+    if (this.rememberMe.toString() === "true") {
       localStorage.setItem("email", this.lForm.get("email").value);
       localStorage.setItem("password", this.lForm.get("password").value);
     } else {
-      localStorage.setItem("rmbr", isRemember);
       localStorage.removeItem("email");
       localStorage.removeItem("password");
     }
   }
 
   /**
-   * Will be executed when login page is fired
+   * Will be executed when login page is fired.
+   * 1. check remember me logic
    * @memberof LoginPage
    */
   onLogin() {
-    this.checkRememberMe(localStorage.getItem("rmbr"));
+    this.checkRememberMe();
   }
 
-  onForgotPassword() { 
-    return window.location.href = environment.URL_FPASS + '/#/forgot-password/user';
+  /**
+   * Will be executed when forgot password label was executed
+   * @returns
+   * @memberof LoginPage
+   */
+  onForgotPassword() {
+    return (window.location.href =
+      environment.URL_FPASS + "/#/forgot-password/user");
   }
-  
-  s() {
-    console.log('isRemember');
+
+  s(evt?, m?) {
+    console.log("isRemember");
   }
 }

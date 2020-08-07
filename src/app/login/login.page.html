@@ -32,8 +32,8 @@
     <div class="option">
       <!-- remember me -->
       <ion-item-group>
-        <ion-checkbox (ionChange)="onChangeRememberMe($event)" [(ngModel)]="rememberMe"></ion-checkbox>
-        <ion-label>Remember Me</ion-label>
+        <ion-checkbox (ionChange)="onChangeRememberMe('cb')" [(ngModel)]="rememberMe"></ion-checkbox>
+        <ion-label (click)="onChangeRememberMe('clickedOnLabel')">Remember Me</ion-label>
       </ion-item-group>
       <ion-item-group>
         <ion-label (click)="onForgotPassword()">Forgot Password</ion-label>
