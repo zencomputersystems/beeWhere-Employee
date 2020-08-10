@@ -4,6 +4,9 @@ import { GlobalFnService } from '@services/global-fn.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
 import { GlobalApiService } from '@services/global-api.service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '@services/_services/authentication.service';
+import { User } from '@services/_models/user';
 
 /**
  * Clockin component
@@ -106,6 +109,9 @@ export class ClockInPage implements OnInit {
 
 
   public clocksForm: FormGroup;
+
+  public currentUser: User;
+
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -118,8 +124,13 @@ export class ClockInPage implements OnInit {
     private geolocation: Geolocation,
     public geofence: Geofence,
     public cinService: GlobalApiService,
-    public clkFormBuilder: FormBuilder
+    public clkFormBuilder: FormBuilder,
+    private cinRouter: Router,
+    private cinAuthenticationService: AuthenticationService
   ) {
+
+    this.cinAuthenticationService.currentUser.subscribe((x) => this.currentUser = x);
+
     geofence.initialize().then(
       () => console.log("Geofence plugin ready"),
       (err) => console.log(err)
@@ -432,5 +443,10 @@ export class ClockInPage implements OnInit {
     // }
     // console.log(this.data.userInfo.clockIn.historicalClockIn);
     // Object.assign(this.data.userInfo.clockIn.historicalClockIn, clockinObj);
+  }
+
+  logout() {
+    this.cinAuthenticationService.logout();
+    this.cinRouter.navigate(['/login']);
   }
 }
