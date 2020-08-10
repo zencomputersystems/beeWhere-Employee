@@ -129,8 +129,7 @@ export class ClockInPage implements OnInit {
     private cinAuthenticationService: AuthenticationService
   ) {
 
-    this.cinAuthenticationService.currentUser.subscribe((x) => this.currentUser = x);
-
+    // this.cinAuthenticationService.currentUser.subscribe((x) => this.currentUser = x);
     geofence.initialize().then(
       () => console.log("Geofence plugin ready"),
       (err) => console.log(err)
@@ -173,6 +172,7 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   ngOnInit() {
+    console.log(this.cinAuthenticationService.isLoggedIn);
     this.data = this.cinGlobalFn.sampleDataList();
     this.selectedClient = this.clientNone;
     this.selectedProject = this.projectContractNone;
@@ -351,6 +351,9 @@ export class ClockInPage implements OnInit {
   }
 
   getClientList(enableGeofiltering, clientList) {
+    console.log("locWatch");
+    console.log(this.locWatch);
+
     console.log(enableGeofiltering);
     if (enableGeofiltering) {
       console.log("getClientList: true");
@@ -360,6 +363,8 @@ export class ClockInPage implements OnInit {
       console.log(clientList);
     }
   }
+
+
   onKey(evt) {
     console.log('onKey');
     console.log(evt.code);
