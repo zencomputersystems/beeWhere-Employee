@@ -5,14 +5,15 @@ import { AuthGuardService } from '@services/_helpers/auth-guard.service';
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "startup",
+    redirectTo: "clock-in",
     pathMatch: "full",
-    canActivate: [AuthGuardService]
+    canActivate: [AuthGuardService],
   },
   {
     path: "home",
     loadChildren: () =>
       import("./home/home.module").then((m) => m.HomePageModule),
+    canActivate: [AuthGuardService],
   },
   {
     path: "login",
@@ -28,11 +29,13 @@ const routes: Routes = [
     path: "main",
     loadChildren: () =>
       import("./main/main.module").then((m) => m.MainPageModule),
+    canActivate: [AuthGuardService],
   },
   {
     path: "clock-in",
     loadChildren: () =>
       import("./clock-in/clock-in.module").then((m) => m.ClockInPageModule),
+    canActivate: [AuthGuardService],
   },
   {
     path: "inbox-details",
@@ -40,27 +43,32 @@ const routes: Routes = [
       import("./inbox-details/inbox-details.module").then(
         (m) => m.InboxDetailsPageModule
       ),
+    canActivate: [AuthGuardService],
   },
   {
     path: "support",
     loadChildren: () =>
       import("./support/support.module").then((m) => m.SupportPageModule),
+    canActivate: [AuthGuardService],
   },
   {
     path: "clock-out/:id/:time",
 
     loadChildren: () =>
       import("./clock-out/clock-out.module").then((m) => m.ClockOutPageModule),
+    canActivate: [AuthGuardService],
   },
   {
     path: "clock/:id/:time",
     loadChildren: () =>
       import("./clock/clock.module").then((m) => m.ClockPageModule),
+    canActivate: [AuthGuardService],
   },
   {
     path: "report",
     loadChildren: () =>
       import("./report/report.module").then((m) => m.ReportPageModule),
+    canActivate: [AuthGuardService],
   },
 ];
 

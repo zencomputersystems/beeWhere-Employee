@@ -18,15 +18,13 @@ export class AuthGuardService {
   ) { }
 
   canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const currentUser = this.authenticationService.currentUserValue;
-    if (currentUser) {
-      console.log("currentUser");
-      console.log(currentUser);
+    if (this.authenticationService.isAuthenticated()) {
       return true;
+    } else {
+    // not logged in so redirect to login page with the return url
+      this.router.navigate(["/login"], { queryParams: { returnUrl: state.url } });
+      return false;
     }
 
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    return false;
   }
 }

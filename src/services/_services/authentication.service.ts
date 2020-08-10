@@ -17,22 +17,29 @@ import { User } from '@services/_models/user';
   providedIn: "root",
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  // private currentUserSubject: BehaviorSubject<User>;
+  // public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(
+    // this.currentUserSubject = new BehaviorSubject<User>(
       // JSON.parse(localStorage.getItem("currentUser"))
-      JSON.parse(localStorage.getItem("access_token"))
-    );
-    this.currentUser = this.currentUserSubject.asObservable();
+    //   JSON.parse(localStorage.getItem("access_token"))
+    // );
+    // this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
+  // public get currentUserValue(): User {
+  //   return this.currentUserSubject.value;
+  // }
+
+  public get isLoggedIn(): boolean {
+    console.log(localStorage.getItem('access_token'));
+    return (localStorage.getItem("access_token") !== null);
   }
 
   isAuthenticated(): boolean {
+    console.log(localStorage.getItem("access_token"));
+    console.log(this.isTokenExpired());
     return (
       localStorage.getItem("access_token") != null && !this.isTokenExpired()
     );
@@ -51,7 +58,7 @@ export class AuthenticationService {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           // localStorage.setItem("currentUser", user.access_token);
           if ( user && user.access_token) {
-            console.log(user);
+            // console.log(user);
             localStorage.setItem("access_token", user.access_token);
             // localStorage.setItem("loginType", user.login_type);
             this.isAuthenticated();
@@ -60,7 +67,7 @@ export class AuthenticationService {
               this.isAuthenticated();
               this.logout();
             }, user.expires_in * 1000);
-            this.currentUserSubject.next(user);
+            // this.currentUserSubject.next(user);
 
           }
           return user;
@@ -72,6 +79,6 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     // localStorage.removeItem("currentUser");
     localStorage.removeItem("access_token");
-    this.currentUserSubject.next(null);
+    // this.currentUserSubject.next(null);
   }
 }

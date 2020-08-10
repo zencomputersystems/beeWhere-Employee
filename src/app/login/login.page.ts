@@ -71,9 +71,10 @@ export class LoginPage implements OnInit {
     });
 
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(["/"]);
-    }
+    // if (this.authenticationService.currentUserValue) {
+    //   console.log(this.authenticationService.currentUserValue);
+    //   this.router.navigate(["/"]);
+    // }
   }
 
   /**
@@ -84,7 +85,6 @@ export class LoginPage implements OnInit {
     const tempVal3 = window.atob(localStorage.getItem("val3"));
     this.rememberMe = Boolean(tempVal3);
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/"; 
-    console.log(this.lForm)
   }
 
   /**
@@ -128,12 +128,14 @@ export class LoginPage implements OnInit {
   onLogin() {
     this.checkRememberMe();
     // window.btoa(pass);
+    console.log('onlogin');
     this.authenticationService
       .login(this.lForm.get("email").value, this.lForm.get("password").value)
       .pipe(first())
       .subscribe(
         (data) => {
           console.log(data);
+          console.log(this.returnUrl);
           this.router.navigate([this.returnUrl]);
         },
         (error) => {
