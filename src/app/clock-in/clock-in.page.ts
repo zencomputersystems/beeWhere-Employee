@@ -1,3 +1,4 @@
+import { GlobalService } from '@services/_providers/global.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { GlobalFnService } from '@services/global-fn.service';
@@ -6,7 +7,7 @@ import { Geofence } from '@ionic-native/geofence/ngx';
 import { GlobalApiService } from '@services/global-api.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@services/_services/authentication.service';
-import { User } from '@services/_models/user';
+import { APIService } from '@services/_services/api.service';
 
 /**
  * Clockin component
@@ -20,7 +21,6 @@ import { User } from '@services/_models/user';
   styleUrls: ["./clock-in.page.scss"],
 })
 export class ClockInPage implements OnInit {
-  
   /**
    * Get value of current time in ISO format
    * @memberof ClockInPage
@@ -107,10 +107,9 @@ export class ClockInPage implements OnInit {
    */
   public checkAddNew = [];
 
-
   public clocksForm: FormGroup;
 
-  public currentUser: User;
+  public currentUser = {};
 
   /**
    * Creates an instance of ClockInPage.
@@ -126,9 +125,10 @@ export class ClockInPage implements OnInit {
     public cinService: GlobalApiService,
     public clkFormBuilder: FormBuilder,
     private cinRouter: Router,
-    private cinAuthenticationService: AuthenticationService
+    private cinAuthenticationService: AuthenticationService,
+    private cinApi: APIService,
+    public cinGlobal: GlobalService
   ) {
-
     // this.cinAuthenticationService.currentUser.subscribe((x) => this.currentUser = x);
     geofence.initialize().then(
       () => console.log("Geofence plugin ready"),
@@ -150,20 +150,20 @@ export class ClockInPage implements OnInit {
         code: null,
         description: null,
         id: "none",
-        name: null
+        name: null,
       }),
       selectedProject: clkFormBuilder.group({
         code: null,
         description: null,
         id: "none",
-        name: null
+        name: null,
       }),
       selectedContract: clkFormBuilder.group({
         code: null,
         description: null,
         id: "none",
         name: null,
-      })
+      }),
     });
   }
 
@@ -172,27 +172,14 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   ngOnInit() {
-    console.log(this.cinAuthenticationService.isLoggedIn);
+    // console.log(this.cinGlobal.userInfo);
     this.data = this.cinGlobalFn.sampleDataList();
     this.selectedClient = this.clientNone;
     this.selectedProject = this.projectContractNone;
     this.selectedContract = this.projectContractNone;
-    // console.log("curr time");
-    // console.log(this.currTime);
-    // console.log(this.data);
-    // console.log(this.data.userInfo.attendanceProfile);
-    console.log(this.clocksForm);
     this.getLoc();
-    // const time1:any = new Date(1594633144000);
-    // const time2: any = new Date();
-    // console.log('time1');
-    // console.log(time1);
-    // console.log(time2);
-    // const difftime = time1 - time2;
-    // console.log(difftime);
-    // console.log(Math.floor(difftime / 60e3));
-
     // setInterval(this.test, 1000);
+    this.getBasicInfo();
   }
 
   /**
@@ -205,51 +192,49 @@ export class ClockInPage implements OnInit {
   }
 
   chg() {
-    console.log(this.clocksForm)
+    console.log(this.clocksForm);
   }
 
   chooseClient(evt) {
-    console.log(evt.detail.value)
+    console.log(evt.detail.value);
     this.clocksForm.controls.selectedClient.patchValue({
       code: evt.detail.value.clientCode,
       description: null,
       id: evt.detail.value.clientId,
-      name: evt.detail.value.clientName
+      name: evt.detail.value.clientName,
     });
-
   }
 
   chooseOpt(type, evt) {
-  
     switch (type) {
-      case 'project':
+      case "project":
         this.clocksForm.controls.selectedProject.patchValue({
           code: evt.detail.value.code,
           description: evt.detail.value.description,
           id: evt.detail.value.id,
-          name: evt.detail.value.name
+          name: evt.detail.value.name,
         });
         break;
 
-      case 'contract':
+      case "contract":
         this.clocksForm.controls.selectedContract.patchValue({
           code: evt.detail.value.code,
           description: evt.detail.value.description,
           id: evt.detail.value.id,
-          name: evt.detail.value.name
+          name: evt.detail.value.name,
         });
         break;
 
-      default: //client by default
+      default:
+        //client by default
         this.clocksForm.controls.selectedClient.patchValue({
           code: evt.detail.value.clientCode,
           description: null,
           id: evt.detail.value.clientId,
-          name: evt.detail.value.clientName
+          name: evt.detail.value.clientName,
         });
         break;
     }
-
   }
   /**
    * To get current location positions (latitude & longitude),
@@ -364,9 +349,8 @@ export class ClockInPage implements OnInit {
     }
   }
 
-
   onKey(evt) {
-    console.log('onKey');
+    console.log("onKey");
     console.log(evt.code);
     console.log(evt.key);
     console.log(evt.keyCode);
@@ -375,7 +359,6 @@ export class ClockInPage implements OnInit {
     console.log(JSON.stringify(evt.key, null, " "));
     console.log(JSON.stringify(evt.keyCode, null, " "));
     console.log(JSON.stringify(evt, null, " "));
-    
   }
   /**
    * To bind data and save clockin
@@ -385,22 +368,22 @@ export class ClockInPage implements OnInit {
     const temp: any = new Date(this.currTime).setHours(0, 0, 0, 0);
     const timeNow = new Date().toISOString();
     switch (type) {
-      case 'in':
+      case "in":
         this.clocksForm.patchValue({
           inLocationName: this.locWatch.lat + ", " + this.locWatch.long,
           inLocationLat: this.locWatch.lat,
           inLocationLong: this.locWatch.long,
-          inTime: timeNow
+          inTime: timeNow,
         });
         this.data.userInfo.clockIn.status = true;
         break;
 
-      case 'out':
+      case "out":
         this.clocksForm.patchValue({
           outLocationName: this.locWatch.lat + ", " + this.locWatch.long,
           outLocationLat: this.locWatch.lat,
           outLocationLong: this.locWatch.long,
-          outTime: timeNow
+          outTime: timeNow,
         });
         this.data.userInfo.clockIn.status = false;
         break;
@@ -411,16 +394,22 @@ export class ClockInPage implements OnInit {
       list: [
         {
           activityList: this.checkAddNew,
-          clientCode: this.clocksForm.controls.selectedClient.get('code').value, // this.selectedClient.clientCode,
-          clockInLocation: this.clocksForm.get('inLocationName').value, // this.locWatch.lat + ", " + this.locWatch.long,
-          clockInTime: this.clocksForm.get('inTime').value, // this.currTime,
-          clockOutLocation: this.clocksForm.get('outLocationName').value, // null,
-          clockOutTime: this.clocksForm.get('outTime').value, // null,
-          jobType: this.clocksForm.get('jobtype').value, // this.jobType,
-          projectCode: this.clocksForm.controls.selectedProject.get('code').value, // this.selectedProject.code,
-          projectDesc: this.clocksForm.controls.selectedProject.get('description').value, // this.selectedProject.description,
-          contractCode: this.clocksForm.controls.selectedContract.get('code').value, // this.selectedContract.code,
-          contractDesc: this.clocksForm.controls.selectedContract.get('description').value, // this.selectedContract.description,
+          clientCode: this.clocksForm.controls.selectedClient.get("code").value, // this.selectedClient.clientCode,
+          clockInLocation: this.clocksForm.get("inLocationName").value, // this.locWatch.lat + ", " + this.locWatch.long,
+          clockInTime: this.clocksForm.get("inTime").value, // this.currTime,
+          clockOutLocation: this.clocksForm.get("outLocationName").value, // null,
+          clockOutTime: this.clocksForm.get("outTime").value, // null,
+          jobType: this.clocksForm.get("jobtype").value, // this.jobType,
+          projectCode: this.clocksForm.controls.selectedProject.get("code")
+            .value, // this.selectedProject.code,
+          projectDesc: this.clocksForm.controls.selectedProject.get(
+            "description"
+          ).value, // this.selectedProject.description,
+          contractCode: this.clocksForm.controls.selectedContract.get("code")
+            .value, // this.selectedContract.code,
+          contractDesc: this.clocksForm.controls.selectedContract.get(
+            "description"
+          ).value, // this.selectedContract.description,
         },
       ],
     };
@@ -431,18 +420,18 @@ export class ClockInPage implements OnInit {
     //   console.log(list)
     //   if (list.clockInDate === clockinObj.clockInDate) {
     //     console.log('list');
-    //   //   Object.assign(list, clockinObj); 
+    //   //   Object.assign(list, clockinObj);
     //     return true;
     //   } else {
     //     console.log('list 2');
     //     return false;
-        
+
     //   }
     // });
     // console.log(checkExist)
     // if (checkExist === false) {
     this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
-    if (type === 'out') {
+    if (type === "out") {
       this.checkAddNew = [];
     }
     // }
@@ -452,6 +441,12 @@ export class ClockInPage implements OnInit {
 
   logout() {
     this.cinAuthenticationService.logout();
-    this.cinRouter.navigate(['/login']);
+    this.cinRouter.navigate(["/login"]);
+  }
+
+  getBasicInfo() {
+    this.cinGlobal.getLoggedUserInfo();
+    // console.log("getAttendanceProfile");
+    // console.log("/api/admin/attendance/user/" + this.cinGlobal.userInfo.userId);
   }
 }

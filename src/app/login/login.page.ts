@@ -1,3 +1,5 @@
+import { GlobalService } from '@services/_providers/global.service';
+import { APIService } from '@services/_services/api.service';
 import { map, first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -44,7 +46,7 @@ export class LoginPage implements OnInit {
   error: any;
 
   /**
-   * 
+   *
    * @type {boolean}
    * @memberof LoginPage
    */
@@ -62,11 +64,16 @@ export class LoginPage implements OnInit {
     public lFormBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private lApi: APIService,
+    private lGlobal: GlobalService
   ) {
     this.lForm = lFormBuilder.group({
       email: [window.atob(localStorage.getItem("val1")), Validators.required],
-      password: [window.atob(localStorage.getItem("password")), Validators.required],
+      password: [
+        window.atob(localStorage.getItem("password")),
+        Validators.required,
+      ],
       showPassword: false,
     });
 
@@ -84,7 +91,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     const tempVal3 = window.atob(localStorage.getItem("val3"));
     this.rememberMe = Boolean(tempVal3);
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/"; 
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
 
   /**
@@ -128,15 +135,15 @@ export class LoginPage implements OnInit {
   onLogin() {
     this.checkRememberMe();
     // window.btoa(pass);
-    console.log('onlogin');
+    console.log("onlogin");
     this.authenticationService
       .login(this.lForm.get("email").value, this.lForm.get("password").value)
       .pipe(first())
       .subscribe(
         (data) => {
           console.log(data);
-          console.log(this.returnUrl);
-          this.router.navigate([this.returnUrl]);
+          this.lGlobal.getLoggedUserInfo(true);
+          // this.router.navigate([this.returnUrl]);
         },
         (error) => {
           console.log(error);
