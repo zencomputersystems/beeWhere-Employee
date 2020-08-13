@@ -1,13 +1,15 @@
+import { ClockInPage } from './../../app/clock-in/clock-in.page';
 import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
+import { clocksForm } from '@app/clock-in/clock-in.page';
 
 @Injectable({
   providedIn: "root",
 })
 export class GlobalService {
   constructor(private gApi: APIService, private router: Router) {}
-
+  //  ClockInPage.clocksForm: FormGroup
   public userInfo = {
     companyName: null,
     email: null,
@@ -24,41 +26,20 @@ export class GlobalService {
     userId: null,
   };
 
-  // public jobConfig = {};
-  public jobConfig = {
-    home: {
-      activity_list: true,
-      client_list: true,
-      contract_selection: true,
-      geofence_filter: true,
-      project_selection: true,
-      value: true,
-    },
-    office: {
-      activity_list: true,
-      client_list: true,
-      contract_selection: true,
-      geofence_filter: true,
-      project_selection: true,
-      value: true,
-    },
-    site: {
-      activity_list: true,
-      client_list: true,
-      contract_selection: true,
-      geofence_filter: true,
-      project_selection: true,
-      value: true,
-    },
-    others: {
-      activity_list: true,
-      client_list: true,
-      contract_selection: true,
-      geofence_filter: true,
-      project_selection: true,
-      value: true,
-    }
+  public dataGlobal = require('../../app/sampledata.json');
+  private globalData = require('./global.json');
+
+  public initSelectedJobConfig = {
+    type: "office",
+    activity_list: true,
+    client_list: true,
+    contract_selection: true,
+    geofence_filter: true,
+    project_selection: true,
+    value: true
   };
+
+  public jobConfigs = [];
 
   get initUserInfo(): any {
     console.log("initUserInfo");
@@ -72,6 +53,7 @@ export class GlobalService {
 
   getLoggedUserInfo(isNavToMain?) {
     this.gApi.getWithHeader("/api/user-info").subscribe((resp) => {
+      console.log(resp);
       Object.assign(this.userInfo, resp);
       this.getJobProfile();
     });
@@ -87,11 +69,16 @@ export class GlobalService {
       .getWithHeader("/api/admin/attendance/user/" + this.userInfo.userId)
       .subscribe((resp) => {
         console.log(resp);
-        // console.log(this.jobConfig);
-        Object.assign(this.jobConfig, (resp as any).property);
+        Object.entries((resp as any).property).forEach(entry => {
+          const temp: any = entry[1];
+          temp.type = entry[0];
+          this.jobConfigs.push(temp);
+          this.dataGlobal.userInfo.attendanceProfile2.push(temp);
+          this.globalData.jobTypes.push(temp);
+        });
+        console.log(this.dataGlobal.userInfo);
+        console.log(this.globalData.jobTypes);
       });
-    console.log(this.jobConfig);
-    // console.log(this.jobConfig.home.value);
   }
 }
  

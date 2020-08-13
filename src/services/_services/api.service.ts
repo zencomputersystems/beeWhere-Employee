@@ -37,21 +37,13 @@ export class APIService {
     );
   }
 
-  // getWithHeaders() {
-  //   this.headerAuthorization();
-  //   return this.http
-  //     .get(this.ROOT_URL + "/api/user-info", { headers: this.httpHeaders })
-  //     .pipe(map((res: Response) => res.json()));
-  // }
-  
-  // reqGetApi(): Observable<any> {
-  //   return this.getWithHeaders();
-  // }
-
+  /**
+   * Get method with passing header to return the data from db
+   * @param {string} addr
+   * @returns
+   * @memberof APIService
+   */
   getWithHeader(addr: string) {
-  // The Observable returned by get() is of type Observable<string>
-  // because a text response was specified.
-  // There's no need to pass a <string> type parameter to get().
   return this.http
     .get(this.ROOT_URL + addr , { headers: this.httpHeaders })
     .pipe(
@@ -60,5 +52,40 @@ export class APIService {
         (error) => error
       )
     );
+  }
+
+  /**
+   * Post method with passing it's header, array to db
+   * @param {string} addr
+   * @param {*} array
+   * @memberof APIService
+   */
+  postWithHeader(addr: string, array: any) {
+    return this.http
+      .post(this.ROOT_URL + addr, array, { headers: this.httpHeaders })
+      .pipe(
+        tap(
+          (data) => data,
+          (error) => error
+        )
+      );
+  }
+
+  /**
+   * Patch data to db
+   * @param {string} addr
+   * @param {*} array
+   * @returns
+   * @memberof APIService
+   */
+  patchWithHeader(addr: string, array: any) {
+    return this.http
+      .patch(this.ROOT_URL + addr, array, { headers: this.httpHeaders })
+      .pipe(
+        tap(
+          (data) => data,
+          (error) => error
+        )
+      );
   }
 }

@@ -48,6 +48,7 @@
                 }
             }
         ],
+        "attendanceProfile2": [],
         "clockIn": {
             "status": false,
             "historicalClockIn_noData": [],

@@ -120,7 +120,7 @@
                 <ion-item lines="none">
                   <ion-checkbox slot="start" mode="ios" [(ngModel)]="aList.status">
                   </ion-checkbox>
-                  <ion-input type="text" placeholder="Add task here    " [(ngModel)]="aList.activity" inputmode="text"
+                  <ion-input type="text" placeholder="Add task here and press Enter    " [(ngModel)]="aList.activity" inputmode="text"
                     type="text" enterkeyhint="done"></ion-input>
                 </ion-item>
                 <ion-item-options side="end">
@@ -131,7 +131,7 @@
               <ion-item-sliding>
                 <ion-item lines="none">
                   <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
-                  <ion-input type="text" placeholder="Add task here    " [(ngModel)]="coutNewActivity"
+                  <ion-input type="text" placeholder="Add task here and press Enter    " [(ngModel)]="coutNewActivity"
                     (keyup.enter)="coutGlobalFn.addTask($event, coutNewActivity, histList.activityList);coutNewActivity=null;" 
                     inputmode="text" type="text" enterkeyhint="done"></ion-input>
                 </ion-item>

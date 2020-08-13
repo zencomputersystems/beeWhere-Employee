@@ -33,13 +33,10 @@ export class AuthenticationService {
   // }
 
   public get isLoggedIn(): boolean {
-    console.log(localStorage.getItem('access_token'));
     return (localStorage.getItem("access_token") !== null);
   }
 
   isAuthenticated(): boolean {
-    console.log(localStorage.getItem("access_token"));
-    console.log(this.isTokenExpired());
     return (
       localStorage.getItem("access_token") != null && !this.isTokenExpired()
     );
@@ -49,10 +46,17 @@ export class AuthenticationService {
     return false;
   }
 
+  testGet() {
+    return this.http.get<any>(environment.URL_AUTH + "/").pipe(map((data) => {
+      console.log(data);
+      return data;
+    }));
+  }
+  
   login(email, password) {
     password = window.btoa(password); //to encrypt pass
     return this.http
-      .post<any>(environment.URL_AUTH + "/auth/login", { email, password })
+      .post<any>(environment.URL_AUTH + "/api/auth/login", { email, password })
       .pipe(
         map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes

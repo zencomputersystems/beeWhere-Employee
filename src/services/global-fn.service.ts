@@ -1,5 +1,7 @@
+import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
 import * as sampleData from '../app/sampledata.json';
+import { data } from 'jquery';
 
 /**
  * This services is to store the general functions that might will be used in multiple pages
@@ -12,7 +14,9 @@ import * as sampleData from '../app/sampledata.json';
 export class GlobalFnService {
   // public currDateTime = new Date().toISOString();
 
-  constructor() {}
+  constructor(
+    private gfnApi: APIService
+  ) {}
 
   /**
    * This method is to get the list of sample data in arrays from json file
