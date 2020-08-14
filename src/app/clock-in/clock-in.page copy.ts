@@ -377,7 +377,7 @@ export class ClockInPage implements OnInit {
               "/" +
               "101.701" // this.locWatch.long
           )
-          .subscribe((clientRes) => {
+          .subscribe((clientRes: any[]) => {
             console.log(clientRes);
             console.log(clientRes[0].CLIENT_DATA);
             clientRes.forEach((cli) => {
@@ -389,10 +389,10 @@ export class ClockInPage implements OnInit {
             // Object.assign(this.globalData.clients, clientRes);
             console.log(this.globalData.clients);
 
-        // ABBR: null,
-        // description: null,
-        // CLIENT_GUID: "none",
-        // NAME: null,
+            // ABBR: null,
+            // description: null,
+            // CLIENT_GUID: "none",
+            // NAME: null,
           });
       } else {
         this.getAllClient();

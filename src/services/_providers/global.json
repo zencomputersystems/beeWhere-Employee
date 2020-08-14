@@ -5,6 +5,8 @@
     "projects": [],
     "activities": [],
     "clocksInfo": {
+        "latest": null,
         "list": {}
-    }
+    },
+    "histClocks": []
 }

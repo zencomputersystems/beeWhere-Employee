@@ -156,16 +156,9 @@ export class ClockInPage implements OnInit {
       dateToday: "",
       jobtype: "office",
       inTime: ["", Validators.required],
-      inLocationName: "",
-      inLocationLat: null,
-      inLocationLong: null,
       outTime: ["", Validators.required],
-      outLocationName: "",
-      outLocationLat: "",
-      outLocationLong: "",
       selectedClient: clkFormBuilder.group({
         ABBR: null,
-        description: null,
         CLIENT_GUID: "none",
         NAME: null,
       }),
@@ -253,7 +246,6 @@ export class ClockInPage implements OnInit {
         //client by default
         this.clocksForm.controls.selectedClient.patchValue({
           ABBR: evt.detail.value.ABBR,
-          description: null,
           CLIENT_GUID: evt.detail.value.CLIENT_GUID,
           NAME: evt.detail.value.NAME,
         });
@@ -312,11 +304,7 @@ export class ClockInPage implements OnInit {
       this.locWatch.lat = data.coords.latitude;
       this.locWatch.long = data.coords.longitude;
       // this.clocksForm.patchValue({
-      //   inLocationLat: data.coords.latitude,
-      //   inLocationLong: data.coords.longitude
       // });
-      // inLocationLat: this.locWatch.lat,
-      //   inLocationLong: this.locWatch.long,
       // data can be a set of coordinates, or an error (if an error occurred).
       // data.coords.latitude
       // data.coords.longitude
@@ -378,7 +366,7 @@ export class ClockInPage implements OnInit {
               "/" +
               "101.701" // this.locWatch.long
           )
-          .subscribe((clientRes) => {
+          .subscribe((clientRes: any[]) => {
             console.log(clientRes);
             console.log(clientRes[0].CLIENT_DATA);
             clientRes.forEach((cli) => {
@@ -461,8 +449,6 @@ export class ClockInPage implements OnInit {
           type === "project"
             ? (this.globalData.projects = projcontRes)
             : (this.globalData.contracts = projcontRes);
-          // this.globalData.projects = projectRes;
-          console.log(this.globalData.contracts);
         },
         (error) => {
           console.log(error);
@@ -493,9 +479,6 @@ export class ClockInPage implements OnInit {
     switch (type) {
       case "in":
         this.clocksForm.patchValue({
-          inLocationName: this.locWatch.lat + ", " + this.locWatch.long,
-          inLocationLat: this.locWatch.lat,
-          inLocationLong: this.locWatch.long,
           inTime: timeNow,
         });
 
@@ -537,9 +520,6 @@ export class ClockInPage implements OnInit {
 
       case "out":
         this.clocksForm.patchValue({
-          outLocationName: this.locWatch.lat + ", " + this.locWatch.long,
-          outLocationLat: this.locWatch.lat,
-          outLocationLong: this.locWatch.long,
           outTime: timeNow,
         });
 
@@ -577,9 +557,7 @@ export class ClockInPage implements OnInit {
         {
           activityList: this.checkAddNew,
           clientCode: this.clocksForm.controls.selectedClient.get("ABBR").value, // this.selectedClient.clientCode,
-          clockInLocation: this.clocksForm.get("inLocationName").value, // this.locWatch.lat + ", " + this.locWatch.long,
           clockInTime: this.clocksForm.get("inTime").value, // this.currTime,
-          clockOutLocation: this.clocksForm.get("outLocationName").value, // null,
           clockOutTime: this.clocksForm.get("outTime").value, // null,
           jobType: this.clocksForm.get("jobtype").value, // this.jobType,
           projectCode: this.clocksForm.controls.selectedProject.get("SOC_NO")

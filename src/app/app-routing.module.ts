@@ -59,7 +59,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
-    path: "clock/:id/:time",
+    path: "clock/:id/:clockguid",
     loadChildren: () =>
       import("./clock/clock.module").then((m) => m.ClockPageModule),
     canActivate: [AuthGuardService],

@@ -1,7 +1,6 @@
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
 import * as sampleData from '../app/sampledata.json';
-import { data } from 'jquery';
 
 /**
  * This services is to store the general functions that might will be used in multiple pages
@@ -88,4 +87,5 @@ export class GlobalFnService {
 
     return taskList;
   }
+  
 }
