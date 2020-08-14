@@ -212,11 +212,11 @@
               </ion-list>
             </ion-item-group>
 
-            <ion-item-group class="activities-setting"> 
-              <!-- <ion-list *ngFor="let activities of histList.ACTIVITY">
-                <ion-checkbox mode="ios" [(ngModel)]="activities.status" disabled></ion-checkbox>
-                <ion-label>{{activities.activity}}</ion-label>
-              </ion-list> -->
+            <ion-item-group class="activities-setting" *ngIf="histList.ACTIVITY !== null">
+              <ion-list *ngFor="let activities of histList.ACTIVITY.root.activity">
+                <ion-checkbox mode="ios" [(ngModel)]="activities.statusFlag" disabled></ion-checkbox>
+                <ion-label>{{activities.name}}</ion-label>
+              </ion-list>
             </ion-item-group>
           </ion-card-content>
               <!-- <ion-card-content class="clockin-content">
