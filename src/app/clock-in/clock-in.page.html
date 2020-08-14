@@ -207,14 +207,21 @@
 
                     <!-- getting client list -->
                     <ion-item-group class="clients" *ngIf="jobDtl.client_list">
-                      <ion-title>Client</ion-title>
-                      <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
+                      <!-- <ion-select [(ngModel)]="setlect" [ngModelOptions]=" {standalone: true}">
+                        <ion-select-option *ngFor="let selectedClient of globalData.clients"
+                          [value]="selectedClient">
+                          {{selectedClient.ABBR}} - {{selectedClient.NAME}}</ion-select-option>
+                        <ion-select-option value="two">two</ion-select-option>
+                      </ion-select> -->
+                      <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedClient" [ngModelOptions]=" {standalone: true}" 
+                        placeholder="Select" (click)="getClientList(jobDtl.geofence_filter)">
+                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
                         (ionChange)="chooseOpt('client', $event)"
-                        (click)="getClientList(jobDtl.geofence_filter)">
+                        (click)="getClientList(jobDtl.geofence_filter)"> -->
                         <!-- (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)"> -->
                         <ion-select-option selected [value]="clientNone">None</ion-select-option>
-                        <ion-select-option *ngFor="let client of globalData.clients" [value]="client">
-                          {{client.ABBR}} - {{client.NAME}}
+                        <ion-select-option *ngFor="let selectedClient of globalData.clients" [value]="selectedClient">
+                          {{selectedClient.ABBR}} - {{selectedClient.NAME}}
                         </ion-select-option>
                       </ion-select>
                       <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
@@ -230,8 +237,8 @@
                     <!-- getting project list -->
                     <ion-item-group class="clients" *ngIf="jobDtl.project_selection">
                       <ion-title>Project Selection</ion-title>
-                      <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedProject" placeholder="Select"
-                        (ionChange)="chooseOpt('project', $event)" (click)="getProjectContractList('project')">
+                      <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedProject"
+                        [ngModelOptions]=" {standalone: true}" placeholder="Select" (click)="getProjectContractList('project')">
                         <ion-select-option selected [value]="projectNone">None</ion-select-option>
                         <ng-container *ngFor="let project of globalData.projects">
                           <ion-select-option [value]="project">
@@ -265,7 +272,8 @@
                     <!-- getting contract list -->
                     <ion-item-group class="clients" *ngIf="jobDtl.contract_selection">
                       <ion-title>Contract Selection</ion-title>
-                      <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedContract"
+                      <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedContract"
+                        [ngModelOptions]=" {standalone: true}"
                         placeholder="Select" (ionChange)="chooseOpt('contract', $event)"
                         (click)="getProjectContractList('contract')">
                         <ion-select-option selected [value]="contractNone">None</ion-select-option>
@@ -447,20 +455,20 @@
           <ion-card-title>
             {{clocksForm.get('jobtype').value}}
             <ion-card-subtitle>
-              <ion-label class="label-client" *ngIf="clocksForm.get('selectedClient').value.ABBR !== null">
-                {{clocksForm.get('selectedClient').value.ABBR}}
+              <ion-label class="label-client" *ngIf="selectedClient.ABBR !== null">
+                {{selectedClient.ABBR}}
               </ion-label>
-              <ion-label class="label-project" *ngIf="clocksForm.get('selectedProject').value.SOC_NO !== null">
-                {{clocksForm.get('selectedProject').value.SOC_NO}}
+              <ion-label class="label-project" *ngIf="selectedProject.SOC_NO !== null">
+                {{selectedProject.SOC_NO}}
               </ion-label>
-              <ion-label class="label-contract" *ngIf="clocksForm.get('selectedContract').value.CONTRACT_NO !== null">
-                {{clocksForm.get('selectedContract').value.CONTRACT_NO}}
+              <ion-label class="label-contract" *ngIf="selectedContract.CONTRACT_NO !== null">
+                {{selectedContract.CONTRACT_NO}}
               </ion-label>
             </ion-card-subtitle>
           </ion-card-title>
           <ion-card-subtitle class="description-project"
-            *ngIf="clocksForm.get('selectedProject').value.DESCRIPTION !== null">
-            {{clocksForm.get('selectedProject').value.DESCRIPTION }}
+            *ngIf="selectedProject.DESCRIPTION !== null">
+            {{selectedProject.DESCRIPTION }}
           </ion-card-subtitle>
           <ion-card-content class="clockin-details">
             <ion-item-group class="clocked-in">

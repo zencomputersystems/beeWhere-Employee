@@ -157,25 +157,26 @@ export class ClockInPage implements OnInit {
       jobtype: "office",
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
-      selectedClient: clkFormBuilder.group({
-        ABBR: null,
-        CLIENT_GUID: "none",
-        NAME: null,
-      }),
-      selectedProject: clkFormBuilder.group({
-        SOC_NO: null,
-        DESCRIPTION: null,
-        PROJECT_GUID: "none",
-        NAME: null,
-        CLIENT_GUID: null,
-      }),
-      selectedContract: clkFormBuilder.group({
-        CLIENT_GUID: null,
-        CONTRACT_NO: null,
-        DESCRIPTION: null,
-        CONTRACT_GUID: "none",
-        NAME: null,
-      }),
+      // selectedClient: clkFormBuilder.group({
+      //   ABBR: null,
+      //   CLIENT_GUID: "none",
+      //   NAME: null,
+      //   STATUS: 1
+      // }),
+      // selectedProject: clkFormBuilder.group({
+      //   SOC_NO: null,
+      //   DESCRIPTION: null,
+      //   PROJECT_GUID: "none",
+      //   NAME: null,
+      //   CLIENT_GUID: null,
+      // }),
+      // selectedContract: clkFormBuilder.group({
+      //   CLIENT_GUID: null,
+      //   CONTRACT_NO: null,
+      //   DESCRIPTION: null,
+      //   CONTRACT_GUID: "none",
+      //   NAME: null,
+      // }),
     });
   }
 
@@ -204,19 +205,22 @@ export class ClockInPage implements OnInit {
   }
 
   chg() {
-    console.log(this.clocksForm);
-    console.log(this.globalData.clients);
+    // console.log(this.clocksForm);
+    // console.log(this.globalData.clients);
+    // console.log(this.clocksForm.controls.selectedClient.value);
+    console.log(this.setlect);
+    console.log(this.selectedClient);
   }
 
-  chooseClient(evt) {
-    console.log(evt.detail.value);
-    this.clocksForm.controls.selectedClient.patchValue({
-      ABBR: evt.detail.value.ABBR,
-      description: null,
-      CLIENT_GUID: evt.detail.value.CLIENT_GUID,
-      NAME: evt.detail.value.NAME,
-    });
-  }
+  // chooseClient(evt) {
+  //   console.log(evt.detail.value);
+  //   this.clocksForm.controls.selectedClient.patchValue({
+  //     ABBR: evt.detail.value.ABBR,
+  //     description: null,
+  //     CLIENT_GUID: evt.detail.value.CLIENT_GUID,
+  //     NAME: evt.detail.value.NAME,
+  //   });
+  // }
 
   chooseOpt(type, evt) {
     console.log("evt");
@@ -413,13 +417,10 @@ export class ClockInPage implements OnInit {
   getProjectList() {
     console.log("getProjectList");
     console.log(
-      this.clocksForm.controls.selectedClient.get("CLIENT_GUID").value
+      this.selectedClient.CLIENT_GUID
     );
     this.cinApi
-      .getWithHeader(
-        "/api/project/" +
-          this.clocksForm.controls.selectedClient.get("CLIENT_GUID").value
-      )
+      .getWithHeader("/api/project/" + this.selectedClient.CLIENT_GUID)
       .subscribe(
         (projectRes) => {
           console.log(projectRes);
@@ -433,16 +434,9 @@ export class ClockInPage implements OnInit {
 
   getProjectContractList(type) {
     console.log("getProjectContractList:" + type);
-    console.log(
-      this.clocksForm.controls.selectedClient.get("CLIENT_GUID").value
-    );
+    console.log(this.selectedClient.CLIENT_GUID);
     this.cinApi
-      .getWithHeader(
-        "/api/" +
-          type +
-          "/" +
-          this.clocksForm.controls.selectedClient.get("CLIENT_GUID").value
-      )
+      .getWithHeader("/api/" + type + "/" + this.selectedClient.CLIENT_GUID)
       .subscribe(
         (projcontRes) => {
           console.log(projcontRes);
@@ -491,14 +485,9 @@ export class ClockInPage implements OnInit {
             long: this.locWatch.lat,
             name: this.locWatch.long,
           },
-          clientId: this.clocksForm.controls.selectedClient.get("CLIENT_GUID")
-            .value,
-          projectId: this.clocksForm.controls.selectedProject.get(
-            "PROJECT_GUID"
-          ).value,
-          contractId: this.clocksForm.controls.selectedContract.get(
-            "CONTRACT_GUID"
-          ).value,
+          clientId: this.selectedClient.CLIENT_GUID,
+          projectId: this.selectedProject.PROJECT_GUID,
+          contractId: this.selectedContract.CONTRACT_GUID,
         };
 
         this.cinApi.postWithHeader("/api/clock", tempArr).subscribe(
@@ -540,7 +529,9 @@ export class ClockInPage implements OnInit {
           console.log(this.checkAddNew);
           this.patchActivityList(coutResp[0].CLOCK_LOG_GUID, this.checkAddNew);
           this.globalData.clocksInfo.latest = null;
-
+          this.selectedClient = this.clientNone;
+          this.selectedProject = this.projectNone;
+          this.selectedContract = this.contractNone;
           this.data.userInfo.clockIn.status = false;
         }, (error) => {
           console.log("coutResp");
@@ -556,21 +547,14 @@ export class ClockInPage implements OnInit {
       list: [
         {
           activityList: this.checkAddNew,
-          clientCode: this.clocksForm.controls.selectedClient.get("ABBR").value, // this.selectedClient.clientCode,
+          clientCode: this.selectedClient.CLIENT_GUID, // this.selectedClient.clientCode,
           clockInTime: this.clocksForm.get("inTime").value, // this.currTime,
           clockOutTime: this.clocksForm.get("outTime").value, // null,
           jobType: this.clocksForm.get("jobtype").value, // this.jobType,
-          projectCode: this.clocksForm.controls.selectedProject.get("SOC_NO")
-            .value, // this.selectedProject.code,
-          projectDesc: this.clocksForm.controls.selectedProject.get(
-            "DESCRIPTION"
-          ).value, // this.selectedProject.description,
-          contractCode: this.clocksForm.controls.selectedContract.get(
-            "CONTRACT_NO"
-          ).value, // this.selectedContract.code,
-          contractDesc: this.clocksForm.controls.selectedContract.get(
-            "DESCRIPTION"
-          ).value, // this.selectedContract.description,
+          projectCode: this.selectedProject.SOC_NO, // this.selectedProject.code,
+          projectDesc: this.selectedProject.DESCRIPTION,
+          contractCode: this.selectedContract.CONTRACT_NO, // this.selectedContract.code,
+          contractDesc: this.selectedContract.DESCRIPTION,
         },
       ],
     };
