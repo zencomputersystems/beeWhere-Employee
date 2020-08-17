@@ -308,7 +308,7 @@
                     <ion-item-group class="activity-list" *ngIf="jobDtl.activity_list">
                       <ion-title>Activity List</ion-title>
                       <ion-list>
-                        <ion-item-sliding *ngFor="let list of checkAddNew">
+                        <ion-item-sliding *ngFor="let list of checkAddNew; let i = index;">
                           <ion-item lines="none">
                             <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.statusFlag"
                               [ngModelOptions]="{standalone: true}"></ion-checkbox>
@@ -318,7 +318,9 @@
                             </ion-input>
                           </ion-item>
                           <ion-item-options side="end">
-                            <ion-item-option (click)="onDeleteTask(list, checkAddNew)">Del</ion-item-option>
+                            <ion-item-option (click)="onDeleteTask(list, checkAddNew, i)">
+                              <ion-img src="../../assets/basic/trash-can.png"></ion-img>
+                            </ion-item-option>
                           </ion-item-options>
                         </ion-item-sliding>
                         <ion-item-sliding>
@@ -485,7 +487,7 @@
               <ion-item-group class="activity-list">
                 <ion-title>Activity List</ion-title>
                 <ion-list>
-                  <ion-item-sliding *ngFor="let list of checkAddNew">
+                  <ion-item-sliding *ngFor="let list of checkAddNew; let i = index;">
                     <ion-item lines="none">
                       <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.statusFlag"
                         [ngModelOptions]="{standalone: true}"></ion-checkbox>
@@ -494,7 +496,9 @@
                         inputmode="text" type="text" enterkeyhint="done"></ion-input>
                     </ion-item>
                     <ion-item-options side="end">
-                      <ion-item-option (click)="onDeleteTask(list, checkAddNew)">Del</ion-item-option>
+                      <ion-item-option (click)="onDeleteTask(list, checkAddNew, i)">
+                        <ion-img src="../../assets/basic/trash-can.png"></ion-img>
+                      </ion-item-option>
                     </ion-item-options>
                   </ion-item-sliding>
                   <ion-item-sliding>

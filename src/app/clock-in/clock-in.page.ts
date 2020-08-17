@@ -128,6 +128,7 @@ export class ClockInPage implements OnInit {
 
   public currentUser = {};
 
+  public setlect;
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -321,8 +322,8 @@ export class ClockInPage implements OnInit {
    * @param {*} list task list
    * @memberof ClockInPage
    */
-  onDeleteTask(selList, list) {
-    this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list);
+  onDeleteTask(selList, list , i) {
+    this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
   }
 
   /**

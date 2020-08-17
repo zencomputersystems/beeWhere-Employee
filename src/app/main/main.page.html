@@ -158,7 +158,10 @@
         <!-- <ng-container *ngIf="histClock.list.length > 0; else noListRecord">yess</ng-container>
         <ng-container #noListRecord>naa</ng-container> -->
         <div *ngIf="histClock.list.length > 0;">
-          <ion-card *ngFor="let histList of histClock.list" [routerLink]="['/clock', 'edit', histList.CLOCK_LOG_GUID]">
+          <ion-card *ngFor="let histList of histClock.list" (click)="clickedInfo(histList)"
+            [routerLink]="['/clock', 'edit', histList.CLOCK_LOG_GUID]">
+            <!-- <ion-card *ngFor="let histList of histClock.list" (click)="clickedInfo(histlist)"
+              [routerLink]="['/clock', 'edit', histList.CLOCK_LOG_GUID]"> -->
           <!-- <ion-card *ngFor="let histList of histClock.list" [routerLink]="['/clock', 'edit', histList.clockInTime]"> -->
             <!-- {{histList | json}} -->
               <ion-card-title>

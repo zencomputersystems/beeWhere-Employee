@@ -3,13 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import * as sampledata from '../sampledata.json';
 import { parseXML, parseJSON } from 'jquery';
 
+export let clickedClocks = {};
+
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
   styleUrls: ["./main.page.scss"],
 })
 export class MainPage implements OnInit {
-  constructor( public hApi: APIService ) {}
+  constructor(public hApi: APIService) {}
 
   /**
    * Get sample data from json
@@ -39,12 +41,20 @@ export class MainPage implements OnInit {
   }
 
   getHistory() {
-    this.hApi.getWithHeader("/api/clock/history/list").subscribe((histRes) => {
-      this.globalData.histClocks = histRes;
-      console.log(this.globalData.histClocks);
-      console.log(this.globalData.histClocks[1].list[0].ACTIVITY);
-    }, (error) => {
-      console.log(error);
-    });
+    this.hApi.getWithHeader("/api/clock/history/list").subscribe(
+      (histRes) => {
+        this.globalData.histClocks = histRes;
+        console.log(this.globalData.histClocks);
+        console.log(this.globalData.histClocks[1].list[0].ACTIVITY);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  clickedInfo(currData) {
+    console.log(currData);
+    clickedClocks = currData;
   }
 }
