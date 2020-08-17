@@ -122,7 +122,6 @@
             }
         }
     }
-    
     .support-content {
         ion-item-group {
             margin: 1.2em 0;
@@ -137,7 +136,8 @@
 
             ion-input, 
             ion-textarea,
-            ion-select {
+            ion-select,
+            input {
                 padding-left: var(--ion-text-11);
                 border: 1px solid #50505029;
                 border-radius: var(--ion-text-3);
@@ -172,7 +172,21 @@
                 font-size: var(--ion-text-12);
                 margin-bottom: 0.2em;
             }
+
+            ion-item {
+                --padding-start: 0;
+                --inner-padding-end: 0;
+
+                input {
+                    color: var(--ion-color-text);
+                    --padding-start: 0;
+                    --inner-padding-end: 0;
+                    width: -webkit-fill-available;
+                    padding: var(--ion-text-10);
+                }
+            }
         }
+
     }
     
     .message-box {

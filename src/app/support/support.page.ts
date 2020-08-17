@@ -33,6 +33,8 @@ export class SupportPage implements OnInit {
    */
   public mform: FormGroup;
 
+  public reqDetails: FormGroup;
+
   /**
    * Creates an instance of SupportPage.
    * @param {FormBuilder} formbuilder get methods from FormBuilder
@@ -52,6 +54,12 @@ export class SupportPage implements OnInit {
         description: ""
       })
     });
+
+    this.reqDetails = formbuilder.group({
+      clocksTime: ["", Validators.required],
+      inTime: ["", Validators.required],
+      outTime: ["", Validators.required]
+    })
   }
 
   /**

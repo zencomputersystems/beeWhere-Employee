@@ -128,7 +128,6 @@ export class ClockInPage implements OnInit {
 
   public currentUser = {};
 
-  public setlect;
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -157,27 +156,33 @@ export class ClockInPage implements OnInit {
       dateToday: "",
       jobtype: "office",
       inTime: ["", Validators.required],
+      inLocationName: "",
+      inLocationLat: null,
+      inLocationLong: null,
       outTime: ["", Validators.required],
-      // selectedClient: clkFormBuilder.group({
-      //   ABBR: null,
-      //   CLIENT_GUID: "none",
-      //   NAME: null,
-      //   STATUS: 1
-      // }),
-      // selectedProject: clkFormBuilder.group({
-      //   SOC_NO: null,
-      //   DESCRIPTION: null,
-      //   PROJECT_GUID: "none",
-      //   NAME: null,
-      //   CLIENT_GUID: null,
-      // }),
-      // selectedContract: clkFormBuilder.group({
-      //   CLIENT_GUID: null,
-      //   CONTRACT_NO: null,
-      //   DESCRIPTION: null,
-      //   CONTRACT_GUID: "none",
-      //   NAME: null,
-      // }),
+      outLocationName: "",
+      outLocationLat: "",
+      outLocationLong: "",
+      selectedClient: clkFormBuilder.group({
+        ABBR: null,
+        description: null,
+        CLIENT_GUID: "none",
+        NAME: null,
+      }),
+      selectedProject: clkFormBuilder.group({
+        SOC_NO: null,
+        DESCRIPTION: null,
+        PROJECT_GUID: "none",
+        NAME: null,
+        CLIENT_GUID: null,
+      }),
+      selectedContract: clkFormBuilder.group({
+        CLIENT_GUID: null,
+        CONTRACT_NO: null,
+        DESCRIPTION: null,
+        CONTRACT_GUID: "none",
+        NAME: null,
+      }),
     });
   }
 
@@ -206,22 +211,19 @@ export class ClockInPage implements OnInit {
   }
 
   chg() {
-    // console.log(this.clocksForm);
-    // console.log(this.globalData.clients);
-    // console.log(this.clocksForm.controls.selectedClient.value);
-    console.log(this.setlect);
-    console.log(this.selectedClient);
+    console.log(this.clocksForm);
+    console.log(this.globalData.clients);
   }
 
-  // chooseClient(evt) {
-  //   console.log(evt.detail.value);
-  //   this.clocksForm.controls.selectedClient.patchValue({
-  //     ABBR: evt.detail.value.ABBR,
-  //     description: null,
-  //     CLIENT_GUID: evt.detail.value.CLIENT_GUID,
-  //     NAME: evt.detail.value.NAME,
-  //   });
-  // }
+  chooseClient(evt) {
+    console.log(evt.detail.value);
+    this.clocksForm.controls.selectedClient.patchValue({
+      ABBR: evt.detail.value.ABBR,
+      description: null,
+      CLIENT_GUID: evt.detail.value.CLIENT_GUID,
+      NAME: evt.detail.value.NAME,
+    });
+  }
 
   chooseOpt(type, evt) {
     console.log("evt");
@@ -251,6 +253,7 @@ export class ClockInPage implements OnInit {
         //client by default
         this.clocksForm.controls.selectedClient.patchValue({
           ABBR: evt.detail.value.ABBR,
+          description: null,
           CLIENT_GUID: evt.detail.value.CLIENT_GUID,
           NAME: evt.detail.value.NAME,
         });
@@ -309,7 +312,11 @@ export class ClockInPage implements OnInit {
       this.locWatch.lat = data.coords.latitude;
       this.locWatch.long = data.coords.longitude;
       // this.clocksForm.patchValue({
+      //   inLocationLat: data.coords.latitude,
+      //   inLocationLong: data.coords.longitude
       // });
+      // inLocationLat: this.locWatch.lat,
+      //   inLocationLong: this.locWatch.long,
       // data can be a set of coordinates, or an error (if an error occurred).
       // data.coords.latitude
       // data.coords.longitude
@@ -322,8 +329,8 @@ export class ClockInPage implements OnInit {
    * @param {*} list task list
    * @memberof ClockInPage
    */
-  onDeleteTask(selList, list , i) {
-    this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
+  onDeleteTask(selList, list) {
+    this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list);
   }
 
   /**
@@ -333,10 +340,10 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   addNewTask(event) {
-    // console.log(event);
-    // console.log(this.newTask);
-    // console.log(JSON.stringify(this.checkAddNew));
-    // console.log(this.checkAddNew.length);
+    console.log(event);
+    console.log(this.newTask);
+    console.log(JSON.stringify(this.checkAddNew));
+    console.log(this.checkAddNew.length);
     // this.checkAddNew = this.cinGlobalFn.addTask(
     //   event,
     //   this.newTask,
@@ -345,13 +352,12 @@ export class ClockInPage implements OnInit {
 
     if (event.code === "Enter" && this.newTask.length > 0) {
       this.checkAddNew.push({
-        // id: this.checkAddNew.length,
-        statusFlag: false,
+        id: this.checkAddNew.length,
+        status: false,
         activity: this.newTask,
       });
       this.newTask = null;
     }
-    console.log(JSON.stringify(this.checkAddNew));
   }
 
   getClientList(enableGeofiltering) {
@@ -383,10 +389,10 @@ export class ClockInPage implements OnInit {
             // Object.assign(this.globalData.clients, clientRes);
             console.log(this.globalData.clients);
 
-        // ABBR: null,
-        // description: null,
-        // CLIENT_GUID: "none",
-        // NAME: null,
+            // ABBR: null,
+            // description: null,
+            // CLIENT_GUID: "none",
+            // NAME: null,
           });
       } else {
         this.getAllClient();
@@ -418,10 +424,13 @@ export class ClockInPage implements OnInit {
   getProjectList() {
     console.log("getProjectList");
     console.log(
-      this.selectedClient.CLIENT_GUID
+      this.clocksForm.controls.selectedClient.get("CLIENT_GUID").value
     );
     this.cinApi
-      .getWithHeader("/api/project/" + this.selectedClient.CLIENT_GUID)
+      .getWithHeader(
+        "/api/project/" +
+          this.clocksForm.controls.selectedClient.get("CLIENT_GUID").value
+      )
       .subscribe(
         (projectRes) => {
           console.log(projectRes);
@@ -435,15 +444,24 @@ export class ClockInPage implements OnInit {
 
   getProjectContractList(type) {
     console.log("getProjectContractList:" + type);
-    console.log(this.selectedClient.CLIENT_GUID);
+    console.log(
+      this.clocksForm.controls.selectedClient.get("CLIENT_GUID").value
+    );
     this.cinApi
-      .getWithHeader("/api/" + type + "/" + this.selectedClient.CLIENT_GUID)
+      .getWithHeader(
+        "/api/" +
+          type +
+          "/" +
+          this.clocksForm.controls.selectedClient.get("CLIENT_GUID").value
+      )
       .subscribe(
         (projcontRes) => {
           console.log(projcontRes);
           type === "project"
             ? (this.globalData.projects = projcontRes)
             : (this.globalData.contracts = projcontRes);
+          // this.globalData.projects = projectRes;
+          console.log(this.globalData.contracts);
         },
         (error) => {
           console.log(error);
@@ -468,127 +486,78 @@ export class ClockInPage implements OnInit {
    */
   saveClockIn(type) {
     const temp: any = new Date(this.currTime).setHours(0, 0, 0, 0);
-    const timeNow = new Date().getTime();
-    console.log(this.cinGlobal.userInfo);
-    console.log(this.cinGlobal.userInfo.userId);
+    const timeNow = new Date().toISOString();
     switch (type) {
       case "in":
         this.clocksForm.patchValue({
+          inLocationName: this.locWatch.lat + ", " + this.locWatch.long,
+          inLocationLat: this.locWatch.lat,
+          inLocationLong: this.locWatch.long,
           inTime: timeNow,
         });
-
-        const tempArr = {
-          userGuid: this.cinGlobal.userInfo.userId,
-          clockTime: timeNow,
-          jobType: this.clocksForm.get("jobtype").value,
-          location: {
-            lat: this.locWatch.lat + ", " + this.locWatch.long,
-            long: this.locWatch.lat,
-            name: this.locWatch.long,
-          },
-          clientId: this.selectedClient.CLIENT_GUID,
-          projectId: this.selectedProject.PROJECT_GUID,
-          contractId: this.selectedContract.CONTRACT_GUID,
-        };
-
-        this.cinApi.postWithHeader("/api/clock", tempArr).subscribe(
-          (clkin) => {
-            console.log("clkin");
-            console.log(clkin);
-            this.globalData.clocksInfo.list = clkin;
-            this.globalData.clocksInfo.latest = clkin[0].CLOCK_LOG_GUID;
-            console.log(this.globalData.clocksInfo);
-            this.patchActivityList(clkin[0].CLOCK_LOG_GUID, this.checkAddNew);
-            this.data.userInfo.clockIn.status = true;
-          },
-          (error) => {
-            console.log("clkin");
-            console.log(error);
-          }
-        );
+        this.data.userInfo.clockIn.status = true;
         break;
 
       case "out":
         this.clocksForm.patchValue({
+          outLocationName: this.locWatch.lat + ", " + this.locWatch.long,
+          outLocationLat: this.locWatch.lat,
+          outLocationLong: this.locWatch.long,
           outTime: timeNow,
         });
-
-        const coutArr = {
-          clockLogGuid: this.globalData.clocksInfo.latest,
-          clockTime: timeNow,
-          location: {
-            lat: this.locWatch.lat,
-            long: this.locWatch.long,
-            name: this.locWatch.lat + ", " + this.locWatch.long,
-          },
-        };
-        console.log(coutArr);
-
-        this.cinApi.patchWithHeader("/api/clock", coutArr).subscribe((coutResp) => {
-          console.log("coutResp");
-          console.log(coutResp);
-          console.log(this.checkAddNew);
-          this.patchActivityList(coutResp[0].CLOCK_LOG_GUID, this.checkAddNew);
-          this.globalData.clocksInfo.latest = null;
-          this.selectedClient = this.clientNone;
-          this.selectedProject = this.projectNone;
-          this.selectedContract = this.contractNone;
-          this.data.userInfo.clockIn.status = false;
-        }, (error) => {
-          console.log("coutResp");
-          console.log(error);
-        });
+        this.data.userInfo.clockIn.status = false;
         break;
     }
-
-
 
     const clockinObj = {
       clockInDate: new Date(temp).toISOString(),
       list: [
         {
           activityList: this.checkAddNew,
-          clientCode: this.selectedClient.CLIENT_GUID, // this.selectedClient.clientCode,
+          clientCode: this.clocksForm.controls.selectedClient.get("ABBR").value, // this.selectedClient.clientCode,
+          clockInLocation: this.clocksForm.get("inLocationName").value, // this.locWatch.lat + ", " + this.locWatch.long,
           clockInTime: this.clocksForm.get("inTime").value, // this.currTime,
+          clockOutLocation: this.clocksForm.get("outLocationName").value, // null,
           clockOutTime: this.clocksForm.get("outTime").value, // null,
           jobType: this.clocksForm.get("jobtype").value, // this.jobType,
-          projectCode: this.selectedProject.SOC_NO, // this.selectedProject.code,
-          projectDesc: this.selectedProject.DESCRIPTION,
-          contractCode: this.selectedContract.CONTRACT_NO, // this.selectedContract.code,
-          contractDesc: this.selectedContract.DESCRIPTION,
+          projectCode: this.clocksForm.controls.selectedProject.get("SOC_NO")
+            .value, // this.selectedProject.code,
+          projectDesc: this.clocksForm.controls.selectedProject.get(
+            "DESCRIPTION"
+          ).value, // this.selectedProject.description,
+          contractCode: this.clocksForm.controls.selectedContract.get(
+            "CONTRACT_NO"
+          ).value, // this.selectedContract.code,
+          contractDesc: this.clocksForm.controls.selectedContract.get(
+            "DESCRIPTION"
+          ).value, // this.selectedContract.description,
         },
       ],
     };
 
     console.log(clockinObj);
     console.log(this.clocksForm);
+    // const checkExist: boolean = this.data.userInfo.clockIn.historicalClockIn.filter( list => {
+    //   console.log(list)
+    //   if (list.clockInDate === clockinObj.clockInDate) {
+    //     console.log('list');
+    //   //   Object.assign(list, clockinObj);
+    //     return true;
+    //   } else {
+    //     console.log('list 2');
+    //     return false;
 
-
+    //   }
+    // });
+    // console.log(checkExist)
+    // if (checkExist === false) {
     this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
     if (type === "out") {
       this.checkAddNew = [];
     }
-  }
-
-  /**
-   * To prepare structe to be patched into activities db based on clockin guid
-   * @param {*} clockGuid
-   * @param {*} list
-   * @memberof ClockInPage
-   */
-  patchActivityList(clockGuid, list) {
-    const actvArr = {
-      clockLogGuid: clockGuid,
-      activity: list
-    };
-
-    this.cinApi.patchWithHeader("/api/clock/activity", actvArr).subscribe((actvRes) => {
-      console.log("actvRes");
-      console.log(actvRes);
-    }, (error) => {
-      console.log("actvRes");
-      console.log(error);
-    });
+    // }
+    // console.log(this.data.userInfo.clockIn.historicalClockIn);
+    // Object.assign(this.data.userInfo.clockIn.historicalClockIn, clockinObj);
   }
 
   logout() {

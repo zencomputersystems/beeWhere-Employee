@@ -186,6 +186,20 @@
                   </div>
                   <ion-input type="text" formControlName="title"></ion-input>
                 </ion-item-group>
+                <ion-item-group [formGroup]="reqDetails">
+                  <div>
+                    <ion-label>Start time</ion-label>
+                    <ion-item>
+                      <input type="time" formControlName="inTime">
+                    </ion-item>
+                  </div>
+                  <div>
+                    <ion-label>End time</ion-label>
+                    <ion-item>
+                      <input type="time" formControlName="outTime">
+                    </ion-item>
+                  </div>
+                </ion-item-group>
                 <ion-item-group>
                   <ion-label>Supporting Document</ion-label>
                   <ion-button fill="clear">Add file</ion-button>

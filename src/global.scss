@@ -112,8 +112,8 @@
         --border-color: #FFFFFF;
         // --background: var(--ion-color-clockin);
         ion-label {
-            font-size: var(--ion-text-13);//13px;
-            white-space: pre-wrap;
+            font-size: var(--ion-text-13); //13px;
+            white-space: pre-line;
             opacity: 100%;
             color: #FFFFFF;
             min-width: 62px;
@@ -235,7 +235,7 @@
             font-size: var(--ion-text-13);
             color: var(--ion-color-text);
             opacity: 80%;
-            white-space: pre-wrap;
+            white-space: pre-line;
         }
 
         .alert-button-inner {

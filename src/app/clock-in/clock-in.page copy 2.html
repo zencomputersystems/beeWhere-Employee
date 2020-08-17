@@ -83,8 +83,7 @@
     <ion-item-group class="user-header">
       <ion-item-group>
         <ion-avatar>
-          <img *ngIf="cinGlobal.userInfo.profilePictureUrl === null" src="../../assets/basic/default-profile-picture.png">
-          <img *ngIf="cinGlobal.userInfo.profilePictureUrl !== null" src={{cinGlobal.userInfo.profilePictureUrl}}>
+          <img src={{cinGlobal.userInfo.profilePictureUrl}}>
         </ion-avatar>
       </ion-item-group>
       <ion-item-group>
@@ -174,11 +173,13 @@
           <div>
             <ion-card-title>
               Job Types
+              
             </ion-card-title>
             <ion-card-subtitle>
 
               <!-- job title list -->
-              <ion-segment formControlName="jobtype" (click)="chg()">
+              <ion-segment formControlName="jobtype"
+                (click)="chg()">
               <!-- <ion-segment formControlName="jobtype" (click)="chg()"> -->
                 <ng-container *ngFor="let job of data.userInfo.attendanceProfile2">
                   <ion-segment-button *ngIf="job.value" value={{job.type}}>
@@ -189,182 +190,10 @@
             </ion-card-subtitle>
 
             <ion-card-content class="clockin-details">
-              <ng-container *ngFor="let jobDtl of data.userInfo.attendanceProfile2">
-                <span [ngSwitch]="jobDtl.type">
-                  <p *ngSwitchCase="clocksForm.get('jobtype').value">
-                    <!-- getting current latitude/longitude position -->
-                    <ion-item-group *ngIf="jobDtl.geofence_filter">
-                      <ion-img src="../../assets/basic/location.png"></ion-img>
-                      <ion-label
-                        *ngIf="locWatch.lat !== null || locWatch.long
-                        !== null">
-                        {{locWatch.lat}},&nbsp;{{locWatch.long}}
-                        </ion-label>
-                      <ion-label
-                        *ngIf="locWatch.lat === null || locWatch.long === null">
-                        Getting current location..</ion-label>
-                    </ion-item-group>
-
-                    <!-- getting client list -->
-                    <ion-item-group class="clients" *ngIf="jobDtl.client_list">
-                      <!-- <ion-select [(ngModel)]="setlect" [ngModelOptions]=" {standalone: true}">
-                        <ion-select-option *ngFor="let selectedClient of globalData.clients"
-                          [value]="selectedClient">
-                          {{selectedClient.ABBR}} - {{selectedClient.NAME}}</ion-select-option>
-                        <ion-select-option value="two">two</ion-select-option>
-                      </ion-select> -->
-                      <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedClient" [ngModelOptions]=" {standalone: true}" 
-                        placeholder="Select" (click)="getClientList(jobDtl.geofence_filter)">
-                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
-                        (ionChange)="chooseOpt('client', $event)"
-                        (click)="getClientList(jobDtl.geofence_filter)"> -->
-                        <!-- (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)"> -->
-                        <ion-select-option selected [value]="clientNone">None</ion-select-option>
-                        <ion-select-option *ngFor="let selectedClient of globalData.clients" [value]="selectedClient">
-                          {{selectedClient.ABBR}} - {{selectedClient.NAME}}
-                        </ion-select-option>
-                      </ion-select>
-                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
-                        (ionChange)="chooseOpt('client', $event)"
-                        (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)" >
-                        <ion-select-option selected [value]="clientNone">None</ion-select-option>
-                        <ion-select-option *ngFor="let client of data.client" [value]="client">
-                          {{client.clientCode}} - {{client.clientName}}
-                        </ion-select-option>
-                      </ion-select> -->
-                    </ion-item-group>
-
-                    <!-- getting project list -->
-                    <ion-item-group class="clients" *ngIf="jobDtl.project_selection">
-                      <ion-title>Project Selection</ion-title>
-                      <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedProject"
-                        [ngModelOptions]=" {standalone: true}" placeholder="Select" (click)="getProjectContractList('project')">
-                        <ion-select-option selected [value]="projectNone">None</ion-select-option>
-                        <ng-container *ngFor="let project of globalData.projects">
-                          <ion-select-option [value]="project">
-                            {{project.SOC_NO}} - {{project.NAME}}
-                          </ion-select-option>
-                        </ng-container>
-
-                        <!-- <ng-container *ngIf="jobDtl.geofence_filter">
-                          <ng-container *ngFor="let clientData of data.client">
-                            <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                              <ion-select-option *ngFor="let project of clientData.project" [value]="project">
-                                {{project.code}} - {{project.name}}
-                              </ion-select-option>
-                            </ng-container>
-                          </ng-container>
-                        </ng-container> -->
-                      </ion-select>
-                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedProject" placeholder="Select"
-                        (ionChange)="chooseOpt('project', $event)">
-                        <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
-                        <ng-container *ngFor="let clientData of data.client">
-                          <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                            <ion-select-option *ngFor="let project of clientData.project" [value]="project">
-                              {{project.code}} - {{project.name}}
-                            </ion-select-option>
-                          </ng-container>
-                        </ng-container>
-                      </ion-select> -->
-                    </ion-item-group>
-
-                    <!-- getting contract list -->
-                    <ion-item-group class="clients" *ngIf="jobDtl.contract_selection">
-                      <ion-title>Contract Selection</ion-title>
-                      <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedContract"
-                        [ngModelOptions]=" {standalone: true}"
-                        placeholder="Select" (ionChange)="chooseOpt('contract', $event)"
-                        (click)="getProjectContractList('contract')">
-                        <ion-select-option selected [value]="contractNone">None</ion-select-option>
-                        <ng-container *ngFor="let contract of globalData.contracts">
-                          <ion-select-option [value]="contract">
-                            {{contract.CONTRACT_NO}} - {{contract.NAME}}
-                          </ion-select-option>
-                        </ng-container>
-                        
-                        <!-- <ng-container *ngFor="let clientData of data.client">
-                          <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                            <ion-select-option *ngFor="let contract of clientData.contract" [value]="contract">
-                              {{contract.code}} - {{contract.name}}
-                            </ion-select-option>
-                          </ng-container>
-                        </ng-container> -->
-                      </ion-select>
-                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedContract"
-                        placeholder="Select" (ionChange)="chooseOpt('contract', $event)">
-                        <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
-                        <ng-container *ngFor="let clientData of data.client">
-                          <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                            <ion-select-option *ngFor="let contract of clientData.contract" [value]="contract">
-                              {{contract.code}} - {{contract.name}}
-                            </ion-select-option>
-                          </ng-container>
-                        </ng-container>
-                      </ion-select> -->
-                    </ion-item-group>
-
-                    <!-- activity list -->
-                    <ion-item-group class="activity-list" *ngIf="jobDtl.activity_list">
-                      <ion-title>Activity List</ion-title>
-                      <ion-list>
-                        <ion-item-sliding *ngFor="let list of checkAddNew; let i = index;">
-                          <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.statusFlag"
-                              [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                            <ion-input type="text" placeholder="Add task here and press Enter"
-                              [(ngModel)]="list.activity"
-                              [ngModelOptions]="{standalone: true}" inputmode="text" type="text" enterkeyhint="done">
-                            </ion-input>
-                          </ion-item>
-                          <ion-item-options side="end">
-                            <ion-item-option (click)="onDeleteTask(list, checkAddNew, i)">
-                              <ion-img src="../../assets/basic/trash-can.png"></ion-img>
-                            </ion-item-option>
-                          </ion-item-options>
-                        </ion-item-sliding>
-                        <ion-item-sliding>
-                          <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
-                            <ion-input type="text" placeholder="Add task here and press Enter    " [(ngModel)]="newTask"
-                              [ngModelOptions]="{standalone: true}" (keyup.enter)="addNewTask($event)" inputmode="text"
-                              type="text" enterkeyhint="done">
-                            </ion-input>
-                          </ion-item>
-                        </ion-item-sliding>
-                      </ion-list>
-                      <!-- <ion-list>
-                        <ion-item-sliding *ngFor="let list of checkAddNew">
-                          <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.status"
-                              [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                            <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.activity"
-                              [ngModelOptions]="{standalone: true}"
-                              inputmode="text" type="text" enterkeyhint="done"></ion-input>
-                          </ion-item>
-                          <ion-item-options side="end">
-                            <ion-item-option (click)="onDeleteTask(list, checkAddNew)">Del</ion-item-option>
-                          </ion-item-options>
-                        </ion-item-sliding>
-                        <ion-item-sliding>
-                          <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
-                            <ion-input type="text" placeholder="Add task here    " [(ngModel)]="newTask" [ngModelOptions]="{standalone: true}"
-                              (keyup.enter)="addNewTask($event)" inputmode="text" type="text" enterkeyhint="done">
-                            </ion-input>
-                          </ion-item>
-                        </ion-item-sliding>
-                      </ion-list> -->
-                    </ion-item-group>
-                  </p>
-                </span>
-              </ng-container>
-
-            </ion-card-content>
-            <!-- <ion-card-content class="clockin-details">
               <ng-container *ngFor="let jobDtl of data.userInfo.attendanceProfile">
                 <span [ngSwitch]="clocksForm.get('jobtype').value">
                   <p *ngSwitchCase="clocksForm.get('jobtype').value">
+                    <!-- getting current latitude/longitude position -->
                     <ion-item-group *ngIf="jobDtl.viewPremission.geofiltering">
                       <ion-img src="../../assets/basic/location.png"></ion-img>
                       <ion-label
@@ -377,6 +206,7 @@
                         Getting current location..</ion-label>
                     </ion-item-group>
 
+                    <!-- getting client list -->
                     <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.client">
                       <ion-title>Client</ion-title>
                       <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
@@ -389,6 +219,7 @@
                       </ion-select>
                     </ion-item-group>
 
+                    <!-- getting project list -->
                     <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.project">
                       <ion-title>Project Selection</ion-title>
                       <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedProject" placeholder="Select"
@@ -404,6 +235,7 @@
                       </ion-select>
                     </ion-item-group>
 
+                    <!-- getting contract list -->
                     <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.contract">
                       <ion-title>Contract Selection</ion-title>
                       <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedContract"
@@ -419,6 +251,7 @@
                       </ion-select>
                     </ion-item-group>
 
+                    <!-- activity list -->
                     <ion-item-group class="activity-list">
                       <ion-title>Activity List</ion-title>
                       <ion-list>
@@ -448,7 +281,7 @@
                 </span>
               </ng-container>
 
-            </ion-card-content> -->
+            </ion-card-content>
           </div>
         </ion-card>
 
@@ -457,20 +290,20 @@
           <ion-card-title>
             {{clocksForm.get('jobtype').value}}
             <ion-card-subtitle>
-              <ion-label class="label-client" *ngIf="selectedClient.ABBR !== null">
-                {{selectedClient.ABBR}}
+              <ion-label class="label-client" *ngIf="clocksForm.get('selectedClient').value.code !== null">
+                {{clocksForm.get('selectedClient').value.code}}
               </ion-label>
-              <ion-label class="label-project" *ngIf="selectedProject.SOC_NO !== null">
-                {{selectedProject.SOC_NO}}
+              <ion-label class="label-project" *ngIf="clocksForm.get('selectedProject').value.code !== null">
+                {{clocksForm.get('selectedProject').value.code}}
               </ion-label>
-              <ion-label class="label-contract" *ngIf="selectedContract.CONTRACT_NO !== null">
-                {{selectedContract.CONTRACT_NO}}
+              <ion-label class="label-contract" *ngIf="clocksForm.get('selectedContract').value.code !== null">
+                {{clocksForm.get('selectedContract').value.code}}
               </ion-label>
             </ion-card-subtitle>
           </ion-card-title>
           <ion-card-subtitle class="description-project"
-            *ngIf="selectedProject.DESCRIPTION !== null">
-            {{selectedProject.DESCRIPTION }}
+            *ngIf="clocksForm.get('selectedProject').value.description !== null">
+            {{clocksForm.get('selectedProject').value.description }}
           </ion-card-subtitle>
           <ion-card-content class="clockin-details">
             <ion-item-group class="clocked-in">
@@ -487,24 +320,22 @@
               <ion-item-group class="activity-list">
                 <ion-title>Activity List</ion-title>
                 <ion-list>
-                  <ion-item-sliding *ngFor="let list of checkAddNew; let i = index;">
+                  <ion-item-sliding *ngFor="let list of checkAddNew">
                     <ion-item lines="none">
-                      <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.statusFlag"
+                      <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.status"
                         [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-input type="text" placeholder="Add task here and press Enter    " [(ngModel)]="list.activity"
+                      <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.activity"
                         [ngModelOptions]="{standalone: true}"
                         inputmode="text" type="text" enterkeyhint="done"></ion-input>
                     </ion-item>
                     <ion-item-options side="end">
-                      <ion-item-option (click)="onDeleteTask(list, checkAddNew, i)">
-                        <ion-img src="../../assets/basic/trash-can.png"></ion-img>
-                      </ion-item-option>
+                      <ion-item-option (click)="onDeleteTask(list, checkAddNew)">Del</ion-item-option>
                     </ion-item-options>
                   </ion-item-sliding>
                   <ion-item-sliding>
                     <ion-item lines="none">
                       <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
-                      <ion-input type="text" placeholder="Add task here and press Enter    " [(ngModel)]="newTask" [ngModelOptions]="{standalone: true}"
+                      <ion-input type="text" placeholder="Add task here    " [(ngModel)]="newTask" [ngModelOptions]="{standalone: true}"
                         (keyup.enter)="addNewTask($event)" inputmode="text" type="text" enterkeyhint="done">
                       </ion-input>
                     </ion-item>

@@ -48,11 +48,13 @@
 
     ion-title {
         opacity: 80%;
-        margin: 2em 0;
+        // margin: 2em 0;
         font-size: var(--ion-text-13);
     }
+}
 
-
+.title-name {
+    margin: 2em 0;
 }
 
 .title {
@@ -107,4 +109,8 @@ ion-input,
 ion-label {
     --color: var(--ion-color-white);
     opacity: 80%;
+}
+
+ion-note {
+    --color: var(--ion-color-red);
 }

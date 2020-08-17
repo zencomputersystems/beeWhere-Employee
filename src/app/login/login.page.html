@@ -5,7 +5,10 @@
       <ion-avatar>
         <ion-img src="../../assets/basic/logo.png"></ion-img>
       </ion-avatar>
-      <ion-title>Please login to your account</ion-title>
+      <div class="title-name">
+        <ion-title>Please login to your account</ion-title>
+        <ion-note>{{error}}</ion-note>
+      </div>
     </div>
 
     <form [formGroup]="lForm">
@@ -14,6 +17,8 @@
         <ion-item>
           <ion-input type="text" formControlName="email" required placeholder="Email" autofocus></ion-input>
         </ion-item>
+        <ion-note *ngIf="!this.lForm.controls.email.valid">
+          *required</ion-note>
       </ion-item-group>
 
       <!-- password -->
@@ -26,6 +31,8 @@
           <ion-input type="text" formControlName="password" required placeholder="Password"></ion-input>
           <ion-icon name="eye-off" (click)="lForm.controls.showPassword.setValue(false)"></ion-icon>
         </ion-item>
+        <ion-note *ngIf="!this.lForm.controls.password.valid">
+          *required</ion-note>
       </ion-item-group>
     </form>
 
