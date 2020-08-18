@@ -181,6 +181,7 @@
             *ngIf="histList.CONTRACT_DATA.length !== 0 && histList.CONTRACT_DATA.DESCRIPTION !== null">
             {{histList.CONTRACT_DATA.DESCRIPTION}}
           </ion-card-subtitle>
+          {{histList.CLOCK_LOG_GUID}}
           <ion-card-content class="clockin-content">
             <ion-item-group class="clock-setting">
               <ion-label class="clock-label clk-in">
@@ -214,126 +215,20 @@
                 </ion-text>
               </ion-list>
             </ion-item-group>
-
             <ion-item-group class="activities-setting" *ngIf="histList.ACTIVITY !== null">
               <ion-list *ngFor="let activities of histList.ACTIVITY.root.activity">
                 <ion-checkbox mode="ios" [(ngModel)]="activities.statusFlag" disabled></ion-checkbox>
-                <!-- <ion-label *ngIf="activities.activity">{{activities.activity}}</ion-label> -->
                 <ion-label *ngIf="activities.name">{{activities.name}}</ion-label>
               </ion-list>
             </ion-item-group>
           </ion-card-content>
-              <!-- <ion-card-content class="clockin-content">
-            <ion-item-group class="clock-setting">
-              <ion-label class="clock-label clk-in">
-                Clock In
-              </ion-label>
-              <ion-list class="clock-list">
-                <ion-text>
-                  {{histList.clockInTime | date: 'hh:mm a'}}
-                </ion-text>
-                <ion-text *ngIf="histList.clockInLocation !== 'null, null'">
-                  {{histList.clockInLocation}}
-                </ion-text>
-                <ion-text *ngIf="histList.clockInLocation === 'null, null'">
-                  No location
-                </ion-text>
-              </ion-list>
-            </ion-item-group>
-            <ion-item-group class="clock-setting" *ngIf="histList.clockOutTime !== null">
-              <ion-label class="clock-label clk-out">
-                Clock Out
-              </ion-label>
-              <ion-list class="clock-list">
-                <ion-text>
-                  {{histList.clockOutTime | date: 'hh:mm a'}}
-                </ion-text>
-                <ion-text *ngIf="histList.clockOutLocation !== 'null, null'">
-                  {{histList.clockOutLocation}}
-                </ion-text>
-                <ion-text *ngIf="histList.clockOutLocation === 'null, null'">
-                  No location
-                </ion-text>
-              </ion-list>
-            </ion-item-group>
-
-            <ion-item-group class="activities-setting">
-              <ion-list *ngFor="let activities of histList.activityList">
-                <ion-checkbox mode="ios" [(ngModel)]="activities.status" disabled></ion-checkbox>
-                <ion-label>{{activities.activity}}</ion-label>
-              </ion-list>
-            </ion-item-group>
-          </ion-card-content> -->
           </ion-card>
         </div>
-        
-
-        <!-- <ion-card *ngFor="let histList of histClock.list"
-          [routerLink]="['/clock', 'edit', histList.clockInTime]">
-          <ion-card-title>
-            {{histList.jobType}}
-            <ion-card-subtitle>
-              <ion-label class="label-client" *ngIf="histList.clientCode !== null">
-                {{histList.clientCode}}
-              </ion-label>
-              <ion-label class="label-project" *ngIf="histList.projectCode !== null">
-                {{histList.projectCode}}
-              </ion-label>
-              <ion-label class="label-contract" *ngIf="histList.contractCode !== null">
-                {{histList.contractCode}}
-              </ion-label>
-            </ion-card-subtitle>
-          </ion-card-title>
-          <ion-card-subtitle class="description-project" *ngIf="histList.projectDesc !== null">
-            {{histList.projectDesc}}
-          </ion-card-subtitle>
-          <ion-card-content class="clockin-content">
-            <ion-item-group class="clock-setting">
-              <ion-label class="clock-label clk-in">
-                Clock In
-              </ion-label>
-              <ion-list class="clock-list">
-                <ion-text>
-                  {{histList.clockInTime | date: 'hh:mm a'}}
-                </ion-text>
-                <ion-text *ngIf="histList.clockInLocation !== 'null, null'">
-                  {{histList.clockInLocation}}
-                </ion-text>
-                <ion-text *ngIf="histList.clockInLocation === 'null, null'">
-                  No location
-                </ion-text>
-              </ion-list>
-            </ion-item-group>
-            <ion-item-group class="clock-setting" *ngIf="histList.clockOutTime !== null">
-              <ion-label class="clock-label clk-out">
-                Clock Out
-              </ion-label>
-              <ion-list class="clock-list">
-                <ion-text>
-                  {{histList.clockOutTime | date: 'hh:mm a'}}
-                </ion-text>
-                <ion-text *ngIf="histList.clockOutLocation !== 'null, null'">
-                  {{histList.clockOutLocation}}
-                </ion-text>
-                <ion-text *ngIf="histList.clockOutLocation === 'null, null'">
-                  No location
-                </ion-text>
-              </ion-list>
-            </ion-item-group>
-
-            <ion-item-group class="activities-setting">
-              <ion-list *ngFor="let activities of histList.activityList">
-                <ion-checkbox mode="ios" [(ngModel)]="activities.status" disabled></ion-checkbox>
-                <ion-label>{{activities.activity}}</ion-label>
-              </ion-list>
-            </ion-item-group>
-          </ion-card-content>
-        </ion-card> -->
       </ion-item-group>
-      <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
-      </ion-infinite-scroll> -->
+      </ion-infinite-scroll>
     </ng-container>
     <!-- <ng-container *ngIf="data.userInfo.clockIn.historicalClockIn.length > 0; else noPrevClockInRecord">
       <ion-item-group class="history-clockin" *ngFor="let histClock of data.userInfo.clockIn.historicalClockIn">

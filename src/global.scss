@@ -272,4 +272,14 @@
             }
         }
     }
+
+    .infinite-loading {
+        ion-spinner {
+            color: var(--ion-color-text);
+        }
+    }
+    .infinite-scroll-content-md .infinite-loading-text {
+        color: var(--ion-color-text);
+        font-size: var(--ion-text-12);
+    }
 }
