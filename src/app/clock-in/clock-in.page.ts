@@ -51,6 +51,7 @@ export class ClockInPage implements OnInit {
   public locWatch = {
     lat: null,
     long: null,
+    name: null
   };
   public respo: any;
 
@@ -158,26 +159,6 @@ export class ClockInPage implements OnInit {
       jobtype: "office",
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
-      // selectedClient: clkFormBuilder.group({
-      //   ABBR: null,
-      //   CLIENT_GUID: "none",
-      //   NAME: null,
-      //   STATUS: 1
-      // }),
-      // selectedProject: clkFormBuilder.group({
-      //   SOC_NO: null,
-      //   DESCRIPTION: null,
-      //   PROJECT_GUID: "none",
-      //   NAME: null,
-      //   CLIENT_GUID: null,
-      // }),
-      // selectedContract: clkFormBuilder.group({
-      //   CLIENT_GUID: null,
-      //   CONTRACT_NO: null,
-      //   DESCRIPTION: null,
-      //   CONTRACT_GUID: "none",
-      //   NAME: null,
-      // }),
     });
   }
 
@@ -206,58 +187,10 @@ export class ClockInPage implements OnInit {
   }
 
   chg() {
-    // console.log(this.clocksForm);
-    // console.log(this.globalData.clients);
-    // console.log(this.clocksForm.controls.selectedClient.value);
     console.log(this.setlect);
     console.log(this.selectedClient);
   }
 
-  // chooseClient(evt) {
-  //   console.log(evt.detail.value);
-  //   this.clocksForm.controls.selectedClient.patchValue({
-  //     ABBR: evt.detail.value.ABBR,
-  //     description: null,
-  //     CLIENT_GUID: evt.detail.value.CLIENT_GUID,
-  //     NAME: evt.detail.value.NAME,
-  //   });
-  // }
-
-  chooseOpt(type, evt) {
-    console.log("evt");
-    console.log(evt);
-    switch (type) {
-      case "project":
-        this.clocksForm.controls.selectedProject.patchValue({
-          SOC_NO: evt.detail.value.SOC_NO,
-          DESCRIPTION: evt.detail.value.DESCRIPTION,
-          PROJECT_GUID: evt.detail.value.PROJECT_GUID,
-          NAME: evt.detail.value.NAME,
-          CLIENT_GUID: evt.detail.value.CLIENT_GUID,
-        });
-        break;
-
-      case "contract":
-        this.clocksForm.controls.selectedContract.patchValue({
-          CONTRACT_NO: evt.detail.value.CONTRACT_NO,
-          DESCRIPTION: evt.detail.value.DESCRIPTION,
-          CONTRACT_GUID: evt.detail.value.CONTRACT_GUID,
-          NAME: evt.detail.value.NAME,
-          CLIENT_GUID: evt.detail.value.CLIENT_GUID,
-        });
-        break;
-
-      default:
-        //client by default
-        this.clocksForm.controls.selectedClient.patchValue({
-          ABBR: evt.detail.value.ABBR,
-          CLIENT_GUID: evt.detail.value.CLIENT_GUID,
-          NAME: evt.detail.value.NAME,
-        });
-        break;
-    }
-    console.log(this.clocksForm);
-  }
   /**
    * To get current location positions (latitude & longitude),
    * watch location positions. and add geofence on specific location based on
@@ -268,11 +201,8 @@ export class ClockInPage implements OnInit {
     this.geolocation
       .getCurrentPosition()
       .then((resp) => {
-        // console.log("resp get current position");
-        // console.log(resp.coords.latitude);
         this.lat = resp.coords.latitude;
         this.long = resp.coords.longitude;
-        // console.log(resp.coords.longitude);
 
         const fence = {
           id: new Date().toISOString(),
@@ -304,10 +234,21 @@ export class ClockInPage implements OnInit {
     const watch = this.geolocation.watchPosition();
     watch.subscribe((data) => {
       console.log("watchhh");
-      console.log(data.coords.latitude);
-      console.log(data.coords.longitude);
-      this.locWatch.lat = data.coords.latitude;
-      this.locWatch.long = data.coords.longitude;
+      this.cinApi
+        .getWithHeader(
+          "/api/location/search/coordinate/" +
+            data.coords.latitude +
+            "%2C" +
+            data.coords.longitude
+        )
+        .subscribe((res) => {
+          this.locWatch.lat = data.coords.latitude;
+          this.locWatch.long = data.coords.longitude;
+          this.locWatch.name = (res as any).results[0].formatted_address;
+          console.log(data.coords.latitude);
+          console.log(data.coords.longitude);
+          console.log((res as any).results[0].formatted_address);
+        });
       // this.clocksForm.patchValue({
       // });
       // data can be a set of coordinates, or an error (if an error occurred).
@@ -333,17 +274,8 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   addNewTask(event) {
-    // console.log(event);
-    // console.log(this.newTask);
-    // console.log(JSON.stringify(this.checkAddNew));
-    // console.log(this.checkAddNew.length);
-    // this.checkAddNew = this.cinGlobalFn.addTask(
-    //   event,
-    //   this.newTask,
-    //   this.checkAddNew
-    // );
-
-    if (event.code === "Enter" && this.newTask.length > 0) {
+    console.log(this.newTask);
+    if (event.code === "Enter" && this.newTask !== null) {
       this.checkAddNew.push({
         // id: this.checkAddNew.length,
         statusFlag: false,
@@ -351,7 +283,6 @@ export class ClockInPage implements OnInit {
       });
       this.newTask = null;
     }
-    console.log(JSON.stringify(this.checkAddNew));
   }
 
   getClientList(enableGeofiltering) {
@@ -361,7 +292,7 @@ export class ClockInPage implements OnInit {
     console.log(enableGeofiltering);
     this.globalData.clients = [];
     if (enableGeofiltering) {
-      if (this.locWatch.lat !== null && this.locWatch.long) {
+      if (this.locWatch.lat !== null && this.locWatch.long !== null) {
         // else use https://amscore.beesuite.app/api/client/coordinate/2.92508/101.701
         console.log("get client based on loc");
         this.cinApi
@@ -378,29 +309,17 @@ export class ClockInPage implements OnInit {
               console.log(cli);
               this.globalData.clients.push(cli.CLIENT_DATA);
             });
-            // Object.assign(this.globalData.clients, clientRes);
-            // this.globalData.clients = clientRes;
-            // Object.assign(this.globalData.clients, clientRes);
             console.log(this.globalData.clients);
-
-        // ABBR: null,
-        // description: null,
-        // CLIENT_GUID: "none",
-        // NAME: null,
           });
       } else {
         this.getAllClient();
       }
-      // use api
-      // if locwatch === null, use https://amscore.beesuite.app/api/client/detail
     } else {
-      console.log("getClientList: false");
       this.getAllClient();
     }
   }
 
   getAllClient() {
-    console.log("all client");
     this.cinApi.getWithHeader("/api/client/detail").subscribe(
       (clientRes) => {
         this.globalData.clients = clientRes;
@@ -467,7 +386,7 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   saveClockIn(type) {
-    const temp: any = new Date(this.currTime).setHours(0, 0, 0, 0);
+    // const temp: any = new Date(this.currTime).setHours(0, 0, 0, 0);
     const timeNow = new Date().getTime();
     console.log(this.cinGlobal.userInfo);
     console.log(this.cinGlobal.userInfo.userId);
@@ -482,9 +401,9 @@ export class ClockInPage implements OnInit {
           clockTime: timeNow,
           jobType: this.clocksForm.get("jobtype").value,
           location: {
-            lat: this.locWatch.lat + ", " + this.locWatch.long,
-            long: this.locWatch.lat,
-            name: this.locWatch.long,
+            lat: this.locWatch.lat,
+            long: this.locWatch.long,
+            name: this.locWatch.name,
           },
           clientId: this.selectedClient.CLIENT_GUID,
           projectId: this.selectedProject.PROJECT_GUID,
@@ -519,10 +438,9 @@ export class ClockInPage implements OnInit {
           location: {
             lat: this.locWatch.lat,
             long: this.locWatch.long,
-            name: this.locWatch.lat + ", " + this.locWatch.long,
+            name: this.locWatch.name,
           },
         };
-        console.log(coutArr);
 
         this.cinApi.patchWithHeader("/api/clock", coutArr).subscribe((coutResp) => {
           console.log("coutResp");
@@ -534,6 +452,7 @@ export class ClockInPage implements OnInit {
           this.selectedProject = this.projectNone;
           this.selectedContract = this.contractNone;
           this.data.userInfo.clockIn.status = false;
+          this.checkAddNew = [];
         }, (error) => {
           console.log("coutResp");
           console.log(error);
@@ -541,33 +460,9 @@ export class ClockInPage implements OnInit {
         break;
     }
 
-
-
-    const clockinObj = {
-      clockInDate: new Date(temp).toISOString(),
-      list: [
-        {
-          activityList: this.checkAddNew,
-          clientCode: this.selectedClient.CLIENT_GUID, // this.selectedClient.clientCode,
-          clockInTime: this.clocksForm.get("inTime").value, // this.currTime,
-          clockOutTime: this.clocksForm.get("outTime").value, // null,
-          jobType: this.clocksForm.get("jobtype").value, // this.jobType,
-          projectCode: this.selectedProject.SOC_NO, // this.selectedProject.code,
-          projectDesc: this.selectedProject.DESCRIPTION,
-          contractCode: this.selectedContract.CONTRACT_NO, // this.selectedContract.code,
-          contractDesc: this.selectedContract.DESCRIPTION,
-        },
-      ],
-    };
-
-    console.log(clockinObj);
-    console.log(this.clocksForm);
-
-
-    this.data.userInfo.clockIn.historicalClockIn.push(clockinObj);
-    if (type === "out") {
-      this.checkAddNew = [];
-    }
+    // if (type === "out") {
+    //   this.checkAddNew = [];
+    // }
   }
 
   /**

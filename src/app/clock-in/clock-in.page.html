@@ -62,7 +62,6 @@
   </ion-button>
 </div> -->
 <div class="clockin-button clockin" *ngIf="!this.data.userInfo.clockIn.status">
-  <!-- <ion-button shape="round" fill="outline" class="clockin" (click)="chg()"> -->
   <ion-button shape="round" fill="outline" class="clockin" (click)="saveClockIn('in')">
     <ion-label>Clock In Now</ion-label>
   </ion-button>
@@ -99,7 +98,6 @@
         </ion-title>
       </ion-item-group>
     </ion-item-group>
-    <!-- <div>clockin</div> -->
 
     <!-- notification card -->
     <ion-card class="main-info">
@@ -112,12 +110,6 @@
           <ion-card-subtitle>
             You haven't clock in yet.
           </ion-card-subtitle>
-          <!-- <ion-card-title class="clockin">
-            Clock In Success
-          </ion-card-title> -->
-          <!-- <ion-card-subtitle>
-            Good Job!
-          </ion-card-subtitle> -->
         </div>
         <div *ngIf="this.data.userInfo.clockIn.status">
           <ion-card-title class="clockout-title">
@@ -179,7 +171,6 @@
 
               <!-- job title list -->
               <ion-segment formControlName="jobtype" (click)="chg()">
-              <!-- <ion-segment formControlName="jobtype" (click)="chg()"> -->
                 <ng-container *ngFor="let job of data.userInfo.attendanceProfile2">
                   <ion-segment-button *ngIf="job.value" value={{job.type}}>
                     <ion-label>{{job.type}}</ion-label>
@@ -196,9 +187,14 @@
                     <ion-item-group *ngIf="jobDtl.geofence_filter">
                       <ion-img src="../../assets/basic/location.png"></ion-img>
                       <ion-label
-                        *ngIf="locWatch.lat !== null || locWatch.long
+                        *ngIf="locWatch.lat !== null || locWatch.long 
                         !== null">
-                        {{locWatch.lat}},&nbsp;{{locWatch.long}}
+                        <ng-container *ngIf="locWatch.name !== null; else showlatlong">
+                          {{locWatch.name}}
+                        </ng-container>
+                        <ng-template #showlatlong>
+                          {{locWatch.lat}},&nbsp;{{locWatch.long}}
+                        </ng-template>
                         </ion-label>
                       <ion-label
                         *ngIf="locWatch.lat === null || locWatch.long === null">
@@ -207,31 +203,13 @@
 
                     <!-- getting client list -->
                     <ion-item-group class="clients" *ngIf="jobDtl.client_list">
-                      <!-- <ion-select [(ngModel)]="setlect" [ngModelOptions]=" {standalone: true}">
-                        <ion-select-option *ngFor="let selectedClient of globalData.clients"
-                          [value]="selectedClient">
-                          {{selectedClient.ABBR}} - {{selectedClient.NAME}}</ion-select-option>
-                        <ion-select-option value="two">two</ion-select-option>
-                      </ion-select> -->
                       <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedClient" [ngModelOptions]=" {standalone: true}" 
                         placeholder="Select" (click)="getClientList(jobDtl.geofence_filter)">
-                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
-                        (ionChange)="chooseOpt('client', $event)"
-                        (click)="getClientList(jobDtl.geofence_filter)"> -->
-                        <!-- (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)"> -->
                         <ion-select-option selected [value]="clientNone">None</ion-select-option>
                         <ion-select-option *ngFor="let selectedClient of globalData.clients" [value]="selectedClient">
                           {{selectedClient.ABBR}} - {{selectedClient.NAME}}
                         </ion-select-option>
                       </ion-select>
-                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
-                        (ionChange)="chooseOpt('client', $event)"
-                        (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)" >
-                        <ion-select-option selected [value]="clientNone">None</ion-select-option>
-                        <ion-select-option *ngFor="let client of data.client" [value]="client">
-                          {{client.clientCode}} - {{client.clientName}}
-                        </ion-select-option>
-                      </ion-select> -->
                     </ion-item-group>
 
                     <!-- getting project list -->
@@ -245,28 +223,7 @@
                             {{project.SOC_NO}} - {{project.NAME}}
                           </ion-select-option>
                         </ng-container>
-
-                        <!-- <ng-container *ngIf="jobDtl.geofence_filter">
-                          <ng-container *ngFor="let clientData of data.client">
-                            <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                              <ion-select-option *ngFor="let project of clientData.project" [value]="project">
-                                {{project.code}} - {{project.name}}
-                              </ion-select-option>
-                            </ng-container>
-                          </ng-container>
-                        </ng-container> -->
                       </ion-select>
-                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedProject" placeholder="Select"
-                        (ionChange)="chooseOpt('project', $event)">
-                        <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
-                        <ng-container *ngFor="let clientData of data.client">
-                          <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                            <ion-select-option *ngFor="let project of clientData.project" [value]="project">
-                              {{project.code}} - {{project.name}}
-                            </ion-select-option>
-                          </ng-container>
-                        </ng-container>
-                      </ion-select> -->
                     </ion-item-group>
 
                     <!-- getting contract list -->
@@ -274,7 +231,7 @@
                       <ion-title>Contract Selection</ion-title>
                       <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedContract"
                         [ngModelOptions]=" {standalone: true}"
-                        placeholder="Select" (ionChange)="chooseOpt('contract', $event)"
+                        placeholder="Select"
                         (click)="getProjectContractList('contract')">
                         <ion-select-option selected [value]="contractNone">None</ion-select-option>
                         <ng-container *ngFor="let contract of globalData.contracts">
@@ -282,26 +239,7 @@
                             {{contract.CONTRACT_NO}} - {{contract.NAME}}
                           </ion-select-option>
                         </ng-container>
-                        
-                        <!-- <ng-container *ngFor="let clientData of data.client">
-                          <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                            <ion-select-option *ngFor="let contract of clientData.contract" [value]="contract">
-                              {{contract.code}} - {{contract.name}}
-                            </ion-select-option>
-                          </ng-container>
-                        </ng-container> -->
                       </ion-select>
-                      <!-- <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedContract"
-                        placeholder="Select" (ionChange)="chooseOpt('contract', $event)">
-                        <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
-                        <ng-container *ngFor="let clientData of data.client">
-                          <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                            <ion-select-option *ngFor="let contract of clientData.contract" [value]="contract">
-                              {{contract.code}} - {{contract.name}}
-                            </ion-select-option>
-                          </ng-container>
-                        </ng-container>
-                      </ion-select> -->
                     </ion-item-group>
 
                     <!-- activity list -->
@@ -333,122 +271,11 @@
                           </ion-item>
                         </ion-item-sliding>
                       </ion-list>
-                      <!-- <ion-list>
-                        <ion-item-sliding *ngFor="let list of checkAddNew">
-                          <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.status"
-                              [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                            <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.activity"
-                              [ngModelOptions]="{standalone: true}"
-                              inputmode="text" type="text" enterkeyhint="done"></ion-input>
-                          </ion-item>
-                          <ion-item-options side="end">
-                            <ion-item-option (click)="onDeleteTask(list, checkAddNew)">Del</ion-item-option>
-                          </ion-item-options>
-                        </ion-item-sliding>
-                        <ion-item-sliding>
-                          <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
-                            <ion-input type="text" placeholder="Add task here    " [(ngModel)]="newTask" [ngModelOptions]="{standalone: true}"
-                              (keyup.enter)="addNewTask($event)" inputmode="text" type="text" enterkeyhint="done">
-                            </ion-input>
-                          </ion-item>
-                        </ion-item-sliding>
-                      </ion-list> -->
                     </ion-item-group>
                   </p>
                 </span>
               </ng-container>
-
             </ion-card-content>
-            <!-- <ion-card-content class="clockin-details">
-              <ng-container *ngFor="let jobDtl of data.userInfo.attendanceProfile">
-                <span [ngSwitch]="clocksForm.get('jobtype').value">
-                  <p *ngSwitchCase="clocksForm.get('jobtype').value">
-                    <ion-item-group *ngIf="jobDtl.viewPremission.geofiltering">
-                      <ion-img src="../../assets/basic/location.png"></ion-img>
-                      <ion-label
-                        *ngIf="locWatch.lat !== null || locWatch.long
-                        !== null">
-                        {{locWatch.lat}},&nbsp;{{locWatch.long}}
-                        </ion-label>
-                      <ion-label
-                        *ngIf="locWatch.lat === null || locWatch.long === null">
-                        Getting current location..</ion-label>
-                    </ion-item-group>
-
-                    <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.client">
-                      <ion-title>Client</ion-title>
-                      <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedClient" placeholder="Select"
-                        (ionChange)="chooseOpt('client', $event)"
-                        (click)="getClientList(jobDtl.viewPremission.geofiltering, data.client)" >
-                        <ion-select-option selected [value]="clientNone">None</ion-select-option>
-                        <ion-select-option *ngFor="let client of data.client" [value]="client">
-                          {{client.clientCode}} - {{client.clientName}}
-                        </ion-select-option>
-                      </ion-select>
-                    </ion-item-group>
-
-                    <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.project">
-                      <ion-title>Project Selection</ion-title>
-                      <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedProject" placeholder="Select"
-                        (ionChange)="chooseOpt('project', $event)">
-                        <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
-                        <ng-container *ngFor="let clientData of data.client">
-                          <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                            <ion-select-option *ngFor="let project of clientData.project" [value]="project">
-                              {{project.code}} - {{project.name}}
-                            </ion-select-option>
-                          </ng-container>
-                        </ng-container>
-                      </ion-select>
-                    </ion-item-group>
-
-                    <ion-item-group class="clients" *ngIf="jobDtl.viewPremission.contract">
-                      <ion-title>Contract Selection</ion-title>
-                      <ion-select ok-text="OK" cancel-text="Dismiss" formGroupName="selectedContract"
-                        placeholder="Select" (ionChange)="chooseOpt('contract', $event)">
-                        <ion-select-option selected [value]="projectContractNone">None</ion-select-option>
-                        <ng-container *ngFor="let clientData of data.client">
-                          <ng-container *ngIf="clocksForm.get('selectedClient').value.id === clientData.clientId">
-                            <ion-select-option *ngFor="let contract of clientData.contract" [value]="contract">
-                              {{contract.code}} - {{contract.name}}
-                            </ion-select-option>
-                          </ng-container>
-                        </ng-container>
-                      </ion-select>
-                    </ion-item-group>
-
-                    <ion-item-group class="activity-list">
-                      <ion-title>Activity List</ion-title>
-                      <ion-list>
-                        <ion-item-sliding *ngFor="let list of checkAddNew">
-                          <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.status"
-                              [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                            <ion-input type="text" placeholder="Add task here    " [(ngModel)]="list.activity"
-                              [ngModelOptions]="{standalone: true}"
-                              inputmode="text" type="text" enterkeyhint="done"></ion-input>
-                          </ion-item>
-                          <ion-item-options side="end">
-                            <ion-item-option (click)="onDeleteTask(list, checkAddNew)">Del</ion-item-option>
-                          </ion-item-options>
-                        </ion-item-sliding>
-                        <ion-item-sliding>
-                          <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
-                            <ion-input type="text" placeholder="Add task here    " [(ngModel)]="newTask" [ngModelOptions]="{standalone: true}"
-                              (keyup.enter)="addNewTask($event)" inputmode="text" type="text" enterkeyhint="done">
-                            </ion-input>
-                          </ion-item>
-                        </ion-item-sliding>
-                      </ion-list>
-                    </ion-item-group>
-                  </p>
-                </span>
-              </ng-container>
-
-            </ion-card-content> -->
           </div>
         </ion-card>
 
@@ -475,15 +302,20 @@
           <ion-card-content class="clockin-details">
             <ion-item-group class="clocked-in">
               <ion-img src="../../assets/basic/location.png"></ion-img>
-              <ion-label *ngIf="locWatch.lat !== null || locWatch.long
-                      !== null">
-                {{locWatch.lat}},&nbsp;{{locWatch.long}}
+              <ion-label *ngIf="locWatch.lat !== null || locWatch.long 
+                        !== null">
+                <ng-container *ngIf="locWatch.name !== null; else showlatlong">
+                  {{locWatch.name}}
+                </ng-container>
+                <ng-template #showlatlong>
+                  {{locWatch.lat}},&nbsp;{{locWatch.long}}
+                </ng-template>
               </ion-label>
               <ion-label
                 *ngIf="locWatch.lat === null || locWatch.long === null">
                 Getting current location..</ion-label>
               </ion-item-group>
-
+              <!-- activity list -->
               <ion-item-group class="activity-list">
                 <ion-title>Activity List</ion-title>
                 <ion-list>
@@ -512,8 +344,6 @@
                 </ion-list>
               </ion-item-group>
           </ion-card-content>
-
-          <!-- activity list -->
         </ion-card>
       </form>
     </ion-item-group>
