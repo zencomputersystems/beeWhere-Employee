@@ -279,7 +279,7 @@ export class ClockInPage implements OnInit {
       this.checkAddNew.push({
         // id: this.checkAddNew.length,
         statusFlag: false,
-        activity: this.newTask,
+        name: this.newTask,
       });
       this.newTask = null;
     }

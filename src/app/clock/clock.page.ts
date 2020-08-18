@@ -5,18 +5,17 @@ import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
-  selector: 'app-clock',
-  templateUrl: './clock.page.html',
-  styleUrls: ['./clock.page.scss'],
+  selector: "app-clock",
+  templateUrl: "./clock.page.html",
+  styleUrls: ["./clock.page.scss"],
 })
 export class ClockPage implements OnInit {
-
   /**
    * Retrieve sample data from sampledata.json
    * @memberof ClockPage
    */
   public data = require("../sampledata.json");
-  public globalData = require('@services/_providers/global.json');
+  public globalData = require("@services/_providers/global.json");
 
   /**
    * Get and bind clocked out time in ISO format
@@ -39,8 +38,13 @@ export class ClockPage implements OnInit {
   public pageState;
 
   public currData;
-  constructor(public coutGeolocation: Geolocation, public coutGlobalFn: GlobalFnService,
-              public activatedRoute: ActivatedRoute, private clApi: APIService, private clRouter: Router) { }
+  constructor(
+    public coutGeolocation: Geolocation,
+    public coutGlobalFn: GlobalFnService,
+    public activatedRoute: ActivatedRoute,
+    private clApi: APIService,
+    private clRouter: Router
+  ) {}
 
   /**
    * Initialize this page methods and properties
@@ -54,7 +58,7 @@ export class ClockPage implements OnInit {
     // console.log(this.data.userInfo.clockIn.historicalClockIn);
     // console.log(this.data.userInfo.clockIn.historicalClockIn.slice(-1));
     // const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
-    this.activatedRoute.paramMap.subscribe(item => {
+    this.activatedRoute.paramMap.subscribe((item) => {
       console.log(item);
       this.pageState = item;
     });
@@ -71,7 +75,7 @@ export class ClockPage implements OnInit {
   }
 
   editMode(id) {
-    console.log('editmode');
+    console.log("editmode");
     this.getClocksInfo(id);
     // this.data.userInfo.clockIn.historicalClockIn.filter(item => {
     //   if (new Date(item.clockInDate).setHours(0, 0, 0, 0) === new Date(this.pageState.params.time).setHours(0, 0, 0, 0)) {
@@ -86,9 +90,9 @@ export class ClockPage implements OnInit {
   }
 
   clockOutMode() {
-    console.log('clockOutMode');
+    console.log("clockOutMode");
     console.log(this.data.userInfo.clockIn.historicalClockIn.slice(-1));
-    this.data.userInfo.clockIn.historicalClockIn.slice(-1).filter( item => {
+    this.data.userInfo.clockIn.historicalClockIn.slice(-1).filter((item) => {
       // console.log(item.list.slice(-1));
       this.currData = item.list.slice(-1);
     });
@@ -109,22 +113,25 @@ export class ClockPage implements OnInit {
   getClocksInfo(clockGuid) {
     console.log("getClocksInfo");
     console.log(clockGuid);
-    this.clApi.getWithHeader("/api/clock/" + clockGuid).subscribe((clkRes) => {
-      console.log(clkRes);
-      // console.log(this.globalData);
-      this.currData = clkRes;
-    }, (error) => {
-      console.log(error);
-    });
+    this.clApi.getWithHeader("/api/clock/" + clockGuid).subscribe(
+      (clkRes) => {
+        console.log(clkRes);
+        // console.log(this.globalData);
+        this.currData = clkRes;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   updateActivityList() {
     // const tempArr = this.data.userInfo.clockIn.historicalClockIn.slice(-1);
-    if (this.pageState.params.id === 'out') {
+    if (this.pageState.params.id === "out") {
       Object.assign(this.currData, {
-      // Object.assign(tempArr[0].list.slice(-1)[0], {
+        // Object.assign(tempArr[0].list.slice(-1)[0], {
         clockOutLocation: this.currLocation.lat + ", " + this.currLocation.long,
-        clockOutTime: this.coutTime
+        clockOutTime: this.coutTime,
       });
       this.data.userInfo.clockIn.status = false;
     } else {
@@ -149,12 +156,15 @@ export class ClockPage implements OnInit {
         ],
       };
 
-      this.clApi.patchWithHeader("/api/clock/activity", tempUpdArray).subscribe((clkAct) => {
-        console.log(clkAct);
-        this.clRouter.navigate["/main"];
-      }, (error) => {
-        console.log(error);
-      });
+      this.clApi.patchWithHeader("/api/clock/activity", tempUpdArray).subscribe(
+        (clkAct) => {
+          console.log(clkAct);
+          this.clRouter.navigate["/main"];
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
     // else {
     //   // this.data.userInfo.clockIn.status = true;

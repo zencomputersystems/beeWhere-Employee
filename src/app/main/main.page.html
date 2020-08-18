@@ -150,45 +150,45 @@
     </ion-item-group>
 
     <ng-container *ngIf="globalData.histClocks.length > 0; else noPrevClockInRecord">
-      <ion-item-group class="history-clockin" *ngFor="let histClock of globalData.histClocks">
-        <!-- <ion-item-group class="history-clockin" *ngFor="let histClock of data.userInfo.clockIn.historicalClockIn"> -->
-        <ion-title> 
+      <ion-item-group class="history-clockin" *ngFor="let histList of globalData.histClocks">
+        <!-- <ion-title> 
           {{histClock.date | date: 'd MMM yyyy'}}
-        </ion-title>
-        <!-- <ng-container *ngIf="histClock.list.length > 0; else noListRecord">yess</ng-container>
-        <ng-container #noListRecord>naa</ng-container> -->
-        <div *ngIf="histClock.list.length > 0;">
-          <ion-card *ngFor="let histList of histClock.list" (click)="clickedInfo(histList)"
+        </ion-title> -->
+        <div>
+          <ion-card (click)="clickedInfo(histList)"
             [routerLink]="['/clock', 'edit', histList.CLOCK_LOG_GUID]">
-            <!-- <ion-card *ngFor="let histList of histClock.list" (click)="clickedInfo(histlist)"
-              [routerLink]="['/clock', 'edit', histList.CLOCK_LOG_GUID]"> -->
-          <!-- <ion-card *ngFor="let histList of histClock.list" [routerLink]="['/clock', 'edit', histList.clockInTime]"> -->
-            <!-- {{histList | json}} -->
-              <ion-card-title>
+            <ion-card-title>
             {{histList.JOB_TYPE}}
             <ion-card-subtitle>
-              <ion-label class="label-client" *ngIf="histList.CLIENT_ID !== null">
+              <!-- <ion-label class="label-client" *ngIf="histList.CLIENT_ID !== null">
                 {{histList.CLIENT_ID}}
+              </ion-label> -->
+              <ion-label class="label-project"
+                *ngIf="histList.PROJECT_DATA.length !== 0 && histList.PROJECT_DATA.SOC_NO !== null ">
+                {{histList.PROJECT_DATA.SOC_NO }}
               </ion-label>
-              <ion-label class="label-project" *ngIf="histList.PROJECT_ID !== null">
-                {{histList.PROJECT_ID}}
-              </ion-label>
-              <ion-label class="label-contract" *ngIf="histList.CONTRACT_ID !== null">
-                {{histList.CONTRACT_ID}}
+              <ion-label class="label-contract"
+                *ngIf="histList.CONTRACT_DATA.length !== 0 && histList.CONTRACT_DATA.CONTRACT_NO !== null">
+                {{histList.CONTRACT_DATA.CONTRACT_NO}}
               </ion-label>
             </ion-card-subtitle>
           </ion-card-title>
-              <!-- <ion-card-subtitle class="description-project" *ngIf="histList.projectDesc !== null">
-            {{histList.projectDesc}}
-          </ion-card-subtitle> -->
+          <ion-card-subtitle class="description-project"
+            *ngIf="histList.PROJECT_DATA.length !== 0 && histList.PROJECT_DATA.DESCRIPTION !== null">
+            {{histList.PROJECT_DATA.DESCRIPTION}}
+          </ion-card-subtitle>
+          <ion-card-subtitle class="description-project"
+            *ngIf="histList.CONTRACT_DATA.length !== 0 && histList.CONTRACT_DATA.DESCRIPTION !== null">
+            {{histList.CONTRACT_DATA.DESCRIPTION}}
+          </ion-card-subtitle>
           <ion-card-content class="clockin-content">
             <ion-item-group class="clock-setting">
               <ion-label class="clock-label clk-in">
                 Clock In
               </ion-label>
               <ion-list class="clock-list">
-                <ion-text>
-                  {{histList.CLOCK_IN_TIME | date: 'hh:mm a'}}
+                <ion-text *ngIf="histList.CLOCK_IN_TIME !== '0000-00-00 00:00:00'">
+                  {{histList.CLOCK_IN_TIME | date: 'd MMM yyyy hh:mm a'}}
                 </ion-text>
                 <ion-text *ngIf="histList.ADDRESS_IN !== 'null, null'">
                   {{histList.ADDRESS_IN}}
@@ -203,13 +203,13 @@
                 Clock Out
               </ion-label>
               <ion-list class="clock-list">
-                <ion-text>
-                  {{histList.CLOCK_OUT_TIME | date: 'hh:mm a'}}
+                <ion-text *ngIf="histList.CLOCK_OUT_TIME !== '0000-00-00 00:00:00'">
+                  {{histList.CLOCK_OUT_TIME | date: 'd MMM yyyy hh:mm a'}}
                 </ion-text>
-                <ion-text *ngIf="histList.ADDRESS_OUT !== 'null, null'">
+                <ion-text *ngIf="histList.ADDRESS_OUT !== 'null, null'|| histList.ADDRESS_OUT !== null">
                   {{histList.ADDRESS_OUT}}
                 </ion-text>
-                <ion-text *ngIf="histList.ADDRESS_OUT === 'null, null'">
+                <ion-text *ngIf="histList.ADDRESS_OUT === 'null, null' || histList.ADDRESS_OUT === null">
                   No location
                 </ion-text>
               </ion-list>
@@ -218,7 +218,8 @@
             <ion-item-group class="activities-setting" *ngIf="histList.ACTIVITY !== null">
               <ion-list *ngFor="let activities of histList.ACTIVITY.root.activity">
                 <ion-checkbox mode="ios" [(ngModel)]="activities.statusFlag" disabled></ion-checkbox>
-                <ion-label>{{activities.name}}</ion-label>
+                <!-- <ion-label *ngIf="activities.activity">{{activities.activity}}</ion-label> -->
+                <ion-label *ngIf="activities.name">{{activities.name}}</ion-label>
               </ion-list>
             </ion-item-group>
           </ion-card-content>
@@ -263,11 +264,6 @@
               </ion-list>
             </ion-item-group>
           </ion-card-content> -->
-          </ion-card>
-        </div>
-        <div *ngIf="histClock.list.length === 0;">
-          <ion-card class="no-record" style="text-transform: capitalize;">
-            {{histClock.remarks}}
           </ion-card>
         </div>
         
@@ -334,6 +330,10 @@
           </ion-card-content>
         </ion-card> -->
       </ion-item-group>
+      <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll> -->
     </ng-container>
     <!-- <ng-container *ngIf="data.userInfo.clockIn.historicalClockIn.length > 0; else noPrevClockInRecord">
       <ion-item-group class="history-clockin" *ngFor="let histClock of data.userInfo.clockIn.historicalClockIn">

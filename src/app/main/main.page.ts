@@ -1,7 +1,6 @@
 import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
 import * as sampledata from '../sampledata.json';
-import { parseXML, parseJSON } from 'jquery';
 
 export let clickedClocks = {};
 
@@ -26,10 +25,10 @@ export class MainPage implements OnInit {
    */
   public currDate = new Date().toISOString();
 
+  public initReq = 0;
+
   ngOnInit() {
     console.log(this.currDate);
-    console.log(this.data);
-    console.log(this.data.userInfo.clockIn.historicalClockIn.length);
     // setInterval(this.currDate, 1000);
     this.getHistory();
   }
@@ -40,12 +39,25 @@ export class MainPage implements OnInit {
     return setInterval(this.currDate, 1000);
   }
 
+  // getHistory() {
+  //   this.hApi.getWithHeader("/api/clock/history/list").subscribe(
+  //     (histRes) => {
+  //       this.globalData.histClocks = histRes;
+  //       console.log(this.globalData.histClocks);
+  //       console.log(this.globalData.histClocks[1].list[0].ACTIVITY);
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
+
   getHistory() {
-    this.hApi.getWithHeader("/api/clock/history/list").subscribe(
+    this.hApi.getWithHeader("/api/clock/history/list/10/" + this.initReq).subscribe(
       (histRes) => {
         this.globalData.histClocks = histRes;
         console.log(this.globalData.histClocks);
-        console.log(this.globalData.histClocks[1].list[0].ACTIVITY);
+        // console.log(this.globalData.histClocks[1].list[0].ACTIVITY);
       },
       (error) => {
         console.log(error);
@@ -56,5 +68,11 @@ export class MainPage implements OnInit {
   clickedInfo(currData) {
     console.log(currData);
     clickedClocks = currData;
+  }
+
+  doInfinite(event) {
+    // this.getEmployees(true, event);
+    console.log("doInfinite");
+    console.log(event);
   }
 }
