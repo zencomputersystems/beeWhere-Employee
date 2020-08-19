@@ -62,6 +62,7 @@ export class GlobalService {
 
   getJobProfile() {
     console.log("getJobProfile");
+    this.globalData.jobTypes = [];
     this.gApi
       .getWithHeader("/api/admin/attendance/user/" + this.userInfo.userId)
       .subscribe((resp) => {
