@@ -160,9 +160,10 @@
             <ion-card-title>
             {{histList.JOB_TYPE}}
             <ion-card-subtitle>
-              <!-- <ion-label class="label-client" *ngIf="histList.CLIENT_ID !== null">
-                {{histList.CLIENT_ID}}
-              </ion-label> -->
+              <ion-label class="label-client"
+                *ngIf="histList.CLIENT_DATA.length !== 0 && histList.CLIENT_DATA.ABBR !== null ">
+                {{histList.CLIENT_DATA.ABBR}}
+              </ion-label>
               <ion-label class="label-project"
                 *ngIf="histList.PROJECT_DATA.length !== 0 && histList.PROJECT_DATA.SOC_NO !== null ">
                 {{histList.PROJECT_DATA.SOC_NO }}
