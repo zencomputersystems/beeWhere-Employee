@@ -516,3 +516,61 @@ Response:
     response: {
         //success send request
     }
+
+
+17. to send request for reporting based on report type and period
+
+Request:
+{
+    "reportType": "activity" or "attendance",
+    // "duration": "daily" or "weekly" or "monthly" or "yearly" or "custom",
+    "customDurationStart": , //timestamp, can't be null
+    "customDurationEnd": , //timestamp, can't be null
+}
+
+Response: 
+// if report type is activity
+[
+    {
+        "date": "2020-08-10", 
+        "activityList": [
+            {
+                "statusFlag": true,
+                "name": "data migration"
+            },
+            .
+            .
+            .
+        ]
+    },
+    {
+        "date": "2020-08-11",
+        "activityList": [{
+                "statusFlag": true,
+                "name": "data migration"
+            },
+            .
+            .
+            .
+
+    }
+]
+
+// if report type is attendance 
+[
+    {
+        "date": "2020-08-10",
+        "inTime": "2020-08-10 08:33:46", // first clocked in time,
+        "outTime": "2020-08-10 19:03:11", //last clocked out time,
+        "duration":  //total time differenece between inTime and outTime in hour
+    },
+    {
+        "date": "2020-08-11",
+        "inTime": "2020-08-11 07:31:46", // first clocked in time,
+        "outTime": "2020-08-11 19:53:11", //last clocked out time,
+        "duration": //total time differenece between inTime and outTime in hour
+    },
+    .
+    .
+    .
+]
