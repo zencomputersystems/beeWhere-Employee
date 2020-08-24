@@ -176,7 +176,10 @@
           </ion-item-group> -->
           <ion-item-group [formGroup]="searchForm">
             <div class="spacing">
-              <ion-note *ngIf="searchForm.get('type').invalid">*required</ion-note>
+              <div class="title">
+                <ion-label>Report Type</ion-label>
+                <ion-note *ngIf="searchForm.get('type').invalid">*required</ion-note>
+              </div>
               <ion-select placeholder="Select report type" formControlName="type" (ionChange)="reporte()">
                 <ion-select-option value="attendance">Attendance</ion-select-option>
                 <ion-select-option value="activity">Activity</ion-select-option>
@@ -189,7 +192,10 @@
             </ion-item>
 
             <div class="spacing">
-              <ion-note *ngIf="searchForm.get('duration').invalid">*required</ion-note>
+              <div class="title">
+                <ion-label >Duration</ion-label>
+                <ion-note *ngIf="searchForm.get('duration').invalid">*required</ion-note>
+              </div>
               <ion-select placeholder="Select your duration" formControlName="duration" (ionChange)="reporte()">
                 <ion-select-option>Weekly</ion-select-option>
                 <ion-select-option>Monthly</ion-select-option>
@@ -199,7 +205,7 @@
             </div>
           </ion-item-group>
 
-          <ion-item-group *ngIf="searchForm.get('type').value === 'attendance'">
+          <ion-item-group *ngIf="searchForm.get('type').value === 'attendance' && genReport">
               <ion-grid>
                 <ion-row class="grid-title-style">
                   <ion-col>Date</ion-col>
@@ -218,7 +224,7 @@
 
               </ion-grid>
           </ion-item-group>
-          <ion-item-group *ngIf="searchForm.get('type').value === 'activity'">
+          <ion-item-group *ngIf="searchForm.get('type').value === 'activity' && genReport">
               <ion-grid>
                 <ion-row class="grid-title-style">
                   <ion-col>Date</ion-col>
@@ -228,8 +234,9 @@
                 <!-- <ng-container *ngFor="let item of items"> -->
                 <ion-row class="grid-body-style-row ">
                   <ion-col class="grid-body-style-column">19/8/2020</ion-col>
-                  <ion-col class="grid-body-style-column">migrate job</ion-col>
-                  <ion-col *ngIf="searchForm.get('enableStatus').value" class="set-center">done</ion-col>
+                  <ion-col>migrate job</ion-col>
+                  <ion-col *ngIf="searchForm.get('enableStatus').value"
+                    class=" grid-body-style-column-left set-center">done</ion-col>
                 </ion-row>
                 <!-- </ng-container> -->
 

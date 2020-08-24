@@ -139,12 +139,27 @@
         border-right: 1px solid #50505029;
     }
 
+    .grid-body-style-column-left {
+        border-left: 1px solid #50505029;
+    }
+
     .spacing {
         margin: 1em 0;
     }
 
     .set-center {
         text-align: center;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        ion-label {
+            font-size: var(--ion-text-13);
+            color: var(--ion-color-grey-808495);
+            font-weight: bold;
+            padding-right: 0.5em;
+        }
     }
 }
 
@@ -180,4 +195,6 @@ ion-note {
     font-size: var(--ion-text-11);
     color: var(--ion-color-red);
 }
+
+
 

@@ -21,6 +21,8 @@ export class ReportPage implements OnInit {
   public reportType;
 
   public searchForm: FormGroup;
+
+  public genReport;
   constructor(private rpFormBuilder: FormBuilder) {
     this.searchForm = this.rpFormBuilder.group({
       type: [null, Validators.required],
@@ -39,11 +41,12 @@ export class ReportPage implements OnInit {
     console.log(this.reportType);
     console.log(this.searchForm);
   }
+
   showReport() {
     console.log("showReport");
     console.log(this.searchForm);
-    console.log(this.searchForm.get("type").dirty);
-    console.log(this.searchForm.get("type").invalid);
+  
+    this.genReport = true;
     if (this.searchForm.status === "VALID") {
       console.log('success');
     }
