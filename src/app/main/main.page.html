@@ -79,7 +79,7 @@
   <div class="content">
     <ion-item-group class="header">
       <ion-label>beeWhere</ion-label>
-      <ion-img src="../../assets/basic/logout.png" routerLink="/login"></ion-img>
+      <!-- <ion-img src="../../assets/basic/logout.png" routerLink="/login"></ion-img> -->
     </ion-item-group>
     <!-- <ion-item-group class="user-header">
       <ion-item-group>
@@ -98,7 +98,7 @@
     </ion-item-group> -->
     
     <!-- notification card -->
-    <ion-card class="main-info">
+    <!-- <ion-card class="main-info">
       <ion-card-content>
         <div *ngIf="data.userInfo.clockIn.status == false">
           <ion-card-title class="clockin-title">
@@ -110,7 +110,7 @@
         </div>
         <div *ngIf="data.userInfo.clockIn.status == true">
           <ion-card-title class="clockout-title">
-            Clocked In<!-- Clock out -->
+            Clocked In
           </ion-card-title>
           <ion-card-subtitle>
             Don't forget to clock out.
@@ -135,9 +135,9 @@
           </ion-title>
         </div>
       </ion-card-content>
-    </ion-card>
+    </ion-card> -->
 
-    <ion-item-group class="notification-info" routerLink="/inbox-details"
+    <!-- <ion-item-group class="notification-info" routerLink="/inbox-details"
       *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
       <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
       <ion-img src="../../assets/basic/bell.png"></ion-img>
@@ -147,7 +147,7 @@
       <ion-label *ngIf="data.userInfo.notifications.approval.length !=0 && data.userInfo.notifications.updates.length !=0">,&nbsp;</ion-label>
       <ion-label *ngIf="data.userInfo.notifications.updates.length !- 0"> {{data.userInfo.notifications.updates.length}} new
         updates</ion-label>
-    </ion-item-group>
+    </ion-item-group> -->
 
     <ng-container *ngIf="globalData.histClocks.length > 0; else noPrevClockInRecord">
       <ion-item-group class="history-clockin" *ngFor="let histList of globalData.histClocks">
@@ -182,7 +182,7 @@
             *ngIf="histList.CONTRACT_DATA.length !== 0 && histList.CONTRACT_DATA.DESCRIPTION !== null">
             {{histList.CONTRACT_DATA.DESCRIPTION}}
           </ion-card-subtitle>
-          {{histList.CLOCK_LOG_GUID}}
+          <!-- {{histList.CLOCK_LOG_GUID}} -->
           <ion-card-content class="clockin-content">
             <ion-item-group class="clock-setting">
               <ion-label class="clock-label clk-in">

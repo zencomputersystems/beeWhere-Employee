@@ -177,20 +177,26 @@
         position: absolute;
         width: -webkit-fill-available;
         height: -webkit-fill-available;
-        padding: 12% 7% 0% 7%;
+        // padding: 12% 7% 0% 7%;
+        padding: 5% 5% 0% 5%;
 
         .header {
             display: flex;
             place-content: space-between;
             margin-bottom: 7%;
             // margin: 45px 22px 22px;
-            font-size: var(--ion-text-23);
+            // font-size: var(--ion-text-23);
+            font-size: var(--ion-text-13);
             color: var(--ion-color-white);
             font-weight: normal;
 
             ion-img {
                 width: 1em;// 23px;
             }
+        }
+
+        .main-header {
+            font-size: var(--ion-text-23);
         }
     }
 }
