@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { ReportPageRoutingModule } from './report-routing.module';
 
 import { ReportPage } from './report.page';
+import { CalendarModule } from 'ion2-calendar';
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   imports: [
@@ -15,8 +18,11 @@ import { ReportPage } from './report.page';
     IonicModule,
     ReportPageRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
   ],
-  declarations: [ReportPage]
+  declarations: [ReportPage],
 })
 export class ReportPageModule {}

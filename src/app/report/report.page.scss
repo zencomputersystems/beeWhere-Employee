@@ -122,6 +122,7 @@
     }
 
     .grid-title-style {
+        align-items: center;
         border-radius: 2px;
         background: var(--ion-color-submit);
         opacity: 80%;
@@ -161,8 +162,61 @@
             padding-right: 0.5em;
         }
     }
+
+    .no-record {
+        justify-content: center;
+        padding: 7em;
+        border-left: 1px solid #50505029;
+        border-bottom: 1px solid #50505029;
+        border-right: 1px solid #50505029;
+    }
+
+    .activity-grid {
+        display: flex;
+
+        .col-1 {
+            flex: 1;
+            text-align: center;
+        }
+        .col-2 {
+            flex: 3;
+        }
+
+    }
+
+    .flex-1 {
+        flex: 1;
+    }
+
+    .flex-2 {
+        flex: 2;
+    }
+    .border-bottom {
+        border-bottom: 1px solid #50505029;
+    }
+
+    .done {
+        color: var(--ion-color-clockin);
+    }
+
+    .pending {
+        color: var(--ion-color-clockout);
+    }
+
 }
 
+.calendar {
+    background: azure;
+
+    ion-button {
+            text-transform: capitalize;
+    }
+    // button.days-btn p{
+    //     // color: aquamarine; 
+    //     font-size: var(--ion-text-11);
+    //     color: var(--ion-color-text);
+    // }
+}
 ion-select {
     padding-right: var(--ion-text-12);
     opacity: 80%;
@@ -198,3 +252,9 @@ ion-note {
 
 
 
+// ::ng-deep button.days-btn {
+//     p {
+//         font-size: var(--ion-text-11);
+//         color: var(--ion-color-text);
+//     }
+// }

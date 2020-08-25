@@ -1,6 +1,9 @@
 import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
+
+export let defJob = "office";
+
 @Injectable({
   providedIn: "root",
 })
@@ -67,7 +70,7 @@ export class GlobalService {
       .getWithHeader("/api/admin/attendance/user/" + this.userInfo.userId)
       .subscribe((resp) => {
         console.log(resp);
-        Object.entries((resp as any).property).forEach(entry => {
+        Object.entries((resp as any).property).forEach((entry) => {
           const temp: any = entry[1];
           temp.type = entry[0];
           this.jobConfigs.push(temp);
@@ -76,6 +79,12 @@ export class GlobalService {
         });
         console.log(this.dataGlobal.userInfo);
         console.log(this.globalData.jobTypes);
+        defJob = this.globalData.jobTypes.find((x) => {
+          if (x.value) {
+            return x.type;
+          }
+        });
+        console.log(defJob);
       });
   }
 }

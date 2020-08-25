@@ -21,7 +21,8 @@
       "@environments/*": ["./src/environments/*"]
     },
     "resolveJsonModule": true,
-    "esModuleInterop": true  
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
