@@ -314,4 +314,8 @@
     .info {
         --background: var(--ion-color-grey-808495);
     }
+    
+    input[type="file"] {
+        display: none;
+    }
 }

@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 export class APIService {
   public ROOT_URL = environment.URL_API;
+  private UPLOAD_URL = environment.URL_UPLOAD;
   private headers = new Headers();
   httpHeaders: HttpHeaders = new HttpHeaders({
     Authorization: "JWT " + localStorage.getItem("access_token"),
@@ -44,18 +45,18 @@ export class APIService {
    * @memberof APIService
    */
   getWithHeader(addr: string) {
-  return this.http
-    .get(this.ROOT_URL + addr , { headers: this.httpHeaders })
-    .pipe(
-      tap(
-        (data) => data,
-        (error) => error
-      )
-    );
+    return this.http
+      .get(this.ROOT_URL + addr, { headers: this.httpHeaders })
+      .pipe(
+        tap(
+          (data) => data,
+          (error) => error
+        )
+      );
   }
 
   /**
-   * Post method with passing it's header, array to db
+   * Post method with passing it's header, array to db using ROOT_URL
    * @param {string} addr
    * @param {*} array
    * @memberof APIService
@@ -63,6 +64,24 @@ export class APIService {
   postWithHeader(addr: string, array: any) {
     return this.http
       .post(this.ROOT_URL + addr, array, { headers: this.httpHeaders })
+      .pipe(
+        tap(
+          (data) => data,
+          (error) => error
+        )
+      );
+  }
+
+  /**
+   * Post method with passing it's header, array to db using UPLOAD_URL
+   * @param {string} addr
+   * @param {*} array
+   * @returns
+   * @memberof APIService
+   */
+  postUpload(addr: string, array: any) {
+    return this.http
+      .post(this.UPLOAD_URL + addr, array, { headers: this.httpHeaders })
       .pipe(
         tap(
           (data) => data,

@@ -5,12 +5,11 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-support',
-  templateUrl: './support.page.html',
-  styleUrls: ['./support.page.scss'],
+  selector: "app-support",
+  templateUrl: "./support.page.html",
+  styleUrls: ["./support.page.scss"],
 })
 export class SupportPage implements OnInit {
-
   /**
    * Bind current time in ISO format
    * @memberof SupportPage
@@ -28,7 +27,7 @@ export class SupportPage implements OnInit {
    * Bind support type either requestForm or suggestionForm. Initialized as requestForm
    * @memberof SupportPage
    */
-  public supportType = 'requestForm';
+  public supportType = "requestForm";
 
   /**
    * Bind form values
@@ -38,32 +37,44 @@ export class SupportPage implements OnInit {
   public mform: FormGroup;
 
   public reqDetails: FormGroup;
+  
+  /**
+   * Form to bind file uploads
+   * @private
+   * @memberof SupportPage
+   */
+  private formData = new FormData();
 
+  public choosenFile = "No file chosen";
   /**
    * Creates an instance of SupportPage.
    * @param {FormBuilder} formbuilder get methods from FormBuilder
    * @memberof SupportPage
    */
-  constructor( public formbuilder: FormBuilder, private sApi: APIService, private sGFn: GlobalFnService) {
+  constructor(
+    public formbuilder: FormBuilder,
+    private sApi: APIService,
+    private sGFn: GlobalFnService
+  ) {
     this.mform = formbuilder.group({
       supportType: this.supportType,
       requestForm: this.formbuilder.group({
         type: ["", Validators.required],
         title: ["", Validators.required],
         supportDoc: [""],
-        description: ""
+        description: "",
       }),
       suggestionForm: this.formbuilder.group({
         title: ["", Validators.required],
-        description: ""
-      })
+        description: "",
+      }),
     });
 
     this.reqDetails = formbuilder.group({
       clocksTime: ["", Validators.required],
       inTime: ["", Validators.required],
-      outTime: ["", Validators.required]
-    })
+      outTime: ["", Validators.required],
+    });
   }
 
   /**
@@ -73,6 +84,7 @@ export class SupportPage implements OnInit {
   ngOnInit() {
     // console.log(this.globalData.userInfo.userId);
     // console.log(this.globalData.userInfo.email);
+    this.sGFn.uploadDoc();
   }
 
   /**
@@ -89,55 +101,72 @@ export class SupportPage implements OnInit {
     console.log(new Date(this.reqDetails.value.outTime).valueOf());
     let tempObj;
     switch (this.mform.get("supportType").value) {
-      case 'suggestion':
-        if (this.mform.get('suggestionForm').valid) {
-          console.log(this.mform.get('suggestionForm').value);
+      case "suggestion":
+        if (this.mform.get("suggestionForm").valid) {
+          console.log(this.mform.get("suggestionForm").value);
           tempObj = {
             requestType: "suggestions",
             subject: this.mform.get("suggestionForm").value.title,
             starttime: null,
             endtime: null,
             supportingDoc: "",
-            description: (this.mform.get("suggestionForm").value.description === null) ? ""
-              : this.mform.get("suggestionForm").value.description,
+            description:
+              this.mform.get("suggestionForm").value.description === null
+                ? ""
+                : this.mform.get("suggestionForm").value.description,
             userGuid: this.globalData.userInfo.userId,
-            userEmail: this.globalData.userInfo.email
+            userEmail: this.globalData.userInfo.email,
           };
 
           console.log(tempObj);
-          this.sApi.postWithHeader('/support', tempObj).subscribe((postRes) => {
-            console.log(postRes);
-            this.sGFn.showToast('Subitted', 'success');
-            this.mform.get("suggestionForm").reset();
-            console.log(this.mform.get("suggestionForm").value);
-          });
+          // this.sApi.postWithHeader('/support', tempObj).subscribe((postRes) => {
+          //   console.log(postRes);
+          //   this.sGFn.showToast('Subitted', 'success');
+          //   this.mform.get("suggestionForm").reset();
+          //   console.log(this.mform.get("suggestionForm").value);
+          // });
+          this.postObj(tempObj);
         } else {
-          this.sGFn.showToast('Please fill in required fields ', 'error');
+          this.sGFn.showToast("Please fill in required fields ", "error");
         }
         break;
 
       default:
+        console.log(this.mform.get("requestForm").value.description);
         if (this.mform.get("requestForm").valid) {
+          this.postUploadImg();
           console.log(this.mform.get("requestForm").value);
           tempObj = {
             requestType: this.mform.get("requestForm").value.type,
-            subject: this.mform.get("suggestionForm").value.title,
+            subject: this.mform.get("requestForm").value.title,
             starttime: new Date(this.reqDetails.value.inTime).valueOf(),
             endtime: new Date(this.reqDetails.value.outTime).valueOf(),
             supportingDoc: this.mform.get("requestForm").value.supportDoc,
-            description: (this.mform.get("suggestionForm").value.description === null) ? ""
-              : this.mform.get("suggestionForm").value.descriptio,
+            description:
+              this.mform.get("requestForm").value.description === null
+                ? ""
+                : this.mform.get("requestForm").value.description,
             userGuid: this.globalData.userInfo.userId,
-            userEmail: this.globalData.userInfo.email
+            userEmail: this.globalData.userInfo.email,
           };
-          console.log(tempObj);
+          this.postObj(tempObj);
         } else {
-          this.sGFn.showToast('Please fill in required fields ', 'error');
+          this.sGFn.showToast("Please fill in required fields ", "error");
         }
         break;
     }
   }
 
+  postObj(obj) {
+    this.sApi.postWithHeader("/support", obj).subscribe((postRes) => {
+      console.log(postRes);
+      this.sGFn.showToast("Subitted", "success");
+      this.mform.get("suggestionForm").reset();
+      // this.mform.get("reqDetails").reset();
+      this.mform.get("requestForm").reset();
+      this.reqDetails.reset();
+    });
+  }
   /**
    * on change segment event either request or suggestion then update it into form (supportType)
    * @memberof SupportPage
@@ -147,7 +176,6 @@ export class SupportPage implements OnInit {
     this.supportType = this.mform.value.supportType;
     this.mform.reset();
     this.mform.controls.supportType.setValue(this.supportType);
-
   }
 
   /**
@@ -157,7 +185,29 @@ export class SupportPage implements OnInit {
    * @memberof SupportPage
    */
   getFormControls(type) {
-    return (type === 'request') ? (this.mform.get('requestForm') as FormArray).controls 
-    : (this.mform.get('suggestionForm') as FormArray).controls;
+    return type === "request"
+      ? (this.mform.get("requestForm") as FormArray).controls
+      : (this.mform.get("suggestionForm") as FormArray).controls;
   }
+
+  upload(evt) {
+    console.log("upload");
+    console.log(evt);
+
+    // const fileToUpload = evt.item(0);
+    // console.log(formData);
+    const file = (event as any).target.files[0];
+    this.choosenFile = file.name;
+    this.formData.append("file", file, file.name);
+    console.log(evt);
+  }
+
+  postUploadImg() {
+    this.sApi
+      .postUpload("/api/azure/upload", this.formData)
+      .subscribe((resp) => {
+        console.log(resp);
+      });
+  }
+
 }
