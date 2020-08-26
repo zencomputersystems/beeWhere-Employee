@@ -574,3 +574,70 @@ Response:
     .
     .
 ]
+
+18. to get data based on "ask for clarification" or "approved" & "rejected"
+
+Request:
+{
+    "requestType": "clarification" or "approveAndReject"
+}
+
+response:
+
+// if request is clarification
+{
+    "requestType": "clarificiation",
+    "list": [{
+        "supportGuid": "5726e610-e6a9-11ea-910f-edd963634b57",
+        "senderGuid": "sdfdssff",
+        "senderEmail": "jessie@zen.com.my", // ni admin email 
+        "senderReplyDateTime": "2020-07-15 13:01:00", //admin post to reply date time
+        "senderReplyText": "please provide correct docuement", //admin post's message 
+        "requestSupportDateTime": "2020-07-15 10:00:00", // user create support issue
+        "starttime": "2020-07-14 08:00",
+        "endtime": "2020-07-14 17.00",
+        "supportDoc": "photo.png",
+        "description": "Hi, I forgot to clockout on 14 July 20020",
+    },
+    .
+    .
+    .
+    ]
+}
+
+// if request is approved or rejected. it'll return top 30days record
+// sorted by date
+[
+    {
+        "requestType": "approve",
+        "subject": "Forgot to clockout",
+        "date": "2020-07-16 08:00",
+        "starttime": "2020-07-15 08:00",
+        "endtime": "2020-07-15 17.00",
+        "supportDoc": "photo.png",
+        "description": "Hi, I forgot to clockout on 16 July 20020",
+        "senderEmail": "kineman@zen.com.my" // ni admin email 
+    },
+    {
+        "requestType": "reject",
+        "supportGuid": "5fdfdfdfdb57",
+        "subject": "Oti reqest",
+        "date": "2020-07-15 08:00",
+        "starttime": "2020-07-13 19:00",
+        "endtime": "2020-07-13 21.00",
+        "supportDoc": "photo.png",
+        "description": "Hi, I would like to request overtime on 13 July 20020",
+        "senderEmail": "kn@zen.com.my" // ni admin email 
+    },
+    .
+    .
+    .
+]
+
+19. to post to update "ask for clarification",
+Request:
+{
+    "supportGuid": "5726e610-e6a9-11ea-910f-edd963634b57",
+    "doc": "reree.png",
+    "message": "attached is a proper one",
+}
