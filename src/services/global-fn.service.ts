@@ -1,6 +1,7 @@
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
 import * as sampleData from '../app/sampledata.json';
+import { ToastController } from '@ionic/angular';
 
 /**
  * This services is to store the general functions that might will be used in multiple pages
@@ -12,10 +13,10 @@ import * as sampleData from '../app/sampledata.json';
 })
 export class GlobalFnService {
   // public currDateTime = new Date().toISOString();
-
-  constructor(
-    private gfnApi: APIService
-  ) {}
+  public currTime;
+  constructor(private gfnApi: APIService, private gfToast: ToastController) {
+    setInterval(this.myTimer, 1000);
+  }
 
   /**
    * This method is to get the list of sample data in arrays from json file
@@ -79,5 +80,16 @@ export class GlobalFnService {
 
     return taskList;
   }
-  
+
+  async showToast(msg, cls?) {
+    const toast = await this.gfToast.create({
+      message: msg,
+      mode: "ios",
+      position: "top",
+      cssClass: cls,
+      duration: 2000,
+    });
+    toast.present();
+    // this.gfToas
+  }
 }

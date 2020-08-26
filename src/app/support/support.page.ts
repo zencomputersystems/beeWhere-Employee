@@ -1,5 +1,8 @@
+import { GlobalFnService } from '@services/global-fn.service';
+import { APIService } from '@services/_services/api.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-support',
@@ -19,6 +22,7 @@ export class SupportPage implements OnInit {
    * @memberof SupportPage
    */
   public data = require("../sampledata.json");
+  public globalData = require("@services/_providers/global.json");
 
   /**
    * Bind support type either requestForm or suggestionForm. Initialized as requestForm
@@ -40,7 +44,7 @@ export class SupportPage implements OnInit {
    * @param {FormBuilder} formbuilder get methods from FormBuilder
    * @memberof SupportPage
    */
-  constructor( public formbuilder: FormBuilder ) {
+  constructor( public formbuilder: FormBuilder, private sApi: APIService, private sGFn: GlobalFnService) {
     this.mform = formbuilder.group({
       supportType: this.supportType,
       requestForm: this.formbuilder.group({
@@ -67,6 +71,8 @@ export class SupportPage implements OnInit {
    * @memberof SupportPage
    */
   ngOnInit() {
+    // console.log(this.globalData.userInfo.userId);
+    // console.log(this.globalData.userInfo.email);
   }
 
   /**
@@ -75,8 +81,61 @@ export class SupportPage implements OnInit {
    * @memberof SupportPage
    */
   submitForm() {
-    console.log(this.getFormControls('request'));
-    console.log(this.mform.value);
+    console.log(this.globalData.userInfo);
+    console.log(this.data);
+    console.log(this.mform);
+    console.log(this.reqDetails.value);
+    console.log(this.reqDetails.value.inTime);
+    console.log(new Date(this.reqDetails.value.outTime).valueOf());
+    let tempObj;
+    switch (this.mform.get("supportType").value) {
+      case 'suggestion':
+        if (this.mform.get('suggestionForm').valid) {
+          console.log(this.mform.get('suggestionForm').value);
+          tempObj = {
+            requestType: "suggestions",
+            subject: this.mform.get("suggestionForm").value.title,
+            starttime: null,
+            endtime: null,
+            supportingDoc: "",
+            description: (this.mform.get("suggestionForm").value.description === null) ? ""
+              : this.mform.get("suggestionForm").value.description,
+            userGuid: this.globalData.userInfo.userId,
+            userEmail: this.globalData.userInfo.email
+          };
+
+          console.log(tempObj);
+          this.sApi.postWithHeader('/support', tempObj).subscribe((postRes) => {
+            console.log(postRes);
+            this.sGFn.showToast('Subitted', 'success');
+            this.mform.get("suggestionForm").reset();
+            console.log(this.mform.get("suggestionForm").value);
+          });
+        } else {
+          this.sGFn.showToast('Please fill in required fields ', 'error');
+        }
+        break;
+
+      default:
+        if (this.mform.get("requestForm").valid) {
+          console.log(this.mform.get("requestForm").value);
+          tempObj = {
+            requestType: this.mform.get("requestForm").value.type,
+            subject: this.mform.get("suggestionForm").value.title,
+            starttime: new Date(this.reqDetails.value.inTime).valueOf(),
+            endtime: new Date(this.reqDetails.value.outTime).valueOf(),
+            supportingDoc: this.mform.get("requestForm").value.supportDoc,
+            description: (this.mform.get("suggestionForm").value.description === null) ? ""
+              : this.mform.get("suggestionForm").value.descriptio,
+            userGuid: this.globalData.userInfo.userId,
+            userEmail: this.globalData.userInfo.email
+          };
+          console.log(tempObj);
+        } else {
+          this.sGFn.showToast('Please fill in required fields ', 'error');
+        }
+        break;
+    }
   }
 
   /**
@@ -84,6 +143,7 @@ export class SupportPage implements OnInit {
    * @memberof SupportPage
    */
   changeSegmentType() {
+    console.log(this.mform.value.supportType);
     this.supportType = this.mform.value.supportType;
     this.mform.reset();
     this.mform.controls.supportType.setValue(this.supportType);

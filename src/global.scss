@@ -212,6 +212,7 @@
     width: -webkit-fill-available;
 }
 
+
 :root {
     ion-alert {
         --background: var(--ion-color-white);
@@ -287,5 +288,30 @@
     .infinite-scroll-content-md .infinite-loading-text {
         color: var(--ion-color-text);
         font-size: var(--ion-text-12);
+    }
+
+    ion-toast {
+        top: calc(1em + var(--ion-safe-area-top, 0px));
+        font-size: var(--ion-text-12);
+        text-align: center;
+        font-weight: bold;
+        --color: var(--ion-color-white);
+        --background: var(--ion-color-text);
+    }
+
+    .success {
+        --background: var(--ion-color-2ecc71);
+    }
+
+    .warning {
+        --background: var(---ion-color-clockout);
+    }
+
+    .error {
+        --background: var(--ion-color-red);
+    }
+
+    .info {
+        --background: var(--ion-color-grey-808495);
     }
 }

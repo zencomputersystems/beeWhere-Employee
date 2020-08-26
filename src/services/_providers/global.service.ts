@@ -10,6 +10,8 @@ export let defJob = "office";
 export class GlobalService {
   constructor(private gApi: APIService, private router: Router) {}
   //  ClockInPage.clocksForm: FormGroup
+  public globalData = require('@services/_providers/global.json');
+
   public userInfo = {
     companyName: null,
     email: null,
@@ -27,7 +29,7 @@ export class GlobalService {
   };
 
   public dataGlobal = require('../../app/sampledata.json');
-  private globalData = require('./global.json');
+  // private globalData = require('./global.json');
 
   public initSelectedJobConfig = {
     type: "office",
@@ -55,6 +57,8 @@ export class GlobalService {
     this.gApi.getWithHeader("/api/user-info").subscribe((resp) => {
       console.log(resp);
       Object.assign(this.userInfo, resp);
+      this.globalData.userInfo = resp;
+      console.log(this.globalData);
       this.getJobProfile();
     });
 
