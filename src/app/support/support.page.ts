@@ -134,22 +134,21 @@ export class SupportPage implements OnInit {
       default:
         console.log(this.mform.get("requestForm").value.description);
         if (this.mform.get("requestForm").valid) {
-          this.postUploadImg();
           console.log(this.mform.get("requestForm").value);
-          tempObj = {
-            requestType: this.mform.get("requestForm").value.type,
-            subject: this.mform.get("requestForm").value.title,
-            starttime: new Date(this.reqDetails.value.inTime).valueOf(),
-            endtime: new Date(this.reqDetails.value.outTime).valueOf(),
-            supportingDoc: this.mform.get("requestForm").value.supportDoc,
-            description:
-              this.mform.get("requestForm").value.description === null
-                ? ""
-                : this.mform.get("requestForm").value.description,
-            userGuid: this.globalData.userInfo.userId,
-            userEmail: this.globalData.userInfo.email,
-          };
-          this.postObj(tempObj);
+          // tempObj = {
+          //   requestType: this.mform.get("requestForm").value.type,
+          //   subject: this.mform.get("requestForm").value.title,
+          //   starttime: new Date(this.reqDetails.value.inTime).valueOf(),
+          //   endtime: new Date(this.reqDetails.value.outTime).valueOf(),
+          //   supportingDoc: this.mform.get("requestForm").value.supportDoc,
+          //   description:
+          //     this.mform.get("requestForm").value.description === null
+          //       ? ""
+          //       : this.mform.get("requestForm").value.description,
+          //   userGuid: this.globalData.userInfo.userId,
+          //   userEmail: this.globalData.userInfo.email,
+          // };
+          this.postUploadImg();
         } else {
           this.sGFn.showToast("Please fill in required fields ", "error");
         }
@@ -165,6 +164,7 @@ export class SupportPage implements OnInit {
       // this.mform.get("reqDetails").reset();
       this.mform.get("requestForm").reset();
       this.reqDetails.reset();
+      this.choosenFile = "No file chosen";
     });
   }
   /**
@@ -207,6 +207,21 @@ export class SupportPage implements OnInit {
       .postUpload("/api/azure/upload", this.formData)
       .subscribe((resp) => {
         console.log(resp);
+        const obj = {
+          requestType: this.mform.get("requestForm").value.type,
+          subject: this.mform.get("requestForm").value.title,
+          starttime: new Date(this.reqDetails.value.inTime).valueOf(),
+          endtime: new Date(this.reqDetails.value.outTime).valueOf(),
+          supportingDoc: (resp as any).filename,
+          description:
+            this.mform.get("requestForm").value.description === null
+              ? ""
+              : this.mform.get("requestForm").value.description,
+          userGuid: this.globalData.userInfo.userId,
+          userEmail: this.globalData.userInfo.email,
+        };
+        console.log(obj)
+        this.postObj(obj);
       });
   }
 
