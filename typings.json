@@ -1,0 +1,6 @@
+{
+  "globalDependencies": {
+    "moment": "registry:dt/moment#2.11.1+20161010105546",
+    "underscore": "registry:dt/underscore#1.8.3+20161123125004"
+  }
+}

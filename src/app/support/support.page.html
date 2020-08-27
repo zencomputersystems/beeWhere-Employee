@@ -144,7 +144,7 @@
               <ion-segment-button value="requestForm">
                 <ion-label>Request</ion-label>
               </ion-segment-button>
-              <ion-segment-button value="supportType">
+              <ion-segment-button value="suggestion">
                 <ion-label>Suggestion</ion-label>
               </ion-segment-button>
             </ion-segment>
@@ -152,7 +152,7 @@
           
           <ion-card-content class="support-content">
             <span [ngSwitch]="supportType">
-              <p *ngSwitchCase="'supportType'" formGroupName="suggestionForm">
+              <p *ngSwitchCase="'suggestion'" formGroupName="suggestionForm">
                 <ion-item-group>
                   <div class="error-note">
                     <ion-label>Subject</ion-label>
@@ -175,7 +175,7 @@
                   </div>
                   <ion-select placeholder="Select" formControlName="type">
                     <ion-select-option value="overtime">Overtime</ion-select-option>
-                    <ion-select-option value="requestclocks">Clock In/Clock Out Request</ion-select-option>
+                    <ion-select-option value="clocks">Clock In/Clock Out Request</ion-select-option>
                   </ion-select>
                 </ion-item-group>
                 <ion-item-group>
@@ -189,21 +189,22 @@
                 <ion-item-group [formGroup]="reqDetails">
                   <div>
                     <ion-label>Start time</ion-label>
-                    <ion-item>
-                      <input type="time" formControlName="inTime">
+                    <ion-item lines="none">
+                      <input type="datetime-local" pattern="dd-mm-yyyy" formControlName="inTime">
                     </ion-item>
                   </div>
                   <div>
                     <ion-label>End time</ion-label>
-                    <ion-item>
-                      <input type="time" formControlName="outTime">
+                    <ion-item lines="none">
+                      <input type="datetime-local" formControlName="outTime">
                     </ion-item>
                   </div>
                 </ion-item-group>
                 <ion-item-group>
                   <ion-label>Supporting Document</ion-label>
-                  <ion-button fill="clear">Add file</ion-button>
-                  <ion-text>No file chosen</ion-text>
+                  <ion-button fill="clear" (click)="file.click();">Add file</ion-button>
+                  <input type="file" #file name="file" type="file" (change)="upload($event)">
+                  <ion-text>{{choosenFile}}</ion-text>
                   <ion-text>You can upload the following filetypes: .jpg , .jpeg , .png , .pdf</ion-text>
                 </ion-item-group>
                 <ion-item-group>

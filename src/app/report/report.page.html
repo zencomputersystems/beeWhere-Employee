@@ -91,8 +91,8 @@
 </ion-fab>
 
 <div class="clockin-button">
-  <ion-button shape="round" fill="outline" class="submits">
-    <ion-label>Submit</ion-label>
+  <ion-button shape="round" fill="outline" class="submits" (click)="showReport()">
+    <ion-label>Show</ion-label>
   </ion-button>
 </div>
 
@@ -103,10 +103,9 @@
       <ion-label>beeWhere</ion-label>
     </ion-item-group>
 
-    <ion-card class="main-info">
+    <!-- <ion-card class="main-info">
       <ion-card-content>
         <div>
-          <!-- <div *ngIf="data.userInfo.clockIn.status == true"> -->
           <ion-card-title *ngIf="data.userInfo.clockIn.status == true" class="clockout-title">
             Clocked In
           </ion-card-title>
@@ -139,11 +138,187 @@
           </ion-title>
         </div>
       </ion-card-content>
+    </ion-card> -->
+
+    <!-- <ion-item-group class="notification-info" routerLink="/inbox-details"
+      *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
+      <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
+      <ion-img src="../../assets/basic/bell.png"></ion-img>
+      <ion-label *ngIf="data.userInfo.notifications.approval.length">{{data.userInfo.notifications.approval.length}}
+        items require
+        approval
+      </ion-label>
+      <ion-label
+        *ngIf="data.userInfo.notifications.approval.length !=0 && data.userInfo.notifications.updates.length !=0">
+        ,&nbsp;</ion-label>
+      <ion-label *ngIf="data.userInfo.notifications.updates.length !- 0"> {{data.userInfo.notifications.updates.length}}
+        new
+        updates</ion-label>
+    </ion-item-group> -->
+
+    <ion-card class="main-info">
+      <ion-card-content>
+        <ion-card-subtitle>
+          <!-- <ion-item-group>
+            <ion-label>
+              Report Type
+            </ion-label>
+            <ion-radio-group value="attendance">
+              <ion-item lines="none">
+                <ion-label>Attendance</ion-label>
+                <ion-radio value="attendance">Attendance</ion-radio>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>Activity</ion-label>
+                <ion-radio value="activity">Activity</ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-item-group> -->
+          <ion-item-group [formGroup]="searchForm">
+            <div class="spacing">
+              <div class="title">
+                <ion-label>Report Type</ion-label>
+                <ion-note *ngIf="searchForm.get('type').invalid">*required</ion-note>
+              </div>
+              <ion-select placeholder="Select report type" formControlName="type" (ionChange)="reporte()">
+                <ion-select-option value="attendance">Attendance</ion-select-option>
+                <ion-select-option value="activity">Activity</ion-select-option>
+              </ion-select>
+            </div>
+            
+            <ion-item lines="none" *ngIf="searchForm.get('type').value === 'activity'">
+              <ion-label>Show Status</ion-label>
+              <ion-checkbox mode="ios" formControlName="enableStatus"></ion-checkbox>
+            </ion-item>
+
+            <div class="spacing">
+              <div class="title">
+                <ion-label >Duration</ion-label>
+                <ion-note *ngIf="searchForm.get('duration').invalid">*required</ion-note>
+              </div>
+              <ion-select placeholder="Select your duration" formControlName="duration" (ionChange)="reporte()">
+                <ion-select-option value="week">Weekly</ion-select-option>
+                <ion-select-option value="month">Monthly</ion-select-option>
+                <ion-select-option value="year">Yearly</ion-select-option>
+                <ion-select-option value="custom">Custom</ion-select-option>
+              </ion-select>
+            </div>
+            <div *ngIf="searchForm.get('duration').value === 'custom'">
+              <ion-calendar [(ngModel)]="dateRange" [ngModelOptions]="{standalone: true}" [options]="optionsRange"
+                [type]="type" [format]="'DD-MM-YYYY'" class="calendar">
+              </ion-calendar>
+              <!-- <material-datepicker [(date)]="dateRange"></material-datepicker> -->
+              <!-- <mat-form-field>
+                <mat-label>Choose Date Range</mat-label>
+                <mat-date-range-input [rangePicker]="myRangePicker">
+                  <input matStartDate placeholder="Start date">
+                  <input matEndDate placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="myRangePicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #myRangePicker></mat-date-range-picker>
+              </mat-form-field> -->
+            </div>
+          </ion-item-group>
+
+          <ion-item-group *ngIf="searchForm.get('type').value === 'attendance' && genReport">
+              <ion-grid>
+                <ion-row class="grid-title-style">
+                  <ion-col>Date</ion-col>
+                  <ion-col>In</ion-col>
+                  <ion-col>Out</ion-col>
+                  <ion-col>Duration (hr)</ion-col>
+                </ion-row>
+                <ng-container *ngIf="dataAttendance.length > 0; else noAttendanceRecord">
+                  <ion-row class="grid-body-style-row " *ngFor="let dat of dataAttendance">
+                    <ion-col class="grid-body-style-column">{{dat.date | date: 'd MMM yyyy'}}</ion-col>
+                    <ion-col class="grid-body-style-column set-center">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
+                    <ion-col class="grid-body-style-column set-center">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
+                    <ion-col class="set-center">{{dat.duration}}</ion-col>
+                  </ion-row>
+                </ng-container>
+                <ng-template #noAttendanceRecord>
+                  <ion-row class="no-record">
+                    No record found
+                  </ion-row>
+                </ng-template>
+              </ion-grid>
+          </ion-item-group>
+
+          <!-- <ion-grid>
+            <ion-row>
+              r1..........................
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                dateee
+              </ion-col>
+              <ion-col>
+                <ion-row>
+                  <ion-col>activty</ion-col>
+                  <ion-col>starus</ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>activty</ion-col>
+                  <ion-col>starus</ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-grid> -->
+          <ion-item-group *ngIf="searchForm.get('type').value === 'activity' && genReport">
+              <ion-grid>
+                <ion-row class="grid-title-style">
+                  <ion-col class="col-1">Date</ion-col>
+                  <ion-col style="flex: 3;">
+                    <ion-row>
+                      <ion-col class="flex-2">Activity</ion-col>
+                      <ion-col *ngIf="searchForm.get('enableStatus').value">Status</ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+                <ng-container *ngIf="dataActivtiy.length > 0; else noActivityRecord">
+                  <ion-row class="grid-body-style-row activity-grid" *ngFor="let dac of dataActivtiy">
+                    <ion-col class="grid-body-style-column col-1 ">
+                      <div>{{dac.date | date: 'd MMM yyyy'}}</div>
+                      <div>( {{dac.date | date: 'EEE'}} )</div>
+                    </ion-col>
+                    <ion-col class="col-2" *ngIf="dac.activityList.length > 0; else noActicity">
+                      <ng-container *ngFor="let dal of dac.activityList; let i = index">
+                          <ion-row 
+                            [class]="(i+1 === dac.activityList.length) ? '' : 'border-bottom'">
+                            <ion-col class="flex-2" *ngIf="dal.name !== undefined">{{dal.name}}</ion-col>
+                            <ion-col class="flex-2" *ngIf="dal.activity !== undefined">{{dal.activity}}</ion-col>
+                            <ion-col *ngIf="searchForm.get('enableStatus').value && !dal.statusFlag"
+                              class=" grid-body-style-column-left set-center pending">Pending</ion-col>
+                              <ion-col *ngIf="searchForm.get('enableStatus').value && dal.statusFlag"
+                                class=" grid-body-style-column-left set-center done">Done</ion-col>
+                          </ion-row>
+                      </ng-container>
+                    </ion-col>
+                    <ng-template #noActicity>
+                      <ion-col>No activity</ion-col>
+                    </ng-template>
+                  </ion-row>
+                  
+                </ng-container>
+                <ng-template #noActivityRecord>
+                  <ion-row class="no-record">No activity record</ion-row>
+                </ng-template>
+
+              </ion-grid>
+          </ion-item-group>
+        </ion-card-subtitle>
+      </ion-card-content>
     </ion-card>
 
-    <ion-card>
-      report
-    </ion-card>
+    <!-- <ion-card class="main-info">
+      <ion-card-header>
+        <ion-card-subtitle>Number of Viewers per season for</ion-card-subtitle>
+        <ion-card-title>Game of Thrones</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barChart></canvas>
+      </ion-card-content>
+    </ion-card> -->
     
 
   </div>

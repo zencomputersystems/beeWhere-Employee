@@ -64,4 +64,197 @@
             }
         }
     }
+
+
+    .notification-info {
+        display: flex;
+        align-items: center;
+        flex-flow: nowrap row;
+        margin: 1em 0;
+
+        ion-img {
+            width: var(--ion-text-24);
+            height: var(--ion-text-24);
+            margin-right: 0.5em;
+        }
+        ion-label {
+            font-size: var(--ion-text-11);
+            color: var(--ion-color-text);
+            opacity: 80%;
+        }
+
+        .bell-noti {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            margin-left: 15px;
+            margin-top: -7px;
+        }
+    }
+
+    .select-time {
+        display: flex;
+        flex-wrap: wrap;
+
+        div {
+            flex: 1;
+            margin: 0.5em;
+
+            ion-label {
+                font-size: var(--ion-text-13);
+                color: var(--ion-color-grey-808495);
+                font-weight: bold;
+            }
+
+            input {
+                width: -webkit-fill-available;
+                padding-left: var(--ion-text-11);
+                border: 1px solid #50505029;
+                border-radius: var(--ion-text-3);
+                font-size: var(--ion-text-11);
+                margin: 1em 0;
+                color: var(--ion-color-text);
+                --padding-start: 0;
+                --inner-padding-end: 0;
+                padding: var(--ion-text-10);
+            }
+        }
+    }
+
+    .grid-title-style {
+        align-items: center;
+        border-radius: 2px;
+        background: var(--ion-color-submit);
+        opacity: 80%;
+        color: var(--ion-color-white);
+        text-align: center;
+    }
+
+    .grid-body-style-row {
+        border-bottom: 1px solid #50505029;
+        border-radius: 2px;
+        padding: 0.4em 0;
+    }
+
+    .grid-body-style-column {
+        border-right: 1px solid #50505029;
+    }
+
+    .grid-body-style-column-left {
+        border-left: 1px solid #50505029;
+    }
+
+    .spacing {
+        margin: 1em 0;
+    }
+
+    .set-center {
+        text-align: center;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        ion-label {
+            font-size: var(--ion-text-13);
+            color: var(--ion-color-grey-808495);
+            font-weight: bold;
+            padding-right: 0.5em;
+        }
+    }
+
+    .no-record {
+        justify-content: center;
+        padding: 7em;
+        border-left: 1px solid #50505029;
+        border-bottom: 1px solid #50505029;
+        border-right: 1px solid #50505029;
+    }
+
+    .activity-grid {
+        display: flex;
+
+        .col-1 {
+            flex: 1;
+            text-align: center;
+        }
+        .col-2 {
+            flex: 3;
+        }
+
+    }
+
+    .flex-1 {
+        flex: 1;
+    }
+
+    .flex-2 {
+        flex: 2;
+    }
+    .border-bottom {
+        border-bottom: 1px solid #50505029;
+    }
+
+    .done {
+        color: var(--ion-color-clockin);
+    }
+
+    .pending {
+        color: var(--ion-color-clockout);
+    }
+
 }
+
+.calendar {
+    background: azure;
+
+    ion-button {
+            text-transform: capitalize;
+    }
+    // button.days-btn p{
+    //     // color: aquamarine; 
+    //     font-size: var(--ion-text-11);
+    //     color: var(--ion-color-text);
+    // }
+}
+ion-select {
+    padding-right: var(--ion-text-12);
+    opacity: 80%;
+    padding-left: var(--ion-text-11);
+    border: 1px solid #50505029;
+    border-radius: var(--ion-text-3);
+    font-size: var(--ion-text-11);
+    // margin: 1em 0;
+}
+
+ion-item {
+    font-size: var(--ion-text-11);
+    color: var(--ion-color-text);
+    opacity: 80%;
+    --padding-start: 0.5em;
+    height: 3em;
+    display: flex;
+
+    ion-checkbox {
+        width: var(--ion-text-20);
+        height: var(--ion-text-20);
+        --background: var(--ion-color-text-header);
+        --background-checked: var(--ion-color-text-header);
+        --border-color-checked: transparent;
+        --checkmark-width: 0.175em;
+    }
+}
+
+ion-note {
+    font-size: var(--ion-text-11);
+    color: var(--ion-color-red);
+}
+
+
+
+// ::ng-deep button.days-btn {
+//     p {
+//         font-size: var(--ion-text-11);
+//         color: var(--ion-color-text);
+//     }
+// }

@@ -1,7 +1,6 @@
 import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
 import * as sampledata from '../sampledata.json';
-import { parseXML, parseJSON } from 'jquery';
 
 export let clickedClocks = {};
 
@@ -26,35 +25,62 @@ export class MainPage implements OnInit {
    */
   public currDate = new Date().toISOString();
 
+  /**
+   * Bind value of page for infinite scroll
+   * @memberof MainPage
+   */
+  public initReq = 0;
+
+  /**
+   * Initialize this component
+   * @memberof MainPage
+   */
   ngOnInit() {
     console.log(this.currDate);
-    console.log(this.data);
-    console.log(this.data.userInfo.clockIn.historicalClockIn.length);
     // setInterval(this.currDate, 1000);
     this.getHistory();
   }
 
-  timeRefresh() {
-    this.currDate = new Date().toISOString();
-    console.log(this.currDate);
-    return setInterval(this.currDate, 1000);
-  }
-
-  getHistory() {
-    this.hApi.getWithHeader("/api/clock/history/list").subscribe(
-      (histRes) => {
-        this.globalData.histClocks = histRes;
-        console.log(this.globalData.histClocks);
-        console.log(this.globalData.histClocks[1].list[0].ACTIVITY);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  /**
+   * Send request to API to get history list by chunks
+   * @param {*} [event]
+   * @memberof MainPage
+   */
+  getHistory(event?) {
+    console.log(this.initReq);
+    this.hApi
+      .getWithHeader("/api/clock/history/list/10/" + this.initReq)
+      .subscribe(
+        (histRes: any) => {
+          console.log(histRes);
+          if (this.initReq < 1) {
+            this.globalData.histClocks = histRes;
+          } else {
+            this.globalData.histClocks = [
+              ...this.globalData.histClocks,
+              ...histRes,
+            ];
+            event.target.complete();
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   clickedInfo(currData) {
     console.log(currData);
     clickedClocks = currData;
+  }
+
+  /**
+   * Emitted when the scroll reaches the threshold distance
+   * @param {*} event
+   * @memberof MainPage
+   */
+  doInfinite(event) {
+    this.initReq++;
+    this.getHistory(event);
   }
 }
