@@ -74,7 +74,10 @@
 </div>
 
 <ion-content class="contents">
-  <ion-img class="bg-img" src="../../assets/basic/background-default.png"></ion-img> 
+  <ion-refresher slot="fixed" (ionRefresh)="refreshClockinPage($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-img class="bg-img" src="../../assets/basic/background-default.png"></ion-img>
   <div class="content">
     <ion-item-group class="header main-header">
       <ion-label>beeWhere</ion-label>

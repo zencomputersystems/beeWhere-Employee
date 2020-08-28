@@ -90,6 +90,9 @@
 </div>
 
 <ion-content class="contents">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshSupportPage($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-img class="bg-img-others" src="../../assets/basic/background-default.png"></ion-img>
   <div class="content">
     <ion-item-group class="header">

@@ -1,3 +1,4 @@
+import { Refresher } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 
 /**
@@ -71,5 +72,12 @@ export class InboxDetailsPage implements OnInit {
 
   toISO(time) {
     return new Date(time).toISOString();
+  }
+  async refreshInboxPage(event: Refresher) {
+    await this.initGetDataList();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+    // this.refresherRef.complete();
   }
 }

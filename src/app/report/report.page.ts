@@ -1,3 +1,4 @@
+import { Refresher } from '@ionic/angular';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CalendarComponentOptions } from 'ion2-calendar';
@@ -105,5 +106,12 @@ export class ReportPage implements OnInit {
           ? (this.dataAttendance = resp)
           : (this.dataActivtiy = resp);
       });
+  }
+
+  refreshReportPage(event: Refresher) {
+    this.searchForm.reset();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
   }
 }
