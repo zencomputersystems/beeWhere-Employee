@@ -212,6 +212,10 @@
     width: -webkit-fill-available;
 }
 
+.error-text {
+    color: var(--ion-color-red);
+}
+
 
 :root {
     ion-alert {
@@ -251,6 +255,30 @@
         .alert-button.sc-ion-alert-md {
             color: var(--ion-color-text-header);
         }
+    }
+
+    .alert-error {
+        .alert-head {
+            align-self: center;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .alert-title {
+            color: var(--ion-color-red);
+            font-size: var(--ion-text-13);
+        }
+
+        .alert-sub-title.sc-ion-alert-md {
+            color: var(--ion-color-red);
+            font-size: var(--ion-text-12);
+        }
+
+        .alert-head.sc-ion-alert-md+.alert-message.sc-ion-alert-md {
+            font-size: var(--ion-text-12);
+            padding-bottom: 0;
+        }
+
     }
 
     ion-fab {

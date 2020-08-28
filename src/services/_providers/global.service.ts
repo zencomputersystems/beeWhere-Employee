@@ -1,3 +1,4 @@
+import { GlobalFnService } from '@services/global-fn.service';
 import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
@@ -8,7 +9,7 @@ export let defJob = "office";
   providedIn: "root",
 })
 export class GlobalService {
-  constructor(private gApi: APIService, private router: Router) {}
+  constructor(private gApi: APIService, private router: Router, private gGF: GlobalFnService) {}
   //  ClockInPage.clocksForm: FormGroup
   public globalData = require('@services/_providers/global.json');
 
@@ -89,6 +90,8 @@ export class GlobalService {
           }
         });
         console.log(defJob);
+      }, (error) => {
+        this.gGF.showAlert("Error", error.status + " " + error.statusText , error.error, "alert-error");
       });
   }
 }
