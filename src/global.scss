@@ -258,6 +258,10 @@
     }
 
     .alert-error {
+        .alert-wrapper.sc-ion-alert-md {
+            background: var(--ion-color-red);
+        }
+
         .alert-head {
             align-self: center;
             text-align: center;
@@ -265,20 +269,34 @@
         }
 
         .alert-title {
-            color: var(--ion-color-red);
-            font-size: var(--ion-text-13);
+            color: var(--ion-color-white);
+            font-size: var(--ion-text-14);
+            font-weight: bold;
         }
 
         .alert-sub-title.sc-ion-alert-md {
-            color: var(--ion-color-red);
+            color: var(--ion-color-white);
             font-size: var(--ion-text-12);
         }
 
         .alert-head.sc-ion-alert-md+.alert-message.sc-ion-alert-md {
             font-size: var(--ion-text-12);
             padding-bottom: 0;
+            color: var(--ion-color-white);
+            align-self: center;
         }
-
+        .alert-button-group.sc-ion-alert-md {
+            justify-content: center;
+            margin-bottom: 1.5em;
+            margin-top: 1.5em;
+        }
+        .alert-button.sc-ion-alert-md {
+            color: var(--ion-color-white);
+            border: 1px solid;
+            padding: 0.5em 2em;
+            border-radius: 15px;
+            font-size: var(--ion-text-10);
+        }
     }
 
     ion-fab {

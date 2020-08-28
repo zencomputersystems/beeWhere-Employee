@@ -91,7 +91,17 @@ export class GlobalService {
         });
         console.log(defJob);
       }, (error) => {
-        this.gGF.showAlert("Error", error.status + " " + error.statusText , error.error, "alert-error");
+        this.gGF.showAlert(
+          "Oppss!",
+          error.status + " " + error.statusText + ". " + error.error,
+          "alert-error"
+        );
+        // this.gGF.showAlert(
+        //   "Oppss!",
+        //   error.status + " " + error.statusText + ". " + error.error,
+        //   "alert-error"
+        // );
+
       });
   }
 }
