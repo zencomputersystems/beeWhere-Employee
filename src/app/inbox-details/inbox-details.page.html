@@ -177,7 +177,11 @@
                       </ion-avatar>
                       <div class="chat-list">
                         <ion-label>{{clist.FULLNAME}}</ion-label>
-                        <ion-note class="admin-chat" *ngIf="clist.MESSAGE.length > 0">{{clist.MESSAGE}} </ion-note>
+                        <ion-note class="admin-chat" *ngIf="clist.MESSAGE.length > 0">
+                          {{clist.MESSAGE}}
+                          <div class="file-list" *ngFor="let attchmnt of clist.ATTACHMENT" (click)="downloadAttachment(attchmnt)">{{attchmnt}}</div>
+                        </ion-note>
+                        <!-- <ion-note class="admin-chat" >{{clist.ATTACHMENT}}</ion-note> -->
                         <!-- <ion-note class="admin-chat" *ngIf="clist.MESSAGE.length < 1">No message</ion-note> -->
                         <ion-note class="time">{{clist.CREATION_TS | date: "d/M/yy h:mm a"}}</ion-note>
                       </div>

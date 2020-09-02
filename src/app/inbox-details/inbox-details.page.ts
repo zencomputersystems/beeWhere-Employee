@@ -56,8 +56,7 @@ export class InboxDetailsPage implements OnInit {
    * Creates an instance of InboxDetailsPage.
    * @memberof InboxDetailsPage
    */
-  constructor(private ibApi: APIService, private ibFormBuilder: FormBuilder) {
-  }
+  constructor(private ibApi: APIService, private ibFormBuilder: FormBuilder) {}
 
   /**
    * Initiate this component
@@ -143,14 +142,26 @@ export class InboxDetailsPage implements OnInit {
     // console.log(data);
     this.ibApi.getWithHeader("/support/" + data.SUPPORT_GUID).subscribe(
       (res) => {
-        Object.assign(data, {MESSAGES: res});
+        res.forEach(element => {
+          console.log(element.ATTACHMENT);
+          element.ATTACHMENT = element.ATTACHMENT.split(",");
+        });
+        Object.assign(data, { MESSAGES: res });
+        console.log(data)
       },
       (error) => {
         console.error(error);
       }
     );
   }
-  
+
+  downloadAttachment(attachmentData) {
+    console.log(attachmentData);
+    return window.open(
+      "https://zencloudservicesstore.blob.core.windows.net/cloudservices/eleave/" + attachmentData
+    );
+  }
+
   async refreshInboxPage(event) {
     await this.initGetDataList();
     setTimeout(() => {
