@@ -1,4 +1,6 @@
-import { Refresher } from '@ionic/angular';
+import { FormGroup, FormBuilder } from '@angular/forms';
+// import { Refresher } from '@ionic/angular';
+import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
 
 /**
@@ -13,19 +15,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ["./inbox-details.page.scss"],
 })
 export class InboxDetailsPage implements OnInit {
-  
   /**
    * Get data from sampledata.json
    * @memberof InboxDetailsPage
    */
-  public data = require('../sampledata.json');
-
+  public data = require("../sampledata.json");
+  public globalData = require("@services/_providers/global.json");
   /**
    * Get current time in ISO format
    * @memberof InboxDetailsPage
    */
   public curTime = new Date().toISOString();
-  
 
   /**
    * Bind value for days difference
@@ -38,17 +38,34 @@ export class InboxDetailsPage implements OnInit {
    * @memberof InboxDetailsPage
    */
   public hoursDifference;
+
+  /**
+   * Bind inbox data retrieved from api
+   * @memberof InboxDetailsPage
+   */
+  public inboxData;
+
+  /**
+   * Bind error message returned from api
+   * @memberof InboxDetailsPage
+   */
+  public errorMsg;
+
+  public clarifyRecord;
   /**
    * Creates an instance of InboxDetailsPage.
    * @memberof InboxDetailsPage
    */
-  constructor() {}
+  constructor(private ibApi: APIService, private ibFormBuilder: FormBuilder) {
+  }
 
   /**
    * Initiate this component
    * @memberof InboxDetailsPage
    */
   ngOnInit() {
+    console.log(this.globalData);
+    this.initGetDataList();
   }
 
   /**
@@ -73,7 +90,68 @@ export class InboxDetailsPage implements OnInit {
   toISO(time) {
     return new Date(time).toISOString();
   }
-  async refreshInboxPage(event: Refresher) {
+
+  /**
+   * to get all support list from api
+   * @memberof InboxDetailsPage
+   */
+  initGetDataList() {
+    console.log("initGetDataList from support");
+    this.ibApi.getWithHeader("/support").subscribe(
+      (res) => {
+        Object.entries(res).filter(([key, value]) =>
+          key === "request" ? (this.inboxData = value) : null
+        );
+        this.inboxData.forEach((element) => {
+          Object.assign(element, { isExpandView: false });
+        });
+        console.log(this.inboxData);
+        // this.inboxData.forEach((element) => {
+        //   if (element.TITLE.includes("rej")) {
+        //     element.STATUS = "rejected";
+        //   } else if (element.TITLE.includes("cl")) {
+        //     element.STATUS = "clearify";
+        //   }
+        // });
+      },
+      (error) => {
+        console.log(this.errorMsg);
+        console.log(this.inboxData);
+        console.log(error);
+        this.errorMsg = error;
+        console.log(this.errorMsg);
+      }
+    );
+  }
+
+  /**
+   * Will be executed when user click on expand icon
+   * @param {*} selected
+   * @memberof InboxDetailsPage
+   */
+  expendNoti(selected) {
+    selected.isExpandView = !selected.isExpandView;
+  }
+
+  /**
+   * Will be executed once notification element is expanded
+   * To get support conversation list based on support guid
+   * @param {*} data
+   * @memberof InboxDetailsPage
+   */
+  openMessager(data) {
+    // console.log(data);
+    this.ibApi.getWithHeader("/support/" + data.SUPPORT_GUID).subscribe(
+      (res) => {
+        Object.assign(data, {MESSAGES: res});
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+  
+  async refreshInboxPage(event) {
     await this.initGetDataList();
     setTimeout(() => {
       event.target.complete();

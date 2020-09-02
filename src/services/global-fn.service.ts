@@ -1,8 +1,9 @@
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
 import * as sampleData from '../app/sampledata.json';
-import { ToastController } from '@ionic/angular';
+import { ToastController, ActionSheetController } from '@ionic/angular';
 
+export let globalTime;
 /**
  * This services is to store the general functions that might will be used in multiple pages
  * @export
@@ -14,7 +15,7 @@ import { ToastController } from '@ionic/angular';
 export class GlobalFnService {
   // public currDateTime = new Date().toISOString();
   public currTime;
-  constructor(private gfnApi: APIService, private gfToast: ToastController) {
+  constructor(private gfnApi: APIService, private gfToast: ToastController, private gfActionSheet: ActionSheetController) {
     setInterval(this.myTimer, 1000);
   }
 
@@ -23,23 +24,31 @@ export class GlobalFnService {
    * @memberof GlobalFnService
    */
   sampleDataList() {
-    return require("@app/sampledata.json")
+    return require("@app/sampledata.json");
     // return require("src/app/sampledata.json");
   }
 
-  /**
-   * This method is to get current date & time locally
-   * @returns
-   * @memberof GlobalFnService
-   */
-  getCurrentDateTime() {
-    return new Date().toISOString();
+  getCurrentTime() {
+    return this.currTime;
   }
 
-  getIntervalDateTime() {
-    return setInterval(this.getCurrentDateTime, 1000);
+  aa() {
+    const temp1 = new Date().toISOString();
+    this.getIntervalTimer(temp1);
+    return temp1;
   }
 
+  getIntervalTimer(timer) {
+    setInterval(timer, 1000);
+    return timer;
+  }
+  
+  myTimer() {
+    this.currTime = new Date().toISOString();
+    // this.currTime.toLocaleTimeString();
+    globalTime = this.currTime;
+    return this.currTime;
+  }
   /**
    * To delete the selected task after delete button is being hit.
    * The process will filter based on task's id
@@ -54,7 +63,7 @@ export class GlobalFnService {
         tsk.push(value);
       }
     });
-    return taskList = tsk;
+    return (taskList = tsk);
   }
 
   /**
@@ -64,13 +73,16 @@ export class GlobalFnService {
    * @memberof ClockInPage
    */
   addTask(event, newTask, taskList) {
-    console.log('addTask');
+    console.log("addTask");
+    console.log(event);
+    console.log(newTask);
+    console.log(taskList);
     if (event.code === "Enter" && newTask.length > 0) {
-       taskList = taskList.push({
-         // id: taskList.length,
-         statusFlag: false,
-         name: newTask,
-       });
+      taskList = taskList.push({
+        // id: taskList.length,
+        statusFlag: false,
+        name: newTask,
+      });
       // taskList = taskList.concat({
       //   id: taskList.length,
       //   status: false,
@@ -91,5 +103,28 @@ export class GlobalFnService {
     });
     toast.present();
     // this.gfToas
+  }
+
+  async showAlert(title?, msg?, cls?) {
+    const alert = await document.createElement('ion-alert');
+    alert.cssClass = cls;
+    alert.header = title;
+    // alert.subHeader = subtitle;
+    alert.message = msg;
+    alert.buttons = ["Ok"];
+    document.body.appendChild(alert);
+    return alert.present();
+  }
+
+  // async showActionSheet() {
+  //   // const actionSheet = await this.gfActionSheet.create({
+
+  //   // });
+
+  // }
+
+  uploadDoc() {
+    let formData = new FormData();
+    console.log(formData);
   }
 }

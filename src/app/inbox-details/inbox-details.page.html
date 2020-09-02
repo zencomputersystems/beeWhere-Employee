@@ -105,7 +105,6 @@
     <ion-card class="main-info">
       <ion-card-content>
         <div>
-          <!-- <div *ngIf="data.userInfo.clockIn.status == true"> -->
           <ion-card-title *ngIf="data.userInfo.clockIn.status == true" class="clockout-title">
             Clock out
           </ion-card-title>
@@ -141,53 +140,139 @@
     </ion-card>
 
     <ion-item-group class="inbox-body">
-      <ion-title>Approval Required</ion-title>
-      <ion-card *ngIf="data.userInfo.notifications.approval.length > 0">
-        <ion-card-content *ngFor="let aprvdata of data.userInfo.notifications.approval">
-          <div>
-            <ion-img src="../../assets/basic/bell-red.png"></ion-img>
-          </div>
-          <div class="card-content" onload="dateDiff(aprvdata.timestamp)">
-            <ion-card-subtitle>{{aprvdata.message}}</ion-card-subtitle>
-            <ion-label class="time-label"> Added&nbsp;
-              <span [ngSwitch]="dayDiff(aprvdata.timestamp)">
-                <div *ngIf="daysDifference < 30">
-                  <p *ngSwitchCase="0"></p>
-                  <p *ngSwitchCase="1">
-                    1 day&nbsp;
-                  </p>
-                  <p *ngSwitchDefault>
-                    {{daysDifference}} days&nbsp;
-                  </p>
+      <ion-title>Notification</ion-title>
+      
+      <ion-card *ngIf="inboxData !== undefined">
+        <div  *ngFor="let noti of inboxData;" >
+          <ion-card-content  *ngIf="noti.STATUS === 'responded'">
+            <!-- <ion-card-content *ngFor="let aprvdata of data.userInfo.notifications.approval"> -->
+            <div>
+              <ion-img src="../../assets/basic/bell.png"></ion-img>
+            </div>
+            <div class="card-content">
+              <div class="pending">
+                <ion-note *ngIf="noti.REQUEST_TYPE ==='overtime'">Overtime</ion-note>
+                <ion-note *ngIf="noti.REQUEST_TYPE ==='clocks'">Clocking request</ion-note>
+                <ion-img src="../../assets/basic/chevron-down-purple.png" *ngIf="!noti.isExpandView" (click)="expendNoti(noti); openMessager(noti);"></ion-img>
+                <ion-img src="../../assets/basic/chevron-up-purple.png" *ngIf="noti.isExpandView" (click)="expendNoti(noti)"></ion-img>
+              </div>
+              <ion-card-subtitle>{{noti.TITLE}}</ion-card-subtitle>
+              <!-- <ion-card-subtitle>{{noti | json}}</ion-card-subtitle> -->
+              <!-- <ion-label class="time-label"> Sender email tarmimi@zen.com.my
+              </ion-label> -->
+              <div *ngIf="noti.isExpandView" class="expanded-view">
+                <ion-label>Description</ion-label>
+                <ion-text *ngIf="noti.DESCRIPTION.length > 0" >{{noti.DESCRIPTION}}</ion-text>
+                <ion-text *ngIf="noti.DESCRIPTION.length < 1" class="na" >Not available</ion-text>
+                <ion-label>
+                  Duration
+                </ion-label>
+                <ion-text>{{noti.START_TIME | date: 'd MMM yyyy hh:mm a'}} - {{noti.END_TIME | date: 'd MMM yyyy hh:mm a'}}</ion-text>
+                <div>
+                  <!-- <ion-button fill="clear" (click)="openMessager(noti)">View message</ion-button> -->
+                  <div *ngFor="let clist of noti.MESSAGES" class="convo">
+                    <div class="convo-body" *ngIf="clist.USER_REPLY === 'admin'" >
+                      <ion-avatar>
+                        <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
+                      </ion-avatar>
+                      <div class="chat-list">
+                        <ion-label>{{clist.FULLNAME}}</ion-label>
+                        <ion-note class="admin-chat" *ngIf="clist.MESSAGE.length > 0">{{clist.MESSAGE}} </ion-note>
+                        <!-- <ion-note class="admin-chat" *ngIf="clist.MESSAGE.length < 1">No message</ion-note> -->
+                        <ion-note class="time">{{clist.CREATION_TS | date: "d/M/yy h:mm a"}}</ion-note>
+                      </div>
+                    </div>
+                    <div class="convo-body" *ngIf="clist.USER_REPLY === 'user'" >
+                      <div class="chat-list">
+                        <ion-note class="user-chat" *ngIf="clist.MESSAGE.length > 0">{{clist.MESSAGE}}</ion-note>
+                        <!-- <ion-note class="user-chat" *ngIf="clist.MESSAGE.length < 1">No message</ion-note> -->
+                        <ion-note class="user-time ">{{clist.CREATION_TS | date: "d/M/yy h:mm a"}}</ion-note>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div>
+                    timeeeeee
+                    <ion-label>Admin Send</ion-label>
+                    <ion-text>Please verity</ion-text>
+                  </div>
+                  <div>
+                    you replied
+                    <ion-label>You Send</ion-label>
+                    <ion-text>laala</ion-text>
+                  </div>
+                  <div>
+                    your form
+                    <ion-label></ion-label>
+                  </div> -->
+                  <!-- <ion-button fill="clear" (click)="openMessager(noti)">View message</ion-button> -->
                 </div>
-                <div *ngIf="daysDifference >= 30">
-                  on {{toISO(aprvdata.timestamp) | date: 'd MMM yyyy'}}
-                </div>
-              </span>
-              <span [ngSwitch]="hoursDifference">
-                <div *ngIf="daysDifference < 30">
-                  <p *ngSwitchCase="0"></p>
-                  <p *ngSwitchCase="1">
-                    1 hour&nbsp;
-                  </p>
-                  <p *ngSwitchDefault>
-                    {{hoursDifference}} hours&nbsp;
-                  </p>
-                </div>
-              </span>
-              <div *ngIf="daysDifference < 30">ago</div>
-            </ion-label>
-          </div>
-        </ion-card-content>
+              </div>
+            </div>
+            
+          </ion-card-content>
+
+        </div>
       </ion-card>
-      <ion-card *ngIf="data.userInfo.notifications.approval.length <= 0">
-        <ion-card-content class="no-record">No approval record</ion-card-content>
+      <ion-card *ngIf="errorMsg !== undefined">
+        <ion-card-content class="no-record error-text">{{errorMsg.error}}</ion-card-content>
+        <!-- <ion-card-content class="no-record">No approval record</ion-card-content> -->
       </ion-card>
     </ion-item-group>
 
     <ion-item-group class="inbox-body">
       <ion-title>New Upates</ion-title>
-      <ion-card *ngIf="data.userInfo.notifications.updates.length > 0">
+      <ion-card *ngIf="inboxData !== undefined">
+      <!-- <ion-card *ngIf="data.userInfo.notifications.updates.length > 0"> -->
+        <div  *ngFor="let update of inboxData;">
+          <ion-card-content *ngIf="update.STATUS === 'rejected' || update.STATUS === 'approved'">
+            <div *ngIf="update.STATUS === 'rejected'">
+              <ion-img src="../../assets/basic/bell-red.png"></ion-img>
+            </div>
+            <div *ngIf="update.STATUS === 'approved'">
+              <ion-img src="../../assets/basic/bell-green.png"></ion-img>
+            </div>
+            <div class="card-content" *ngIf="update.STATUS === 'rejected' || update.STATUS === 'approved'">
+              <div class="rejected" *ngIf="update.STATUS === 'rejected'">
+                <!-- <ion-note>Rejected&nbsp;</ion-note> -->
+                <ion-note *ngIf="update.REQUEST_TYPE ==='overtime'">Overtime</ion-note>
+                <ion-note *ngIf="update.REQUEST_TYPE ==='clocks'">Clocking request</ion-note>
+                <ion-img src="../../assets/basic/chevron-down-red.png" *ngIf="!update.isExpandView" (click)="expendNoti(update);"></ion-img>
+                <ion-img src="../../assets/basic/chevron-up-red.png" *ngIf="update.isExpandView" (click)="expendNoti(update);"></ion-img>
+          
+              </div>
+              <div class="approved" *ngIf="update.STATUS === 'approved'">
+                <!-- <ion-note>Approved&nbsp;</ion-note> -->
+                <ion-note *ngIf="update.REQUEST_TYPE ==='overtime'">Overtime</ion-note>
+                <ion-note *ngIf="update.REQUEST_TYPE ==='clocks'">Clocking request</ion-note>
+                <ion-img src="../../assets/basic/chevron-down-green.png" *ngIf="!update.isExpandView" (click)="expendNoti(update);"></ion-img>
+                <ion-img src="../../assets/basic/chevron-up-green.png" *ngIf="update.isExpandView" (click)="expendNoti(update);" ></ion-img>
+          
+              </div>
+              <ion-card-subtitle>{{update.TITLE}}</ion-card-subtitle>
+              <ion-label class="time-label" *ngIf="update.STATUS === 'approved'">Approved by {{update.USER_EMAIL}}
+              </ion-label>
+              <ion-label class="time-label" *ngIf="update.STATUS === 'rejected'">Rejected by {{update.USER_EMAIL}}
+              </ion-label>
+              <!-- <ion-card-subtitle>{{update.DESCRIPTION}}</ion-card-subtitle> -->
+              <div *ngIf="update.isExpandView" class="expanded-view">
+                <ion-label>Description</ion-label>
+                <ion-text *ngIf="update.DESCRIPTION.length > 0" >{{update.DESCRIPTION}}</ion-text>
+                <ion-text *ngIf="update.DESCRIPTION.length < 1" >null</ion-text>
+                <ion-label>
+                  Duration
+                </ion-label>
+                <ion-text>{{update.START_TIME | date: 'd MMM yyyy hh:mm a'}} - {{update.END_TIME | date: 'd MMM yyyy hh:mm a'}}</ion-text>
+              </div>
+              <!-- <ion-card-subtitle>{{update | json}}</ion-card-subtitle> -->
+            </div>
+          </ion-card-content>
+
+        </div>
+      </ion-card>
+      <ion-card *ngIf="errorMsg !== undefined">
+        <ion-card-content class="no-record error-text">{{errorMsg.error}}</ion-card-content>
+      </ion-card>
+      <!-- <ion-card *ngIf="data.userInfo.notifications.updates.length > 0">
         <ion-card-content *ngFor="let upddata of data.userInfo.notifications.updates">
           <div>
             <ion-img src="../../assets/basic/bell.png"></ion-img>
@@ -227,7 +312,7 @@
       </ion-card>
       <ion-card *ngIf="data.userInfo.notifications.updates.length <= 0">
         <ion-card-content class="no-record">No updates record</ion-card-content>
-      </ion-card>
+      </ion-card> -->
     </ion-item-group>
   </div>
 </ion-content>
