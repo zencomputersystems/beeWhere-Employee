@@ -1,4 +1,4 @@
-import { Refresher } from '@ionic/angular';
+// import { Refresher } from '@ionic/angular';
 import { GlobalFnService } from '@services/global-fn.service';
 import { APIService } from '@services/_services/api.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -230,7 +230,8 @@ export class SupportPage implements OnInit {
       });
   }
 
-  refreshSupportPage(event: Refresher) {
+  refreshSupportPage(event) {
+  // refreshSupportPage(event: Refresher) {
     this.mform.reset();
     this.reqDetails.reset();
     setTimeout(() => {

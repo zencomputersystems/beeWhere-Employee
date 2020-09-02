@@ -8,7 +8,7 @@ import { GlobalApiService } from '@services/global-api.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@services/_services/authentication.service';
 import { APIService } from '@services/_services/api.service';
-import { Refresher } from "@ionic/angular";
+// import { Refresher } from "@ionic/angular";
 /**
  * Clockin component
  * @export
@@ -510,7 +510,8 @@ export class ClockInPage implements OnInit {
     // console.log("/api/admin/attendance/user/" + this.cinGlobal.userInfo.userId);
   }
 
-  async refreshClockinPage(event: Refresher) {
+  async refreshClockinPage(event) {
+  // async refreshClockinPage(event: Refresher) {
     await this.getBasicInfo();
     setTimeout(() => {
       event.target.complete();
