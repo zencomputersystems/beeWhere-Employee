@@ -267,11 +267,13 @@
 
         .time {
             font-size: var(--ion-text-10) !important;
+            clear: both;
         }
 
         .user-time {
             font-size: var(--ion-text-10) !important;
             float: right;
+            clear: both;
         }
     }
 

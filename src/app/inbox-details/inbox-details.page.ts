@@ -1,3 +1,4 @@
+import { GlobalFnService } from '@services/global-fn.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 // import { Refresher } from '@ionic/angular';
 import { APIService } from '@services/_services/api.service';
@@ -70,7 +71,7 @@ export class InboxDetailsPage implements OnInit {
    * Creates an instance of InboxDetailsPage.
    * @memberof InboxDetailsPage
    */
-  constructor(private ibApi: APIService, private ibFormBuilder: FormBuilder) {}
+  constructor(private ibApi: APIService, private ibGlobalFn: GlobalFnService) {}
 
   /**
    * Initiate this component
@@ -230,6 +231,9 @@ export class InboxDetailsPage implements OnInit {
     }).subscribe((res) => {
       console.log(res);
       this.openMessager(res);
+
+      this.ibGlobalFn.showToast('Message send', 'success');
+
     }, (error) => {
       console.error(error);
     });
