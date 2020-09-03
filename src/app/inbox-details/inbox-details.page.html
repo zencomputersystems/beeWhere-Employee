@@ -181,14 +181,15 @@
                           {{clist.MESSAGE}}
                           <div class="file-list" *ngFor="let attchmnt of clist.ATTACHMENT" (click)="downloadAttachment(attchmnt)">{{attchmnt}}</div>
                         </ion-note>
-                        <!-- <ion-note class="admin-chat" >{{clist.ATTACHMENT}}</ion-note> -->
-                        <!-- <ion-note class="admin-chat" *ngIf="clist.MESSAGE.length < 1">No message</ion-note> -->
                         <ion-note class="time">{{clist.CREATION_TS | date: "d/M/yy h:mm a"}}</ion-note>
                       </div>
                     </div>
                     <div class="convo-body" *ngIf="clist.USER_REPLY === 'user'" >
                       <div class="chat-list">
-                        <ion-note class="user-chat" *ngIf="clist.MESSAGE.length > 0">{{clist.MESSAGE}}</ion-note>
+                        <ion-note class="user-chat" *ngIf="clist.MESSAGE.length > 0">{{clist.MESSAGE}}
+                          <div class="file-list" *ngFor="let attchmnt of clist.ATTACHMENT"
+                            (click)="downloadAttachment(attchmnt)">{{attchmnt}}</div>
+                        </ion-note>
                         <!-- <ion-note class="user-chat" *ngIf="clist.MESSAGE.length < 1">No message</ion-note> -->
                         <ion-note class="user-time ">{{clist.CREATION_TS | date: "d/M/yy h:mm a"}}</ion-note>
                       </div>
@@ -197,12 +198,14 @@
                   <div *ngIf="noti.CHOOSEN_FILE !== undefined" class="img-upload">
                     <img id="imgupload"
                       src=""/>
+                      
                     <ion-text>{{noti.CHOOSEN_FILE}}</ion-text>
                   </div>
                   <!-- <ion-img src=""></ion-img> -->
                   <div class="reply-noti">
                     <ion-img src="../../assets/basic/image-plus.png" (click)="file.click();"></ion-img>
-                    <input type="file" #file name="file" (change)="uploadFile($event, noti)">
+                    <input type="file" #file name="file"
+                      (change)="uploadFile($event, noti);">
                     <ion-textarea placeholder="Start a message" [(ngModel)]="noti.REPLY_TEXT"></ion-textarea>
                     <!-- <ion-input type="text" placeholder="Start a message"></ion-input> -->
                     <ion-img src="../../assets/basic/send.png" (click)="onSubmitReply(noti)"></ion-img>
