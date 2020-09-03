@@ -51,7 +51,21 @@ export class InboxDetailsPage implements OnInit {
    */
   public errorMsg;
 
-  public clarifyRecord;
+  /**
+   * Bind form data for uploaded files
+   * @private
+   * @memberof InboxDetailsPage
+   */
+  private replyFormData = new FormData();
+
+  /**
+   * Bind uploaded data file
+   * @memberof InboxDetailsPage
+   */
+  public choosenFile = "";
+
+  public uploadedFile;
+
   /**
    * Creates an instance of InboxDetailsPage.
    * @memberof InboxDetailsPage
@@ -96,6 +110,8 @@ export class InboxDetailsPage implements OnInit {
    */
   initGetDataList() {
     console.log("initGetDataList from support");
+    this.replyFormData = new FormData();
+    this.choosenFile = "";
     this.ibApi.getWithHeader("/support").subscribe(
       (res) => {
         Object.entries(res).filter(([key, value]) =>
@@ -129,7 +145,13 @@ export class InboxDetailsPage implements OnInit {
    * @memberof InboxDetailsPage
    */
   expendNoti(selected) {
+    // console.log(selected);
     selected.isExpandView = !selected.isExpandView;
+    // if (selected.CHOOSEN_FILE_DATA !== undefined) {
+      // document
+      //   .getElementById("imgupload")
+      //   .setAttribute("src", selected.CHOOSEN_FILE_DATA.link);
+    // }
   }
 
   /**
@@ -142,12 +164,17 @@ export class InboxDetailsPage implements OnInit {
     // console.log(data);
     this.ibApi.getWithHeader("/support/" + data.SUPPORT_GUID).subscribe(
       (res) => {
-        res.forEach(element => {
-          console.log(element.ATTACHMENT);
+        res.forEach((element) => {
+          // console.log(res);
           element.ATTACHMENT = element.ATTACHMENT.split(",");
         });
-        Object.assign(data, { MESSAGES: res });
-        console.log(data)
+        res.sort(
+          (a, b) =>
+            new Date(a.CREATION_TS).getTime() -
+            new Date(b.CREATION_TS).getTime()
+        );
+        // console.log(res.sort((a, b) => a.CREATION_TS - b.CREATION_TS));
+        Object.assign(data, { MESSAGES: res, REPLY_TEXT: "" });
       },
       (error) => {
         console.error(error);
@@ -155,18 +182,82 @@ export class InboxDetailsPage implements OnInit {
     );
   }
 
+  /**
+   * Will be executed when user click on hyperlink file in notifications card
+   * @param {*} attachmentData
+   * @returns
+   * @memberof InboxDetailsPage
+   */
   downloadAttachment(attachmentData) {
-    console.log(attachmentData);
     return window.open(
-      "https://zencloudservicesstore.blob.core.windows.net/cloudservices/eleave/" + attachmentData
+      "https://zencloudservicesstore.blob.core.windows.net/cloudservices/eleave/" +
+        attachmentData
     );
   }
 
+  /**
+   * Will be executed when user click on send arrow
+   * To reply message to admin to get clearification
+   * @param {*} data
+   * @memberof InboxDetailsPage
+   */
+  onSubmitReply(data) {
+    // console.log(this.replyFormData);
+    // this.ibApi.postUpload("/api/azure/upload", this.replyFormData).subscribe((res) => {
+    //   console.log(res);
+      
+      console.log(data);
+    // });
+  }
+
+  /**
+   * Referesh the pages and reset all
+   * @param {*} event
+   * @memberof InboxDetailsPage
+   */
   async refreshInboxPage(event) {
     await this.initGetDataList();
     setTimeout(() => {
       event.target.complete();
     }, 2000);
     // this.refresherRef.complete();
+  }
+
+  /**
+   * Upload image into azure
+   * @param {*} evt
+   * @memberof InboxDetailsPage
+   */
+  uploadFile(evt, data?) {
+    console.log(evt);
+    const file = (event as any).target.files[0];
+    this.choosenFile = file.name;
+    console.log(file);
+    this.replyFormData.append("file", file, file.name);
+    // (document.getElementById(
+    //   "imgupload"
+    // ) as any).src = window.URL.createObjectURL(file);
+    Object.assign(data, {
+      EVENT_ATTACHFILE: this.replyFormData,
+      CHOOSEN_FILE: file.name,
+    });
+    console.log(data);
+
+    this.ibApi
+      .postUpload("/api/azure/upload", data.EVENT_ATTACHFILE)
+      .subscribe((res) => {
+        console.log(res);
+        Object.assign(data, {
+          CHOOSEN_FILE_DATA: res,
+        });
+        document
+          .getElementById("imgupload")
+          .setAttribute("src", data.CHOOSEN_FILE_DATA.link);
+        console.log(this.inboxData);
+        // document
+        //   .getElementById("imgupload")
+        //   .setAttribute("src", (res as any).link);
+        this.replyFormData = new FormData();
+      });
   }
 }

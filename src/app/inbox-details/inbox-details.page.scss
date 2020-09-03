@@ -244,18 +244,21 @@
             font-size: var(--ion-text-11);
             border: 1px solid #9494942e;
             border-radius: 7px;
-            padding: var(--ion-text-14);
-            margin-right: 1em;
+            padding: var(--ion-text-10);
+            // margin-right: 1em;
             flex-flow: column;
             align-items: start;
         }
         .user-chat {
             font-size: var(--ion-text-11);
-            border: 1px solid #9494942e;
+            // border: 1px solid #9494942e;
             border-radius: 7px;
-            padding: var(--ion-text-14);
-            margin-left: 1em;
+            
+            padding: var(--ion-text-10);
+            // margin-left: 1em;
             float: right;
+            background: #7069d8b8;
+            color: white;
             // flex-flow: column;
             // align-items: start;
         }
@@ -278,4 +281,23 @@
         color: blue;
     }
 
+    .reply-noti {
+        text-align: start !important;
+        display: flex;
+        align-items: center;
+        ion-img {
+            opacity: 80%;
+        }
+    }
+
+    .img-upload {
+        ion-text {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+input {
+    display: none;
 }
