@@ -3,7 +3,7 @@
     .user-header {
         color: #ffffff;
         display: flex;
-        // margin: 21px;
+        padding: 0 5%;
         margin-bottom: 7%;
         ion-item-group {
             align-self: center;
@@ -26,7 +26,8 @@
     }
     
     .main-info {
-        margin: 0px; // 22px;
+        margin: 0 2%;
+        // margin: 0px;
         background: #ffff;
         background-color: white;
         box-shadow: 0 3px 10px #50505029;
@@ -84,6 +85,7 @@
     }
 
     .notification-info {
+        padding: 0 3%;
         display: flex;
         align-items: center;
         flex-flow: nowrap row;
@@ -111,7 +113,7 @@
     }
 
     .current-clockin {
-        margin-top: 1.2em;
+        // margin-top: 1.2em;
         ion-title {
             color: var(--ion-color-text);
             font-size: var(--ion-text-15);
@@ -123,7 +125,7 @@
         ion-card {
             background: var(--ion-color-primary-contrast);
             box-shadow: 0 3px 10px #50505029;
-            margin: 1.2em 0;
+            margin: 0;//1.2em 0;
 
             ion-card-title {
                 margin: 0.75em;

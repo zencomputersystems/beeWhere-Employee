@@ -78,7 +78,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-img class="bg-img" src="../../assets/basic/background-default.png"></ion-img>
-  <div class="content">
+  <div class="content-2">
     <ion-item-group class="header main-header">
       <ion-label>beeWhere</ion-label>
       <ion-img src="../../assets/basic/logout.png" routerLink="/login"></ion-img>
@@ -161,9 +161,9 @@
 
     <ion-item-group class="current-clockin">
       <form [formGroup]="clocksForm">
-        <ion-title>
+        <!-- <ion-title>
           {{currTime | date: 'd MMM yyyy'}}
-        </ion-title>
+        </ion-title> -->
 
         <!-- clock in card -->
         <ion-card *ngIf="!this.data.userInfo.clockIn.status">
@@ -207,6 +207,7 @@
 
                     <!-- getting client list -->
                     <ion-item-group class="clients" *ngIf="jobDtl.client_list">
+                      <ion-title>Client Selection</ion-title>
                       <ion-select ok-text="OK" cancel-text="Dismiss" [(ngModel)]="selectedClient" [ngModelOptions]=" {standalone: true}" 
                         placeholder="Select" (click)="getClientList(jobDtl.geofence_filter)">
                         <ion-select-option selected [value]="clientNone">None</ion-select-option>
