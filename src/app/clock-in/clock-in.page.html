@@ -61,12 +61,12 @@
     <ion-label>Save</ion-label>
   </ion-button>
 </div> -->
-<div class="clockin-button clockin" *ngIf="!this.data.userInfo.clockIn.status">
+<div class="clockin-button clockin" *ngIf="cinGlobalFn.isClockin() === 'false'">
   <ion-button shape="round" fill="outline" class="clockin" (click)="saveClockIn('in')">
     <ion-label>Clock In Now</ion-label>
   </ion-button>
 </div>
-<div class="clockin-button clockout" *ngIf="this.data.userInfo.clockIn.status">
+<div class="clockin-button clockout" *ngIf="cinGlobalFn.isClockin() === 'true'">
   <ion-button shape="round" fill="outline" class="clockout" (click)="saveClockIn('out')">
     <!-- <ion-button shape="round" fill="outline" class="clockout" [routerLink]="['/clock', 'out', 0]"> -->
     <ion-label>Clock Out</ion-label>
@@ -107,7 +107,7 @@
     <ion-card class="main-info">
       <ion-card-content>
         <!-- <div> -->
-        <div *ngIf="!data.userInfo.clockIn.status">
+        <div *ngIf="cinGlobalFn.isClockin() === 'false'">
           <ion-card-title class="clockin-title">
             Clock In
           </ion-card-title>
@@ -115,7 +115,7 @@
             You haven't clock in yet.
           </ion-card-subtitle>
         </div>
-        <div *ngIf="this.data.userInfo.clockIn.status">
+        <div *ngIf="cinGlobalFn.isClockin() === 'true'">
           <ion-card-title class="clockout-title">
             Clocked In
           </ion-card-title>
@@ -166,7 +166,7 @@
         </ion-title> -->
 
         <!-- clock in card -->
-        <ion-card *ngIf="!this.data.userInfo.clockIn.status">
+        <ion-card *ngIf="cinGlobalFn.isClockin() === 'false'">
           <div>
             <ion-card-title>
               Job Types
@@ -285,7 +285,7 @@
         </ion-card>
 
         <!-- clock out card -->
-        <ion-card *ngIf=" this.data.userInfo.clockIn.status">
+        <ion-card *ngIf="cinGlobalFn.isClockin() === 'true'">
           <ion-card-title>
             {{clocksForm.get('jobtype').value}}
             <ion-card-subtitle>

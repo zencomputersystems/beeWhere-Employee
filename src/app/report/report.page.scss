@@ -128,12 +128,15 @@
         opacity: 80%;
         color: var(--ion-color-white);
         text-align: center;
+        font-size: var(--ion-text-12);
+        padding: 0.1em 0;
     }
 
     .grid-body-style-row {
         border-bottom: 1px solid #50505029;
         border-radius: 2px;
         padding: 0.4em 0;
+        color: var(--ion-color-text);
     }
 
     .grid-body-style-column {
@@ -169,6 +172,7 @@
         border-left: 1px solid #50505029;
         border-bottom: 1px solid #50505029;
         border-right: 1px solid #50505029;
+        color: var(--ion-color-text);
     }
 
     .activity-grid {

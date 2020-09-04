@@ -417,6 +417,8 @@ export class ClockInPage implements OnInit {
           (clkin) => {
             console.log("clkin");
             console.log(clkin);
+            localStorage.setItem('cin_token', "true");
+            localStorage.setItem("cid_token", clkin[0].CLOCK_LOG_GUID);
             this.globalData.clocksInfo.list = clkin;
             this.globalData.clocksInfo.latest = clkin[0].CLOCK_LOG_GUID;
             console.log(this.globalData.clocksInfo);
@@ -436,7 +438,7 @@ export class ClockInPage implements OnInit {
         });
 
         const coutArr = {
-          clockLogGuid: this.globalData.clocksInfo.latest,
+          clockLogGuid: localStorage.getItem("cid_token"),
           clockTime: timeNow,
           location: {
             lat: this.locWatch.lat,
@@ -455,6 +457,7 @@ export class ClockInPage implements OnInit {
               this.checkAddNew
             );
             this.globalData.clocksInfo.latest = null;
+            localStorage.setItem("cin_token", "false");
             this.selectedClient = this.clientNone;
             this.selectedProject = this.projectNone;
             this.selectedContract = this.contractNone;

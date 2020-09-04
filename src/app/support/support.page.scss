@@ -90,35 +90,6 @@
                 margin: 12px 0;
                 padding: 0;
 
-                ion-segment {
-                    padding-left: 0.5em;
-                    padding-right: 0.5em;
-
-                    ion-segment-button {
-                        text-transform: capitalize;
-                        flex: 1;
-                        --color: var(--ion-color-text-header);
-                        opacity: 100%;
-                        min-width: 1em;
-                        --background-checked: var(--ion-color-text-header);
-                        --color-checked: #ffffff;
-                        --border-radius: 0.5em;
-                        border-radius: 0.5em;
-                        align-items: center;
-                        margin: 0.2em;
-                        min-height: var(--ion-text-36);
-                        --indicator-height: 0px;
-                        --border-width: 1px;
-                        --border-style: solid;
-                        font-weight: bold;
-                        font-size: var(--ion-text-12);
-
-                        ion-label {
-                            margin: 0;
-                            font-size: var(--ion-text-12);
-                        }
-                    }
-                }
             }
         }
     }
@@ -192,5 +163,37 @@
     .message-box {
         height: 30vh;
         min-height: var(--ion-text-118);
+    }
+}
+
+ion-segment {
+    padding: 0.5em 0;
+    // padding-left: 0.5em;
+    // padding-right: 0.5em;
+    // margin-top: 0.5em;
+
+    ion-segment-button {
+        text-transform: capitalize;
+        flex: 1;
+        --color: var(--ion-color-text-header);
+        opacity: 100%;
+        min-width: 1em;
+        --background-checked: var(--ion-color-text-header);
+        --color-checked: #ffffff;
+        --border-radius: 0.5em;
+        border-radius: 0.5em;
+        align-items: center;
+        margin: 0.2em;
+        min-height: var(--ion-text-36);
+        --indicator-height: 0px;
+        --border-width: 1px;
+        --border-style: solid;
+        font-weight: bold;
+        font-size: var(--ion-text-12);
+
+        ion-label {
+            margin: 0;
+            font-size: var(--ion-text-12);
+        }
     }
 }

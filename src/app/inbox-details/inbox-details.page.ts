@@ -71,7 +71,7 @@ export class InboxDetailsPage implements OnInit {
    * Creates an instance of InboxDetailsPage.
    * @memberof InboxDetailsPage
    */
-  constructor(private ibApi: APIService, private ibGlobalFn: GlobalFnService) {}
+  constructor(private ibApi: APIService, public ibGlobalFn: GlobalFnService) {}
 
   /**
    * Initiate this component

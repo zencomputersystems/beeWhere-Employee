@@ -49,6 +49,7 @@ export class GlobalFnService {
     globalTime = this.currTime;
     return this.currTime;
   }
+
   /**
    * To delete the selected task after delete button is being hit.
    * The process will filter based on task's id
@@ -126,5 +127,9 @@ export class GlobalFnService {
   uploadDoc() {
     let formData = new FormData();
     console.log(formData);
+  }
+
+  isClockin() {
+    return localStorage.getItem("cin_token");
   }
 }

@@ -139,9 +139,9 @@
 
     <div class="support-body">
       <ion-title>How can we help you today?</ion-title>
-      <ion-card>
+      <!-- <ion-card> -->
         <form [formGroup]="mform">
-          <ion-card-header>
+          <!-- <ion-card-header> -->
             <ion-segment formControlName="supportType" (click)="changeSegmentType()">
               <!-- <ion-segment [(ngModel)]="supportType"> -->
               <ion-segment-button value="requestForm">
@@ -151,9 +151,9 @@
                 <ion-label>Suggestion</ion-label>
               </ion-segment-button>
             </ion-segment>
-          </ion-card-header>
+          <!-- </ion-card-header> -->
           
-          <ion-card-content class="support-content">
+          <div class="support-content">
             <span [ngSwitch]="supportType">
               <p *ngSwitchCase="'suggestion'" formGroupName="suggestionForm">
                 <ion-item-group>
@@ -216,9 +216,9 @@
                 </ion-item-group>
               </p>
             </span>
-          </ion-card-content>
+          </div>
         </form>
-      </ion-card>
+      <!-- </ion-card> -->
     </div>
 
   </div>
