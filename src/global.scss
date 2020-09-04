@@ -199,6 +199,32 @@
             font-size: var(--ion-text-23);
         }
     }
+
+    .content-2 {
+        position: absolute;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+        padding: 5% 0% 5%;
+
+        .header {
+            display: flex;
+            place-content: space-between;
+            margin-bottom: 5%;
+            // margin: 45px 22px 22px;
+            // font-size: var(--ion-text-23);
+            font-size: var(--ion-text-13);
+            color: var(--ion-color-white);
+            font-weight: normal;
+
+            ion-img {
+                width: 1em; // 23px;
+            }
+        }
+
+        .main-header {
+            font-size: var(--ion-text-23);
+        }
+    }
 }
 
 .no-record {
