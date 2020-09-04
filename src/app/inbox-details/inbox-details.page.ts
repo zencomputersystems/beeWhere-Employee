@@ -165,7 +165,7 @@ export class InboxDetailsPage implements OnInit {
     // console.log(data);
     console.log(data);
     this.ibApi.getWithHeader("/support/" + data.SUPPORT_GUID).subscribe(
-      (res) => {
+      (res: any) => {
         res.forEach((element) => {
           // console.log(res);
           element.ATTACHMENT = element.ATTACHMENT.split(",");
