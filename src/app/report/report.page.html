@@ -97,6 +97,9 @@
 </div>
 
 <ion-content class="contents">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshReportPage($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-img class="bg-img-others" src="../../assets/basic/background-default.png"></ion-img>
   <div class="content">
     <ion-item-group class="header">
@@ -310,6 +313,29 @@
       </ion-card-content>
     </ion-card>
 
+    <ion-item-group *ngIf="searchForm.get('type').value === 'attendance' && genReport">
+      <ion-grid>
+        <ion-row class="grid-title-style">
+          <ion-col>Date</ion-col>
+          <ion-col>In</ion-col>
+          <ion-col>Out</ion-col>
+          <ion-col>Duration (hr)</ion-col>
+        </ion-row>
+        <ng-container *ngIf="dataAttendance.length > 0; else noAttendanceRecord">
+          <ion-row class="grid-body-style-row " *ngFor="let dat of dataAttendance">
+            <ion-col class="grid-body-style-column">{{dat.date | date: 'd MMM yyyy'}}</ion-col>
+            <ion-col class="grid-body-style-column set-center">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
+            <ion-col class="grid-body-style-column set-center">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
+            <ion-col class="set-center">{{dat.duration}}</ion-col>
+          </ion-row>
+        </ng-container>
+        <ng-template #noAttendanceRecord>
+          <ion-row class="no-record">
+            No record found
+          </ion-row>
+        </ng-template>
+      </ion-grid>
+    </ion-item-group>
     <!-- <ion-card class="main-info">
       <ion-card-header>
         <ion-card-subtitle>Number of Viewers per season for</ion-card-subtitle>

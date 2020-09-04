@@ -8,7 +8,7 @@ import { GlobalApiService } from '@services/global-api.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@services/_services/authentication.service';
 import { APIService } from '@services/_services/api.service';
-
+// import { Refresher } from "@ionic/angular";
 /**
  * Clockin component
  * @export
@@ -51,7 +51,7 @@ export class ClockInPage implements OnInit {
   public locWatch = {
     lat: null,
     long: null,
-    name: null
+    name: null,
   };
   public respo: any;
 
@@ -241,14 +241,19 @@ export class ClockInPage implements OnInit {
             "%2C" +
             data.coords.longitude
         )
-        .subscribe((res) => {
-          this.locWatch.lat = data.coords.latitude;
-          this.locWatch.long = data.coords.longitude;
-          this.locWatch.name = (res as any).results[0].formatted_address;
-          console.log(data.coords.latitude);
-          console.log(data.coords.longitude);
-          console.log((res as any).results[0].formatted_address);
-        });
+        .subscribe(
+          (res) => {
+            this.locWatch.lat = data.coords.latitude;
+            this.locWatch.long = data.coords.longitude;
+            this.locWatch.name = (res as any).results[0].formatted_address;
+            console.log(data.coords.latitude);
+            console.log(data.coords.longitude);
+            console.log((res as any).results[0].formatted_address);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       // this.clocksForm.patchValue({
       // });
       // data can be a set of coordinates, or an error (if an error occurred).
@@ -263,7 +268,7 @@ export class ClockInPage implements OnInit {
    * @param {*} list task list
    * @memberof ClockInPage
    */
-  onDeleteTask(selList, list , i) {
+  onDeleteTask(selList, list, i) {
     this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
   }
 
@@ -336,9 +341,7 @@ export class ClockInPage implements OnInit {
 
   getProjectList() {
     console.log("getProjectList");
-    console.log(
-      this.selectedClient.CLIENT_GUID
-    );
+    console.log(this.selectedClient.CLIENT_GUID);
     this.cinApi
       .getWithHeader("/api/project/" + this.selectedClient.CLIENT_GUID)
       .subscribe(
@@ -414,6 +417,8 @@ export class ClockInPage implements OnInit {
           (clkin) => {
             console.log("clkin");
             console.log(clkin);
+            localStorage.setItem('cin_token', "true");
+            localStorage.setItem("cid_token", clkin[0].CLOCK_LOG_GUID);
             this.globalData.clocksInfo.list = clkin;
             this.globalData.clocksInfo.latest = clkin[0].CLOCK_LOG_GUID;
             console.log(this.globalData.clocksInfo);
@@ -433,7 +438,7 @@ export class ClockInPage implements OnInit {
         });
 
         const coutArr = {
-          clockLogGuid: this.globalData.clocksInfo.latest,
+          clockLogGuid: localStorage.getItem("cid_token"),
           clockTime: timeNow,
           location: {
             lat: this.locWatch.lat,
@@ -442,21 +447,28 @@ export class ClockInPage implements OnInit {
           },
         };
 
-        this.cinApi.patchWithHeader("/api/clock", coutArr).subscribe((coutResp) => {
-          console.log("coutResp");
-          console.log(coutResp);
-          console.log(this.checkAddNew);
-          this.patchActivityList(coutResp[0].CLOCK_LOG_GUID, this.checkAddNew);
-          this.globalData.clocksInfo.latest = null;
-          this.selectedClient = this.clientNone;
-          this.selectedProject = this.projectNone;
-          this.selectedContract = this.contractNone;
-          this.data.userInfo.clockIn.status = false;
-          this.checkAddNew = [];
-        }, (error) => {
-          console.log("coutResp");
-          console.log(error);
-        });
+        this.cinApi.patchWithHeader("/api/clock", coutArr).subscribe(
+          (coutResp) => {
+            console.log("coutResp");
+            console.log(coutResp);
+            console.log(this.checkAddNew);
+            this.patchActivityList(
+              coutResp[0].CLOCK_LOG_GUID,
+              this.checkAddNew
+            );
+            this.globalData.clocksInfo.latest = null;
+            localStorage.setItem("cin_token", "false");
+            this.selectedClient = this.clientNone;
+            this.selectedProject = this.projectNone;
+            this.selectedContract = this.contractNone;
+            this.data.userInfo.clockIn.status = false;
+            this.checkAddNew = [];
+          },
+          (error) => {
+            console.log("coutResp");
+            console.log(error);
+          }
+        );
         break;
     }
 
@@ -474,16 +486,19 @@ export class ClockInPage implements OnInit {
   patchActivityList(clockGuid, list) {
     const actvArr = {
       clockLogGuid: clockGuid,
-      activity: list
+      activity: list,
     };
 
-    this.cinApi.patchWithHeader("/api/clock/activity", actvArr).subscribe((actvRes) => {
-      console.log("actvRes");
-      console.log(actvRes);
-    }, (error) => {
-      console.log("actvRes");
-      console.log(error);
-    });
+    this.cinApi.patchWithHeader("/api/clock/activity", actvArr).subscribe(
+      (actvRes) => {
+        console.log("actvRes");
+        console.log(actvRes);
+      },
+      (error) => {
+        console.log("actvRes");
+        console.log(error);
+      }
+    );
   }
 
   logout() {
@@ -493,7 +508,17 @@ export class ClockInPage implements OnInit {
 
   getBasicInfo() {
     this.cinGlobal.getLoggedUserInfo();
+    // evt.target.complete();
     // console.log("getAttendanceProfile");
     // console.log("/api/admin/attendance/user/" + this.cinGlobal.userInfo.userId);
+  }
+
+  async refreshClockinPage(event) {
+  // async refreshClockinPage(event: Refresher) {
+    await this.getBasicInfo();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+    // this.refresherRef.complete();
   }
 }

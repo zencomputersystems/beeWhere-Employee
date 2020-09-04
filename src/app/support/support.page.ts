@@ -1,3 +1,4 @@
+// import { Refresher } from '@ionic/angular';
 import { GlobalFnService } from '@services/global-fn.service';
 import { APIService } from '@services/_services/api.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -37,7 +38,7 @@ export class SupportPage implements OnInit {
   public mform: FormGroup;
 
   public reqDetails: FormGroup;
-  
+
   /**
    * Form to bind file uploads
    * @private
@@ -84,7 +85,7 @@ export class SupportPage implements OnInit {
   ngOnInit() {
     // console.log(this.globalData.userInfo.userId);
     // console.log(this.globalData.userInfo.email);
-    this.sGFn.uploadDoc();
+    // this.sGFn.uploadDoc();
   }
 
   /**
@@ -133,22 +134,25 @@ export class SupportPage implements OnInit {
 
       default:
         console.log(this.mform.get("requestForm").value.description);
+        console.log(this.choosenFile);
         if (this.mform.get("requestForm").valid) {
-          console.log(this.mform.get("requestForm").value);
-          // tempObj = {
-          //   requestType: this.mform.get("requestForm").value.type,
-          //   subject: this.mform.get("requestForm").value.title,
-          //   starttime: new Date(this.reqDetails.value.inTime).valueOf(),
-          //   endtime: new Date(this.reqDetails.value.outTime).valueOf(),
-          //   supportingDoc: this.mform.get("requestForm").value.supportDoc,
-          //   description:
-          //     this.mform.get("requestForm").value.description === null
-          //       ? ""
-          //       : this.mform.get("requestForm").value.description,
-          //   userGuid: this.globalData.userInfo.userId,
-          //   userEmail: this.globalData.userInfo.email,
-          // };
-          this.postUploadImg();
+          tempObj = {
+            requestType: this.mform.get("requestForm").value.type,
+            subject: this.mform.get("requestForm").value.title,
+            starttime: new Date(this.reqDetails.value.inTime).valueOf(),
+            endtime: new Date(this.reqDetails.value.outTime).valueOf(),
+            supportingDoc: "",
+            description:
+              this.mform.get("requestForm").value.description === null
+                ? ""
+                : this.mform.get("requestForm").value.description,
+            userGuid: this.globalData.userInfo.userId,
+            userEmail: this.globalData.userInfo.email,
+          };
+          this.choosenFile !== "No file chosen"
+            ? this.postUploadImg()
+            : this.postObj(tempObj);
+          // this.postUploadImg();
         } else {
           this.sGFn.showToast("Please fill in required fields ", "error");
         }
@@ -165,6 +169,7 @@ export class SupportPage implements OnInit {
       this.mform.get("requestForm").reset();
       this.reqDetails.reset();
       this.choosenFile = "No file chosen";
+      this.formData = new FormData();
     });
   }
   /**
@@ -220,9 +225,17 @@ export class SupportPage implements OnInit {
           userGuid: this.globalData.userInfo.userId,
           userEmail: this.globalData.userInfo.email,
         };
-        console.log(obj)
+        console.log(obj);
         this.postObj(obj);
       });
   }
 
+  refreshSupportPage(event) {
+  // refreshSupportPage(event: Refresher) {
+    this.mform.reset();
+    this.reqDetails.reset();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
 }

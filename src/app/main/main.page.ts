@@ -1,3 +1,4 @@
+// import { Refresher } from '@ionic/angular';
 import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
 import * as sampledata from '../sampledata.json';
@@ -82,5 +83,13 @@ export class MainPage implements OnInit {
   doInfinite(event) {
     this.initReq++;
     this.getHistory(event);
+  }
+
+  async refreshHistoryPage(event) {
+  // async refreshHistoryPage(event: Refresher) {
+    await this.getHistory();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
   }
 }

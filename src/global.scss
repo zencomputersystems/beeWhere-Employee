@@ -167,7 +167,7 @@
 
     .bg-img-others {
         position: absolute;
-        bottom: 70%;
+        bottom: 85%;
         width: 250%;
         left: -75%;
         display: flex;
@@ -178,7 +178,7 @@
         width: -webkit-fill-available;
         height: -webkit-fill-available;
         // padding: 12% 7% 0% 7%;
-        padding: 5% 5% 0% 5%;
+        padding: 5% 2%;// 5% 5% 0% 5%;
 
         .header {
             display: flex;
@@ -199,6 +199,33 @@
             font-size: var(--ion-text-23);
         }
     }
+
+    .content-2 {
+        position: absolute;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+        padding: 5% 0% 5%;
+
+        .header {
+            display: flex;
+            place-content: space-between;
+            margin-bottom: 5%;
+            // margin: 45px 22px 22px;
+            // font-size: var(--ion-text-23);
+            font-size: var(--ion-text-13);
+            color: var(--ion-color-white);
+            font-weight: normal;
+
+            ion-img {
+                width: 1em; // 23px;
+            }
+        }
+
+        .main-header {
+            font-size: var(--ion-text-23);
+            padding: 0 5%;
+        }
+    }
 }
 
 .no-record {
@@ -210,6 +237,10 @@
     font-style: italic;
     opacity: 80%;
     width: -webkit-fill-available;
+}
+
+.error-text {
+    color: var(--ion-color-red);
 }
 
 
@@ -250,6 +281,48 @@
         }
         .alert-button.sc-ion-alert-md {
             color: var(--ion-color-text-header);
+        }
+    }
+
+    .alert-error {
+        .alert-wrapper.sc-ion-alert-md {
+            background: var(--ion-color-red);
+        }
+
+        .alert-head {
+            align-self: center;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .alert-title {
+            color: var(--ion-color-white);
+            font-size: var(--ion-text-14);
+            font-weight: bold;
+        }
+
+        .alert-sub-title.sc-ion-alert-md {
+            color: var(--ion-color-white);
+            font-size: var(--ion-text-12);
+        }
+
+        .alert-head.sc-ion-alert-md+.alert-message.sc-ion-alert-md {
+            font-size: var(--ion-text-12);
+            padding-bottom: 0;
+            color: var(--ion-color-white);
+            align-self: center;
+        }
+        .alert-button-group.sc-ion-alert-md {
+            justify-content: center;
+            margin-bottom: 1.5em;
+            margin-top: 1.5em;
+        }
+        .alert-button.sc-ion-alert-md {
+            color: var(--ion-color-white);
+            border: 1px solid;
+            padding: 0.5em 2em;
+            border-radius: 15px;
+            font-size: var(--ion-text-10);
         }
     }
 
