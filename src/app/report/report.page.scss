@@ -1,5 +1,6 @@
 :host {
     .main-info {
+        margin-bottom: 0.5em;
         margin: 0px; // 22px;
         background: #ffff;
         background-color: white;
@@ -255,7 +256,9 @@ ion-note {
 }
 
 
-
+ion-grid {
+    font-size: var(--ion-text-12);
+}
 // ::ng-deep button.days-btn {
 //     p {
 //         font-size: var(--ion-text-11);
