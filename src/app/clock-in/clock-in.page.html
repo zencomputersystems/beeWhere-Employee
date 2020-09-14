@@ -167,7 +167,8 @@
 
         <!-- clock in card -->
         <ion-card *ngIf="cinGlobalFn.isClockin() === 'false'">
-          <div>
+          <div *ngIf="jobList.length === 0" class="no-record">Your attendance profile is not configured yet. Please contact admin or hr</div>
+          <div *ngIf="jobList.length > 0">
             <ion-card-title>
               Job Types
             </ion-card-title>
@@ -175,7 +176,7 @@
 
               <!-- job title list -->
               <ion-segment formControlName="jobtype" (click)="chg()">
-                <ng-container *ngFor="let job of data.userInfo.attendanceProfile2">
+                <ng-container *ngFor="let job of jobList">
                   <ion-segment-button *ngIf="job.value" value={{job.type}}>
                     <ion-label>{{job.type}}</ion-label>
                   </ion-segment-button>
@@ -184,7 +185,7 @@
             </ion-card-subtitle>
 
             <ion-card-content class="clockin-details">
-              <ng-container *ngFor="let jobDtl of data.userInfo.attendanceProfile2">
+              <ng-container *ngFor="let jobDtl of jobList">
                 <span [ngSwitch]="jobDtl.type">
                   <p *ngSwitchCase="clocksForm.get('jobtype').value">
                     <!-- getting current latitude/longitude position -->

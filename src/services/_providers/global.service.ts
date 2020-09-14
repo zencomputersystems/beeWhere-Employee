@@ -32,17 +32,15 @@ export class GlobalService {
   public dataGlobal = require('../../app/sampledata.json');
   // private globalData = require('./global.json');
 
-  public initSelectedJobConfig = {
-    type: "office",
-    activity_list: true,
-    client_list: true,
-    contract_selection: true,
-    geofence_filter: true,
-    project_selection: true,
-    value: true
-  };
-
-  public jobConfigs = [];
+  // public initSelectedJobConfig = {
+  //   type: "office",
+  //   activity_list: true,
+  //   client_list: true,
+  //   contract_selection: true,
+  //   geofence_filter: true,
+  //   project_selection: true,
+  //   value: true
+  // };
 
   get initUserInfo(): any {
     console.log("initUserInfo");
@@ -56,10 +54,11 @@ export class GlobalService {
 
   getLoggedUserInfo(isNavToMain?) {
     this.gApi.getWithHeader("/api/user-info").subscribe((resp) => {
-      console.log(resp);
       Object.assign(this.userInfo, resp);
+      localStorage.setItem("usr", btoa(JSON.stringify(resp)));
+      console.log(JSON.parse(atob(localStorage.getItem('usr'))));
       this.globalData.userInfo = resp;
-      console.log(this.globalData);
+      // console.log(this.globalData);
       this.getJobProfile();
     });
 
@@ -68,9 +67,14 @@ export class GlobalService {
     }
   }
 
+  /**
+   * Get job profile
+   * @memberof GlobalService
+   */
   getJobProfile() {
     console.log("getJobProfile");
     this.globalData.jobTypes = [];
+    localStorage.setItem("jobProfile", "[]");
     this.gApi
       .getWithHeader("/api/admin/attendance/user/" + this.userInfo.userId)
       .subscribe((resp) => {
@@ -78,18 +82,18 @@ export class GlobalService {
         Object.entries((resp as any).property).forEach((entry) => {
           const temp: any = entry[1];
           temp.type = entry[0];
-          this.jobConfigs.push(temp);
-          this.dataGlobal.userInfo.attendanceProfile2.push(temp);
           this.globalData.jobTypes.push(temp);
         });
         console.log(this.dataGlobal.userInfo);
         console.log(this.globalData.jobTypes);
+        localStorage.setItem("jobProfile", JSON.stringify(this.globalData.jobTypes));
         defJob = this.globalData.jobTypes.find((x) => {
           if (x.value) {
             return x.type;
           }
         });
         console.log(defJob);
+        console.log(this.globalData.jobTypes);
       }, (error) => {
         this.gGF.showAlert(
           "Oppss!",

@@ -130,6 +130,9 @@ export class ClockInPage implements OnInit {
   public currentUser = {};
 
   public setlect;
+
+  public jobList;
+
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -175,6 +178,14 @@ export class ClockInPage implements OnInit {
     this.getLoc();
     // setInterval(this.test, 1000);
     this.getBasicInfo();
+    if (localStorage.getItem('cin_token') !== "true") {
+      localStorage.setItem('cin_token', "false");
+    }
+
+    console.log(localStorage.getItem("jobProfile"));
+    console.log(JSON.parse(localStorage.getItem("jobProfile")));
+    this.jobList = JSON.parse(localStorage.getItem("jobProfile"));
+    // localStorage.setItem('cin_token', "true");
   }
 
   /**

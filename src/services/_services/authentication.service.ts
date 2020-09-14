@@ -62,7 +62,7 @@ export class AuthenticationService {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           // localStorage.setItem("currentUser", user.access_token);
           if ( user && user.access_token) {
-            // console.log(user);
+            console.log(user);
             localStorage.setItem("access_token", user.access_token);
             // localStorage.setItem("loginType", user.login_type);
             this.isAuthenticated();
@@ -82,6 +82,7 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     // localStorage.removeItem("currentUser");
+    localStorage.setItem('jobProfile', '[]');
     localStorage.removeItem("access_token");
     // this.currentUserSubject.next(null);
   }
