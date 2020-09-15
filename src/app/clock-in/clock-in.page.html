@@ -200,10 +200,12 @@
                         <ng-template #showlatlong>
                           {{locWatch.lat}},&nbsp;{{locWatch.long}}
                         </ng-template>
-                        </ion-label>
-                      <ion-label
-                        *ngIf="locWatch.lat === null || locWatch.long === null">
+                      </ion-label>
+                      <ion-label *ngIf="(locWatch.lat === null || locWatch.long === null) && geoLocError == ''">
                         Getting current location..</ion-label>
+                      <ion-label *ngIf="geoLocError !== ''" class="error-location">
+                        {{geoLocError}}
+                      </ion-label>
                     </ion-item-group>
 
                     <!-- getting client list -->
@@ -318,8 +320,11 @@
                 </ng-template>
               </ion-label>
               <ion-label
-                *ngIf="locWatch.lat === null || locWatch.long === null">
+                *ngIf="(locWatch.lat === null || locWatch.long === null) && geoLocError == ''">
                 Getting current location..</ion-label>
+              <ion-label *ngIf="geoLocError !== ''" class="error-location">
+                {{geoLocError}}
+              </ion-label>
               </ion-item-group>
               <!-- activity list -->
               <ion-item-group class="activity-list">

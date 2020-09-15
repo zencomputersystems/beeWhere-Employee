@@ -133,6 +133,7 @@ export class ClockInPage implements OnInit {
 
   public jobList;
 
+  public geoLocError = "";
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -209,6 +210,7 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   getLoc() {
+    this.geoLocError = '';
     this.geolocation
       .getCurrentPosition()
       .then((resp) => {
@@ -240,6 +242,7 @@ export class ClockInPage implements OnInit {
       })
       .catch((error) => {
         console.log("Error getting location", error);
+        this.geoLocError = "Error getting location. " + error.message;
       });
 
     const watch = this.geolocation.watchPosition();
