@@ -1,7 +1,7 @@
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
 import * as sampleData from '../app/sampledata.json';
-import { ToastController, ActionSheetController } from '@ionic/angular';
+import { ToastController, ActionSheetController, LoadingController } from '@ionic/angular';
 
 export let globalTime;
 /**
@@ -15,7 +15,10 @@ export let globalTime;
 export class GlobalFnService {
   // public currDateTime = new Date().toISOString();
   public currTime;
-  constructor(private gfnApi: APIService, private gfToast: ToastController, private gfActionSheet: ActionSheetController) {
+
+  private loading;
+  constructor(private gfnApi: APIService, private gfToast: ToastController, private gfActionSheet: ActionSheetController, 
+              private gfloading: LoadingController) {
     setInterval(this.myTimer, 1000);
   }
 
@@ -117,6 +120,21 @@ export class GlobalFnService {
     return alert.present();
   }
 
+
+  async showLoading() {
+    this.loading = await this.gfloading.create({
+      message: "Please wait...",
+      duration: 2000,
+    });
+
+    await this.loading.present();
+  }
+
+  async dissmissLoading() {
+    const { role, data } = await this.loading.onDidDismiss();
+    console.log("Loading dismissed!");
+    console.log({ role, data });
+  }
   // async showActionSheet() {
   //   // const actionSheet = await this.gfActionSheet.create({
 

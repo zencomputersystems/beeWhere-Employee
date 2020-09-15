@@ -1,3 +1,4 @@
+import { GlobalFnService } from '@services/global-fn.service';
 import { GlobalService } from '@services/_providers/global.service';
 import { APIService } from '@services/_services/api.service';
 import { map, first } from 'rxjs/operators';
@@ -67,6 +68,7 @@ export class LoginPage implements OnInit {
     private route: ActivatedRoute,
     private lApi: APIService,
     private lGlobal: GlobalService
+    private lfGlobal: GlobalFnService
   ) {
     this.lForm = lFormBuilder.group({
       email: [
@@ -149,6 +151,8 @@ export class LoginPage implements OnInit {
     this.checkRememberMe();
     // window.btoa(pass);
     console.log("onlogin");
+    this.lfGlobal.showLoading();
+
     this.authenticationService
       .login(this.lForm.get("email").value, this.lForm.get("password").value)
       .pipe(first())
