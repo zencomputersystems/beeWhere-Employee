@@ -15,7 +15,7 @@ export class GlobalService {
     private gGF: GlobalFnService
   ) {}
   //  ClockInPage.clocksForm: FormGroup
-  public globalData = require('@services/_providers/global.json');
+  public globalData = require("@services/_providers/global.json");
 
   public userInfo = {
     companyName: null,
@@ -33,7 +33,7 @@ export class GlobalService {
     userId: null,
   };
 
-  public dataGlobal = require('../../app/sampledata.json');
+  public dataGlobal = require("../../app/sampledata.json");
   // private globalData = require('./global.json');
 
   // public initSelectedJobConfig = {
