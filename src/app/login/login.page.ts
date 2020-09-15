@@ -140,6 +140,7 @@ export class LoginPage implements OnInit {
    * @memberof LoginPage
    */
   onLogin() {
+    this.error = null;
     this.checkRememberMe();
     // window.btoa(pass);
     console.log("onlogin");
@@ -153,9 +154,7 @@ export class LoginPage implements OnInit {
           // this.router.navigate([this.returnUrl]);
         },
         (error) => {
-          console.log(error);
-          console.log(error.error.message.error);
-          console.log(error.error.message.message);
+          console.log(error)
           this.error =
             error.error.message.error + ". " + error.error.message.message;
           this.loading = false;

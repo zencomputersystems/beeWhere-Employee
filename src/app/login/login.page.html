@@ -7,7 +7,7 @@
       </ion-avatar>
       <div class="title-name">
         <ion-title>Please login to your account</ion-title>
-        <ion-note>{{error}}</ion-note>
+        <ion-note *ngIf="error !== null" >{{error}}</ion-note>
       </div>
     </div>
 
