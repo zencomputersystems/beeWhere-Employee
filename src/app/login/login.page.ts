@@ -69,8 +69,18 @@ export class LoginPage implements OnInit {
     private lGlobal: GlobalService
   ) {
     this.lForm = lFormBuilder.group({
-      email: [atob(localStorage.getItem("val1")), Validators.required],
-      password: [atob(localStorage.getItem("val2")), Validators.required],
+      email: [
+        atob(localStorage.getItem("val1")) !== "ée"
+          ? atob(localStorage.getItem("val1"))
+          : "",
+        Validators.required,
+      ],
+      password: [
+        atob(localStorage.getItem("val2")) !== "ée"
+          ? atob(localStorage.getItem("val2"))
+          : "",
+        Validators.required,
+      ],
       showPassword: false,
     });
 
