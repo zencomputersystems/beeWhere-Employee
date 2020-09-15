@@ -67,7 +67,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private lApi: APIService,
-    private lGlobal: GlobalService
+    private lGlobal: GlobalService,
     private lfGlobal: GlobalFnService
   ) {
     this.lForm = lFormBuilder.group({
