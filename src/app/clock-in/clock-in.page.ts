@@ -229,8 +229,8 @@ export class ClockInPage implements OnInit {
 
         const fence = {
           id: new Date().toISOString(),
-          latitude: 2.9270567, // resp.coords.latitude,
-          longitude: 101.6511282, // resp.coords.longitude,
+          latitude: resp.coords.latitude, // 2.9270567,
+          longitude: resp.coords.longitude, // 101.6511282, 
           radius: 500,
           transitionType: 3,
           notification: {

@@ -50,7 +50,7 @@ export class MainPage implements OnInit {
   getHistory(event?) {
     console.log(this.initReq);
     this.hApi
-      .getWithHeader("/api/clock/history/list/10/" + this.initReq)
+      .getWithHeader("/api/clock/history-list/10/" + this.initReq)
       .subscribe(
         (histRes: any) => {
           console.log(histRes);
