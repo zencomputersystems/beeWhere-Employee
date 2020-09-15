@@ -9,7 +9,11 @@ export let defJob = "office";
   providedIn: "root",
 })
 export class GlobalService {
-  constructor(private gApi: APIService, private router: Router, private gGF: GlobalFnService) {}
+  constructor(
+    private gApi: APIService,
+    private router: Router,
+    private gGF: GlobalFnService
+  ) {}
   //  ClockInPage.clocksForm: FormGroup
   public globalData = require('@services/_providers/global.json');
 
@@ -55,58 +59,72 @@ export class GlobalService {
   getLoggedUserInfo(isNavToMain?) {
     this.gApi.getWithHeader("/api/user-info").subscribe((resp) => {
       Object.assign(this.userInfo, resp);
-      localStorage.setItem("usr", btoa(JSON.stringify(resp)));
-      console.log(JSON.parse(atob(localStorage.getItem('usr'))));
+      // localStorage.setItem("usr", btoa(JSON.stringify(resp)));
+      localStorage.setItem("usr", JSON.stringify(resp));
+      console.log(JSON.parse(localStorage.getItem("usr")));
       this.globalData.userInfo = resp;
       // console.log(this.globalData);
-      this.getJobProfile();
+      this.getJobProfile(isNavToMain);
     });
 
-    if (isNavToMain) {
-      this.router.navigate(["/"]);
-    }
+    // if (isNavToMain) {
+    //   // this.router.navigate(["/"]);
+    // }
   }
 
   /**
    * Get job profile
    * @memberof GlobalService
    */
-  getJobProfile() {
+  getJobProfile(isNavToMain?) {
     console.log("getJobProfile");
-    this.globalData.jobTypes = [];
+    console.log(JSON.parse(localStorage.getItem("usr")).userId);
+    // this.globalData.jobTypes = [];
     localStorage.setItem("jobProfile", "[]");
     this.gApi
-      .getWithHeader("/api/admin/attendance/user/" + this.userInfo.userId)
-      .subscribe((resp) => {
-        console.log(resp);
-        Object.entries((resp as any).property).forEach((entry) => {
-          const temp: any = entry[1];
-          temp.type = entry[0];
-          this.globalData.jobTypes.push(temp);
-        });
-        console.log(this.dataGlobal.userInfo);
-        console.log(this.globalData.jobTypes);
-        localStorage.setItem("jobProfile", JSON.stringify(this.globalData.jobTypes));
-        defJob = this.globalData.jobTypes.find((x) => {
-          if (x.value) {
-            return x.type;
+      .getWithHeader(
+        "/api/admin/attendance/user/" +
+          JSON.parse(localStorage.getItem("usr")).userId
+      )
+      .subscribe(
+        (resp) => {
+          const tempJob = [];
+          Object.entries((resp as any).property).forEach((entry) => {
+            const temp: any = entry[1];
+            temp.type = entry[0];
+            // this.globalData.jobTypes.push(temp);
+            tempJob.push(temp);
+          });
+          console.log(this.dataGlobal.userInfo);
+          // console.log(this.globalData.jobTypes);
+          console.log(tempJob);
+          localStorage.setItem("jobProfile", JSON.stringify(tempJob));
+          defJob = tempJob.find((x) => {
+            if (x.value) {
+              console.log(x);
+              return x.type;
+            }
+          });
+          localStorage.setItem("defJob", JSON.stringify(defJob));
+          console.log(JSON.parse(localStorage.getItem("defJob")));
+          // console.log(this.globalData.jobTypes);
+          if (isNavToMain) {
+            this.router.navigate(["/"]);
           }
-        });
-        console.log(defJob);
-        console.log(this.globalData.jobTypes);
-      }, (error) => {
-        this.gGF.showAlert(
-          "Oppss!",
-          error.status + " " + error.statusText + ". " + error.error,
-          "alert-error"
-        );
-        // this.gGF.showAlert(
-        //   "Oppss!",
-        //   error.status + " " + error.statusText + ". " + error.error,
-        //   "alert-error"
-        // );
-
-      });
+        },
+        (error) => {
+          this.gGF.showAlert(
+            "Oppss!",
+            error.status + " " + error.statusText + ". " + error.error,
+            "alert-error"
+          );
+          // this.gGF.showAlert(
+          //   "Oppss!",
+          //   error.status + " " + error.statusText + ". " + error.error,
+          //   "alert-error"
+          // );
+        }
+      );
   }
 }
  

@@ -38,7 +38,7 @@ export class ClockInPage implements OnInit {
    * To bind data of enabled job type
    * @memberof ClockInPage
    */
-  public jobType = "office";
+  public jobType =  JSON.parse(localStorage.getItem("defJob")).type; //"office";
 
   public test1;
   public lat;
@@ -160,7 +160,7 @@ export class ClockInPage implements OnInit {
 
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
-      jobtype: "office",
+      jobtype: JSON.parse(localStorage.getItem("defJob")).type,//"office",
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
     });
@@ -246,6 +246,7 @@ export class ClockInPage implements OnInit {
       });
 
     const watch = this.geolocation.watchPosition();
+    localStorage.setItem('positionWatch', JSON.stringify(watch));
     watch.subscribe((data) => {
       console.log("watchhh");
       this.cinApi
