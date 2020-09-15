@@ -96,7 +96,12 @@ export class LoginPage implements OnInit {
    * @memberof LoginPage
    */
   ngOnInit() {
-    const tempVal3 = window.atob(localStorage.getItem("val3"));
+    console.log(atob(localStorage.getItem("val3")));
+    console.log(this.lForm);
+    const tempVal3 =
+      atob(localStorage.getItem("val3")) !== "ée"
+        ? atob(localStorage.getItem("val3"))
+        : "";
     this.rememberMe = Boolean(tempVal3);
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
