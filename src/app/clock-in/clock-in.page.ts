@@ -38,7 +38,7 @@ export class ClockInPage implements OnInit {
    * To bind data of enabled job type
    * @memberof ClockInPage
    */
-  public jobType =  JSON.parse(localStorage.getItem("defJob")).type; //"office";
+  public jobType = JSON.parse(localStorage.getItem("defJob")).type; //"office";
 
   public test1;
   public lat;
@@ -134,6 +134,9 @@ export class ClockInPage implements OnInit {
   public jobList;
 
   public geoLocError = "";
+
+  private watch;
+  private watchSubscriptions;
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -160,7 +163,7 @@ export class ClockInPage implements OnInit {
 
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
-      jobtype: JSON.parse(localStorage.getItem("defJob")).type,//"office",
+      jobtype: JSON.parse(localStorage.getItem("defJob")).type, //"office",
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
     });
@@ -176,11 +179,10 @@ export class ClockInPage implements OnInit {
     this.selectedClient = this.clientNone;
     this.selectedProject = this.projectNone;
     this.selectedContract = this.contractNone;
-    this.getLoc();
     // setInterval(this.test, 1000);
     this.getBasicInfo();
-    if (localStorage.getItem('cin_token') !== "true") {
-      localStorage.setItem('cin_token', "false");
+    if (localStorage.getItem("cin_token") !== "true") {
+      localStorage.setItem("cin_token", "false");
     }
 
     console.log(localStorage.getItem("jobProfile"));
@@ -198,6 +200,14 @@ export class ClockInPage implements OnInit {
     // console.log(this.currTime);
   }
 
+  ionViewDidEnter() {
+    console.log("ionViewDidEnter");
+    this.getLoc();
+  }
+  ionViewDidLeave() {
+    console.log("leaveeeeee");
+    this.watchSubscriptions.unsubscribe();
+  }
   chg() {
     console.log(this.setlect);
     console.log(this.selectedClient);
@@ -210,7 +220,7 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   getLoc() {
-    this.geoLocError = '';
+    this.geoLocError = "";
     this.geolocation
       .getCurrentPosition()
       .then((resp) => {
@@ -245,9 +255,8 @@ export class ClockInPage implements OnInit {
         this.geoLocError = "Error getting location. " + error.message;
       });
 
-    const watch = this.geolocation.watchPosition();
-    localStorage.setItem('positionWatch', JSON.stringify(watch));
-    watch.subscribe((data) => {
+    this.watch = this.geolocation.watchPosition();
+    this.watchSubscriptions = this.watch.subscribe((data) => {
       console.log("watchhh");
       this.cinApi
         .getWithHeader(
@@ -269,11 +278,6 @@ export class ClockInPage implements OnInit {
             console.log(error);
           }
         );
-      // this.clocksForm.patchValue({
-      // });
-      // data can be a set of coordinates, or an error (if an error occurred).
-      // data.coords.latitude
-      // data.coords.longitude
     });
   }
 
@@ -318,7 +322,7 @@ export class ClockInPage implements OnInit {
         this.cinApi
           .getWithHeader(
             "/api/client/coordinate/" +
-            "2.92508" + //this.locWatch.lat +
+              "2.92508" + //this.locWatch.lat +
               "/" +
               "101.701" // this.locWatch.long
           )
@@ -432,7 +436,7 @@ export class ClockInPage implements OnInit {
           (clkin) => {
             console.log("clkin");
             console.log(clkin);
-            localStorage.setItem('cin_token', "true");
+            localStorage.setItem("cin_token", "true");
             localStorage.setItem("cid_token", clkin[0].CLOCK_LOG_GUID);
             this.globalData.clocksInfo.list = clkin;
             this.globalData.clocksInfo.latest = clkin[0].CLOCK_LOG_GUID;
@@ -529,7 +533,7 @@ export class ClockInPage implements OnInit {
   }
 
   async refreshClockinPage(event) {
-  // async refreshClockinPage(event: Refresher) {
+    // async refreshClockinPage(event: Refresher) {
     await this.getBasicInfo();
     setTimeout(() => {
       event.target.complete();
