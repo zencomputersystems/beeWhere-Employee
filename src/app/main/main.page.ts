@@ -86,6 +86,7 @@ export class MainPage implements OnInit {
   }
 
   async refreshHistoryPage(event) {
+    this.globalData.histClocks = [];
   // async refreshHistoryPage(event: Refresher) {
     await this.getHistory();
     setTimeout(() => {
