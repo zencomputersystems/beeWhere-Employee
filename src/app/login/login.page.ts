@@ -1,3 +1,4 @@
+import { GlobalFnService } from '@services/global-fn.service';
 import { GlobalService } from '@services/_providers/global.service';
 import { APIService } from '@services/_services/api.service';
 import { map, first } from 'rxjs/operators';
@@ -66,12 +67,20 @@ export class LoginPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private lApi: APIService,
-    private lGlobal: GlobalService
+    private lGlobal: GlobalService,
+    private lfGlobal: GlobalFnService
   ) {
     this.lForm = lFormBuilder.group({
-      email: [window.atob(localStorage.getItem("val1")), Validators.required],
+      email: [
+        atob(localStorage.getItem("val1")) !== "ée"
+          ? atob(localStorage.getItem("val1"))
+          : "",
+        Validators.required,
+      ],
       password: [
-        window.atob(localStorage.getItem("password")),
+        atob(localStorage.getItem("val2")) !== "ée"
+          ? atob(localStorage.getItem("val2"))
+          : "",
         Validators.required,
       ],
       showPassword: false,
@@ -89,7 +98,12 @@ export class LoginPage implements OnInit {
    * @memberof LoginPage
    */
   ngOnInit() {
-    const tempVal3 = window.atob(localStorage.getItem("val3"));
+    console.log(atob(localStorage.getItem("val3")));
+    console.log(this.lForm);
+    const tempVal3 =
+      atob(localStorage.getItem("val3")) !== "ée"
+        ? atob(localStorage.getItem("val3"))
+        : "";
     this.rememberMe = Boolean(tempVal3);
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
@@ -133,9 +147,12 @@ export class LoginPage implements OnInit {
    * @memberof LoginPage
    */
   onLogin() {
+    this.error = null;
     this.checkRememberMe();
     // window.btoa(pass);
     console.log("onlogin");
+    this.lfGlobal.showLoading();
+
     this.authenticationService
       .login(this.lForm.get("email").value, this.lForm.get("password").value)
       .pipe(first())
@@ -146,9 +163,7 @@ export class LoginPage implements OnInit {
           // this.router.navigate([this.returnUrl]);
         },
         (error) => {
-          console.log(error);
-          console.log(error.error.message.error);
-          console.log(error.error.message.message);
+          console.log(error)
           this.error =
             error.error.message.error + ". " + error.error.message.message;
           this.loading = false;

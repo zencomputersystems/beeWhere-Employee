@@ -223,7 +223,7 @@
             </div>
           </ion-item-group>
 
-          <ion-item-group *ngIf="searchForm.get('type').value === 'attendance' && genReport">
+          <!-- <ion-item-group *ngIf="searchForm.get('type').value === 'attendance' && genReport">
               <ion-grid>
                 <ion-row class="grid-title-style">
                   <ion-col>Date</ion-col>
@@ -245,7 +245,7 @@
                   </ion-row>
                 </ng-template>
               </ion-grid>
-          </ion-item-group>
+          </ion-item-group> -->
 
           <!-- <ion-grid>
             <ion-row>
@@ -267,7 +267,7 @@
               </ion-col>
             </ion-row>
           </ion-grid> -->
-          <ion-item-group *ngIf="searchForm.get('type').value === 'activity' && genReport">
+          <!-- <ion-item-group *ngIf="searchForm.get('type').value === 'activity' && genReport">
               <ion-grid>
                 <ion-row class="grid-title-style">
                   <ion-col class="col-1">Date</ion-col>
@@ -308,7 +308,7 @@
                 </ng-template>
 
               </ion-grid>
-          </ion-item-group>
+          </ion-item-group> -->
         </ion-card-subtitle>
       </ion-card-content>
     </ion-card>
@@ -334,6 +334,47 @@
             No record found
           </ion-row>
         </ng-template>
+      </ion-grid>
+    </ion-item-group>
+    <ion-item-group *ngIf="searchForm.get('type').value === 'activity' && genReport">
+      <ion-grid>
+        <ion-row class="grid-title-style">
+          <ion-col class="col-1">Date</ion-col>
+          <ion-col style="flex: 3;">
+            <ion-row>
+              <ion-col class="flex-2">Activity</ion-col>
+              <ion-col *ngIf="searchForm.get('enableStatus').value">Status</ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <ng-container *ngIf="dataActivtiy.length > 0; else noActivityRecord">
+          <ion-row class="grid-body-style-row activity-grid" *ngFor="let dac of dataActivtiy">
+            <ion-col class="grid-body-style-column col-1 ">
+              <div>{{dac.date | date: 'd MMM yyyy'}}</div>
+              <div>( {{dac.date | date: 'EEE'}} )</div>
+            </ion-col>
+            <ion-col class="col-2" *ngIf="dac.activityList.length > 0; else noActicity">
+              <ng-container *ngFor="let dal of dac.activityList; let i = index">
+                <ion-row [class]="(i+1 === dac.activityList.length) ? '' : 'border-bottom'">
+                  <ion-col class="flex-2" *ngIf="dal.name !== undefined">{{dal.name}}</ion-col>
+                  <ion-col class="flex-2" *ngIf="dal.activity !== undefined">{{dal.activity}}</ion-col>
+                  <ion-col *ngIf="searchForm.get('enableStatus').value && !dal.statusFlag"
+                    class=" grid-body-style-column-left set-center pending">Pending</ion-col>
+                  <ion-col *ngIf="searchForm.get('enableStatus').value && dal.statusFlag"
+                    class=" grid-body-style-column-left set-center done">Done</ion-col>
+                </ion-row>
+              </ng-container>
+            </ion-col>
+            <ng-template #noActicity>
+              <ion-col class="col-2">No activity</ion-col>
+            </ng-template>
+          </ion-row>
+
+        </ng-container>
+        <ng-template #noActivityRecord>
+          <ion-row class="no-record">No activity record</ion-row>
+        </ng-template>
+
       </ion-grid>
     </ion-item-group>
     <!-- <ion-card class="main-info">

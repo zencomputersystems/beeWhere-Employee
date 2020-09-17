@@ -358,4 +358,8 @@
         opacity: 80%;
     }
 
+    .error-location {
+        --color: var(--ion-color-red) !important;
+        white-space: pre-line;
+    }
 }

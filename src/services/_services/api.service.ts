@@ -32,10 +32,24 @@ export class APIService {
     //   "Authorization",
     //   "JWT " + localStorage.getItem("access_token")
     // );
-    this.httpHeaders.append(
-      "Authorization",
-      "JWT " + localStorage.getItem("access_token")
-    );
+    if (localStorage.getItem("access_token") === "") {
+      console.log('ACCESS_TOKEN IS NULL')
+    }
+    this.httpHeaders = new HttpHeaders({
+      Authorization: "JWT " + localStorage.getItem("access_token"),
+    });
+    // await this.httpHeaders.append(
+    //   "Authorization",
+    //   "JWT " + localStorage.getItem("access_token")
+    // );
+  }
+
+  checkHeaderAuthValidity() {
+    console.log(this.httpHeaders.get("authorization"));
+    if (this.httpHeaders.get("authorization") === "JWT null") {
+      this.headerAuthorization();
+    }
+
   }
 
   /**
@@ -45,6 +59,7 @@ export class APIService {
    * @memberof APIService
    */
   getWithHeader(addr: string) {
+    this.checkHeaderAuthValidity();
     return this.http
       .get(this.ROOT_URL + addr, { headers: this.httpHeaders })
       .pipe(
@@ -62,6 +77,7 @@ export class APIService {
    * @memberof APIService
    */
   postWithHeader(addr: string, array: any) {
+    this.checkHeaderAuthValidity();
     return this.http
       .post(this.ROOT_URL + addr, array, { headers: this.httpHeaders })
       .pipe(
@@ -80,6 +96,7 @@ export class APIService {
    * @memberof APIService
    */
   postUpload(addr: string, array: any) {
+    this.checkHeaderAuthValidity();
     return this.http
       .post(this.UPLOAD_URL + addr, array, { headers: this.httpHeaders })
       .pipe(
@@ -98,6 +115,7 @@ export class APIService {
    * @memberof APIService
    */
   patchWithHeader(addr: string, array: any) {
+    this.checkHeaderAuthValidity();
     return this.http
       .patch(this.ROOT_URL + addr, array, { headers: this.httpHeaders })
       .pipe(

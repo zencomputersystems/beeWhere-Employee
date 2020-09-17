@@ -124,7 +124,8 @@
                     type="text" enterkeyhint="done"></ion-input>
                 </ion-item>
                 <ion-item-options side="end">
-                  <ion-item-option (click)="histList.activityList=coutGlobalFn.deleteTask(aList, histList.activityList);">
+                  <ion-item-option (click)="histList.activityList=coutGlobalFn.deleteTask(0, aList, histList.activityList);">
+                  <!-- <ion-item-option (click)="histList.activityList=coutGlobalFn.deleteTask(aList, histList.activityList);"> -->
                     Del</ion-item-option>
                 </ion-item-options>
               </ion-item-sliding>

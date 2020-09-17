@@ -237,6 +237,7 @@
     font-style: italic;
     opacity: 80%;
     width: -webkit-fill-available;
+    margin: 5em;
 }
 
 .error-text {
@@ -255,9 +256,12 @@
 
         .alert-radio-group {
             border: none;
+            max-height: -webkit-fill-available;
         }
         .alert-wrapper.sc-ion-alert-md {
             width: -webkit-fill-available;
+            max-width: -webkit-fill-available;
+            max-height: -webkit-fill-available;
         }
 
         .sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md,
@@ -325,6 +329,7 @@
             font-size: var(--ion-text-10);
         }
     }
+
 
     ion-fab {
         left: 58%;

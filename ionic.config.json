@@ -1,5 +1,5 @@
 {
-  "name": "mAttendance",
+  "name": "beeWhere",
   "integrations": {
     "capacitor": {},
     "cordova": {}
