@@ -32,6 +32,7 @@ export class MainPage implements OnInit {
    */
   public initReq = 0;
 
+  public checkNoMoreData = false;
   /**
    * Initialize this component
    * @memberof MainPage
@@ -50,7 +51,7 @@ export class MainPage implements OnInit {
   getHistory(event?) {
     console.log(this.initReq);
     this.hApi
-      .getWithHeader("/api/clock/history-list/10/" + this.initReq)
+      .getWithHeader("/api/clock/history-list/25/" + this.initReq)
       .subscribe(
         (histRes: any) => {
           console.log(histRes);
@@ -61,6 +62,7 @@ export class MainPage implements OnInit {
               ...this.globalData.histClocks,
               ...histRes,
             ];
+            this.checkNoMoreData = (histRes.length < 1) ? true : false;
             event.target.complete();
           }
         },
@@ -81,12 +83,14 @@ export class MainPage implements OnInit {
    * @memberof MainPage
    */
   doInfinite(event) {
-    this.initReq++;
+    console.log(event);
+    this.initReq = this.initReq + 25
     this.getHistory(event);
   }
 
   async refreshHistoryPage(event) {
     this.globalData.histClocks = [];
+    this.initReq = 0;
   // async refreshHistoryPage(event: Refresher) {
     await this.getHistory();
     setTimeout(() => {

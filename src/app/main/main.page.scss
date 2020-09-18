@@ -287,4 +287,12 @@
     .no-record-1 {
         opacity: 100%;
     }
+
+    .complete-load {
+        margin: 1em;
+
+        ion-note {
+            font-size: var(--ion-text-12);
+        }
+    }
 }
