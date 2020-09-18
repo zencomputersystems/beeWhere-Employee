@@ -409,7 +409,7 @@ export class ClockInPage implements OnInit {
    */
   saveClockIn(type) {
     // const temp: any = new Date(this.currTime).setHours(0, 0, 0, 0);
-    const timeNow = new Date().getTime();
+    const timeNow = Math.round(new Date().getTime() / 1000); // new Date().getTime() / 1000;
     console.log(this.cinGlobal.userInfo);
     console.log(this.cinGlobal.userInfo.userId);
     switch (type) {
