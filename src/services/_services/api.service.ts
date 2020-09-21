@@ -45,10 +45,10 @@ export class APIService {
   }
 
   checkHeaderAuthValidity() {
-    console.log(this.httpHeaders.get("authorization"));
-    if (this.httpHeaders.get("authorization") === "JWT null") {
+    if ((this.httpHeaders.get("authorization") === "JWT null") || (this.httpHeaders.get("authorization") !== "JWT " + localStorage.getItem('access_token'))) {
       this.headerAuthorization();
     }
+    console.log(this.httpHeaders.get("authorization"));
 
   }
 
