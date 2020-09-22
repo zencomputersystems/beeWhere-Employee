@@ -229,7 +229,10 @@
           </ion-card>
         </div>
       </ion-item-group>
-      <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-item-group class="complete-load">
+        <ion-note *ngIf="checkNoMoreData">Data loaded completely</ion-note>
+      </ion-item-group>
+      <ion-infinite-scroll *ngIf="!checkNoMoreData"  (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
