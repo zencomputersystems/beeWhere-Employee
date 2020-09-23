@@ -82,7 +82,13 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     // localStorage.removeItem("currentUser");
-    localStorage.setItem('jobProfile', '[]');
+    // localStorage.setItem('jobProfile', '[]');
+    // localStorage.setItem('defJob', '{}');
+    // localStorage.setItem('usr', '{}');
+    localStorage.removeItem('defJob');
+    localStorage.removeItem('usr');
+    localStorage.removeItem('jobProfile');
+    // localStorage.setItem('cin_token', 'false');
     localStorage.removeItem("access_token");
     // this.currentUserSubject.next(null);
   }
