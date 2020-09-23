@@ -81,6 +81,9 @@ export class GlobalService {
     console.log(JSON.parse(localStorage.getItem("usr")).userId);
     // this.globalData.jobTypes = [];
     localStorage.setItem("jobProfile", "[]");
+    if (isNavToMain) {
+      this.router.navigate(["/"]);
+    }
     this.gApi
       .getWithHeader(
         "/api/admin/attendance/user/" +
@@ -108,16 +111,12 @@ export class GlobalService {
           localStorage.setItem("defJob", JSON.stringify(defJob));
           console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
-          if (isNavToMain) {
-            this.router.navigate(["/"]);
-          }
+          // if (isNavToMain) {
+          //   this.router.navigate(["/"]);
+          // } 
         },
         (error) => {
-          this.gGF.showAlert(
-            "Oppss!",
-            error.status + " " + error.statusText + ". " + error.error,
-            "alert-error"
-          );
+          console.log(error);
           // this.gGF.showAlert(
           //   "Oppss!",
           //   error.status + " " + error.statusText + ". " + error.error,
