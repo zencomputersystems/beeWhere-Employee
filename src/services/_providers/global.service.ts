@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
 
-export let defJob;
+export let defJob; // = "office";
 
 @Injectable({
   providedIn: "root",
@@ -78,6 +78,7 @@ export class GlobalService {
    */
   getJobProfile(isNavToMain?) {
     console.log("getJobProfile");
+    const tempJob = [];
     console.log(JSON.parse(localStorage.getItem("usr")).userId);
     // this.globalData.jobTypes = [];
     localStorage.setItem("jobProfile", "[]");
@@ -91,7 +92,6 @@ export class GlobalService {
       )
       .subscribe(
         (resp) => {
-          const tempJob = [];
           Object.entries((resp as any).property).forEach((entry) => {
             const temp: any = entry[1];
             temp.type = entry[0];
@@ -128,7 +128,7 @@ export class GlobalService {
             type: 'office',
             value: true,
           };
-          localStorage.setItem("jobProfile", '[]');
+          // localStorage.setItem("jobProfile", '[]');
           localStorage.setItem("defJob", JSON.stringify(defJob));
           if (isNavToMain) {
             this.router.navigate(["/"]);

@@ -55,6 +55,7 @@ export class AuthenticationService {
   
   login(email, password) {
     password = window.btoa(password); //to encrypt pass
+    localStorage.setItem("jobProfile", '[]');
     return this.http
       .post<any>(environment.URL_AUTH + "/api/auth/login", { email, password })
       .pipe(
