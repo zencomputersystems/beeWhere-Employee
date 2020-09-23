@@ -163,7 +163,7 @@ export class SupportPage implements OnInit {
   postObj(obj) {
     this.sApi.postWithHeader("/support", obj).subscribe((postRes) => {
       console.log(postRes);
-      this.sGFn.showToast("Subitted", "success");
+      this.sGFn.showToast("Submitted", "success");
       this.mform.get("suggestionForm").reset();
       // this.mform.get("reqDetails").reset();
       this.mform.get("requestForm").reset();
