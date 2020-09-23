@@ -55,6 +55,7 @@ export class AuthenticationService {
   
   login(email, password) {
     password = window.btoa(password); //to encrypt pass
+    localStorage.setItem("jobProfile", '[]');
     return this.http
       .post<any>(environment.URL_AUTH + "/api/auth/login", { email, password })
       .pipe(
@@ -82,7 +83,13 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     // localStorage.removeItem("currentUser");
-    localStorage.setItem('jobProfile', '[]');
+    // localStorage.setItem('jobProfile', '[]');
+    // localStorage.setItem('defJob', '{}');
+    // localStorage.setItem('usr', '{}');
+    localStorage.removeItem('defJob');
+    localStorage.removeItem('usr');
+    localStorage.removeItem('jobProfile');
+    // localStorage.setItem('cin_token', 'false');
     localStorage.removeItem("access_token");
     // this.currentUserSubject.next(null);
   }

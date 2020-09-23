@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
 
-export let defJob = "office";
+export let defJob; // = "office";
 
 @Injectable({
   providedIn: "root",
@@ -78,9 +78,13 @@ export class GlobalService {
    */
   getJobProfile(isNavToMain?) {
     console.log("getJobProfile");
+    const tempJob = [];
     console.log(JSON.parse(localStorage.getItem("usr")).userId);
     // this.globalData.jobTypes = [];
     localStorage.setItem("jobProfile", "[]");
+    // if (isNavToMain) {
+    //   this.router.navigate(["/"]);
+    // }
     this.gApi
       .getWithHeader(
         "/api/admin/attendance/user/" +
@@ -88,7 +92,6 @@ export class GlobalService {
       )
       .subscribe(
         (resp) => {
-          const tempJob = [];
           Object.entries((resp as any).property).forEach((entry) => {
             const temp: any = entry[1];
             temp.type = entry[0];
@@ -105,19 +108,31 @@ export class GlobalService {
               return x.type;
             }
           });
+          console.log(defJob);
+
           localStorage.setItem("defJob", JSON.stringify(defJob));
           console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
           if (isNavToMain) {
             this.router.navigate(["/"]);
-          }
+          } 
         },
         (error) => {
-          this.gGF.showAlert(
-            "Oppss!",
-            error.status + " " + error.statusText + ". " + error.error,
-            "alert-error"
-          );
+          console.log(error);
+          defJob = {
+            activity_list: true,
+            client_list: true,
+            contract_selection: true,
+            geofence_filter: true,
+            project_selection: true,
+            type: 'office',
+            value: true,
+          };
+          // localStorage.setItem("jobProfile", '[]');
+          localStorage.setItem("defJob", JSON.stringify(defJob));
+          if (isNavToMain) {
+            this.router.navigate(["/"]);
+          }
           // this.gGF.showAlert(
           //   "Oppss!",
           //   error.status + " " + error.statusText + ". " + error.error,

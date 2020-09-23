@@ -169,11 +169,12 @@
 
     .no-record {
         justify-content: center;
-        padding: 7em;
+        padding: 10em;
         border-left: 1px solid #50505029;
         border-bottom: 1px solid #50505029;
         border-right: 1px solid #50505029;
         color: var(--ion-color-text);
+        margin: 0;
     }
 
     .activity-grid {
