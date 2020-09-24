@@ -192,17 +192,21 @@ export class ClockInPage implements OnInit {
   }
 
   /**
-   * Test get current time
+   *  To update time lively
    * @memberof ClockInPage
    */
-  test() {
+  cinStartTime() {
     this.currTime = new Date().toISOString();
-    // console.log(this.currTime);
+
+    setTimeout(() => {
+      this.cinStartTime();
+    }, 1000);
   }
 
   ionViewDidEnter() {
     console.log("ionViewDidEnter");
     this.getLoc();
+    this.cinStartTime();
   }
   ionViewDidLeave() {
     console.log("leaveeeeee");
