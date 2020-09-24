@@ -86,8 +86,15 @@
     <ion-item-group class="user-header">
       <ion-item-group>
         <ion-avatar>
-          <img *ngIf="cinGlobal.userInfo.profilePictureUrl === null" src="../../assets/basic/default-profile-picture.png">
-          <img *ngIf="cinGlobal.userInfo.profilePictureUrl !== null" src={{cinGlobal.userInfo.profilePictureUrl}}>
+            <ng-container
+              *ngIf="cinGlobal.userInfo.profilePictureUrl === null ||
+              cinGlobal.userInfo.profilePictureUrl.includes('null'); else elseTemplate">
+              <img src="../../assets/basic/default-profile-picture.png">
+            </ng-container>
+            <ng-template #elseTemplate>
+              <img 
+                src={{cinGlobal.userInfo.profilePictureUrl}}>
+            </ng-template>
         </ion-avatar>
       </ion-item-group>
       <ion-item-group>
