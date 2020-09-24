@@ -209,6 +209,22 @@
         color: var(--ion-color-clockout);
     }
 
+    .calendar-range {
+        height: fit-content;
+        --inner-padding-end: 0;
+        --padding-start: 0;
+
+        input {
+            color: var(--ion-color-text);
+            width: -webkit-fill-available;
+            opacity: 80%;
+            border: 1px solid #50505029;
+            border-radius: var(--ion-text-3);
+            font-size: var(--ion-text-11);
+            padding: 1em;
+        }
+    }
+
 }
 
 .calendar {

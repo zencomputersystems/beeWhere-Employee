@@ -23,7 +23,7 @@ export class ReportPage implements OnInit {
   public globalData = require("@services/_providers/global.json");
 
   public searchForm: FormGroup;
-
+  public rangeForm: FormGroup;
   public genReport;
   public dataAttendance;
   public dataActivtiy;
@@ -46,17 +46,18 @@ export class ReportPage implements OnInit {
       duration: [null, Validators.required],
       enableStatus: true,
     });
+
+    this.rangeForm = this.rpFormBuilder.group({
+      startDate: ["", Validators.required],
+      endDate: ["", Validators.required],
+    });
   }
 
   ngOnInit() {
     console.log(this.globalData);
     console.log(this.searchForm);
   }
-
-  reporte() {
-    console.log(this.searchForm);
-  }
-
+  
   showReport() {
     console.log("showReport");
     console.log(this.searchForm);
@@ -67,7 +68,11 @@ export class ReportPage implements OnInit {
       switch (this.searchForm.get("duration").value) {
         case "custom":
           console.log("custom");
-          console.log(this.dateRange);
+          console.log(this.rangeForm);
+          console.log(new Date(this.rangeForm.value.startDate).getTime() / 1000);
+          console.log(new Date(this.rangeForm.value.endDate).getTime() / 1000);
+          startDate = new Date(this.rangeForm.value.startDate).getTime() / 1000;
+          endDate = new Date(this.rangeForm.value.endDate).getTime() / 1000;
           break;
 
         default:
@@ -88,11 +93,16 @@ export class ReportPage implements OnInit {
           break;
       }
 
-      this.generateReport(
-        startDate,
-        endDate,
-        this.searchForm.get("type").value
-      );
+      if ((startDate < endDate) && startDate !== null && endDate !== null ) {
+        console.log('ok');
+        this.generateReport(
+          startDate,
+          endDate,
+          this.searchForm.get("type").value
+        );
+      } else {
+        console.log('error');
+      }
     }
   }
 

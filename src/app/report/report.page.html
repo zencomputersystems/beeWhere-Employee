@@ -183,7 +183,8 @@
                 <ion-label>Report Type</ion-label>
                 <ion-note *ngIf="searchForm.get('type').invalid">*required</ion-note>
               </div>
-              <ion-select placeholder="Select report type" formControlName="type" (ionChange)="reporte()">
+              <ion-select placeholder="Select report type" formControlName="type" 
+                (ionChange)="genReport = false;">
                 <ion-select-option value="attendance">Attendance</ion-select-option>
                 <ion-select-option value="activity">Activity</ion-select-option>
               </ion-select>
@@ -199,27 +200,46 @@
                 <ion-label >Duration</ion-label>
                 <ion-note *ngIf="searchForm.get('duration').invalid">*required</ion-note>
               </div>
-              <ion-select placeholder="Select your duration" formControlName="duration" (ionChange)="reporte()">
+              <ion-select placeholder="Select your duration" formControlName="duration"
+                (ionChange)="genReport = false;">
                 <ion-select-option value="week">Weekly</ion-select-option>
                 <ion-select-option value="month">Monthly</ion-select-option>
                 <ion-select-option value="year">Yearly</ion-select-option>
                 <ion-select-option value="custom">Custom</ion-select-option>
               </ion-select>
             </div>
-            <div *ngIf="searchForm.get('duration').value === 'custom'">
-              <ion-calendar [(ngModel)]="dateRange" [ngModelOptions]="{standalone: true}" [options]="optionsRange"
-                [type]="type" [format]="'DD-MM-YYYY'" class="calendar">
-              </ion-calendar>
-              <!-- <material-datepicker [(date)]="dateRange"></material-datepicker> -->
-              <!-- <mat-form-field>
-                <mat-label>Choose Date Range</mat-label>
-                <mat-date-range-input [rangePicker]="myRangePicker">
-                  <input matStartDate placeholder="Start date">
-                  <input matEndDate placeholder="End date">
-                </mat-date-range-input>
-                <mat-datepicker-toggle matSuffix [for]="myRangePicker"></mat-datepicker-toggle>
-                <mat-date-range-picker #myRangePicker></mat-date-range-picker>
-              </mat-form-field> -->
+            <div *ngIf="searchForm.get('duration').value === 'custom'" [formGroup]="rangeForm">
+              <div class="spacing">
+                <div class="title">
+                  <ion-label>Start time</ion-label>
+                  <ion-note *ngIf="rangeForm.get('startDate').value === ''">*required</ion-note>
+                  <ion-note
+                    *ngIf="(rangeForm.get('startDate').value !== '' && rangeForm.get('endDate').value !== '')
+                    && (rangeForm.get('startDate').value >
+                    rangeForm.get('endDate').value)">
+                    Start date should be
+                    smaller then end date</ion-note>
+                </div>
+                <ion-item lines="none" class="calendar-range">
+                  <input type="date" pattern="dd-mm-yyyy" (change)="genReport = false;"
+                    formControlName="startDate">
+                </ion-item>
+              </div>
+              <div class="spacing">
+                <div class="title">
+                  <ion-label>End time</ion-label>
+                  <ion-note *ngIf="rangeForm.get('endDate').value === ''">*required</ion-note>
+                  <ion-note
+                    *ngIf="(rangeForm.get('startDate').value !== '' && rangeForm.get('endDate').value !== '')
+                    && (rangeForm.get('startDate').value >
+                    rangeForm.get('endDate').value)">
+                    End date should be
+                    grater then start date</ion-note>
+                </div>
+                <ion-item lines="none" class="calendar-range">
+                  <input type="date" pattern="dd-mm-yyyy" (change)="genReport = false;" formControlName="endDate">
+                </ion-item>
+              </div>
             </div>
           </ion-item-group>
 
