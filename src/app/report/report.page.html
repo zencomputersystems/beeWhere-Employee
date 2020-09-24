@@ -242,97 +242,25 @@
               </div>
             </div>
           </ion-item-group>
-
-          <!-- <ion-item-group *ngIf="searchForm.get('type').value === 'attendance' && genReport">
-              <ion-grid>
-                <ion-row class="grid-title-style">
-                  <ion-col>Date</ion-col>
-                  <ion-col>In</ion-col>
-                  <ion-col>Out</ion-col>
-                  <ion-col>Duration (hr)</ion-col>
-                </ion-row>
-                <ng-container *ngIf="dataAttendance.length > 0; else noAttendanceRecord">
-                  <ion-row class="grid-body-style-row " *ngFor="let dat of dataAttendance">
-                    <ion-col class="grid-body-style-column">{{dat.date | date: 'd MMM yyyy'}}</ion-col>
-                    <ion-col class="grid-body-style-column set-center">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
-                    <ion-col class="grid-body-style-column set-center">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
-                    <ion-col class="set-center">{{dat.duration}}</ion-col>
-                  </ion-row>
-                </ng-container>
-                <ng-template #noAttendanceRecord>
-                  <ion-row class="no-record">
-                    No record found
-                  </ion-row>
-                </ng-template>
-              </ion-grid>
-          </ion-item-group> -->
-
-          <!-- <ion-grid>
-            <ion-row>
-              r1..........................
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                dateee
-              </ion-col>
-              <ion-col>
-                <ion-row>
-                  <ion-col>activty</ion-col>
-                  <ion-col>starus</ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col>activty</ion-col>
-                  <ion-col>starus</ion-col>
-                </ion-row>
-              </ion-col>
-            </ion-row>
-          </ion-grid> -->
-          <!-- <ion-item-group *ngIf="searchForm.get('type').value === 'activity' && genReport">
-              <ion-grid>
-                <ion-row class="grid-title-style">
-                  <ion-col class="col-1">Date</ion-col>
-                  <ion-col style="flex: 3;">
-                    <ion-row>
-                      <ion-col class="flex-2">Activity</ion-col>
-                      <ion-col *ngIf="searchForm.get('enableStatus').value">Status</ion-col>
-                    </ion-row>
-                  </ion-col>
-                </ion-row>
-                <ng-container *ngIf="dataActivtiy.length > 0; else noActivityRecord">
-                  <ion-row class="grid-body-style-row activity-grid" *ngFor="let dac of dataActivtiy">
-                    <ion-col class="grid-body-style-column col-1 ">
-                      <div>{{dac.date | date: 'd MMM yyyy'}}</div>
-                      <div>( {{dac.date | date: 'EEE'}} )</div>
-                    </ion-col>
-                    <ion-col class="col-2" *ngIf="dac.activityList.length > 0; else noActicity">
-                      <ng-container *ngFor="let dal of dac.activityList; let i = index">
-                          <ion-row 
-                            [class]="(i+1 === dac.activityList.length) ? '' : 'border-bottom'">
-                            <ion-col class="flex-2" *ngIf="dal.name !== undefined">{{dal.name}}</ion-col>
-                            <ion-col class="flex-2" *ngIf="dal.activity !== undefined">{{dal.activity}}</ion-col>
-                            <ion-col *ngIf="searchForm.get('enableStatus').value && !dal.statusFlag"
-                              class=" grid-body-style-column-left set-center pending">Pending</ion-col>
-                              <ion-col *ngIf="searchForm.get('enableStatus').value && dal.statusFlag"
-                                class=" grid-body-style-column-left set-center done">Done</ion-col>
-                          </ion-row>
-                      </ng-container>
-                    </ion-col>
-                    <ng-template #noActicity>
-                      <ion-col>No activity</ion-col>
-                    </ng-template>
-                  </ion-row>
-                  
-                </ng-container>
-                <ng-template #noActivityRecord>
-                  <ion-row class="no-record">No activity record</ion-row>
-                </ng-template>
-
-              </ion-grid>
-          </ion-item-group> -->
         </ion-card-subtitle>
       </ion-card-content>
     </ion-card>
-
+    <ion-item-group class="table-title-group" *ngIf="genReport">
+      <!-- <div *ngIf="genReport" class="animate-skeleton-background"></div>  -->
+      <ion-button fill="clear" *ngIf="countClickPrevButton > -1" (click)="showReport('prev');">
+        <</ion-button>
+      <div class="table-title">
+        {{labelStartDate | date: 'EEE d MMM yyyy'}} - {{labelEndDate | date: 'EEE d MMM yyyy'}}
+      </div>
+      <ion-button fill="clear" *ngIf="countClickNextButton < 0" (click)="showReport('next')">></ion-button>
+    </ion-item-group>
+    <!-- <ion-item-group>
+      <ion-buttons>
+        <ion-button>< </ion-button>
+        <ion-button>•</ion-button>
+        <ion-button>></ion-button>
+      </ion-buttons>
+    </ion-item-group> -->
     <ion-item-group *ngIf="searchForm.get('type').value === 'attendance' && genReport">
       <ion-grid>
         <ion-row class="grid-title-style">

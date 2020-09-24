@@ -225,6 +225,33 @@
         }
     }
 
+    .table-title-group {
+        margin: 1em 0em 0.5em 0em;
+        display: flex;
+        align-items: center;
+        // justify-content: space-between;
+
+        ion-button {
+            flex: 1;
+            color: var(--ion-color-white);
+            font-size: var(--ion-text-12);
+            text-align: center;
+            height: 2em;
+            width: 4em;
+            background: var(--ion-color-text-header);
+            opacity: 80%;
+            border-radius: 3px;
+        }
+
+    }
+
+    .table-title {
+        flex: 4;
+        color: var(--ion-color-text);
+        font-size: var(--ion-text-12);
+        text-align: center;
+    }
+
 }
 
 .calendar {
