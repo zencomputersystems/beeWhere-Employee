@@ -178,6 +178,7 @@ export class ReportPage implements OnInit {
         this.genReport = true;
         this.isShowDateTitle = true;
         this.isShowSkeletonText = false;
+        this.rGlobalFn.dissmissLoading();
         type === "attendance"
           ? (this.dataAttendance = resp)
           : (this.dataActivtiy = resp);

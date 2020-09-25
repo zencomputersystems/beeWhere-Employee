@@ -121,26 +121,27 @@ export class GlobalFnService {
   }
 
 
-  async showLoading() {
+  /**
+   * To show loading spinner
+   * @param {*} [disableDuration]
+   * @memberof GlobalFnService
+   */
+  async showLoading(disableDuration?) {
     this.loading = await this.gfloading.create({
       message: "Please wait...",
-      duration: 3000,
+      duration: (disableDuration) ? null : 3000,
     });
 
     await this.loading.present();
   }
 
+  /**
+   * To dismmiss loading spinner
+   * @memberof GlobalFnService
+   */
   async dissmissLoading() {
-    const { role, data } = await this.loading.onDidDismiss();
-    console.log("Loading dismissed!");
-    console.log({ role, data });
+    await this.loading.dismiss();
   }
-  // async showActionSheet() {
-  //   // const actionSheet = await this.gfActionSheet.create({
-
-  //   // });
-
-  // }
 
   uploadDoc() {
     let formData = new FormData();
