@@ -1,3 +1,4 @@
+import { GlobalFnService } from '@services/global-fn.service';
 // import { Refresher } from '@ionic/angular';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -45,8 +46,9 @@ export class ReportPage implements OnInit {
     showToggleButtons: true,
     // canBackwardsSelected: true,
   };
+  isShowDateTitle: boolean;
 
-  constructor(private rpFormBuilder: FormBuilder, private rApi: APIService) {
+  constructor(private rpFormBuilder: FormBuilder, private rApi: APIService, public rGlobalFn: GlobalFnService) {
     this.searchForm = this.rpFormBuilder.group({
       type: [null, Validators.required],
       duration: [null, Validators.required],
@@ -63,6 +65,8 @@ export class ReportPage implements OnInit {
   
   showReport(isPrevNextReport?) {
     this.genReport = false;
+    this.dataAttendance = [];
+    this.dataActivtiy = [];
 
     if (this.searchForm.status === "VALID") {
 
@@ -70,15 +74,18 @@ export class ReportPage implements OnInit {
         case "prev":
           this.countClickPrevButton++;
           this.countClickNextButton--;
+          this.isShowDateTitle = true;
           break;
 
         case "next":
           this.countClickPrevButton--;
           this.countClickNextButton++;
+          this.isShowDateTitle = true;
           break;
 
         default:
           this.countClickNextButton = 0;
+          this.isShowDateTitle = false;
           break;
       }
 
@@ -157,6 +164,7 @@ export class ReportPage implements OnInit {
       .getWithHeader("/api/clock/history/" + type + "/" + start + "/" + end)
       .subscribe((resp) => {
         this.genReport = true;
+        this.isShowDateTitle = true;
         console.log(resp);
         type === "attendance"
           ? (this.dataAttendance = resp)

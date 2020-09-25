@@ -124,7 +124,7 @@ export class GlobalFnService {
   async showLoading() {
     this.loading = await this.gfloading.create({
       message: "Please wait...",
-      duration: 2000,
+      duration: 3000,
     });
 
     await this.loading.present();

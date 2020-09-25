@@ -245,7 +245,7 @@
         </ion-card-subtitle>
       </ion-card-content>
     </ion-card>
-    <ion-item-group class="table-title-group" *ngIf="genReport">
+    <ion-item-group class="table-title-group" *ngIf="isShowDateTitle">
       <!-- <div *ngIf="genReport" class="animate-skeleton-background"></div>  -->
       <ion-button fill="clear" *ngIf="countClickPrevButton > -1" (click)="showReport('prev');">
         <</ion-button>
@@ -275,6 +275,20 @@
             <ion-col class="grid-body-style-column set-center">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
             <ion-col class="grid-body-style-column set-center">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
             <ion-col class="set-center">{{dat.duration}}</ion-col>
+          </ion-row>
+          <ion-row class="grid-body-style-row " *ngIf="isShowDateTitle" >
+            <ion-col class="grid-body-style-column">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-col>
+            <ion-col class="grid-body-style-column set-center">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-col>
+            <ion-col class="grid-body-style-column set-center">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-col>
+            <ion-col class="set-center">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-col>
           </ion-row>
         </ng-container>
         <ng-template #noAttendanceRecord>
