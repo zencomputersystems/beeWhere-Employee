@@ -47,6 +47,9 @@ export class ReportPage implements OnInit {
     // canBackwardsSelected: true,
   };
   isShowDateTitle: boolean;
+  isShowSkeletonText: boolean;
+  countPrevReportEmpty: any = 0;
+  countPrevValueClickPrevButton: number;
 
   constructor(private rpFormBuilder: FormBuilder, private rApi: APIService, public rGlobalFn: GlobalFnService) {
     this.searchForm = this.rpFormBuilder.group({
@@ -65,27 +68,32 @@ export class ReportPage implements OnInit {
   
   showReport(isPrevNextReport?) {
     this.genReport = false;
+    this.isShowSkeletonText = true;
     this.dataAttendance = [];
     this.dataActivtiy = [];
 
     if (this.searchForm.status === "VALID") {
 
+      this.countPrevValueClickPrevButton = this.countClickPrevButton;
       switch (isPrevNextReport) {
         case "prev":
           this.countClickPrevButton++;
           this.countClickNextButton--;
           this.isShowDateTitle = true;
+          this.isShowSkeletonText = true;
           break;
 
         case "next":
           this.countClickPrevButton--;
           this.countClickNextButton++;
           this.isShowDateTitle = true;
+          this.isShowSkeletonText = true;
           break;
 
         default:
           this.countClickNextButton = 0;
           this.isShowDateTitle = false;
+          this.isShowSkeletonText = false;
           break;
       }
 
@@ -115,6 +123,8 @@ export class ReportPage implements OnInit {
 
         default:
           if (isPrevNextReport === 'prev') {
+            console.log(this.countClickPrevButton);
+            console.log(this.searchForm.get("duration").value);
             this.startDateRange = this.moment()
               .subtract(this.countClickPrevButton, this.searchForm.get("duration").value)
               .startOf(this.searchForm.get("duration").value).unix();
@@ -123,6 +133,8 @@ export class ReportPage implements OnInit {
               .endOf(this.searchForm.get("duration").value).unix();
 
           } else if (isPrevNextReport === 'next') {
+            console.log(this.countClickNextButton);
+            console.log(this.searchForm.get("duration").value);
             this.startDateRange = this.moment()
               .add(this.countClickNextButton, this.searchForm.get("duration").value)
               .startOf(this.searchForm.get("duration").value).unix();
@@ -165,10 +177,15 @@ export class ReportPage implements OnInit {
       .subscribe((resp) => {
         this.genReport = true;
         this.isShowDateTitle = true;
-        console.log(resp);
+        this.isShowSkeletonText = false;
         type === "attendance"
           ? (this.dataAttendance = resp)
           : (this.dataActivtiy = resp);
+
+        if (this.searchForm.get("duration").value === 'year') {
+          this.countPrevReportEmpty = ((resp as any).length < 1 && (this.countClickPrevButton > this.countPrevValueClickPrevButton))
+            ? this.countPrevReportEmpty + 1 : this.countPrevReportEmpty - 1;
+        }
       });
   }
 

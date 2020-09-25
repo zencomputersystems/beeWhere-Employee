@@ -91,7 +91,7 @@
 </ion-fab>
 
 <div class="clockin-button">
-  <ion-button shape="round" fill="outline" class="submits" (click)="showReport()">
+  <ion-button shape="round" fill="outline" class="submits" (click)="showReport();">
     <ion-label>Show</ion-label>
   </ion-button>
 </div>
@@ -247,7 +247,8 @@
     </ion-card>
     <ion-item-group class="table-title-group" *ngIf="isShowDateTitle">
       <!-- <div *ngIf="genReport" class="animate-skeleton-background"></div>  -->
-      <ion-button fill="clear" *ngIf="countClickPrevButton > -1" (click)="showReport('prev');">
+      <ion-button fill="clear" *ngIf="countClickPrevButton > -1 && this.countPrevReportEmpty < 2"
+        (click)="showReport('prev');">
         <</ion-button>
       <div class="table-title">
         {{labelStartDate | date: 'EEE d MMM yyyy'}} - {{labelEndDate | date: 'EEE d MMM yyyy'}}
@@ -261,22 +262,45 @@
         <ion-button>></ion-button>
       </ion-buttons>
     </ion-item-group> -->
-    <ion-item-group *ngIf="searchForm.get('type').value === 'attendance' && genReport">
-      <ion-grid>
-        <ion-row class="grid-title-style">
+    <ion-item-group *ngIf="searchForm.get('type').value === 'attendance'">
+      <ion-grid >
+        <ion-row class="grid-title-style" *ngIf="isShowDateTitle || genReport">
           <ion-col>Date</ion-col>
           <ion-col>In</ion-col>
           <ion-col>Out</ion-col>
           <ion-col>Duration (hr)</ion-col>
         </ion-row>
-        <ng-container *ngIf="dataAttendance.length > 0; else noAttendanceRecord">
-          <ion-row class="grid-body-style-row " *ngFor="let dat of dataAttendance">
-            <ion-col class="grid-body-style-column">{{dat.date | date: 'd MMM yyyy'}}</ion-col>
-            <ion-col class="grid-body-style-column set-center">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
-            <ion-col class="grid-body-style-column set-center">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
-            <ion-col class="set-center">{{dat.duration}}</ion-col>
-          </ion-row>
-          <ion-row class="grid-body-style-row " *ngIf="isShowDateTitle" >
+        <div *ngIf="!isShowSkeletonText && genReport">
+          <ng-container *ngIf="dataAttendance.length > 0; else noAttendanceRecord">
+            <ion-row class="grid-body-style-row " *ngFor="let dat of dataAttendance">
+              <ion-col class="grid-body-style-column">{{dat.date | date: 'd MMM yyyy'}}</ion-col>
+              <ion-col class="grid-body-style-column set-center">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
+              <ion-col class="grid-body-style-column set-center">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
+              <ion-col class="set-center">{{dat.duration}}</ion-col>
+            </ion-row>
+            <!-- <ion-row class="grid-body-style-row " *ngIf="isShowDateTitle">
+              <ion-col class="grid-body-style-column">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-col>
+              <ion-col class="grid-body-style-column set-center">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-col>
+              <ion-col class="grid-body-style-column set-center">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-col>
+              <ion-col class="set-center">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-col>
+            </ion-row> -->
+          </ng-container>
+          <ng-template #noAttendanceRecord>
+            <ion-row class="no-record">
+              No record found
+            </ion-row>
+          </ng-template>
+        </div>
+        <div *ngIf="isShowSkeletonText">
+          <ion-row class="grid-body-style-row ">
             <ion-col class="grid-body-style-column">
               <ion-skeleton-text animated></ion-skeleton-text>
             </ion-col>
@@ -290,12 +314,10 @@
               <ion-skeleton-text animated></ion-skeleton-text>
             </ion-col>
           </ion-row>
-        </ng-container>
-        <ng-template #noAttendanceRecord>
-          <ion-row class="no-record">
-            No record found
-          </ion-row>
-        </ng-template>
+        </div>
+        <div *ngIf="!isShowSkeletonText && genReport">
+
+        </div>
       </ion-grid>
     </ion-item-group>
     <ion-item-group *ngIf="searchForm.get('type').value === 'activity' && genReport">
