@@ -210,6 +210,9 @@ export class ClockInPage implements OnInit {
     console.log("ionViewDidEnter");
     this.getLoc();
     this.cinStartTime();
+    this.getAllClient();
+    this.getAllProject();
+    this.getAllContract();
   }
   ionViewDidLeave() {
     console.log("leaveeeeee");
@@ -287,7 +290,7 @@ export class ClockInPage implements OnInit {
         );
     });
   }
-
+  // https://amscore.beesuite.app/api/client/coordinate/2.92508/101.701
   /**
    * Event to delete the selected task after delete button is being hit.
    * @param {*} selList selected task
@@ -329,8 +332,8 @@ export class ClockInPage implements OnInit {
 
     if (
       enableGeofiltering &&
-      (this.locWatch.lat !== null &&
-      this.locWatch.long !== null)
+      this.locWatch.lat !== null &&
+      this.locWatch.long !== null
     ) {
       this.globalData.clients = this.globalData.clients.filter((clients) => {
         return clients.LOCATION_DATA.some((clientLocation) => {
@@ -347,97 +350,101 @@ export class ClockInPage implements OnInit {
         });
       });
     }
-    // if (enableGeofiltering) {
-    //   if (this.locWatch.lat !== null && this.locWatch.long !== null) {
-    //     // else use https://amscore.beesuite.app/api/client/coordinate/2.92508/101.701
-    //     console.log("get client based on loc");
-
-    //     this.cinApi
-    //       .getWithHeader(
-    //         "/api/client/coordinate/" +
-    //           this.locWatch.lat + // "2.92508" + //
-    //           "/" +
-    //           this.locWatch.long // "101.701"
-    //       )
-    //       .subscribe(
-    //         (clientRes: any[]) => {
-    //           console.log(clientRes);
-    //           console.log(clientRes[0].CLIENT_DATA);
-    //           clientRes.forEach((cli) => {
-    //             console.log(cli);
-    //             this.globalData.clients.push(cli.CLIENT_DATA);
-    //           });
-    //           console.log(this.globalData.clients);
-    //         },
-    //         (error) => {
-    //           console.log(error);
-    //           console.log(error.error);
-    //           console.log(this.globalData.clients);
-    //           this.getClientError =
-    //             "Fail to fetch client list. Please contact developer. Error log: " +
-    //             error.status + " " + error.error;
-    //         }
-    //       );
-    //   } else {
-    //     this.getAllClient();
-    //   }
-    // } else {
-    //   this.getAllClient();
-    // }
   }
 
   /**
-   * Get list of all clients from db. will be executed once this page is loaded and refreshed
+   * Get list of all clients from db. will be executed once this page is loaded or refreshed
    * @memberof ClockInPage
    */
   getAllClient() {
+    this.globalData.clients = [];
     this.cinApi.getWithHeader("/api/client/detail").subscribe(
       (clientRes) => {
         this.globalData.clients = clientRes;
         // Object.assign(this.globalData.clients, clientRes);
         // console.log(this.globalData.clients);
-        localStorage.setItem("clientList", JSON.stringify(this.globalData.clients));
+        localStorage.setItem(
+          "clientList",
+          JSON.stringify(this.globalData.clients)
+        );
       },
       (error) => {
         console.log("get all client error");
         console.log(error);
+        this.getClientError =
+          "Fail to fetch client list. Please contact developer. Error log: " +
+          error.status +
+          " " +
+          error.error;
       }
     );
-    // use api https://amscore.beesuite.app/api/client/detail
   }
 
-  getProjectList() {
-    console.log("getProjectList");
-    console.log(this.selectedClient.CLIENT_GUID);
-    this.cinApi
-      .getWithHeader("/api/project/" + this.selectedClient.CLIENT_GUID)
-      .subscribe(
-        (projectRes) => {
-          console.log(projectRes);
-          this.globalData.projects = projectRes;
-        },
-        (error) => {
-          console.log(error);
-        }
+  /**
+   * Get list of all project from db. this will be executed once this page is loaded or refreshed
+   * @memberof ClockInPage
+   */
+  getAllProject() {
+    this.globalData.projects = [];
+    this.cinApi.getWithHeader("/api/project").subscribe((projectRes) => {
+      console.log("getAllProject");
+      console.log(projectRes);
+
+      this.globalData.projects = projectRes;
+      localStorage.setItem(
+        "projectList",
+        JSON.stringify(this.globalData.projects)
       );
+    });
   }
 
+  /**
+   * Get list of all contract from db. this will be executed once this page is loaded or refreshe
+   * @memberof ClockInPage
+   */
+  getAllContract() {
+    this.globalData.contracts = [];
+    this.cinApi.getWithHeader("/api/contract").subscribe((contractRes) => {
+      console.log("getAllContract");
+      console.log(contractRes);
+
+      this.globalData.contracts = contractRes;
+      localStorage.setItem(
+        "contractList",
+        JSON.stringify(this.globalData.contracts)
+      );
+    });
+  }
+
+  /**
+   * Check if client was selected, then will filter project & contract based on client.
+   * Else, list down all project & contract
+   * @param {*} type
+   * @memberof ClockInPage
+   */
   getProjectContractList(type) {
     console.log("getProjectContractList:" + type);
-    console.log(this.selectedClient.CLIENT_GUID);
-    this.cinApi
-      .getWithHeader("/api/" + type + "/" + this.selectedClient.CLIENT_GUID)
-      .subscribe(
-        (projcontRes) => {
-          console.log(projcontRes);
-          type === "project"
-            ? (this.globalData.projects = projcontRes)
-            : (this.globalData.contracts = projcontRes);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    if (this.selectedClient.CLIENT_GUID !== "none") {
+      if (type === "project") {
+        this.globalData.projects = JSON.parse(
+          localStorage.getItem("projectList")
+        );
+        this.globalData.projects = this.globalData.projects.filter(
+          (client) => {
+            return client.CLIENT_GUID === this.selectedClient.CLIENT_GUID;
+          }
+        );
+      } else {
+        this.globalData.contracts = JSON.parse(
+          localStorage.getItem("contractList")
+        );
+        this.globalData.contracts = this.globalData.contracts.filter(
+          (client) => {
+            return client.CLIENT_GUID === this.selectedClient.CLIENT_GUID;
+          }
+        );
+      }
+    }
   }
 
   onKey(evt) {
@@ -451,6 +458,7 @@ export class ClockInPage implements OnInit {
     console.log(JSON.stringify(evt.keyCode, null, " "));
     console.log(JSON.stringify(evt, null, " "));
   }
+
   /**
    * To bind data and save clockin
    * @memberof ClockInPage
@@ -568,21 +576,32 @@ export class ClockInPage implements OnInit {
     );
   }
 
+  /**
+   * Will be executed when user click logout
+   * @memberof ClockInPage
+   */
   logout() {
     this.cinAuthenticationService.logout();
     this.cinRouter.navigate(["/login"]);
   }
 
+  /**
+   * Will reset user locations and get basic logged user info
+   * @memberof ClockInPage
+   */
   getBasicInfo() {
     this.locWatch.lat = null;
     this.locWatch.name = null;
     this.locWatch.long = null;
     this.cinGlobal.getLoggedUserInfo();
-    // evt.target.complete();
-    // console.log("getAttendanceProfile");
-    // console.log("/api/admin/attendance/user/" + this.cinGlobal.userInfo.userId);
   }
 
+  /**
+   * Will be executed when user pull down to refresh data. Will get basic user info,
+   * current location and all client, project & contract list.
+   * @param {*} event
+   * @memberof ClockInPage
+   */
   async refreshClockinPage(event) {
     // async refreshClockinPage(event: Refresher) {
     await this.getBasicInfo();
