@@ -313,46 +313,87 @@ export class ClockInPage implements OnInit {
     }
   }
 
+  /**
+   * Will be executed when user click on select client drop down box.
+   * Check client list based on geofiltering option. if enableGeofiltering is true,
+   * filter client's locations based on +-0.005 latitude and longitude
+   * @param {*} enableGeofiltering
+   * @memberof ClockInPage
+   */
   getClientList(enableGeofiltering) {
-    console.log("locWatch");
-    console.log(this.locWatch);
+    this.getClientError = "";
+    this.globalData.clients = JSON.parse(localStorage.getItem("clientList"));
 
-    console.log(enableGeofiltering);
-    this.globalData.clients = [];
-    if (enableGeofiltering) {
-      if (this.locWatch.lat !== null && this.locWatch.long !== null) {
-        // else use https://amscore.beesuite.app/api/client/coordinate/2.92508/101.701
-        console.log("get client based on loc");
-        this.cinApi
-          .getWithHeader(
-            "/api/client/coordinate/" +
-              "2.92508" + //this.locWatch.lat +
-              "/" +
-              "101.701" // this.locWatch.long
-          )
-          .subscribe((clientRes: any[]) => {
-            console.log(clientRes);
-            console.log(clientRes[0].CLIENT_DATA);
-            clientRes.forEach((cli) => {
-              console.log(cli);
-              this.globalData.clients.push(cli.CLIENT_DATA);
-            });
-            console.log(this.globalData.clients);
-          });
-      } else {
-        this.getAllClient();
-      }
-    } else {
-      this.getAllClient();
+    if (
+      enableGeofiltering &&
+      (this.locWatch.lat !== null &&
+      this.locWatch.long !== null)
+    ) {
+      this.globalData.clients = this.globalData.clients.filter((clients) => {
+        return clients.LOCATION_DATA.some((clientLocation) => {
+          const minLat = parseFloat(clientLocation.LATITUDE).toFixed(3);
+          const maxLat = parseFloat(this.locWatch.lat).toFixed(3);
+          const minLong = parseFloat(clientLocation.LONGITUDE).toFixed(3);
+          const maxLong = parseFloat(this.locWatch.long).toFixed(3);
+          return (
+            minLat <= parseFloat(this.locWatch.lat).toFixed(3) &&
+            parseFloat(this.locWatch.lat).toFixed(3) <= maxLat &&
+            minLong <= this.locWatch.long.toFixed(3) &&
+            this.locWatch.long.toFixed(3) <= maxLong
+          );
+        });
+      });
     }
+    // if (enableGeofiltering) {
+    //   if (this.locWatch.lat !== null && this.locWatch.long !== null) {
+    //     // else use https://amscore.beesuite.app/api/client/coordinate/2.92508/101.701
+    //     console.log("get client based on loc");
+
+    //     this.cinApi
+    //       .getWithHeader(
+    //         "/api/client/coordinate/" +
+    //           this.locWatch.lat + // "2.92508" + //
+    //           "/" +
+    //           this.locWatch.long // "101.701"
+    //       )
+    //       .subscribe(
+    //         (clientRes: any[]) => {
+    //           console.log(clientRes);
+    //           console.log(clientRes[0].CLIENT_DATA);
+    //           clientRes.forEach((cli) => {
+    //             console.log(cli);
+    //             this.globalData.clients.push(cli.CLIENT_DATA);
+    //           });
+    //           console.log(this.globalData.clients);
+    //         },
+    //         (error) => {
+    //           console.log(error);
+    //           console.log(error.error);
+    //           console.log(this.globalData.clients);
+    //           this.getClientError =
+    //             "Fail to fetch client list. Please contact developer. Error log: " +
+    //             error.status + " " + error.error;
+    //         }
+    //       );
+    //   } else {
+    //     this.getAllClient();
+    //   }
+    // } else {
+    //   this.getAllClient();
+    // }
   }
 
+  /**
+   * Get list of all clients from db. will be executed once this page is loaded and refreshed
+   * @memberof ClockInPage
+   */
   getAllClient() {
     this.cinApi.getWithHeader("/api/client/detail").subscribe(
       (clientRes) => {
         this.globalData.clients = clientRes;
         // Object.assign(this.globalData.clients, clientRes);
-        console.log(this.globalData.clients);
+        // console.log(this.globalData.clients);
+        localStorage.setItem("clientList", JSON.stringify(this.globalData.clients));
       },
       (error) => {
         console.log("get all client error");
@@ -530,6 +571,9 @@ export class ClockInPage implements OnInit {
   }
 
   getBasicInfo() {
+    this.locWatch.lat = null;
+    this.locWatch.name = null;
+    this.locWatch.long = null;
     this.cinGlobal.getLoggedUserInfo();
     // evt.target.complete();
     // console.log("getAttendanceProfile");
@@ -539,6 +583,7 @@ export class ClockInPage implements OnInit {
   async refreshClockinPage(event) {
     // async refreshClockinPage(event: Refresher) {
     await this.getBasicInfo();
+    await this.ionViewDidEnter();
     setTimeout(() => {
       event.target.complete();
     }, 2000);
