@@ -137,6 +137,8 @@ export class ClockInPage implements OnInit {
 
   private watch;
   private watchSubscriptions;
+  locationTimerId: NodeJS.Timeout;
+
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -155,12 +157,6 @@ export class ClockInPage implements OnInit {
     private cinApi: APIService,
     public cinGlobal: GlobalService
   ) {
-    // this.cinAuthenticationService.currentUser.subscribe((x) => this.currentUser = x);
-    geofence.initialize().then(
-      () => console.log("Geofence plugin ready"),
-      (err) => console.log(err)
-    );
-
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
       jobtype:
@@ -170,6 +166,7 @@ export class ClockInPage implements OnInit {
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
     });
+
   }
 
   /**
@@ -177,21 +174,15 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   ngOnInit() {
-    // console.log(this.cinGlobal.userInfo);
     this.data = this.cinGlobalFn.sampleDataList();
     this.selectedClient = this.clientNone;
     this.selectedProject = this.projectNone;
     this.selectedContract = this.contractNone;
-    // setInterval(this.test, 1000);
     this.getBasicInfo();
     if (localStorage.getItem("cin_token") !== "true") {
       localStorage.setItem("cin_token", "false");
     }
-
-    console.log(localStorage.getItem("jobProfile"));
-    console.log(JSON.parse(localStorage.getItem("jobProfile")));
     this.jobList = JSON.parse(localStorage.getItem("jobProfile"));
-    // localStorage.setItem('cin_token', "true");
   }
 
   /**
@@ -206,6 +197,10 @@ export class ClockInPage implements OnInit {
     }, 1000);
   }
 
+  /**
+   * will be executed once user enter this page
+   * @memberof ClockInPage
+   */
   ionViewDidEnter() {
     console.log("ionViewDidEnter");
     this.getLoc();
@@ -214,10 +209,17 @@ export class ClockInPage implements OnInit {
     this.getAllProject();
     this.getAllContract();
   }
+
+  /**
+   * Will be executed once user leave this page
+   * @memberof ClockInPage
+   */
   ionViewDidLeave() {
     console.log("leaveeeeee");
-    this.watchSubscriptions.unsubscribe();
+    clearInterval(this.locationTimerId);
+    // this.watchSubscriptions.unsubscribe();
   }
+
   chg() {
     console.log(this.setlect);
     console.log(this.selectedClient);
@@ -225,8 +227,7 @@ export class ClockInPage implements OnInit {
 
   /**
    * To get current location positions (latitude & longitude),
-   * watch location positions. and add geofence on specific location based on
-   * determined latitude and longitude
+   * watch location position every 5 minutes
    * @memberof ClockInPage
    */
   getLoc() {
@@ -236,61 +237,39 @@ export class ClockInPage implements OnInit {
       .then((resp) => {
         this.lat = resp.coords.latitude;
         this.long = resp.coords.longitude;
-
-        const fence = {
-          id: new Date().toISOString(),
-          latitude: resp.coords.latitude, // 2.9270567,
-          longitude: resp.coords.longitude, // 101.6511282, 
-          radius: 500,
-          transitionType: 3,
-          notification: {
-            id: 1,
-            title: "You cross the line",
-            text: "You just arrive to zen",
-            openAppOnClick: true,
-          },
-        };
-
-        this.geofence.addOrUpdate(fence).then(
-          () => (this.test1 = "Geofence added"),
-          (err) => console.log("Geofence failed to add")
-        );
-
-        this.geofence.onTransitionReceived().subscribe((res) => {
-          this.respo = res;
-        });
+        console.log("resp");
+        console.log(resp);
+        this.cinApi
+          .getWithHeader(
+            "/api/location/search/coordinate/" +
+              resp.coords.latitude +
+              "%2C" +
+              resp.coords.longitude
+          )
+          .subscribe(
+            (res) => {
+              this.locWatch.lat = resp.coords.latitude;
+              this.locWatch.long = resp.coords.longitude;
+              this.locWatch.name = (res as any).results[0].formatted_address;
+              console.log(resp.coords.latitude);
+              console.log(resp.coords.longitude);
+              console.log((res as any).results[0].formatted_address);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
       })
       .catch((error) => {
         console.log("Error getting location", error);
         this.geoLocError = "Error getting location. " + error.message;
       });
 
-    this.watch = this.geolocation.watchPosition();
-    this.watchSubscriptions = this.watch.subscribe((data) => {
-      console.log("watchhh");
-      this.cinApi
-        .getWithHeader(
-          "/api/location/search/coordinate/" +
-            data.coords.latitude +
-            "%2C" +
-            data.coords.longitude
-        )
-        .subscribe(
-          (res) => {
-            this.locWatch.lat = data.coords.latitude;
-            this.locWatch.long = data.coords.longitude;
-            this.locWatch.name = (res as any).results[0].formatted_address;
-            console.log(data.coords.latitude);
-            console.log(data.coords.longitude);
-            console.log((res as any).results[0].formatted_address);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    });
+    this.locationTimerId = setTimeout(() => {
+      this.getLoc();
+    }, 300000);
   }
-  // https://amscore.beesuite.app/api/client/coordinate/2.92508/101.701
+  
   /**
    * Event to delete the selected task after delete button is being hit.
    * @param {*} selList selected task
@@ -487,6 +466,8 @@ export class ClockInPage implements OnInit {
           projectId: this.selectedProject.PROJECT_GUID,
           contractId: this.selectedContract.CONTRACT_GUID,
         };
+        console.log("clocks in");
+        console.log(tempArr);
 
         this.cinApi.postWithHeader("/api/clock", tempArr).subscribe(
           (clkin) => {
@@ -521,7 +502,8 @@ export class ClockInPage implements OnInit {
             name: this.locWatch.name,
           },
         };
-
+        console.log("clocks out");
+        console.log(coutArr);
         this.cinApi.patchWithHeader("/api/clock", coutArr).subscribe(
           (coutResp) => {
             console.log("coutResp");
