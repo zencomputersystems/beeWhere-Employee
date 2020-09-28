@@ -159,7 +159,7 @@
                 <ion-item-group>
                   <div class="error-note">
                     <ion-label>Subject</ion-label>
-                    <ion-note *ngIf="!getFormControls('support').title.valid">
+                    <ion-note *ngIf="!getFormControls('support')['title'].valid">
                       *required</ion-note>
                   </div>
                   <ion-input type="text" formControlName="title"></ion-input>
@@ -173,7 +173,7 @@
                 <ion-item-group>
                   <div class="error-note">
                     <ion-label>Request Type</ion-label>
-                    <ion-note *ngIf="!getFormControls('request').type.valid">
+                    <ion-note *ngIf="!getFormControls('request')['type'].valid">
                       *required</ion-note>
                   </div>
                   <ion-select placeholder="Select" formControlName="type">
@@ -184,7 +184,7 @@
                 <ion-item-group>
                   <div class="error-note">
                     <ion-label>Subject</ion-label>
-                    <ion-note *ngIf="!getFormControls('request').title.valid">
+                    <ion-note *ngIf="!getFormControls('request')['title'].valid">
                       *required</ion-note>
                   </div>
                   <ion-input type="text" formControlName="title"></ion-input>
