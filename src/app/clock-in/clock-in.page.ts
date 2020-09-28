@@ -134,6 +134,7 @@ export class ClockInPage implements OnInit {
   public jobList;
 
   public geoLocError = "";
+  // public getClientError = "";
 
   private watch;
   private watchSubscriptions;
@@ -306,7 +307,7 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   getClientList(enableGeofiltering) {
-    this.getClientError = "";
+    // this.getClientError = "";
     this.globalData.clients = JSON.parse(localStorage.getItem("clientList"));
 
     if (
@@ -348,13 +349,13 @@ export class ClockInPage implements OnInit {
         );
       },
       (error) => {
-        console.log("get all client error");
-        console.log(error);
-        this.getClientError =
-          "Fail to fetch client list. Please contact developer. Error log: " +
-          error.status +
-          " " +
-          error.error;
+        console.error("get all client error");
+        console.error(error);
+        // this.getClientError =
+        //   "Fail to fetch client list. Please contact developer. Error log: " +
+        //   error.status +
+        //   " " +
+        //   error.error;
       }
     );
   }
