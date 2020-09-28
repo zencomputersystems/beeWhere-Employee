@@ -38,7 +38,7 @@ export class ClockInPage implements OnInit {
    * To bind data of enabled job type
    * @memberof ClockInPage
    */
-  public jobType = "office" // JSON.parse(localStorage.getItem("defJob")).type; //"office";
+  public jobType = "office"; // JSON.parse(localStorage.getItem("defJob")).type; //"office";
 
   public test1;
   public lat;
@@ -163,8 +163,10 @@ export class ClockInPage implements OnInit {
 
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
-      jobtype: (JSON.parse(localStorage.getItem("defJob")).type !== undefined) ? 
-        JSON.parse(localStorage.getItem("defJob")).type : "office", //"office",
+      jobtype:
+        JSON.parse(localStorage.getItem("defJob")).type !== undefined
+          ? JSON.parse(localStorage.getItem("defJob")).type
+          : "office", //"office",
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
     });
