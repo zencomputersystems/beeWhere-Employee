@@ -255,13 +255,6 @@
       </div>
       <ion-button fill="clear" *ngIf="countClickNextButton < 0" (click)="showReport('next')">></ion-button>
     </ion-item-group>
-    <!-- <ion-item-group>
-      <ion-buttons>
-        <ion-button>< </ion-button>
-        <ion-button>•</ion-button>
-        <ion-button>></ion-button>
-      </ion-buttons>
-    </ion-item-group> -->
     <ion-item-group *ngIf="searchForm.get('type').value === 'attendance'">
       <ion-grid >
         <ion-row class="grid-title-style" *ngIf="isShowDateTitle || genReport">
@@ -274,9 +267,12 @@
           <ng-container *ngIf="dataAttendance.length > 0; else noAttendanceRecord">
             <ion-row class="grid-body-style-row " *ngFor="let dat of dataAttendance">
               <ion-col class="grid-body-style-column">{{dat.date | date: 'd MMM yyyy'}}</ion-col>
-              <ion-col class="grid-body-style-column set-center">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
-              <ion-col class="grid-body-style-column set-center">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
-              <ion-col class="set-center">{{dat.duration}}</ion-col>
+              <ion-col class="grid-body-style-column set-center" *ngIf="dat.inTime !== null">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
+              <ion-col class="grid-body-style-column set-center not-available-data" *ngIf="dat.inTime == null">-N/A-</ion-col>
+              <ion-col class="grid-body-style-column set-center" *ngIf="dat.outTime !== null">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
+              <ion-col class="grid-body-style-column set-center not-available-data" *ngIf="dat.outTime === null">-N/A-</ion-col>
+              <ion-col class="set-center" *ngIf="dat.duration !== null">{{dat.duration}}</ion-col>
+              <ion-col class="set-center not-available-data" *ngIf="dat.duration === null">-N/A-</ion-col>
             </ion-row>
           </ng-container>
           <ng-template #noAttendanceRecord>
