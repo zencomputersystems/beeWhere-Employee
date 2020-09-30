@@ -187,6 +187,13 @@ export class ReportPage implements OnInit {
           this.countPrevReportEmpty = ((resp as any).length < 1 && (this.countClickPrevButton > this.countPrevValueClickPrevButton))
             ? this.countPrevReportEmpty + 1 : this.countPrevReportEmpty - 1;
         }
+      }, (error) => {
+        this.rGlobalFn.dissmissLoading();
+        this.rGlobalFn.showAlert(
+          error.status + " " + error.statusText,
+          error.error,
+          "alert-error"
+        );
       });
   }
 
