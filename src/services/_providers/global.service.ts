@@ -98,20 +98,20 @@ export class GlobalService {
             // this.globalData.jobTypes.push(temp);
             tempJob.push(temp);
           });
-          console.log(this.dataGlobal.userInfo);
+          // console.log(this.dataGlobal.userInfo);
           // console.log(this.globalData.jobTypes);
-          console.log(tempJob);
+          // console.log(tempJob);
           localStorage.setItem("jobProfile", JSON.stringify(tempJob));
           defJob = tempJob.find((x) => {
             if (x.value) {
-              console.log(x);
+              // console.log(x);
               return x.type;
             }
           });
-          console.log(defJob);
+          // console.log(defJob);
 
           localStorage.setItem("defJob", JSON.stringify(defJob));
-          console.log(JSON.parse(localStorage.getItem("defJob")));
+          // console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
           if (isNavToMain) {
             this.router.navigate(["/"]);

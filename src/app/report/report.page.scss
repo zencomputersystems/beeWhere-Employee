@@ -209,6 +209,54 @@
         color: var(--ion-color-clockout);
     }
 
+    .calendar-range {
+        height: fit-content;
+        --inner-padding-end: 0;
+        --padding-start: 0;
+
+        input {
+            color: var(--ion-color-text);
+            width: -webkit-fill-available;
+            opacity: 80%;
+            border: 1px solid #50505029;
+            border-radius: var(--ion-text-3);
+            font-size: var(--ion-text-11);
+            padding: 1em;
+        }
+    }
+
+    .table-title-group {
+        margin: 1em 0em 0.5em 0em;
+        display: flex;
+        align-items: center;
+        // justify-content: space-between;
+
+        ion-button {
+            flex: 1;
+            color: var(--ion-color-white);
+            font-size: var(--ion-text-12);
+            text-align: center;
+            height: 2em;
+            width: 4em;
+            background: var(--ion-color-text-header);
+            opacity: 80%;
+            border-radius: 3px;
+        }
+
+    }
+
+    .table-title {
+        flex: 4;
+        color: var(--ion-color-text);
+        font-size: var(--ion-text-12);
+        text-align: center;
+    }
+
+    .not-available-data {
+        font-style: italic;
+        opacity: 80%;
+    }
+
 }
 
 .calendar {

@@ -83,10 +83,22 @@ export class SupportPage implements OnInit {
    * @memberof SupportPage
    */
   ngOnInit() {
-    // console.log(this.globalData.userInfo.userId);
-    // console.log(this.globalData.userInfo.email);
-    // this.sGFn.uploadDoc();
+    this.sStartTime();
   }
+
+  /**
+   *  To update time lively
+   * @memberof ClockInPage
+   */
+  sStartTime() {
+    this.curSTime = new Date().toISOString();
+
+    setTimeout(() => {
+      this.sStartTime();
+    }, 1000);
+  }
+
+
 
   /**
    * Will be executed once submit button is pressed.

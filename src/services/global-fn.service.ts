@@ -61,6 +61,9 @@ export class GlobalFnService {
    * @memberof GlobalFnService
    */
   deleteTask(selectedTask, taskList, keysNo) {
+    // console.log(selectedTask);
+    // console.log(taskList);
+    // console.log(keysNo);
     const tsk = [];
     Object.entries(taskList).forEach(([key, value]) => {
       if (Number(key) !== keysNo) {
@@ -77,10 +80,10 @@ export class GlobalFnService {
    * @memberof ClockInPage
    */
   addTask(event, newTask, taskList) {
-    console.log("addTask");
-    console.log(event);
-    console.log(newTask);
-    console.log(taskList);
+    // console.log("addTask");
+    // console.log(event);
+    // console.log(newTask);
+    // console.log(taskList);
     if (event.code === "Enter" && newTask.length > 0) {
       taskList = taskList.push({
         // id: taskList.length,
@@ -121,26 +124,27 @@ export class GlobalFnService {
   }
 
 
-  async showLoading() {
+  /**
+   * To show loading spinner
+   * @param {*} [disableDuration]
+   * @memberof GlobalFnService
+   */
+  async showLoading(disableDuration?) {
     this.loading = await this.gfloading.create({
       message: "Please wait...",
-      duration: 2000,
+      duration: (disableDuration) ? null : 3000,
     });
 
     await this.loading.present();
   }
 
+  /**
+   * To dismmiss loading spinner
+   * @memberof GlobalFnService
+   */
   async dissmissLoading() {
-    const { role, data } = await this.loading.onDidDismiss();
-    console.log("Loading dismissed!");
-    console.log({ role, data });
+    await this.loading.dismiss();
   }
-  // async showActionSheet() {
-  //   // const actionSheet = await this.gfActionSheet.create({
-
-  //   // });
-
-  // }
 
   uploadDoc() {
     let formData = new FormData();
