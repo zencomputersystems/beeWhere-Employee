@@ -191,13 +191,24 @@
                 </ion-item-group>
                 <ion-item-group [formGroup]="reqDetails">
                   <div>
-                    <ion-label>Start time</ion-label>
+                    <div class="error-note">
+                      <ion-label>Start time</ion-label>
+                      <ion-note *ngIf="(reqDetails.get('inTime').value !== '' && reqDetails.get('outTime').value !== '') && 
+                          (reqDetails.get('inTime').value > reqDetails.get('outTime').value)">
+                        *Start time must less than End time</ion-note>
+                    </div>
                     <ion-item lines="none">
                       <input type="datetime-local" pattern="dd-mm-yyyy" formControlName="inTime">
                     </ion-item>
                   </div>
                   <div>
-                    <ion-label>End time</ion-label>
+                    <div class="error-note">
+                      <ion-label>End time</ion-label>
+                      <ion-note
+                        *ngIf="(reqDetails.get('inTime').value !== '' && reqDetails.get('outTime').value !== '') && 
+                          (reqDetails.get('inTime').value > reqDetails.get('outTime').value)">
+                        *End time must greater than Start time.</ion-note>
+                    </div>
                     <ion-item lines="none">
                       <input type="datetime-local" formControlName="outTime">
                     </ion-item>
