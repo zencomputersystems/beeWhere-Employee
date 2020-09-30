@@ -556,7 +556,7 @@ export class ClockInPage implements OnInit {
           "/api/location/" +
             JSON.parse(localStorage.getItem("cin_info")).clientId
         )
-        .subscribe((locList) => {
+        .subscribe((locList: Array<any>) => {
           // console.log(locList);
           const list = locList.filter((clientLoc) => {
             // console.log(clientLoc);
