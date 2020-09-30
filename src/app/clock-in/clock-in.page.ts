@@ -302,7 +302,7 @@ export class ClockInPage implements OnInit {
           .getWithHeader(
             "/api/location/search/coordinate/" +
               resp.coords.latitude +
-              "%2C" +
+              "/" + // "%2C" +
               resp.coords.longitude
           )
           .subscribe(
