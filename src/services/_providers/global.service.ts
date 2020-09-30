@@ -65,6 +65,13 @@ export class GlobalService {
       this.globalData.userInfo = resp;
       // console.log(this.globalData);
       this.getJobProfile(isNavToMain);
+    }, (error) => {
+      console.log(error);
+      this.gGF.showAlert(
+        error.status + " " + error.statusText,
+        error.error,
+        "alert-error"
+      );
     });
 
     // if (isNavToMain) {
