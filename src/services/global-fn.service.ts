@@ -61,6 +61,9 @@ export class GlobalFnService {
    * @memberof GlobalFnService
    */
   deleteTask(selectedTask, taskList, keysNo) {
+    // console.log(selectedTask);
+    // console.log(taskList);
+    // console.log(keysNo);
     const tsk = [];
     Object.entries(taskList).forEach(([key, value]) => {
       if (Number(key) !== keysNo) {
@@ -77,10 +80,10 @@ export class GlobalFnService {
    * @memberof ClockInPage
    */
   addTask(event, newTask, taskList) {
-    console.log("addTask");
-    console.log(event);
-    console.log(newTask);
-    console.log(taskList);
+    // console.log("addTask");
+    // console.log(event);
+    // console.log(newTask);
+    // console.log(taskList);
     if (event.code === "Enter" && newTask.length > 0) {
       taskList = taskList.push({
         // id: taskList.length,

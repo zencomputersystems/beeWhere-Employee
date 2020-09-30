@@ -152,7 +152,7 @@
     </ion-card>
 
     <!-- notifications approval -->
-    <ion-item-group class="notification-info" routerLink="/inbox-details"
+    <!-- <ion-item-group class="notification-info" routerLink="/inbox-details"
       *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
       <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
       <ion-img src="../../assets/basic/bell.png"></ion-img>
@@ -164,7 +164,7 @@
         ,&nbsp;</ion-label>
       <ion-label *ngIf="data.userInfo.notifications.updates.length !- 0"> {{data.userInfo.notifications.updates.length}} new
         updates</ion-label>
-    </ion-item-group>
+    </ion-item-group> -->
 
     <ion-item-group class="current-clockin">
       <form [formGroup]="clocksForm">
@@ -182,9 +182,9 @@
             <ion-card-subtitle>
 
               <!-- job title list -->
-              <ion-segment formControlName="jobtype" (click)="chg()">
+              <ion-segment formControlName="jobtype">
                 <ng-container *ngFor="let job of jobList">
-                  <ion-segment-button *ngIf="job.value" value={{job.type}}>
+                  <ion-segment-button *ngIf="job.value" value={{job.type}}  (click)="chg(job)">
                     <ion-label>{{job.type}}</ion-label>
                   </ion-segment-button>
                 </ng-container>
@@ -299,15 +299,24 @@
           <ion-card-title>
             {{clocksForm.get('jobtype').value}}
             <ion-card-subtitle>
-              <ion-label class="label-client" *ngIf="selectedClient.ABBR !== null">
+              <ion-label class="label-client" *ngIf="clockedInInfo.clientId !== 'none'">
+                {{clockedInInfo.client.ABBR}}
+              </ion-label>
+              <ion-label class="label-project" *ngIf="clockedInInfo.projectId !== 'none'">
+                {{clockedInInfo.project.SOC_NO}}
+              </ion-label>
+              <ion-label class="label-contract" *ngIf="clockedInInfo.contractId !== 'none'">
+                {{clockedInInfo.contract.CONTRACT_NO}}
+              </ion-label>
+              <!-- <ion-label class="label-client" *ngIf="selectedClient.ABBR !== null">
                 {{selectedClient.ABBR}}
-              </ion-label>
-              <ion-label class="label-project" *ngIf="selectedProject.SOC_NO !== null">
+              </ion-label> -->
+              <!-- <ion-label class="label-project" *ngIf="selectedProject.SOC_NO !== null">
                 {{selectedProject.SOC_NO}}
-              </ion-label>
-              <ion-label class="label-contract" *ngIf="selectedContract.CONTRACT_NO !== null">
+              </ion-label> -->
+              <!-- <ion-label class="label-contract" *ngIf="selectedContract.CONTRACT_NO !== null">
                 {{selectedContract.CONTRACT_NO}}
-              </ion-label>
+              </ion-label> -->
             </ion-card-subtitle>
           </ion-card-title>
           <ion-card-subtitle class="description-project"
@@ -337,7 +346,8 @@
               <ion-item-group class="activity-list">
                 <ion-title>Activity List</ion-title>
                 <ion-list>
-                  <ion-item-sliding *ngFor="let list of checkAddNew; let i = index;">
+                  <ion-item-sliding *ngFor="let list of clockedInInfo.activities; let i = index;">
+                  <!-- <ion-item-sliding *ngFor="let list of checkAddNew; let i = index;"> -->
                     <ion-item lines="none">
                       <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.statusFlag"
                         [ngModelOptions]="{standalone: true}"></ion-checkbox>
@@ -346,7 +356,7 @@
                         inputmode="text" type="text" enterkeyhint="done"></ion-input>
                     </ion-item>
                     <ion-item-options side="end">
-                      <ion-item-option (click)="onDeleteTask(list, checkAddNew, i)">
+                      <ion-item-option (click)="onDeleteTask(list, clockedInInfo.activities, i)">
                         <ion-img src="../../assets/basic/trash-can.png"></ion-img>
                       </ion-item-option>
                     </ion-item-options>

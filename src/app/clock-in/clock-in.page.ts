@@ -40,10 +40,6 @@ export class ClockInPage implements OnInit {
    */
   public jobType = "office"; // JSON.parse(localStorage.getItem("defJob")).type; //"office";
 
-  public test1;
-  public lat;
-  public long;
-
   /**
    * Bind data of locations (latitude & longitude) that being updated every few minutes
    * @memberof ClockInPage
@@ -53,7 +49,6 @@ export class ClockInPage implements OnInit {
     long: null,
     name: null,
   };
-  public respo: any;
 
   /**
    * To bind id of selected client
@@ -92,6 +87,10 @@ export class ClockInPage implements OnInit {
     CLIENT_GUID: null,
   };
 
+  /**
+   * Set value of empty project
+   * @memberof ClockInPage
+   */
   public projectNone = {
     SOC_NO: null,
     DESCRIPTION: null,
@@ -99,6 +98,11 @@ export class ClockInPage implements OnInit {
     NAME: null,
     CLIENT_GUID: null,
   };
+
+  /**
+   * Set value of empty contract
+   * @memberof ClockInPage
+   */
   public contractNone = {
     CLIENT_GUID: null,
     CONTRACT_NO: null,
@@ -125,26 +129,71 @@ export class ClockInPage implements OnInit {
    */
   public checkAddNew = [];
 
+  /**
+   * Form group for clocks in clockout
+   * @type {FormGroup}
+   * @memberof ClockInPage
+   */
   public clocksForm: FormGroup;
 
-  public currentUser = {};
-
-  public setlect;
-
+  /**
+   * Bind value of job type list configured by admin in attendance profile
+   * @memberof ClockInPage
+   */
   public jobList;
 
+  /**
+   * Property of error message return by geolocation error
+   * @memberof ClockInPage
+   */
   public geoLocError = "";
-  // public getClientError = "";
 
-  private watch;
-  private watchSubscriptions;
+  /**
+   * Id of location timeout
+   * @type {NodeJS.Timeout}
+   * @memberof ClockInPage
+   */
   locationTimerId: NodeJS.Timeout;
 
   /**
-   * Creates an instance of ClockInPage.
+   * Id of auto-clockout timeout
+   * @type {NodeJS.Timeout}
+   * @memberof ClockInPage
+   */
+  autoClockoutLocationTimerId: NodeJS.Timeout;
+
+  /**
+   * Bind value to calculate confirm auto-clockout
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  confirmAutoClockOut: any;
+
+  /**
+   * Bind value of clocked in info from localStorage
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  public clockedInInfo: any;
+
+  /**
+   * Bind value of selected job type
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  selectedJobType: any;
+
+  /**
+   *Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
    * @param {Geolocation} geolocation To get the methods from geolocation
    * @param {Geofence} geofence To get the methods from geofence
+   * @param {GlobalApiService} cinService To get the methods from GlobalApiService
+   * @param {FormBuilder} clkFormBuilder To get the methods from FormBuilder
+   * @param {Router} cinRouter To get the methods from Router
+   * @param {AuthenticationService} cinAuthenticationService To get the methods from cinAuthenticationService
+   * @param {APIService} cinApi To get the methods from APIService
+   * @param {GlobalService} cinGlobal To get the methods from GlobalService
    * @memberof ClockInPage
    */
   constructor(
@@ -167,7 +216,6 @@ export class ClockInPage implements OnInit {
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
     });
-
   }
 
   /**
@@ -184,6 +232,11 @@ export class ClockInPage implements OnInit {
       localStorage.setItem("cin_token", "false");
     }
     this.jobList = JSON.parse(localStorage.getItem("jobProfile"));
+    this.selectedJobType = JSON.parse(localStorage.getItem("defJob"));
+    if (localStorage.getItem("cid_token") !== null) {
+      this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+      this.autoclockoutCheck();
+    }
   }
 
   /**
@@ -202,9 +255,9 @@ export class ClockInPage implements OnInit {
    * will be executed once user enter this page
    * @memberof ClockInPage
    */
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
     console.log("ionViewDidEnter");
-    this.getLoc();
+    await this.getLoc();
     this.cinStartTime();
     this.getAllClient();
     this.getAllProject();
@@ -221,9 +274,14 @@ export class ClockInPage implements OnInit {
     // this.watchSubscriptions.unsubscribe();
   }
 
-  chg() {
-    console.log(this.setlect);
-    console.log(this.selectedClient);
+  /**
+   * Will be executed once user change job type segment (office/home/site/others).
+   * To bind data of selected job type
+   * @param {*} [job]
+   * @memberof ClockInPage
+   */
+  chg(job?) {
+    this.selectedJobType = job;
   }
 
   /**
@@ -236,8 +294,8 @@ export class ClockInPage implements OnInit {
     this.geolocation
       .getCurrentPosition()
       .then((resp) => {
-        this.lat = resp.coords.latitude;
-        this.long = resp.coords.longitude;
+        // this.lat = resp.coords.latitude;
+        // this.long = resp.coords.longitude;
         console.log("resp");
         console.log(resp);
         this.cinApi
@@ -270,7 +328,7 @@ export class ClockInPage implements OnInit {
       this.getLoc();
     }, 300000);
   }
-  
+
   /**
    * Event to delete the selected task after delete button is being hit.
    * @param {*} selList selected task
@@ -278,7 +336,19 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   onDeleteTask(selList, list, i) {
-    this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
+    console.log(selList);
+    console.log(list);
+    console.log(i);
+    // this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
+    if (this.clockedInInfo !== undefined) {
+      this.clockedInInfo.activities = this.cinGlobalFn.deleteTask(
+        selList,
+        list,
+        i
+      );
+    } else {
+      this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
+    }
   }
 
   /**
@@ -290,11 +360,19 @@ export class ClockInPage implements OnInit {
   addNewTask(event) {
     console.log(this.newTask);
     if (event.code === "Enter" && this.newTask !== null) {
-      this.checkAddNew.push({
-        // id: this.checkAddNew.length,
-        statusFlag: false,
-        name: this.newTask,
-      });
+      console.log(this.clockedInInfo);
+      if (this.clockedInInfo !== undefined) {
+        this.clockedInInfo.activities.push({
+          statusFlag: false,
+          name: this.newTask,
+        });
+      } else {
+        this.checkAddNew.push({
+          // id: this.checkAddNew.length,
+          statusFlag: false,
+          name: this.newTask,
+        });
+      }
       this.newTask = null;
     }
   }
@@ -309,6 +387,7 @@ export class ClockInPage implements OnInit {
   getClientList(enableGeofiltering) {
     // this.getClientError = "";
     this.globalData.clients = JSON.parse(localStorage.getItem("clientList"));
+    console.log(enableGeofiltering);
 
     if (
       enableGeofiltering &&
@@ -317,18 +396,23 @@ export class ClockInPage implements OnInit {
     ) {
       this.globalData.clients = this.globalData.clients.filter((clients) => {
         return clients.LOCATION_DATA.some((clientLocation) => {
-          const minLat = parseFloat(clientLocation.LATITUDE).toFixed(3);
-          const maxLat = parseFloat(this.locWatch.lat).toFixed(3);
-          const minLong = parseFloat(clientLocation.LONGITUDE).toFixed(3);
-          const maxLong = parseFloat(this.locWatch.long).toFixed(3);
+          const minLat = parseFloat(
+            (clientLocation.LATITUDE - 0.005).toString()
+          ).toFixed(3);
+          const maxLat = parseFloat(this.locWatch.lat + 0.005).toFixed(3);
+          const minLong = parseFloat(
+            (clientLocation.LONGITUDE - 0.005).toString()
+          ).toFixed(3);
+          const maxLong = parseFloat(this.locWatch.long + 0.005).toFixed(3);
           return (
             minLat <= parseFloat(this.locWatch.lat).toFixed(3) &&
             parseFloat(this.locWatch.lat).toFixed(3) <= maxLat &&
-            minLong <= this.locWatch.long.toFixed(3) &&
-            this.locWatch.long.toFixed(3) <= maxLong
+            minLong <= parseFloat(this.locWatch.long).toFixed(3) &&
+            parseFloat(this.locWatch.long).toFixed(3) <= maxLong
           );
         });
       });
+      console.log(this.globalData.clients);
     }
   }
 
@@ -409,11 +493,9 @@ export class ClockInPage implements OnInit {
         this.globalData.projects = JSON.parse(
           localStorage.getItem("projectList")
         );
-        this.globalData.projects = this.globalData.projects.filter(
-          (client) => {
-            return client.CLIENT_GUID === this.selectedClient.CLIENT_GUID;
-          }
-        );
+        this.globalData.projects = this.globalData.projects.filter((client) => {
+          return client.CLIENT_GUID === this.selectedClient.CLIENT_GUID;
+        });
       } else {
         this.globalData.contracts = JSON.parse(
           localStorage.getItem("contractList")
@@ -427,6 +509,11 @@ export class ClockInPage implements OnInit {
     }
   }
 
+  /**
+   * Will be executed when any key is being hit on activities list
+   * @param {*} evt
+   * @memberof ClockInPage
+   */
   onKey(evt) {
     console.log("onKey");
     console.log(evt.code);
@@ -437,6 +524,93 @@ export class ClockInPage implements OnInit {
     console.log(JSON.stringify(evt.key, null, " "));
     console.log(JSON.stringify(evt.keyCode, null, " "));
     console.log(JSON.stringify(evt, null, " "));
+  }
+
+  /**
+   * Will be executed when the page is loaded or after user success clockin.
+   * Will check if auto-clockout function is enabled. If enabled, will get the radius of auto-clockout
+   * then once user out from those radius for first 5 minutes will send warning. then will proceed auto-clockout
+   * when user still out from client's radius.
+   * @memberof ClockInPage
+   */
+  autoclockoutCheck() {
+    console.log("autoclockoutCheck");
+    console.log(this.clockedInInfo);
+    if (
+      this.clockedInInfo.jobType !== undefined &&
+      this.clockedInInfo.jobType.autoclockout_filter.value
+    ) {
+      console.log("yess geofence");
+      console.log(
+        this.clockedInInfo.jobType.autoclockout_filter.range / 100000
+      );
+      const clocksRadius =
+        this.clockedInInfo.jobType.autoclockout_filter.range / 100000; // 500m(+-0.005), 1000m(+-0.01), 1500m(+-0.015), 2000m(+-0.02)
+
+      const currLat = parseFloat(this.locWatch.lat).toFixed(3);
+      const currLong = parseFloat(this.locWatch.long).toFixed(3);
+      console.log(currLat);
+      console.log(currLong);
+      this.cinApi
+        .getWithHeader(
+          "/api/location/" +
+            JSON.parse(localStorage.getItem("cin_info")).clientId
+        )
+        .subscribe((locList) => {
+          // console.log(locList);
+          const list = locList.filter((clientLoc) => {
+            // console.log(clientLoc);
+            const minLat = parseFloat(
+              (clientLoc.LATITUDE - clocksRadius).toString()
+            ).toFixed(3);
+            // Number(parseFloat(clientLoc.LATITUDE).toFixed(3)) - clocksRadius;
+            // Number(parseFloat(clientLoc.LATITUDE).toFixed(3)) - clocksRadius;
+            const maxLat = parseFloat(
+              clientLoc.LATITUDE + clocksRadius
+            ).toFixed(3);
+            const minLong = parseFloat(
+              (clientLoc.LONGITUDE - clocksRadius).toString()
+            ).toFixed(3);
+            const maxLong = parseFloat(
+              clientLoc.LONGITUDE + clocksRadius
+            ).toFixed(3);
+            console.log(
+              minLat + " - " + maxLat + ", " + minLong + " - " + maxLong
+            );
+            // console.log();
+            return (
+              minLat <= currLat &&
+              currLat <= maxLat &&
+              minLong <= currLong &&
+              currLong <= maxLong
+            );
+            // console.log(maxLat + ", " + maxLong);
+          });
+          console.log(list);
+          if (list.length < 1) {
+            console.log("need to auto clockout");
+            this.confirmAutoClockOut++;
+            if (this.confirmAutoClockOut === 1) {
+              this.cinGlobalFn.showAlert(
+                "Alert",
+                "You are not in the work zone. You'll be clocked out automatically in 5 minutes",
+                "alert-warning"
+              );
+            } else if (this.confirmAutoClockOut > 1) {
+              console.log("proceed clockout");
+              this.saveClockIn("out");
+            }
+          } else {
+            this.confirmAutoClockOut = 0;
+          }
+          // locList.filter((locClient) => {
+          //   console.log(locClient);
+          // });
+        });
+      this.autoClockoutLocationTimerId = setTimeout(() => {
+        this.autoclockoutCheck();
+      }, 30000);
+    }
   }
 
   /**
@@ -453,7 +627,9 @@ export class ClockInPage implements OnInit {
         this.clocksForm.patchValue({
           inTime: timeNow,
         });
-
+        console.log(this.selectedClient);
+        console.log(this.selectedProject);
+        console.log(this.selectedContract);
         const tempArr = {
           userGuid: this.cinGlobal.userInfo.userId,
           clockTime: timeNow,
@@ -474,13 +650,29 @@ export class ClockInPage implements OnInit {
           (clkin) => {
             console.log("clkin");
             console.log(clkin);
+            localStorage.setItem(
+              "cin_info",
+              JSON.stringify(
+                Object.assign(tempArr, {
+                  client: this.selectedClient,
+                  project: this.selectedProject,
+                  contract: this.selectedContract,
+                  activities: this.checkAddNew,
+                  jobType: this.selectedJobType,
+                })
+              )
+            );
             localStorage.setItem("cin_token", "true");
             localStorage.setItem("cid_token", clkin[0].CLOCK_LOG_GUID);
+            this.autoclockoutCheck();
             this.globalData.clocksInfo.list = clkin;
             this.globalData.clocksInfo.latest = clkin[0].CLOCK_LOG_GUID;
             console.log(this.globalData.clocksInfo);
+            console.log(this.checkAddNew);
             this.patchActivityList(clkin[0].CLOCK_LOG_GUID, this.checkAddNew);
             this.data.userInfo.clockIn.status = true;
+            this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+            console.log(this.clockedInInfo);
           },
           (error) => {
             console.log("clkin");
@@ -510,17 +702,25 @@ export class ClockInPage implements OnInit {
             console.log("coutResp");
             console.log(coutResp);
             console.log(this.checkAddNew);
+
+            console.log(this.clockedInInfo);
             this.patchActivityList(
               coutResp[0].CLOCK_LOG_GUID,
-              this.checkAddNew
+              this.clockedInInfo.activities // this.checkAddNew
             );
             this.globalData.clocksInfo.latest = null;
             localStorage.setItem("cin_token", "false");
+            localStorage.removeItem("cin_info");
+            localStorage.removeItem("cid_token");
             this.selectedClient = this.clientNone;
             this.selectedProject = this.projectNone;
             this.selectedContract = this.contractNone;
+            this.selectedJobType = localStorage.getItem("defJob");
             this.data.userInfo.clockIn.status = false;
             this.checkAddNew = [];
+            this.clockedInInfo.activities = [];
+            // this.clockedInInfo = [];
+            clearInterval(this.autoClockoutLocationTimerId);
           },
           (error) => {
             console.log("coutResp");
@@ -546,6 +746,8 @@ export class ClockInPage implements OnInit {
       clockLogGuid: clockGuid,
       activity: list,
     };
+
+    console.log(actvArr);
 
     this.cinApi.patchWithHeader("/api/clock/activity", actvArr).subscribe(
       (actvRes) => {
