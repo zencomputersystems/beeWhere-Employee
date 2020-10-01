@@ -73,7 +73,7 @@ export class SupportPage implements OnInit {
 
     this.reqDetails = formbuilder.group({
       clocksTime: ["", Validators.required],
-      inTime: ["", Validators.required],
+      inTime: ["", Validators.required], 
       outTime: ["", Validators.required],
     });
   }
@@ -151,15 +151,15 @@ export class SupportPage implements OnInit {
           tempObj = {
             requestType: this.mform.get("requestForm").value.type,
             subject: this.mform.get("requestForm").value.title,
-            starttime: new Date(this.reqDetails.value.inTime).valueOf(),
-            endtime: new Date(this.reqDetails.value.outTime).valueOf(),
+            starttime: (new Date(this.reqDetails.value.inTime).valueOf() / 1000),
+            endtime: (new Date(this.reqDetails.value.outTime).valueOf() / 1000),
             supportingDoc: "",
             description:
               this.mform.get("requestForm").value.description === null
                 ? ""
                 : this.mform.get("requestForm").value.description,
-            userGuid: this.globalData.userInfo.userId,
-            userEmail: this.globalData.userInfo.email,
+            userGuid: JSON.parse(localStorage.getItem("usr")).userId,
+            userEmail: JSON.parse(localStorage.getItem("usr")).email,
           };
           this.choosenFile !== "No file chosen"
             ? this.postUploadImg()
@@ -173,6 +173,7 @@ export class SupportPage implements OnInit {
   }
 
   postObj(obj) {
+    console.log(obj)
     this.sApi.postWithHeader("/support", obj).subscribe((postRes) => {
       console.log(postRes);
       this.sGFn.showToast("Submitted", "success");
@@ -234,8 +235,8 @@ export class SupportPage implements OnInit {
             this.mform.get("requestForm").value.description === null
               ? ""
               : this.mform.get("requestForm").value.description,
-          userGuid: this.globalData.userInfo.userId,
-          userEmail: this.globalData.userInfo.email,
+          userGuid: JSON.parse(localStorage.getItem("usr")).userId,
+          userEmail: JSON.parse(localStorage.getItem("usr")).email,
         };
         console.log(obj);
         this.postObj(obj);
