@@ -39,6 +39,7 @@ export class ReportPage implements OnInit {
   public countClickPrevButton = 0;
   public countClickNextButton = 0;
   public type: "string"; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
+  public disabledCustom: boolean = false;
 
   public optionsRange: CalendarComponentOptions = {
     from: new Date(1),
@@ -64,8 +65,8 @@ export class ReportPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
-  
+  ngOnInit() { }
+
   showReport(isPrevNextReport?) {
     this.genReport = false;
     this.isShowSkeletonText = true;
@@ -153,11 +154,11 @@ export class ReportPage implements OnInit {
           break;
       }
 
-      if ((this.startDateRange < this.endDateRange) && this.startDateRange !== null && this.endDateRange !== null ) {
+      if ((this.startDateRange < this.endDateRange) && this.startDateRange !== null && this.endDateRange !== null) {
         console.log('ok');
         console.log(this.startDateRange);
         console.log(this.endDateRange);
-        
+
         this.generateReport(
           this.startDateRange,
           this.endDateRange,
@@ -204,7 +205,7 @@ export class ReportPage implements OnInit {
   }
 
   refreshReportPage(event) {
-  // refreshReportPage(event: Refresher) {
+    // refreshReportPage(event: Refresher) {
     this.searchForm.reset();
     setTimeout(() => {
       event.target.complete();

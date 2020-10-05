@@ -91,7 +91,8 @@
 </ion-fab>
 
 <div class="clockin-button">
-  <ion-button shape="round" fill="outline" class="submits" (click)="showReport();rGlobalFn.showLoading(true)">
+  <ion-button shape="round" fill="outline" class="submits" (click)="showReport();rGlobalFn.showLoading(true); countClickPrevButton = 0;
+  countClickNextButton = 0;countPrevReportEmpty = 0">
     <ion-label>Show</ion-label>
   </ion-button>
 </div>
@@ -183,13 +184,13 @@
                 <ion-label>Report Type</ion-label>
                 <ion-note *ngIf="searchForm.get('type').invalid">*required</ion-note>
               </div>
-              <ion-select placeholder="Select report type" formControlName="type" 
+              <ion-select placeholder="Select report type" formControlName="type"
                 (ionChange)="genReport = false;isShowDateTitle = false;">
                 <ion-select-option value="attendance">Attendance</ion-select-option>
                 <ion-select-option value="activity">Activity</ion-select-option>
               </ion-select>
             </div>
-            
+
             <ion-item lines="none" *ngIf="searchForm.get('type').value === 'activity'">
               <ion-label>Show Status</ion-label>
               <ion-checkbox mode="ios" formControlName="enableStatus"></ion-checkbox>
@@ -197,11 +198,11 @@
 
             <div class="spacing">
               <div class="title">
-                <ion-label >Duration</ion-label>
+                <ion-label>Duration</ion-label>
                 <ion-note *ngIf="searchForm.get('duration').invalid">*required</ion-note>
               </div>
               <ion-select placeholder="Select your duration" formControlName="duration"
-                (ionChange)="genReport = false;isShowDateTitle = false;">
+                (ionChange)="genReport = false;isShowDateTitle = false; $event.detail.value=='custom'? disabledCustom=true : disabledCustom=false">
                 <ion-select-option value="week">Weekly</ion-select-option>
                 <ion-select-option value="month">Monthly</ion-select-option>
                 <ion-select-option value="year">Yearly</ion-select-option>
@@ -213,24 +214,21 @@
                 <div class="title">
                   <ion-label>Start time</ion-label>
                   <ion-note *ngIf="rangeForm.get('startDate').value === ''">*required</ion-note>
-                  <ion-note
-                    *ngIf="(rangeForm.get('startDate').value !== '' && rangeForm.get('endDate').value !== '')
+                  <ion-note *ngIf="(rangeForm.get('startDate').value !== '' && rangeForm.get('endDate').value !== '')
                     && (rangeForm.get('startDate').value >
                     rangeForm.get('endDate').value)">
                     Start date should be
                     smaller then end date</ion-note>
                 </div>
                 <ion-item lines="none" class="calendar-range">
-                  <input type="date" pattern="dd-mm-yyyy" (change)="genReport = false;"
-                    formControlName="startDate">
+                  <input type="date" pattern="dd-mm-yyyy" (change)="genReport = false;" formControlName="startDate">
                 </ion-item>
               </div>
               <div class="spacing">
                 <div class="title">
                   <ion-label>End time</ion-label>
                   <ion-note *ngIf="rangeForm.get('endDate').value === ''">*required</ion-note>
-                  <ion-note
-                    *ngIf="(rangeForm.get('startDate').value !== '' && rangeForm.get('endDate').value !== '')
+                  <ion-note *ngIf="(rangeForm.get('startDate').value !== '' && rangeForm.get('endDate').value !== '')
                     && (rangeForm.get('startDate').value >
                     rangeForm.get('endDate').value)">
                     End date should be
@@ -248,15 +246,16 @@
     <ion-item-group class="table-title-group" *ngIf="isShowDateTitle">
       <!-- <div *ngIf="genReport" class="animate-skeleton-background"></div>  -->
       <ion-button fill="clear" *ngIf="countClickPrevButton > -1 && this.countPrevReportEmpty < 2"
-        (click)="showReport('prev');">
+        (click)="showReport('prev');" [style.display]="disabledCustom ? 'none' : 'block' ">
         <</ion-button>
-      <div class="table-title">
-        {{labelStartDate | date: 'EEE d MMM yyyy'}} - {{labelEndDate | date: 'EEE d MMM yyyy'}}
-      </div>
-      <ion-button fill="clear" *ngIf="countClickNextButton < 0" (click)="showReport('next')">></ion-button>
+          <div class="table-title">
+            {{labelStartDate | date: 'EEE d MMM yyyy'}} - {{labelEndDate | date: 'EEE d MMM yyyy'}}
+          </div>
+          <ion-button fill="clear" *ngIf="countClickNextButton < 0" (click)="showReport('next')"
+          [style.display]="disabledCustom ? 'none' : 'block' ">></ion-button>
     </ion-item-group>
     <ion-item-group *ngIf="searchForm.get('type').value === 'attendance'">
-      <ion-grid >
+      <ion-grid>
         <ion-row class="grid-title-style" *ngIf="isShowDateTitle || genReport">
           <ion-col>Date</ion-col>
           <ion-col>In</ion-col>
@@ -267,10 +266,14 @@
           <ng-container *ngIf="dataAttendance.length > 0; else noAttendanceRecord">
             <ion-row class="grid-body-style-row " *ngFor="let dat of dataAttendance">
               <ion-col class="grid-body-style-column">{{dat.date | date: 'd MMM yyyy'}}</ion-col>
-              <ion-col class="grid-body-style-column set-center" *ngIf="dat.inTime !== null">{{dat.inTime | date: 'hh:mm a'}}</ion-col>
-              <ion-col class="grid-body-style-column set-center not-available-data" *ngIf="dat.inTime == null">-N/A-</ion-col>
-              <ion-col class="grid-body-style-column set-center" *ngIf="dat.outTime !== null">{{dat.outTime | date: 'hh:mm a'}}</ion-col>
-              <ion-col class="grid-body-style-column set-center not-available-data" *ngIf="dat.outTime === null">-N/A-</ion-col>
+              <ion-col class="grid-body-style-column set-center" *ngIf="dat.inTime !== null">
+                {{dat.inTime | date: 'hh:mm a'}}</ion-col>
+              <ion-col class="grid-body-style-column set-center not-available-data" *ngIf="dat.inTime == null">-N/A-
+              </ion-col>
+              <ion-col class="grid-body-style-column set-center" *ngIf="dat.outTime !== null">
+                {{dat.outTime | date: 'hh:mm a'}}</ion-col>
+              <ion-col class="grid-body-style-column set-center not-available-data" *ngIf="dat.outTime === null">-N/A-
+              </ion-col>
               <ion-col class="set-center" *ngIf="dat.duration !== null">{{dat.duration}}</ion-col>
               <ion-col class="set-center not-available-data" *ngIf="dat.duration === null">-N/A-</ion-col>
             </ion-row>
@@ -352,7 +355,7 @@
         <canvas #barChart></canvas>
       </ion-card-content>
     </ion-card> -->
-    
+
 
   </div>
 </ion-content>
