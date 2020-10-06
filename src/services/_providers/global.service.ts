@@ -1,3 +1,4 @@
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GlobalFnService } from '@services/global-fn.service';
 import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
@@ -12,7 +13,8 @@ export class GlobalService {
   constructor(
     private gApi: APIService,
     private router: Router,
-    private gGF: GlobalFnService
+    private gGF: GlobalFnService,
+    private glGeolocation: Geolocation
   ) {}
   //  ClockInPage.clocksForm: FormGroup
   public globalData = require("@services/_providers/global.json");
@@ -34,6 +36,9 @@ export class GlobalService {
   };
 
   public dataGlobal = require("../../app/sampledata.json");
+
+  public publicIp = require("public-ip");
+  public gPlatform = require("platform");
   // private globalData = require('./global.json');
 
   // public initSelectedJobConfig = {
@@ -57,22 +62,25 @@ export class GlobalService {
   }
 
   getLoggedUserInfo(isNavToMain?) {
-    this.gApi.getWithHeader("/api/user-info").subscribe((resp) => {
-      Object.assign(this.userInfo, resp);
-      // localStorage.setItem("usr", btoa(JSON.stringify(resp)));
-      localStorage.setItem("usr", JSON.stringify(resp));
-      console.log(JSON.parse(localStorage.getItem("usr")));
-      this.globalData.userInfo = resp;
-      // console.log(this.globalData);
-      this.getJobProfile(isNavToMain);
-    }, (error) => {
-      console.log(error);
-      this.gGF.showAlert(
-        error.status + " " + error.statusText,
-        error.error,
-        "alert-error"
-      );
-    });
+    this.gApi.getWithHeader("/api/user-info").subscribe(
+      (resp) => {
+        Object.assign(this.userInfo, resp);
+        // localStorage.setItem("usr", btoa(JSON.stringify(resp)));
+        localStorage.setItem("usr", JSON.stringify(resp));
+        console.log(JSON.parse(localStorage.getItem("usr")));
+        this.globalData.userInfo = resp;
+        // console.log(this.globalData);
+        this.getJobProfile(isNavToMain);
+      },
+      (error) => {
+        console.log(error);
+        this.gGF.showAlert(
+          error.status + " " + error.statusText,
+          error.error,
+          "alert-error"
+        );
+      }
+    );
 
     // if (isNavToMain) {
     //   // this.router.navigate(["/"]);
@@ -86,12 +94,21 @@ export class GlobalService {
   getJobProfile(isNavToMain?) {
     console.log("getJobProfile");
     const tempJob = [];
+    let loginLat;
+    let loginLong;
+    let loginAddr;
+    let loginPublicIp;
+    let tempLoginLog;
     console.log(JSON.parse(localStorage.getItem("usr")).userId);
     // this.globalData.jobTypes = [];
     localStorage.setItem("jobProfile", "[]");
+    (async () => {
+      loginPublicIp = await this.publicIp.v4();
+    })();
     // if (isNavToMain) {
     //   this.router.navigate(["/"]);
     // }
+
     this.gApi
       .getWithHeader(
         "/api/admin/attendance/user/" +
@@ -122,7 +139,48 @@ export class GlobalService {
           // console.log(this.globalData.jobTypes);
           if (isNavToMain) {
             this.router.navigate(["/"]);
-          } 
+            this.glGeolocation.getCurrentPosition().then((respLoc) => {
+              loginLat = respLoc.coords.latitude;
+              loginLong = respLoc.coords.longitude;
+              this.gApi
+                .getWithHeader(
+                  "/api/location/search/coordinate/" +
+                    respLoc.coords.latitude +
+                    "%2C" +
+                    respLoc.coords.longitude
+                )
+                .subscribe(
+                  (resps: any) => {
+                    loginAddr = resps.results[3].formatted_address;
+                    tempLoginLog = {
+                      userId: JSON.parse(localStorage.getItem("usr")).userId,
+                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      latitude: loginLat.toString(),
+                      longitude: loginLong.toString(),
+                      address: loginAddr,
+                      deviceInfo: this.gPlatform.description,
+                      devicePublicIp: loginPublicIp,
+                    };
+                    console.log(tempLoginLog);
+                    this.addLoginLog(tempLoginLog);
+                  },
+                  (error) => {
+                    console.log(error);
+                    tempLoginLog = {
+                      userId: JSON.parse(localStorage.getItem("usr")).userId,
+                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      latitude: loginLat.toString(),
+                      longitude: loginLong.toString(),
+                      address: null,
+                      deviceInfo: this.gPlatform.description,
+                      devicePublicIp: loginPublicIp,
+                    };
+                    console.log(tempLoginLog);
+                    this.addLoginLog(tempLoginLog);
+                  }
+                );
+            });
+          }
         },
         (error) => {
           console.log(error);
@@ -132,13 +190,54 @@ export class GlobalService {
             contract_selection: true,
             geofence_filter: true,
             project_selection: true,
-            type: 'office',
+            type: "office",
             value: true,
           };
           // localStorage.setItem("jobProfile", '[]');
           localStorage.setItem("defJob", JSON.stringify(defJob));
           if (isNavToMain) {
             this.router.navigate(["/"]);
+            this.glGeolocation.getCurrentPosition().then((respLoc) => {
+              loginLat = respLoc.coords.latitude;
+              loginLong = respLoc.coords.longitude;
+              this.gApi
+                .getWithHeader(
+                  "/api/location/search/coordinate/" +
+                    respLoc.coords.latitude +
+                    "%2C" +
+                    respLoc.coords.longitude
+                )
+                .subscribe(
+                  (resps: any) => {
+                    loginAddr = resps.results[3].formatted_address;
+                    tempLoginLog = {
+                      userId: JSON.parse(localStorage.getItem("usr")).userId,
+                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      latitude: loginLat.toString(),
+                      longitude: loginLong.toString(),
+                      address: loginAddr,
+                      deviceInfo: this.gPlatform.description,
+                      devicePublicIp: loginPublicIp,
+                    };
+                    console.log(tempLoginLog);
+                    this.addLoginLog(tempLoginLog);
+                  },
+                  (error) => {
+                    console.log(error);
+                    tempLoginLog = {
+                      userId: JSON.parse(localStorage.getItem("usr")).userId,
+                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      latitude: loginLat.toString(),
+                      longitude: loginLong.toString(),
+                      address: null,
+                      deviceInfo: this.gPlatform.description,
+                      devicePublicIp: loginPublicIp,
+                    };
+                    console.log(tempLoginLog);
+                    this.addLoginLog(tempLoginLog);
+                  }
+                );
+            });
           }
           // this.gGF.showAlert(
           //   "Oppss!",
@@ -148,5 +247,44 @@ export class GlobalService {
         }
       );
   }
+
+  /**
+   * Send request to post login to create new login session
+   * @param {*} obj
+   * @memberof GlobalService
+   */
+  addLoginLog(obj) {
+    this.gApi.postWithHeader("/api/login-log", obj).subscribe(
+      (resLog) => {
+        console.log(resLog);
+        console.log(resLog[0].LOGIN_LOG_GUID);
+        localStorage.setItem("currSession", resLog[0].LOGIN_LOG_GUID);
+        this.addLoginActivity("Login");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  /**
+   * Send request to patch login's activiy based on current logged session (loginId)
+   * @param {*} task
+   * @memberof GlobalService
+   */
+  addLoginActivity(task) {
+    const tempActivityLog = {
+      loginId: localStorage.getItem("currSession"),
+      activities: [
+        {
+          timestamp: Math.floor(Date.now() / 1000).toString(),
+          activity: task
+        },
+      ],
+    };
+    this.gApi.patchWithHeader("/api/login-log", tempActivityLog).subscribe((resPatchActivtiy) => {
+    }, (error) => {
+      console.log(error);
+    });
+  }
 }
- 

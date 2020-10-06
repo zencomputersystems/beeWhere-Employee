@@ -4,6 +4,7 @@ import { APIService } from '@services/_services/api.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { GlobalService } from '@services/_providers/global.service';
 
 @Component({
   selector: "app-support",
@@ -55,7 +56,8 @@ export class SupportPage implements OnInit {
   constructor(
     public formbuilder: FormBuilder,
     private sApi: APIService,
-    private sGFn: GlobalFnService
+    private sGFn: GlobalFnService,
+    private sGlobal: GlobalService
   ) {
     this.mform = formbuilder.group({
       supportType: this.supportType,
@@ -176,6 +178,7 @@ export class SupportPage implements OnInit {
     console.log(obj)
     this.sApi.postWithHeader("/support", obj).subscribe((postRes) => {
       console.log(postRes);
+      this.sGlobal.addLoginActivity((obj.requestType === "clocks") ? "Clocks request" : "Overtime request");
       this.sGFn.showToast("Submitted", "success");
       this.mform.get("suggestionForm").reset();
       // this.mform.get("reqDetails").reset();

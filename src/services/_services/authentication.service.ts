@@ -1,3 +1,4 @@
+import { GlobalService } from '@services/_providers/global.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
@@ -20,7 +21,7 @@ export class AuthenticationService {
   // private currentUserSubject: BehaviorSubject<User>;
   // public currentUser: Observable<User>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authGlobal: GlobalService) {
     // this.currentUserSubject = new BehaviorSubject<User>(
       // JSON.parse(localStorage.getItem("currentUser"))
     //   JSON.parse(localStorage.getItem("access_token"))
@@ -86,12 +87,14 @@ export class AuthenticationService {
     // localStorage.setItem('jobProfile', '[]');
     // localStorage.setItem('defJob', '{}');
     // localStorage.setItem('usr', '{}');
+    this.authGlobal.addLoginActivity("Logout");
     localStorage.removeItem('defJob');
     localStorage.removeItem('usr');
     localStorage.removeItem('jobProfile');
     localStorage.removeItem("clientList");
     localStorage.removeItem("projectList");
     localStorage.removeItem("contractList");
+    localStorage.removeItem("currSession");
     // localStorage.setItem('cin_token', 'false');
     localStorage.removeItem("access_token");
     // this.currentUserSubject.next(null);

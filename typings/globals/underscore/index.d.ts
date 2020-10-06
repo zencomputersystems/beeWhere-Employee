@@ -4054,7 +4054,7 @@ interface UnderscoreStatic {
 	* be overridden.
 	* @param templateString Underscore HTML template.
 	* @param data Data to use when compiling `templateString`.
-	* @param settings Settings to use while compiling.
+	* @param settings Misc to use while compiling.
 	* @return Returns the compiled Underscore HTML template.
 	**/
 	template(templateString: string, settings?: _.TemplateSettings): (...data: any[]) => string;

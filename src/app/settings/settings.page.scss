@@ -1,0 +1,121 @@
+:host {
+    .setting-list {
+        background: transparent;
+
+        ion-item {
+            padding: 0 0.5em;
+            font-size: var(--ion-text-12);
+            --color: var(--ion-color-text);
+            div {
+                width: -webkit-fill-available;
+            }
+            ion-icon {
+                margin-right: 0.25em;       
+            }
+        }
+    }
+
+    .logout-list {
+        background: transparent;
+
+        ion-item {
+            padding: 0 0.5em;
+            font-size: var(--ion-text-12);
+            --color: var(--highlight-color-focused);
+        }
+    }
+
+    .bold-title {
+        font-weight: bold;
+    }
+
+    .normal-title {
+        font-weight: normal;
+    }
+}
+
+ion-list-header {
+    font-size: var(--ion-text-13);
+    color: var(--ion-color-grey-808495);
+    font-weight: bold;
+}
+
+ion-list {
+    ion-item {
+        font-size: var(--ion-text-12);
+        color: var(--ion-color-text);
+    }
+
+    ion-img {
+        opacity: 60%;
+    }
+
+    ion-icon {
+        width: 2em;
+        height: 2em;
+    }
+}
+.login-log-list-group {
+    padding: 0;    
+}
+
+.login-log-list {
+    display: flex;
+    --padding-end: 0px;
+    --inner-padding-end: 0px;
+    --padding-start: 0px;
+    --inner-padding-start: 0px;
+    // padding: 1em 0;
+    // padding: unset;
+}
+
+.login-log-location {
+    flex: 1;
+    text-align: start;
+    min-width: 2.5em;
+}
+
+.login-log-expand {
+    flex: 1;
+    text-align: end;
+    min-width: 2.5em;
+}
+
+.login-log-info {
+    padding: 1em 0;
+}
+
+.login-log-top {
+    display: flex;
+    place-items: center;
+    width: -webkit-fill-available;
+    flex-flow: column wrap;
+}
+
+.login-log-title {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: -webkit-fill-available;
+}
+
+.login-log-card {
+    flex: 2;
+    width: -webkit-fill-available;
+    min-width: -webkit-fill-available;
+
+}
+
+.login-log-card-content {
+    padding: 0px 16px 16px;
+    font-size: var(--ion-text-12);
+}
+
+.small-note {
+    font-size: var(--ion-text-10);
+    opacity: 80%;
+}
+
+.active-now {
+    color: var(--ion-color-clockin);
+}

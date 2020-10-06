@@ -70,6 +70,10 @@ const routes: Routes = [
       import("./report/report.module").then((m) => m.ReportPageModule),
     canActivate: [AuthGuardService],
   },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+  },
 ];
 
 @NgModule({

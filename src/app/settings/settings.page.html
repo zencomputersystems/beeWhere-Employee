@@ -1,0 +1,159 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>settings</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+<ion-footer class="footer-shadow">
+  <ion-toolbar class="footer">
+    <ion-item-group>
+      <div routerLink="/clock-in" class="footer-label">
+        <ion-img src="../../assets/basic/home.png"></ion-img>
+        <ion-label>
+          Main
+        </ion-label>
+      </div>
+      <div routerLink="/main" class="footer-label">
+        <ion-img class="history" src="../../assets/basic/history.png"></ion-img>
+        <ion-label>
+          History
+        </ion-label>
+      </div>
+      <div class="footer-label" routerLink="/report">
+        <ion-img src="../../assets/basic/report.png"></ion-img>
+        <ion-label>
+          Report
+        </ion-label>
+      </div>
+      <div class="footer-label" style="height: 1.5rem;">
+        <ion-icon style="margin-bottom: 2px;"></ion-icon>
+        <ion-label>
+          More
+        </ion-label>
+      </div>
+      <div style="flex: 2"></div>
+    </ion-item-group>
+  </ion-toolbar>
+</ion-footer>
+<ion-fab vertical="bottom" horizontal="center" slot="fixed">
+  <ion-fab-button class="more-button">
+    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button>
+      <div class="footer-label" routerLink="/inbox-details">
+        <!-- <ion-img class="inbox-noti" src="../../assets/basic/ellipse-notification.png"
+          *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
+        </ion-img> -->
+        <ion-img src="../../assets/basic/bell.png"></ion-img>
+        <ion-label>
+          Inbox
+        </ion-label>
+      </div>
+    </ion-fab-button>
+    <ion-fab-button>
+      <div class="footer-label" routerLink="/support">
+        <ion-img src="../../assets/basic/support.png" class="main-support"></ion-img>
+        <ion-label>
+          Support
+        </ion-label>
+      </div>
+    </ion-fab-button>
+    <ion-fab-button>
+      <div class="footer-label icon-setting-group" routerLink="/settings">
+        <ion-icon name="settings-outline" class="main-support icon-setting"></ion-icon>
+        <ion-label>
+          Misc
+        </ion-label>
+      </div>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+
+<ion-content class="contents">
+  <ion-img class="bg-img-others" src="../../assets/basic/background-default.png"></ion-img>
+  <div class="content">
+    <ion-item-group class="header">
+      <ion-label>beeWhere</ion-label>
+    </ion-item-group>
+
+    <ion-item-group class="setting-list">
+      <ion-item>
+        <ion-icon name="arrow-back-outline" (click)="openLoginActivityList=false;loginLog=[];"
+          *ngIf="openLoginActivityList">
+        </ion-icon>
+        <div (click)="toLoginActivity()"
+          [ngClass]="openLoginActivityList ? 'bold-title': 'normal-title'">
+          Login Activity</div>
+      </ion-item>
+      <ion-item (click)="navToOtherPage('https://a.beesuite.app/#/')" *ngIf="!openLoginActivityList">
+        <!-- <ion-label>Apply Leave</ion-label> -->
+        <!-- Apply Leave -->
+        <div>
+          <div>Apply leave</div>
+          <div class="small-note">This will redirect to beeSuite page</div>
+
+        </div>
+        <!-- <ion-note>This will redirect to beeSuite page</ion-note> -->
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group class="logout-list" *ngIf="!openLoginActivityList">
+      <ion-item routerLink="/login">
+        <!-- <ion-img src="../../assets/basic/logout.png"></ion-img> -->
+        <ion-label>Log out from this device</ion-label>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="openLoginActivityList">
+      <ion-list-header>Where You're Logged in</ion-list-header>
+      <ion-list *ngFor="let log of loginLog; let i=index;" class="login-log-list-group">
+        <ion-item class="login-log-list">
+          <div class="login-log-top">
+            <div class="login-log-title">
+              <div class="login-log-location">
+                <ion-icon name="location-outline"></ion-icon>
+              </div>
+              <div class="login-log-info">
+                <div>
+                  {{log.ADDRESS}}
+                </div>
+                <div>
+                  {{log.LOGGED_TIMESTAMP | date: 'd MMM yyyy hh:mm a' }} &nbsp; &bull; &nbsp;
+                  {{log.DEVICE_PUBLIC_IP}}
+                </div>
+                <div>{{log.DEVICE_INFO}}</div>
+                <div *ngIf="log.LOGIN_LOG_GUID === loginId" class="active-now">Active Now</div>
+              </div>
+              <div class="login-log-expand">
+                <ion-icon name="chevron-down-circle-outline" (click)="isShowLoginActivitiesLog=true;checkShowLoginIndex=i;"
+                  *ngIf="!isShowLoginActivitiesLog || (i!==checkShowLoginIndex)"></ion-icon>
+                <ion-icon name="chevron-up-circle-outline" (click)="isShowLoginActivitiesLog=false;checkShowLoginIndex=null;"
+                  *ngIf="isShowLoginActivitiesLog && (i===checkShowLoginIndex)"></ion-icon>
+                <!-- <ion-img src="../../assets/basic/chevron-down-grey.png"></ion-img> -->
+                <!-- <ion-img src="../../assets/basic/chevron-up-grey.png"></ion-img> -->
+              </div>
+
+            </div>
+            <div class="login-log-card" *ngIf="isShowLoginActivitiesLog && (checkShowLoginIndex === i)">
+              <ion-card>
+                <ion-list-header>Activites</ion-list-header>
+                  <ion-list class="login-log-card-content" *ngIf="log.ACTIVITY !== null">
+                    <div *ngFor="let activityLog of log.ACTIVITY;">
+                        <div>
+                          {{activityLog.timestamp | date: 'd MMM yyyy h:mm a'}} : &nbsp;
+                          {{activityLog.activity}}
+                        </div>
+                    </div>
+                  </ion-list>
+                  <ion-list class="login-log-card-content" *ngIf="log.ACTIVITY === null">
+                      <div class="no-record">
+                        No record found
+                      </div>
+                  </ion-list>
+              </ion-card>
+            </div>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-item-group>
+  </div>
+</ion-content>

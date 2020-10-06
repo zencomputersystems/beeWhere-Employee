@@ -641,3 +641,69 @@ Request:
     "doc": "reree.png",
     "message": "attached is a proper one",
 }
+
+
+20. to POST track login session
+Request:
+{
+    "userId": "561604d0-f98d-11ea-a922-075dec0319ed",
+    "loggedTimestamp": 1601622975, //in seconds format
+    "latitude": 2.9261295000000005,
+    "longitude": 101.6499236,
+    "address": "Cyberjaya, Selangor, Malaysia",
+    "deviceInfo": "Safari 13.0.3 on Apple iPhone (iOS 13.2.3)",
+    "devicePublicIp": "60.53.219.114"
+}
+
+Response:
+{
+    "loginId": "xxxx"
+}
+
+
+21. to get historical logged on session by user
+Request:
+{
+    "userId": "561604d0-f98d-11ea-a922-075dec0319ed",
+}
+
+Response:
+[
+    {
+        "loginId": "xxxx1",
+        "userId": "561604d0-f98d-11ea-a922-075dec0319ed",
+        "loginTimestamp": 1601622975, //in seconds format
+        "latitude": 2.9261295000000005,
+        "longitude": 101.6499236,
+        "address": "Cyberjaya, Selangor, Malaysia",
+        "deviceInfo": "Safari 13.0.3 on Apple iPhone (iOS 13.2.3)",
+        "devicePublicIp": "60.53.219.114",
+        "activities": [
+            {
+                "timestamp": 1601622975, //in seconds format
+                "activity": "login"
+            },
+            .
+            .
+            .
+        ]
+    },
+    .
+    .
+    .
+]
+
+22. to push activity did based on loginId
+Request:
+{
+    "loginId": "xxxx",
+    "activities": [
+        {
+            "timestamp": 1601622975, //in seconds format
+            "activity": "login"
+        },
+        .
+        .
+        .
+    ]
+}
