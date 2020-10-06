@@ -113,7 +113,7 @@ export class InboxDetailsPage implements OnInit {
     console.log("initGetDataList from support");
     this.replyFormData = new FormData();
     this.choosenFile = "";
-    this.ibApi.getWithHeader("/support").subscribe(
+    this.ibApi.getWithHeader("/support/module/admin").subscribe(
       (res) => {
         Object.entries(res).filter(([key, value]) =>
           key === "request" ? (this.inboxData = value) : null
