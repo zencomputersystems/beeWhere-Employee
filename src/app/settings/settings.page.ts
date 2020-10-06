@@ -38,7 +38,7 @@ export class SettingsPage implements OnInit {
    * @memberof SettingsPage
    */
   public checkShowLoginIndex;
-  
+
   /**
    * Bind value of loginId from currSession in localStorage
    * @type {string}
@@ -99,6 +99,10 @@ export class SettingsPage implements OnInit {
             );
 
             if (resItem.ACTIVITY !== null) {
+              if (resItem.ACTIVITY.length === undefined) {
+                resItem.ACTIVITY = [resItem.ACTIVITY];
+              }
+
               resItem.ACTIVITY.forEach((actItem) => {
                 actItem.timestamp = new Date(actItem.timestamp * 1000);
               });
