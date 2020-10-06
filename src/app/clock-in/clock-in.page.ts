@@ -671,6 +671,7 @@ export class ClockInPage implements OnInit {
             this.patchActivityList(clkin[0].CLOCK_LOG_GUID, this.checkAddNew);
             this.data.userInfo.clockIn.status = true;
             this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+            this.cinGlobal.addLoginActivity("Clock in");
             this.autoclockoutCheck();
           
             console.log(this.clockedInInfo);
@@ -709,6 +710,8 @@ export class ClockInPage implements OnInit {
               coutResp[0].CLOCK_LOG_GUID,
               this.clockedInInfo.activities // this.checkAddNew
             );
+            this.cinGlobal.addLoginActivity("Clock out");
+
             this.globalData.clocksInfo.latest = null;
             localStorage.setItem("cin_token", "false");
             localStorage.removeItem("cin_info");

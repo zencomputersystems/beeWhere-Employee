@@ -66,6 +66,14 @@
         }
     }
 }
+.icon-setting-group {
+    display: grid;
+}
+
+.icon-setting {
+    width: 2.3em;
+    height: 2.3em;
+}
 
 .footer-label {
     font-size: var(--ion-text-11);

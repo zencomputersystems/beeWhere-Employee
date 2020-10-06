@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GlobalService } from '@services/_providers/global.service';
 import { MatNativeDateModule } from '@angular/material/core';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     StatusBar,
     SplashScreen,
     GlobalService,
+    Geolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

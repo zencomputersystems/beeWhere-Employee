@@ -1,3 +1,5 @@
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Platform } from '@ionic/angular';
 import { GlobalFnService } from '@services/global-fn.service';
 import { GlobalService } from '@services/_providers/global.service';
 import { APIService } from '@services/_services/api.service';
@@ -54,7 +56,16 @@ export class LoginPage implements OnInit {
   loading: boolean = false;
 
   /**
-   *Creates an instance of LoginPage.
+   * To use platform detection library that works on nearly all JavaScript platform
+   * @memberof LoginPage
+   */
+  public lplatform = require("platform");
+  
+  public publicIp = require("public-ip");
+
+
+  /**
+   * Creates an instance of LoginPage.
    * @param {FormBuilder} lFormBuilder
    * @param {AuthenticationService} authenticationService
    * @param {Router} router
@@ -68,7 +79,8 @@ export class LoginPage implements OnInit {
     private route: ActivatedRoute,
     private lApi: APIService,
     private lGlobal: GlobalService,
-    private lfGlobal: GlobalFnService
+    private lfGlobal: GlobalFnService,
+    private lGeolocation: Geolocation // private lPlatform: Platform,
   ) {
     this.lForm = lFormBuilder.group({
       email: [
@@ -98,6 +110,32 @@ export class LoginPage implements OnInit {
    * @memberof LoginPage
    */
   ngOnInit() {
+    console.log("platform");
+    console.log(this.lplatform.description);
+    (async () => {
+      console.log(await this.publicIp.v4());
+    })();
+    this.lGeolocation.getCurrentPosition().then((respLoc) => {
+      console.log(respLoc.timestamp);
+      // console.log(respLoc);
+      console.log(respLoc.coords.latitude);
+      console.log(respLoc.coords.longitude);
+      this.lApi
+        .getWithHeader(
+          "/api/location/search/coordinate/" +
+            respLoc.coords.latitude +
+            "%2C" +
+            respLoc.coords.longitude
+        )
+        .subscribe(
+          (resp: any) => {
+            console.log(resp.results[3].formatted_address);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    });
     console.log(atob(localStorage.getItem("val3")));
     console.log(this.lForm);
     const tempVal3 =
