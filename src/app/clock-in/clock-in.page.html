@@ -239,15 +239,8 @@
                           <div *ngIf="selectedJobType.autoclockout_filter.value" >
                             Auto-clockout function will be based on your clockin location at the moment.
                           </div>
-                          <!-- <div>Please contact Admin or HR to add client's location</div> -->
                         </ion-select-option>
                         <ion-select-option *ngIf="globalData.clients.length === 0" disabled class="hide-checkbox">
-                          <!-- <div>
-                            NOTE: Couldn't find any matched client location from your location.
-                          </div>
-                          <div>
-                            Auto-clockout function will be based on your clockin location at the moment.
-                          </div> -->
                           <div>Please contact Admin or HR to add client's location</div>
                         </ion-select-option>
                       </ion-select>
@@ -262,8 +255,13 @@
                         <ng-container *ngFor="let project of globalData.projects">
                           <ion-select-option [value]="project">
                             {{project.SOC_NO}} - {{project.NAME}}
-                          </ion-select-option>
+                          </ion-select-option>                      
                         </ng-container>
+                        <ion-select-option *ngIf="globalData.projects.length === 0" disabled class="hide-checkbox">
+                          <div>
+                            NOTE: Couldn't find any project. Please contact Admin or HR to add new project
+                          </div>
+                        </ion-select-option>    
                       </ion-select>
                     </ion-item-group>
 
@@ -278,8 +276,13 @@
                         <ng-container *ngFor="let contract of globalData.contracts">
                           <ion-select-option [value]="contract">
                             {{contract.CONTRACT_NO}} - {{contract.NAME}}
-                          </ion-select-option>
+                          </ion-select-option>     
                         </ng-container>
+                        <ion-select-option *ngIf="globalData.contracts.length === 0" disabled class="hide-checkbox">
+                          <div>
+                            NOTE: Couldn't find any contract. Please contact Admin or HR to add new contract
+                          </div>
+                        </ion-select-option>
                       </ion-select>
                     </ion-item-group>
 
