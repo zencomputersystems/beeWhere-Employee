@@ -327,7 +327,7 @@
       <ion-card *ngIf="inboxData !== undefined">
       <!-- <ion-card *ngIf="data.userInfo.notifications.updates.length > 0"> -->
         <div  *ngFor="let update of inboxData;">
-          <ion-card-content *ngIf="update.STATUS === 'rejected' || update.STATUS === 'approved'"
+          <ion-card-content *ngIf="update.STATUS === 'rejected' || update.STATUS === 'approved' || update.STATUS === 'pending'"
             class="card-content-style">
             <div class="card-expand-header">
               <div *ngIf="update.STATUS === 'rejected'">
@@ -336,7 +336,10 @@
               <div *ngIf="update.STATUS === 'approved'">
                 <ion-img src="../../assets/basic/bell-green.png"></ion-img>
               </div>
-              <div class="card-content" *ngIf="update.STATUS === 'rejected' || update.STATUS === 'approved'">
+              <div *ngIf="update.STATUS === 'pending'">
+                <ion-img src="../../assets/basic/bell-yellow.png"></ion-img>
+              </div>
+              <div class="card-content" *ngIf="update.STATUS === 'rejected' || update.STATUS === 'approved' || update.STATUS === 'pending'">
                 <div class="rejected" *ngIf="update.STATUS === 'rejected'">
                   <!-- <ion-note>Rejected&nbsp;</ion-note> -->
                   <ion-note *ngIf="update.REQUEST_TYPE ==='overtime'">Overtime</ion-note>
@@ -357,10 +360,22 @@
                     (click)="expendNoti(update);"></ion-img>
 
                 </div>
+                <div class="pendings" *ngIf="update.STATUS === 'pending'">
+                  <!-- <ion-note>Approved&nbsp;</ion-note> -->
+                  <ion-note *ngIf="update.REQUEST_TYPE ==='overtime'">Overtime</ion-note>
+                  <ion-note *ngIf="update.REQUEST_TYPE ==='clocks'">Clocking request</ion-note>
+                  <ion-img src="../../assets/basic/chevron-down-yellow.png" *ngIf="!update.isExpandView"
+                    (click)="expendNoti(update);"></ion-img>
+                  <ion-img src="../../assets/basic/chevron-up-yellow.png" *ngIf="update.isExpandView"
+                    (click)="expendNoti(update);"></ion-img>
+
+                </div>
                 <ion-card-subtitle>{{update.TITLE}}</ion-card-subtitle>
                 <ion-label class="time-label" *ngIf="update.STATUS === 'approved'">Approved by {{update.USER_EMAIL}}
                 </ion-label>
                 <ion-label class="time-label" *ngIf="update.STATUS === 'rejected'">Rejected by {{update.USER_EMAIL}}
+                </ion-label>
+                <ion-label class="time-label" *ngIf="update.STATUS === 'pending'">Pending by {{update.USER_EMAIL}}
                 </ion-label>
                 <!-- <ion-card-subtitle>{{update.DESCRIPTION}}</ion-card-subtitle> -->
                 <div *ngIf="update.isExpandView" class="expanded-view">

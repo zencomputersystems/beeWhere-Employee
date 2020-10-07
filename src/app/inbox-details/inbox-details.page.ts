@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 // import { Refresher } from '@ionic/angular';
 import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '@services/_providers/global.service';
 
 /**
  * Component for inbox page
@@ -71,14 +72,15 @@ export class InboxDetailsPage implements OnInit {
    * Creates an instance of InboxDetailsPage.
    * @memberof InboxDetailsPage
    */
-  constructor(private ibApi: APIService, public ibGlobalFn: GlobalFnService) {}
+  constructor(private ibApi: APIService, public ibGlobalFn: GlobalFnService, private globalAPI: GlobalService) { }
 
   /**
    * Initiate this component
    * @memberof InboxDetailsPage
    */
-  ngOnInit() {
-    console.log(this.globalData);
+  async ngOnInit() {
+    await this.globalAPI.getLoggedUserInfo();
+    console.log(this.globalData.userInfo);
     this.initGetDataList();
   }
 
@@ -118,9 +120,14 @@ export class InboxDetailsPage implements OnInit {
         Object.entries(res).filter(([key, value]) =>
           key === "request" ? (this.inboxData = value) : null
         );
-        this.inboxData.forEach((element) => {
+        this.inboxData.forEach((element, i) => {
           Object.assign(element, { isExpandView: false });
         });
+        for (let i = this.inboxData.length - 1; i >= 0; i--) {
+          if (this.inboxData[i].USER_EMAIL !== this.globalData.userInfo.email) {
+            this.inboxData.splice(i, 1);
+          }
+        }
         console.log(this.inboxData);
         // this.inboxData.forEach((element) => {
         //   if (element.TITLE.includes("rej")) {
@@ -149,9 +156,9 @@ export class InboxDetailsPage implements OnInit {
     // console.log(selected);
     selected.isExpandView = !selected.isExpandView;
     // if (selected.CHOOSEN_FILE_DATA !== undefined) {
-      // document
-      //   .getElementById("imgupload")
-      //   .setAttribute("src", selected.CHOOSEN_FILE_DATA.link);
+    // document
+    //   .getElementById("imgupload")
+    //   .setAttribute("src", selected.CHOOSEN_FILE_DATA.link);
     // }
   }
 
@@ -183,7 +190,7 @@ export class InboxDetailsPage implements OnInit {
           CHOOSEN_FILE: ""
         });
         console.log(data);
-        
+
         // document
         //   .getElementById("youriframeid")
         //   .contentWindow.location.reload(true);
@@ -204,7 +211,7 @@ export class InboxDetailsPage implements OnInit {
   downloadAttachment(attachmentData) {
     return window.open(
       "https://zencloudservicesstore.blob.core.windows.net/cloudservices/eleave/" +
-        attachmentData
+      attachmentData
     );
   }
 
@@ -218,7 +225,7 @@ export class InboxDetailsPage implements OnInit {
     // console.log(this.replyFormData);
     // this.ibApi.postUpload("/api/azure/upload", this.replyFormData).subscribe((res) => {
     //   console.log(res);
-      
+
     console.log(data);
     // });
 
@@ -228,7 +235,7 @@ export class InboxDetailsPage implements OnInit {
         userId: data.USER_GUID,
         doc:
           data.CHOOSEN_FILE_DATA !== undefined &&
-          data.CHOOSEN_FILE_DATA !== null
+            data.CHOOSEN_FILE_DATA !== null
             ? data.CHOOSEN_FILE_DATA.filename
             : "",
         message: data.REPLY_TEXT,
