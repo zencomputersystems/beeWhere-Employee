@@ -232,8 +232,14 @@
                         <ion-select-option *ngFor="let selectedClient of globalData.clients" [value]="selectedClient">
                           {{selectedClient.ABBR}} - {{selectedClient.NAME}}
                         </ion-select-option>
-                        <ion-select-option *ngIf="globalData.clients.length === 0" class="hide-checkbox">
-                          NOTE: Couldn't find any matched client location based on your location
+                        <ion-select-option *ngIf="globalData.clients.length === 0" disabled class="hide-checkbox">
+                          <div>
+                            NOTE: Couldn't find any matched client location from your location.
+                          </div>
+                          <!-- <div>
+                            Your auto-clockout function will be based on your clockin location at the moment.
+                          </div> -->
+                          <div>Please contact Admin or HR to add client's location</div>
                         </ion-select-option>
                       </ion-select>
                     </ion-item-group>
