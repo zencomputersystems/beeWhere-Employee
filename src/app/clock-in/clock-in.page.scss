@@ -381,4 +381,8 @@
         opacity: 100%;
         font-size: var(--ion-text-12) !important;
     }
+
+    .alert-radio-group {
+        max-height: 7em;
+    }
 }

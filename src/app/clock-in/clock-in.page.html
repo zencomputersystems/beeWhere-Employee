@@ -236,8 +236,17 @@
                           <div>
                             NOTE: Couldn't find any matched client location from your location.
                           </div>
+                          <div *ngIf="selectedJobType.autoclockout_filter.value" >
+                            Auto-clockout function will be based on your clockin location at the moment.
+                          </div>
+                          <!-- <div>Please contact Admin or HR to add client's location</div> -->
+                        </ion-select-option>
+                        <ion-select-option *ngIf="globalData.clients.length === 0" disabled class="hide-checkbox">
                           <!-- <div>
-                            Your auto-clockout function will be based on your clockin location at the moment.
+                            NOTE: Couldn't find any matched client location from your location.
+                          </div>
+                          <div>
+                            Auto-clockout function will be based on your clockin location at the moment.
                           </div> -->
                           <div>Please contact Admin or HR to add client's location</div>
                         </ion-select-option>
