@@ -232,6 +232,9 @@
                         <ion-select-option *ngFor="let selectedClient of globalData.clients" [value]="selectedClient">
                           {{selectedClient.ABBR}} - {{selectedClient.NAME}}
                         </ion-select-option>
+                        <ion-select-option *ngIf="globalData.clients.length === 0" class="hide-checkbox">
+                          NOTE: Couldn't find any matched client location based on your location
+                        </ion-select-option>
                       </ion-select>
                     </ion-item-group>
 

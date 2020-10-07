@@ -362,4 +362,21 @@
         --color: var(--ion-color-red) !important;
         white-space: pre-line;
     }
+
+
+
+}
+
+::ng-deep .hide-checkbox {
+    .alert-radio-icon.sc-ion-alert-md {
+        display: none !important;
+    }
+
+    .alert-radio-label.sc-ion-alert-md {
+        padding: 1em;
+        font-style: italic;
+        text-transform: none;
+        font-weight: bold;
+        font-size: var(--ion-text-12) !important;
+    }
 }
