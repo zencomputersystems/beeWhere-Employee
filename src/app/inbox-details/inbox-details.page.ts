@@ -123,6 +123,7 @@ export class InboxDetailsPage implements OnInit {
         this.inboxData.forEach((element, i) => {
           Object.assign(element, { isExpandView: false });
         });
+        this.inboxData.sort((a, b) => new Date(b.CREATION_TS).getTime() - new Date(a.CREATION_TS).getTime());
         for (let i = this.inboxData.length - 1; i >= 0; i--) {
           if (this.inboxData[i].USER_EMAIL !== this.globalData.userInfo.email) {
             this.inboxData.splice(i, 1);
