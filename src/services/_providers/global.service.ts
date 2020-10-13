@@ -61,25 +61,37 @@ export class GlobalService {
     this.userInfo = data;
   }
 
-  async getLoggedUserInfo(isNavToMain?) {
-    try {
-      let resp = await this.gApi.getWithHeader("/api/user-info").toPromise();
+  getLoggedUserInfo(isNavToMain?) {
+    this.gApi.getWithHeader("/api/user-info").subscribe(
+      (resp) => {
+        Object.assign(this.userInfo, resp);
+        // localStorage.setItem("usr", btoa(JSON.stringify(resp)));
+        localStorage.setItem("usr", JSON.stringify(resp));
+        console.log(JSON.parse(localStorage.getItem("usr")));
+        this.globalData.userInfo = resp;
+        // console.log(this.globalData);
+        this.getJobProfile(isNavToMain);
+      },
+      (error) => {
+        console.log(error);
+        if (error.status === 401 && error.statusText === "Unauthorized") {
 
-      Object.assign(this.userInfo, resp);
-      // localStorage.setItem("usr", btoa(JSON.stringify(resp)));
-      localStorage.setItem("usr", JSON.stringify(resp));
-      console.log(JSON.parse(localStorage.getItem("usr")));
-      this.globalData.userInfo = resp;
-      // console.log(this.globalData);
-      this.getJobProfile(isNavToMain);
-    } catch (error) {
-      console.log(error);
-      this.gGF.showAlert(
-        error.status + " " + error.statusText,
-        error.error,
-        "alert-error"
-      );
-    }
+          this.gGF.showAlert(
+            error.status + " " + error.statusText,
+            "Your access token was expired. This will redirect to login page after click Ok",
+            "alert-error",
+            "/login"
+          );
+        } else {
+          this.gGF.showAlert(
+            error.status + " " + error.statusText,
+            error.error,
+            "alert-error"
+          );
+        }
+      }
+    );
+
 
     // if (isNavToMain) {
     //   // this.router.navigate(["/"]);
@@ -153,7 +165,7 @@ export class GlobalService {
                     loginAddr = resps.results[3].formatted_address;
                     tempLoginLog = {
                       userId: JSON.parse(localStorage.getItem("usr")).userId,
-                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      loggedTimestamp: Math.floor(Date.now() / 1000),
                       latitude: loginLat.toString(),
                       longitude: loginLong.toString(),
                       address: loginAddr,
@@ -167,7 +179,7 @@ export class GlobalService {
                     console.log(error);
                     tempLoginLog = {
                       userId: JSON.parse(localStorage.getItem("usr")).userId,
-                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      loggedTimestamp: Math.floor(Date.now() / 1000),
                       latitude: loginLat.toString(),
                       longitude: loginLong.toString(),
                       address: null,
@@ -211,7 +223,7 @@ export class GlobalService {
                     loginAddr = resps.results[3].formatted_address;
                     tempLoginLog = {
                       userId: JSON.parse(localStorage.getItem("usr")).userId,
-                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      loggedTimestamp: Math.floor(Date.now() / 1000),
                       latitude: loginLat.toString(),
                       longitude: loginLong.toString(),
                       address: loginAddr,
@@ -225,7 +237,7 @@ export class GlobalService {
                     console.log(error);
                     tempLoginLog = {
                       userId: JSON.parse(localStorage.getItem("usr")).userId,
-                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      loggedTimestamp: Math.floor(Date.now() / 1000),
                       latitude: loginLat.toString(),
                       longitude: loginLong.toString(),
                       address: null,

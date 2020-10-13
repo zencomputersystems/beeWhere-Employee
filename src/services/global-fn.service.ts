@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
 import * as sampleData from '../app/sampledata.json';
@@ -18,7 +19,7 @@ export class GlobalFnService {
 
   private loading;
   constructor(private gfnApi: APIService, private gfToast: ToastController, private gfActionSheet: ActionSheetController, 
-              private gfloading: LoadingController) {
+              private gfloading: LoadingController, private gfRouter: Router) {
     setInterval(this.myTimer, 1000);
   }
 
@@ -112,13 +113,26 @@ export class GlobalFnService {
     // this.gfToas
   }
 
-  async showAlert(title?, msg?, cls?) {
+  async showAlert(title?, msg?, cls?, okButtonHandler?) {
     const alert = await document.createElement('ion-alert');
     alert.cssClass = cls;
     alert.header = title;
     // alert.subHeader = subtitle;
     alert.message = msg;
-    alert.buttons = ["Ok"];
+    // alert.buttons = ["Ok"];
+    alert.buttons = [
+      {
+        text: 'Ok',
+        role: 'Ok',
+        handler: () => {
+          console.log('okButtonHandler');
+          if (okButtonHandler === '/login') {
+           this.gfRouter.navigate([okButtonHandler]);
+          }
+          console.log(okButtonHandler);
+        }
+      }
+    ];
     document.body.appendChild(alert);
     return alert.present();
   }
