@@ -2,12 +2,24 @@
 <widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <access origin="*" />
   
+  <feature name="BackgroundGeolocation">
+    <param name="android-package" value="com.tenforwardconsulting.bgloc.cordova.BackgroundGeolocationPlugin"/>
+  </feature>
+
   <feature name="GeofencePlugin">
     <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin"/>
   </feature>
 
   <feature name="Geolocation">
     <param name="android-package" value="org.apache.cordova.geolocation.Geolocation"/>
+  </feature>
+
+  <feature name="MockGpsChecker">
+    <param name="android-package" value="com.sandata.MockGpsChecker"/>
+  </feature>
+
+  <feature name="MockLocationChecker">
+    <param name="android-package" value="com.diegorribeiro.MockLocationChecker"/>
   </feature>
 
   <feature name="Device">
@@ -33,4 +45,5 @@
   <preference name="SplashShowOnlyFirstTime" value="false" />
   <preference name="SplashScreen" value="screen" />
   <preference name="SplashScreenDelay" value="3000" />
+  <preference name="bundledWebRuntime" value="true" />
 </widget>

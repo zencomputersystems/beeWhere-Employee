@@ -8,6 +8,14 @@ import { GlobalApiService } from '@services/global-api.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@services/_services/authentication.service';
 import { APIService } from '@services/_services/api.service';
+import {
+  BackgroundGeolocation,
+  BackgroundGeolocationConfig,
+  BackgroundGeolocationEvents,
+  BackgroundGeolocationResponse,
+} from '@ionic-native/background-geolocation/ngx';
+import { Platform } from '@ionic/angular';
+
 // import { Refresher } from "@ionic/angular";
 /**
  * Clockin component
@@ -167,7 +175,7 @@ export class ClockInPage implements OnInit {
    * @type {*}
    * @memberof ClockInPage
    */
-  confirmAutoClockOut: any;
+  confirmAutoClockOut: number = 0;
 
   /**
    * Bind value of clocked in info from localStorage
@@ -182,6 +190,42 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   selectedJobType: any;
+
+  public bglConfig: BackgroundGeolocationConfig = {
+    // locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
+    // desiredAccuracy: 10,
+    // stationaryRadius: 20,
+    // distanceFilter: 30,
+    debug: true, //  enable this hear sounds for background-geolocation life-cycle.
+    stopOnTerminate: false, // enable this to clear background location settings when the app terminates,
+    // activitiesInterval: 10000,
+    notificationsEnabled: true,
+    startForeground: true,
+    notificationText: "gonna get location",
+    
+
+    // locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
+    // desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
+    // stationaryRadius: 50,
+    // distanceFilter: 50,
+    // notificationTitle: "Background tracking",
+    // notificationText: "enabled",
+    // debug: true,
+    // interval: 10000,
+    // fastestInterval: 5000,
+    // activitiesInterval: 10000,
+    // url: "http://192.168.81.15:3000/location",
+    // httpHeaders: {
+    //   "X-FOO": "bar",
+    // },
+    // // customize post properties
+    // postTemplate: {
+    //   lat: "@latitude",
+    //   lon: "@longitude",
+    //   foo: "bar", // you can also add your own properties
+    // },
+  };
+  notiLocationMessage: string;
 
   /**
    *Creates an instance of ClockInPage.
@@ -205,7 +249,9 @@ export class ClockInPage implements OnInit {
     private cinRouter: Router,
     private cinAuthenticationService: AuthenticationService,
     private cinApi: APIService,
-    public cinGlobal: GlobalService
+    public cinGlobal: GlobalService,
+    private cinBackgroundGeolocation: BackgroundGeolocation,
+    private cinPlatform: Platform
   ) {
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
@@ -223,10 +269,42 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   ngOnInit() {
+    // document.addEventListener("deviceready", onDeviceReady, false);
+    console.log('platformmm');
+    console.log(this.cinPlatform.platforms());
     this.data = this.cinGlobalFn.sampleDataList();
     this.selectedClient = this.clientNone;
     this.selectedProject = this.projectNone;
     this.selectedContract = this.contractNone;
+    // (window as any).plugins.mockgpschecker.check((a) => this.successCallback(a), (b) => this.errorCallback(b));
+
+    // successCallback(result) {
+    //   console.log(result); // true - enabled, false - disabled
+    // }
+
+    // errorCallback(error) {
+    //   console.log(error);
+    // }
+    this.cinBackgroundGeolocation.configure(this.bglConfig).then(() => {
+      this.cinBackgroundGeolocation
+        .on(BackgroundGeolocationEvents.location)
+        .subscribe((location: BackgroundGeolocationResponse) => {
+          console.log("configure background location");
+          console.log(location);
+
+          // IMPORTANT:  You must execute the finish method here to inform the native plugin that you're finished,
+          // and the background-task may be completed.  You must do this regardless if your operations are successful or not.
+          // IF YOU DON'T, ios will CRASH YOUR APP for spending too much time in the background.
+          this.cinBackgroundGeolocation.finish(); // FOR IOS ONLY
+        });
+    });
+
+    // start recording location
+    this.cinBackgroundGeolocation.start();
+    // If you wish to turn OFF background-tracking, call the #stop method.
+    // this.cinBackgroundGeolocation.stop();
+
+    document.addEventListener("deviceready", this.onDeviceReady, false);
     this.getBasicInfo();
     if (localStorage.getItem("cin_token") !== "true") {
       localStorage.setItem("cin_token", "false");
@@ -237,6 +315,54 @@ export class ClockInPage implements OnInit {
       this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
       this.autoclockoutCheck();
     }
+    // (window as any).plugins.mocklocation.check(
+    //   (a) => this.successCallback(a),
+    //   (b) => this.errorCallback(b)
+    // );
+  }
+
+  successCallback(result?) {
+    console.log("1111s");
+    console.log(result); // true - enabled, false - disabled
+    if (result) {
+      console.log("1111s spoofing detected");
+      this.cinGlobalFn.showAlert(
+        "Spoofing Detected",
+        "You are using fake location application. Please stop location spoofing and try again",
+        "alert-warning"
+      );
+    } else {
+      console.log("no spoofing detected");
+    }
+  }
+
+  errorCallback(error) {
+    console.log("1111e");
+    console.log(error);
+  }
+
+  onDeviceReady() {
+    console.log("1111");
+
+    const winMock = (window as any).plugins.mockgpschecker.check(
+      (res) => {
+        console.log("1111ismovk");
+        console.log(res);
+        // if (a) {
+        //   console.log("spoofing detected");
+        this.successCallback(res);
+        // } else {
+        // }
+        // console.log(this.successCallback(a));
+        // this.successCallback(a);
+      },
+      (error) => {
+        console.log("1111dsdssderror");
+        this.errorCallback(error);
+      }
+    );
+    console.log("winMock");
+    console.log(winMock);
   }
 
   /**
@@ -245,7 +371,6 @@ export class ClockInPage implements OnInit {
    */
   cinStartTime() {
     this.currTime = new Date().toISOString();
-
     setTimeout(() => {
       this.cinStartTime();
     }, 1000);
@@ -257,6 +382,7 @@ export class ClockInPage implements OnInit {
    */
   async ionViewDidEnter() {
     console.log("ionViewDidEnter");
+
     await this.getLoc();
     this.cinStartTime();
     this.getAllClient();
@@ -291,42 +417,85 @@ export class ClockInPage implements OnInit {
    */
   getLoc() {
     this.geoLocError = "";
-    this.geolocation
-      .getCurrentPosition()
-      .then((resp) => {
-        // this.lat = resp.coords.latitude;
-        // this.long = resp.coords.longitude;
-        console.log("resp");
-        console.log(resp);
-        this.cinApi
-          .getWithHeader(
-            "/api/location/search/coordinate/" +
-              resp.coords.latitude +
-              "%2C" +
-              resp.coords.longitude
-          )
-          .subscribe(
-            (res) => {
-              this.locWatch.lat = resp.coords.latitude;
-              this.locWatch.long = resp.coords.longitude;
-              this.locWatch.name = (res as any).results[0].formatted_address;
-              console.log(resp.coords.latitude);
-              console.log(resp.coords.longitude);
-              console.log((res as any).results[0].formatted_address);
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
-      })
-      .catch((error) => {
-        console.log("Error getting location", error);
-        this.geoLocError = "Error getting location. " + error.message;
+    // this.cinBackgroundGeolocation.watchLocationMode();
+    if (this.cinPlatform.platforms().includes("android" || "ios")) {
+      this.cinBackgroundGeolocation.watchLocationMode().subscribe((res) => {
+        console.log(JSON.stringify(res, null, " "));
       });
-
+      this.cinBackgroundGeolocation
+        .getCurrentLocation()
+        .then((respBgLoc) => {
+          console.log("return bg location");
+          console.log(respBgLoc.latitude + ", " + respBgLoc.longitude);
+          // console.log();
+          // this.notiLocationMessage = respBgLoc.latitude + ", " + respBgLoc.longitude;
+          console.log(JSON.stringify(respBgLoc, null, " "));
+          this.cinApi
+            .getWithHeader(
+              "/api/location/search/coordinate/" +
+                respBgLoc.latitude +
+                "%2C" +
+                respBgLoc.longitude
+            )
+            .subscribe(
+              (res) => {
+                this.locWatch.lat = respBgLoc.latitude;
+                this.locWatch.long = respBgLoc.longitude;
+                this.locWatch.name = (res as any).results[0].formatted_address;
+                console.log(respBgLoc.latitude);
+                console.log(respBgLoc.longitude);
+                console.log((res as any).results[0].formatted_address);
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
+        })
+        .catch((error) => {
+          console.log("location bg error");
+          console.log("Error getting location", error);
+          this.geoLocError = "Error getting location. " + error.message;
+        });
+    } else {
+      // this.geoLocError = "";
+      this.geolocation
+        .getCurrentPosition()
+        .then((resp) => {
+          // this.lat = resp.coords.latitude;
+          // this.long = resp.coords.longitude;
+          console.log("resp");
+          console.log(resp);
+          this.cinApi
+            .getWithHeader(
+              "/api/location/search/coordinate/" +
+                resp.coords.latitude +
+                "%2C" +
+                resp.coords.longitude
+            )
+            .subscribe(
+              (res) => {
+                this.locWatch.lat = resp.coords.latitude;
+                this.locWatch.long = resp.coords.longitude;
+                this.locWatch.name = (res as any).results[0].formatted_address;
+                console.log("sslslslsls");
+                console.log(resp.coords.latitude);
+                console.log(resp.coords.longitude);
+                console.log((res as any).results[0].formatted_address);
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
+        })
+        .catch((error) => {
+          console.log("Error getting location", error);
+          this.geoLocError = "Error getting location. " + error.message;
+        });
+    }
     this.locationTimerId = setTimeout(() => {
       this.getLoc();
-    }, 300000);
+    }, 10000);
+    // }, 300000);
   }
 
   /**
@@ -388,7 +557,7 @@ export class ClockInPage implements OnInit {
     // this.getClientError = "";
     this.globalData.clients = JSON.parse(localStorage.getItem("clientList"));
     console.log(enableGeofiltering);
-
+    console.log(this.selectedJobType);
     if (
       enableGeofiltering &&
       this.locWatch.lat !== null &&
@@ -413,6 +582,7 @@ export class ClockInPage implements OnInit {
         });
       });
       console.log(this.globalData.clients);
+      console.log(this.globalData.clients.length);
     }
   }
 
@@ -534,82 +704,139 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   autoclockoutCheck() {
-    console.log("autoclockoutCheck");
-    console.log(this.clockedInInfo);
+    // console.log("autoclockoutCheck");
+    // console.log(this.clockedInInfo);
     if (
       this.clockedInInfo.jobType !== undefined &&
       this.clockedInInfo.jobType.autoclockout_filter.value
     ) {
-      console.log("yess geofence");
-      console.log(
-        this.clockedInInfo.jobType.autoclockout_filter.range / 100000
-      );
+      // console.log("yess geofence");
+      // console.log(
+      //   this.clockedInInfo.jobType.autoclockout_filter.range / 100000
+      // );
       const clocksRadius =
         this.clockedInInfo.jobType.autoclockout_filter.range / 100000; // 500m(+-0.005), 1000m(+-0.01), 1500m(+-0.015), 2000m(+-0.02)
 
       const currLat = parseFloat(this.locWatch.lat).toFixed(3);
       const currLong = parseFloat(this.locWatch.long).toFixed(3);
-      console.log(currLat);
-      console.log(currLong);
-      this.cinApi
-        .getWithHeader(
-          "/api/location/" +
-            JSON.parse(localStorage.getItem("cin_info")).clientId
-        )
-        .subscribe((locList: Array<any>) => {
-          // console.log(locList);
-          const list = locList.filter((clientLoc) => {
-            // console.log(clientLoc);
-            const minLat = parseFloat(
-              (clientLoc.LATITUDE - clocksRadius).toString()
-            ).toFixed(3);
-            // Number(parseFloat(clientLoc.LATITUDE).toFixed(3)) - clocksRadius;
-            // Number(parseFloat(clientLoc.LATITUDE).toFixed(3)) - clocksRadius;
-            const maxLat = parseFloat(
-              clientLoc.LATITUDE + clocksRadius
-            ).toFixed(3);
-            const minLong = parseFloat(
-              (clientLoc.LONGITUDE - clocksRadius).toString()
-            ).toFixed(3);
-            const maxLong = parseFloat(
-              clientLoc.LONGITUDE + clocksRadius
-            ).toFixed(3);
-            console.log(
-              minLat + " - " + maxLat + ", " + minLong + " - " + maxLong
+      // console.log(currLat);
+      // console.log(currLong);
+      // console.log(JSON.parse(localStorage.getItem("cin_info")).clientId);
+      if (JSON.parse(localStorage.getItem("cin_info")).clientId === "none") {
+        // console.log("check auto clockout based on clocked in location");
+        // console.log(JSON.parse(localStorage.getItem("cin_info")).location.lat);
+        // console.log(JSON.parse(localStorage.getItem("cin_info")).location.long);
+        const minLat = parseFloat(
+          (
+            JSON.parse(localStorage.getItem("cin_info")).location.lat -
+            clocksRadius
+          ).toString()
+        ).toFixed(3);
+        const maxLat = parseFloat(
+          JSON.parse(localStorage.getItem("cin_info")).location.lat +
+            clocksRadius
+        ).toFixed(3);
+        const minLong = parseFloat(
+          (
+            JSON.parse(localStorage.getItem("cin_info")).location.long -
+            clocksRadius
+          ).toString()
+        ).toFixed(3);
+        const maxLong = parseFloat(
+          JSON.parse(localStorage.getItem("cin_info")).location.long +
+            clocksRadius
+        ).toFixed(3);
+
+        console.log(
+          minLat <= currLat &&
+            currLat <= maxLat &&
+            minLong <= currLong &&
+            currLong <= maxLong
+        );
+        if (
+          minLat <= currLat &&
+          currLat <= maxLat &&
+          minLong <= currLong &&
+          currLong <= maxLong
+        ) {
+          // console.log('still on range');
+          this.confirmAutoClockOut = 0;
+        } else {
+          // console.log('turn on auto clockout');
+          this.confirmAutoClockOut++;
+          // console.log(this.confirmAutoClockOut);
+          if (this.confirmAutoClockOut === 1) {
+            this.cinGlobalFn.showAlert(
+              "Alert",
+              "You are not in the work zone. You'll be clocked out automatically in 5 minutes",
+              "alert-warning"
             );
-            // console.log();
-            return (
-              minLat <= currLat &&
-              currLat <= maxLat &&
-              minLong <= currLong &&
-              currLong <= maxLong
-            );
-            // console.log(maxLat + ", " + maxLong);
-          });
-          console.log(list);
-          if (list.length < 1) {
-            console.log("need to auto clockout");
-            this.confirmAutoClockOut++;
-            if (this.confirmAutoClockOut === 1) {
-              this.cinGlobalFn.showAlert(
-                "Alert",
-                "You are not in the work zone. You'll be clocked out automatically in 5 minutes",
-                "alert-warning"
-              );
-            } else if (this.confirmAutoClockOut > 1) {
-              console.log("proceed clockout");
-              this.saveClockIn("out");
-            }
-          } else {
-            this.confirmAutoClockOut = 0;
+          } else if (this.confirmAutoClockOut > 1) {
+            // console.log("proceed clockout");
+            this.saveClockIn("out");
           }
-          // locList.filter((locClient) => {
-          //   console.log(locClient);
-          // });
-        });
+        }
+      } else {
+        this.cinApi
+          .getWithHeader(
+            "/api/location/" +
+              JSON.parse(localStorage.getItem("cin_info")).clientId
+          )
+          .subscribe((locList: Array<any>) => {
+            // console.log(locList);
+            const list = locList.filter((clientLoc) => {
+              // console.log(clientLoc);
+              const minLat = parseFloat(
+                (clientLoc.LATITUDE - clocksRadius).toString()
+              ).toFixed(3);
+              // Number(parseFloat(clientLoc.LATITUDE).toFixed(3)) - clocksRadius;
+              // Number(parseFloat(clientLoc.LATITUDE).toFixed(3)) - clocksRadius;
+              const maxLat = parseFloat(
+                clientLoc.LATITUDE + clocksRadius
+              ).toFixed(3);
+              const minLong = parseFloat(
+                (clientLoc.LONGITUDE - clocksRadius).toString()
+              ).toFixed(3);
+              const maxLong = parseFloat(
+                clientLoc.LONGITUDE + clocksRadius
+              ).toFixed(3);
+              console.log(
+                minLat + " - " + maxLat + ", " + minLong + " - " + maxLong
+              );
+              // console.log();
+              return (
+                minLat <= currLat &&
+                currLat <= maxLat &&
+                minLong <= currLong &&
+                currLong <= maxLong
+              );
+              // console.log(maxLat + ", " + maxLong);
+            });
+            // console.log(list);
+            if (list.length < 1) {
+              // console.log("need to auto clockout");
+              this.confirmAutoClockOut++;
+              if (this.confirmAutoClockOut === 1) {
+                this.cinGlobalFn.showAlert(
+                  "Alert",
+                  "You are not in the work zone. You'll be clocked out automatically in 5 minutes",
+                  "alert-warning"
+                );
+              } else if (this.confirmAutoClockOut > 1) {
+                // console.log("proceed clockout");
+                this.saveClockIn("out");
+              }
+            } else {
+              this.confirmAutoClockOut = 0;
+            }
+            // locList.filter((locClient) => {
+            //   console.log(locClient);
+            // });
+          });
+      }
       this.autoClockoutLocationTimerId = setTimeout(() => {
         this.autoclockoutCheck();
-      }, 30000);
+      }, 300000);
     }
   }
 
@@ -673,7 +900,7 @@ export class ClockInPage implements OnInit {
             this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
             this.cinGlobal.addLoginActivity("Clock in");
             this.autoclockoutCheck();
-          
+
             console.log(this.clockedInInfo);
           },
           (error) => {

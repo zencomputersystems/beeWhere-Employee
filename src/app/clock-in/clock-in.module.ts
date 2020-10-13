@@ -10,10 +10,18 @@ import { ClockInPage } from './clock-in.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
 import { MatSelectModule } from '@angular/material/select';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ClockInPageRoutingModule, MatSelectModule, ReactiveFormsModule],
-  providers: [Geolocation, Geofence],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ClockInPageRoutingModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+  ],
+  providers: [Geolocation, Geofence, BackgroundGeolocation],
   declarations: [ClockInPage],
 })
 export class ClockInPageModule {}

@@ -13,6 +13,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GlobalService } from '@services/_providers/global.service';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
@@ -27,6 +29,11 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     ReactiveFormsModule,
     FormsModule,
     MatNativeDateModule,
+    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register("ngsw-worker.js", {
+      enabled: environment.production,
+      registrationStrategy: "registerImmediately",
+    }),
   ],
   providers: [
     StatusBar,
