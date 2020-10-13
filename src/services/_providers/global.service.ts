@@ -74,11 +74,21 @@ export class GlobalService {
       },
       (error) => {
         console.log(error);
-        this.gGF.showAlert(
-          error.status + " " + error.statusText,
-          error.error,
-          "alert-error"
-        );
+        if (error.status === 401 && error.statusText === "Unauthorized") {
+
+          this.gGF.showAlert(
+            error.status + " " + error.statusText,
+            "Your access token was expired. This will redirect to login page after click Ok",
+            "alert-error",
+            "/login"
+          );
+        } else {
+          this.gGF.showAlert(
+            error.status + " " + error.statusText,
+            error.error,
+            "alert-error"
+          );
+        }
       }
     );
 
@@ -154,7 +164,7 @@ export class GlobalService {
                     loginAddr = resps.results[3].formatted_address;
                     tempLoginLog = {
                       userId: JSON.parse(localStorage.getItem("usr")).userId,
-                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      loggedTimestamp: Math.floor(Date.now() / 1000),
                       latitude: loginLat.toString(),
                       longitude: loginLong.toString(),
                       address: loginAddr,
@@ -168,7 +178,7 @@ export class GlobalService {
                     console.log(error);
                     tempLoginLog = {
                       userId: JSON.parse(localStorage.getItem("usr")).userId,
-                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      loggedTimestamp: Math.floor(Date.now() / 1000),
                       latitude: loginLat.toString(),
                       longitude: loginLong.toString(),
                       address: null,
@@ -212,7 +222,7 @@ export class GlobalService {
                     loginAddr = resps.results[3].formatted_address;
                     tempLoginLog = {
                       userId: JSON.parse(localStorage.getItem("usr")).userId,
-                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      loggedTimestamp: Math.floor(Date.now() / 1000),
                       latitude: loginLat.toString(),
                       longitude: loginLong.toString(),
                       address: loginAddr,
@@ -226,7 +236,7 @@ export class GlobalService {
                     console.log(error);
                     tempLoginLog = {
                       userId: JSON.parse(localStorage.getItem("usr")).userId,
-                      loggedTimestamp: Math.floor(Date.now() / 1000).toString(),
+                      loggedTimestamp: Math.floor(Date.now() / 1000),
                       latitude: loginLat.toString(),
                       longitude: loginLong.toString(),
                       address: null,
