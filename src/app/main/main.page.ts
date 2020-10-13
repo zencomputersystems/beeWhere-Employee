@@ -11,7 +11,7 @@ export let clickedClocks = {};
   styleUrls: ["./main.page.scss"],
 })
 export class MainPage implements OnInit {
-  constructor(public hApi: APIService) {}
+  constructor(public hApi: APIService) { }
 
   /**
    * Get sample data from json
@@ -55,6 +55,7 @@ export class MainPage implements OnInit {
       .subscribe(
         (histRes: any) => {
           console.log(histRes);
+          histRes.sort((a, b) => new Date(b.CLOCK_IN_TIME).getTime() - new Date(a.CLOCK_IN_TIME).getTime());
           if (this.initReq < 1) {
             this.globalData.histClocks = histRes;
           } else {
@@ -91,7 +92,7 @@ export class MainPage implements OnInit {
   async refreshHistoryPage(event) {
     this.globalData.histClocks = [];
     this.initReq = 0;
-  // async refreshHistoryPage(event: Refresher) {
+    // async refreshHistoryPage(event: Refresher) {
     await this.getHistory();
     setTimeout(() => {
       event.target.complete();

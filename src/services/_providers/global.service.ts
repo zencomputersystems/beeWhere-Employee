@@ -15,7 +15,7 @@ export class GlobalService {
     private router: Router,
     private gGF: GlobalFnService,
     private glGeolocation: Geolocation
-  ) {}
+  ) { }
   //  ClockInPage.clocksForm: FormGroup
   public globalData = require("@services/_providers/global.json");
 
@@ -92,6 +92,7 @@ export class GlobalService {
       }
     );
 
+
     // if (isNavToMain) {
     //   // this.router.navigate(["/"]);
     // }
@@ -122,7 +123,7 @@ export class GlobalService {
     this.gApi
       .getWithHeader(
         "/api/admin/attendance/user/" +
-          JSON.parse(localStorage.getItem("usr")).userId
+        JSON.parse(localStorage.getItem("usr")).userId
       )
       .subscribe(
         (resp) => {
@@ -155,9 +156,9 @@ export class GlobalService {
               this.gApi
                 .getWithHeader(
                   "/api/location/search/coordinate/" +
-                    respLoc.coords.latitude +
-                    "%2C" +
-                    respLoc.coords.longitude
+                  respLoc.coords.latitude +
+                  "%2C" +
+                  respLoc.coords.longitude
                 )
                 .subscribe(
                   (resps: any) => {
@@ -213,9 +214,9 @@ export class GlobalService {
               this.gApi
                 .getWithHeader(
                   "/api/location/search/coordinate/" +
-                    respLoc.coords.latitude +
-                    "%2C" +
-                    respLoc.coords.longitude
+                  respLoc.coords.latitude +
+                  "%2C" +
+                  respLoc.coords.longitude
                 )
                 .subscribe(
                   (resps: any) => {

@@ -168,6 +168,24 @@
         }
     }
 
+    .pendings {
+        // display: flex;
+        // text-align: right;
+        display: flex;
+        justify-content: space-between;
+        flex-flow: row nowrap;
+        margin-bottom: 1em;
+        ion-note {
+            // color: var(--ion-color-red);
+            font-size: var(--ion-text-11);
+            font-weight: bold;
+            background: var(--ion-color-clockout);
+            color: white;
+            padding: 0.4em 0.5em;
+            border-radius: 4px;
+        }
+    }
+
     .pending {
         // float: right;
         display: flex;
