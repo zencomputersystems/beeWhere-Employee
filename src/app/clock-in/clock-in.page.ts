@@ -418,7 +418,7 @@ export class ClockInPage implements OnInit {
   getLoc() {
     this.geoLocError = "";
     // this.cinBackgroundGeolocation.watchLocationMode();
-    if (this.cinPlatform.platforms().includes("android" || "ios")) {
+    if (!this.cinPlatform.is('mobileweb')) {
       this.cinBackgroundGeolocation.watchLocationMode().subscribe((res) => {
         console.log(JSON.stringify(res, null, " "));
       });
@@ -494,7 +494,7 @@ export class ClockInPage implements OnInit {
     }
     this.locationTimerId = setTimeout(() => {
       this.getLoc();
-    }, 10000);
+    }, 20000);
     // }, 300000);
   }
 
