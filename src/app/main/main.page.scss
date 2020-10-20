@@ -196,16 +196,6 @@
         }
     }
 
-    // .history-clockin-no-record {
-    //     min-height: 8em;
-    //     // font-size: var(--ion-text-11);
-    //     // display: flex;
-    //     // align-items: center;
-    //     // justify-content: center;
-    //     // font-style: italic;
-    //     // opacity: 80%;
-    // }
-
     .clockin-content {
         margin: 0.75em;
         padding: 0;
@@ -213,7 +203,7 @@
 
     .clock-setting {
         display: flex;
-        align-items: center;
+        align-items: end; 
         margin-bottom: 0.7em;
     }
 
