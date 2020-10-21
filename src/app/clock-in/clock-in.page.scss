@@ -100,7 +100,7 @@
         ion-label {
             font-size: var(--ion-text-11);
             color: var(--ion-color-text);
-            opacity: 80%;
+            opacity: 0.8;
         }
 
         .bell-noti {
@@ -118,7 +118,7 @@
             color: var(--ion-color-text);
             font-size: var(--ion-text-15);
             font-weight: bold;
-            opacity: 100%;
+            opacity: 1;
             padding: 0;
         }
 
@@ -186,7 +186,7 @@
                     flex: 1;
                     --color: var(--ion-color-text-header);
                     font-size: var(--ion-text-12);
-                    opacity: 80%;
+                    // opacity: 0.8;
                     min-width: 1em;
                     --background-checked: var(--ion-color-text-header);
                     --color-checked: #ffffff;
@@ -215,7 +215,7 @@
                 min-width: var(--ion-text-20);
                 width: var(--ion-text-20);
                 height: var(--ion-text-20);
-                opacity: 80%;
+                opacity: 0.8;
                 margin-right: 0.5em;
             }
 
@@ -246,7 +246,7 @@
                         --color: var(--ion-color-text-tasklist);
                         align-items: center;
                         font-size: var(--ion-text-11);
-                        opacity: 80%;
+                        opacity: 0.8;
                         width: -webkit-fill-available;
 
                         ion-checkbox {
@@ -276,7 +276,7 @@
                 ion-button {
                     width: -webkit-fill-available;
                     --color: var(--ion-color-text-header);
-                    opacity: 80%;
+                    opacity: 0.8;
                     --border-color: var(--ion-color-text-header);
                     margin-bottom: 1em;
                     --border-width: 1px;
@@ -296,13 +296,13 @@
                     }
 
                     ion-input{
-                        opacity: 80%;
+                        opacity: 0.8;
                         color: var(--ion-color-text-tasklist);
                         margin: 0 0.5em;
                     }
 
                     ion-textarea {
-                        opacity: 80%;
+                        opacity: 0.8;
                         color: var(--ion-color-text-tasklist);
                     }
                 }
@@ -322,7 +322,7 @@
             padding: 0.5em 0.75em;
             height: var(--ion-text-40);
             font-size: var(--ion-text-13);
-            opacity: 80%;
+            opacity: 0.8;
             color: var(--ion-color-text);
         }
         mat-select {
@@ -333,7 +333,7 @@
             justify-content: center;
             padding: 1em;
             font-size: var(--ion-text-13);
-            opacity: 80%;
+            opacity: 0.8;
             color: var(--ion-color-text);
             border-radius: 6px;
             ::ng-deep .mat-select-arrow-wrapper {
@@ -355,7 +355,7 @@
         font-style: italic;
         margin: 0.5em 1em;
         color: var(--ion-color-text);
-        opacity: 80%;
+        opacity: 0.8;
     }
 
     .error-location {
@@ -378,7 +378,7 @@
         text-transform: none;
         font-weight: bold;
         color: black;
-        opacity: 100%;
+        opacity: 1;
         font-size: var(--ion-text-12) !important;
     }
 

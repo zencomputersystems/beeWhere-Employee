@@ -100,7 +100,7 @@
 
                 ion-card-subtitle {
                     color: var(--ion-color-text-tasklist);
-                    opacity: 80%;
+                    opacity: 0.8;
                     font-size: var(--ion-text-11);
                     margin-bottom: 0.3em;
                 }
@@ -108,7 +108,7 @@
                 ion-label,
                 p {
                     color: var(--ion-color-text);
-                    opacity: 80%;
+                    opacity: 0.8;
                     font-size: var(--ion-text-10);
                     margin: 0;
                 }
@@ -229,7 +229,7 @@
                 min-width: 130px;
                 background: var(--ion-color-text-header);
                 color: var(--ion-color-white);
-                opacity: 80%;
+                opacity: 0.8;
                 --border-color: var(--ion-color-text-header);
                 margin: 1em;
                 --border-width: 1px;
@@ -313,7 +313,7 @@
         display: flex;
         align-items: center;
         ion-img {
-            opacity: 80%;
+            opacity: 0.8;
         }
     }
 
