@@ -1,5 +1,6 @@
 {
-  "hosting": {
+    "source": "ngsw-worker.js",
+    "hosting": {
     "public": "www",
     "ignore": [
       "firebase.json",

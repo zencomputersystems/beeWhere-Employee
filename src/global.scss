@@ -467,7 +467,7 @@
     .animate-skeleton-background {
         -webkit-animation: infinite bgcolorchange 4s;
         animation: 4s infinite bgcolorchange;
-        opacity: 0.5;
+        opacity: 0.5 !important;
         display: list-item;
     }
 
