@@ -22,6 +22,13 @@ export class SettingsPage implements OnInit {
   openLoginActivityList: boolean;
 
   /**
+   * To check opening of view profile
+   * @type {boolean}
+   * @memberof SettingsPage
+   */
+  openViewMyProfile: boolean;
+
+  /**
    * Bind value of login log
    * @memberof SettingsPage
    */
@@ -45,6 +52,7 @@ export class SettingsPage implements OnInit {
    * @memberof SettingsPage
    */
   loginId: string;
+  myProfileData: any;
 
   /**
    * Creates an instance of SettingsPage.
@@ -124,5 +132,11 @@ export class SettingsPage implements OnInit {
           );
         }
       );
+  }
+
+  toViewProfile() {
+    console.log("toViewProfile");
+    this.openViewMyProfile = true;
+    this.myProfileData = localStorage.getItem('usr');
   }
 }

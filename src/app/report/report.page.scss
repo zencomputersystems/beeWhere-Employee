@@ -81,7 +81,7 @@
         ion-label {
             font-size: var(--ion-text-11);
             color: var(--ion-color-text);
-            opacity: 80%;
+            opacity: 0.8;
         }
 
         .bell-noti {
@@ -126,7 +126,7 @@
         align-items: center;
         border-radius: 2px;
         background: var(--ion-color-submit);
-        opacity: 80%;
+        opacity: 0.8;
         color: var(--ion-color-white);
         text-align: center;
         font-size: var(--ion-text-12);
@@ -217,7 +217,7 @@
         input {
             color: var(--ion-color-text);
             width: -webkit-fill-available;
-            opacity: 80%;
+            opacity: 0.8;
             border: 1px solid #50505029;
             border-radius: var(--ion-text-3);
             font-size: var(--ion-text-11);
@@ -239,7 +239,7 @@
             height: 2em;
             width: 4em;
             background: var(--ion-color-text-header);
-            opacity: 80%;
+            opacity: 0.8;
             border-radius: 3px;
         }
 
@@ -254,7 +254,7 @@
 
     .not-available-data {
         font-style: italic;
-        opacity: 80%;
+        opacity: 0.8;
     }
 
 }
@@ -273,7 +273,7 @@
 }
 ion-select {
     padding-right: var(--ion-text-12);
-    opacity: 80%;
+    opacity: 0.8;
     padding-left: var(--ion-text-11);
     border: 1px solid #50505029;
     border-radius: var(--ion-text-3);
@@ -284,7 +284,7 @@ ion-select {
 ion-item {
     font-size: var(--ion-text-11);
     color: var(--ion-color-text);
-    opacity: 80%;
+    opacity: 0.8;
     --padding-start: 0.5em;
     height: 3em;
     display: flex;

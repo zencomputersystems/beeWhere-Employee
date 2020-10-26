@@ -50,8 +50,9 @@ export class MainPage implements OnInit {
    */
   getHistory(event?) {
     console.log(this.initReq);
+    console.log('get req history');
     this.hApi
-      .getWithHeader("/api/clock/history-list/25/" + this.initReq)
+      .getWithHeader("/api/clock/history-list/50/" + this.initReq)
       .subscribe(
         (histRes: any) => {
           console.log(histRes);
@@ -66,6 +67,7 @@ export class MainPage implements OnInit {
             this.checkNoMoreData = (histRes.length < 1) ? true : false;
             event.target.complete();
           }
+          console.log(this.globalData.histClocks);
         },
         (error) => {
           console.log(error);
@@ -85,7 +87,7 @@ export class MainPage implements OnInit {
    */
   doInfinite(event) {
     console.log(event);
-    this.initReq = this.initReq + 25
+    this.initReq = this.initReq + 50
     this.getHistory(event);
   }
 

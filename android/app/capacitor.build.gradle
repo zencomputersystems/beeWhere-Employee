@@ -10,9 +10,14 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
 
+    implementation "com.google.android.gms:play-services-location:11+"
+    implementation "com.android.support:support-v4:26+"
+    implementation "com.android.support:appcompat-v7:26+"
     implementation "com.google.android.gms:play-services-location:+"
+    implementation "com.google.android.gms:play-services-location:9.8.0"
+    implementation "com.google.android.gms:play-services-location:9.8.0"
 }
-
+apply from: "../../node_modules/@mauron85/cordova-plugin-background-geolocation/android/dependencies.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()

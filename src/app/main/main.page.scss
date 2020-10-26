@@ -108,7 +108,7 @@
         ion-label {
             font-size: var(--ion-text-11);
             color: var(--ion-color-text);
-            opacity: 80%;
+            opacity: 0.8;
         }
 
         .bell-noti {
@@ -127,7 +127,7 @@
             color: var(--ion-color-text);
             font-size: var(--ion-text-15);
             font-weight: bold;
-            opacity: 100%;
+            opacity: 1;
             padding: 0;
         }
 
@@ -191,20 +191,10 @@
                 font-style: italic;
                 margin: 0.75em;
                 color: var(--ion-color-text);
-                opacity: 80%;
+                opacity: 0.8;
             }
         }
     }
-
-    // .history-clockin-no-record {
-    //     min-height: 8em;
-    //     // font-size: var(--ion-text-11);
-    //     // display: flex;
-    //     // align-items: center;
-    //     // justify-content: center;
-    //     // font-style: italic;
-    //     // opacity: 80%;
-    // }
 
     .clockin-content {
         margin: 0.75em;
@@ -213,7 +203,7 @@
 
     .clock-setting {
         display: flex;
-        align-items: center;
+        align-items: end; 
         margin-bottom: 0.7em;
     }
 
@@ -248,7 +238,7 @@
         padding: 0;
         font-size: var(--ion-text-12);
         color: var(--ion-color-text);
-        opacity: 100%;
+        opacity: 1;
     }
 
     .activities-setting {
@@ -279,13 +269,13 @@
                 white-space: pre-line;
                 color: var(--ion-color-text-tasklist);
                 font-size: var(--ion-text-11);
-                opacity: 80%;
+                opacity: 0.8;
             }
         }
     }
 
     .no-record-1 {
-        opacity: 100%;
+        opacity: 1;
     }
 
     .complete-load {

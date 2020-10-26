@@ -144,7 +144,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-item-group class="notification-info" routerLink="/inbox-details"
+    <!-- <ion-item-group class="notification-info" routerLink="/inbox-details"
       *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
       <ion-img class="bell-noti" src="../../assets/basic/ellipse-notification.png"></ion-img>
       <ion-img src="../../assets/basic/bell.png"></ion-img>
@@ -159,7 +159,7 @@
       <ion-label *ngIf="data.userInfo.notifications.updates.length !- 0"> {{data.userInfo.notifications.updates.length}}
         new
         updates</ion-label>
-    </ion-item-group>
+    </ion-item-group> -->
 
     <ion-item-group class="last-clockin" *ngFor="let histClock of currData">
       <ion-title>
@@ -169,8 +169,8 @@
         <ion-card-title>
           {{histClock.JOB_TYPE}}
           <ion-card-subtitle>
-            <ion-label class="label-client" *ngIf="histClock.CLIENT_ID !== null">
-              {{histClock.CLIENT_ID}}
+            <ion-label class="label-client" *ngIf="histClock.CLIENT_ID !== null && histClock.CLIENT_DATA.ABBR !== null">
+              {{histClock.CLIENT_DATA.ABBR}}
             </ion-label>
             <ion-label class="label-project"
               *ngIf="histClock.PROJECT_DATA.length !== 0 && histClock.PROJECT_DATA.SOC_NO !== null">

@@ -33,7 +33,7 @@
                     height: 2em;
                     margin-left: 1em;
                     color: var(--ion-color-white);
-                    opacity: 80%;
+                    opacity: 0.8;
                 }
             }
 
@@ -47,7 +47,7 @@
     }
 
     ion-title {
-        opacity: 80%;
+        opacity: 0.8;
         // margin: 2em 0;
         font-size: var(--ion-text-13);
     }
@@ -76,7 +76,7 @@
             --border-width: 1px;
             --size: 12px;
             margin: 0px 3px;
-            opacity: 80%;
+            opacity: 0.8;
         }
     }
 }
@@ -108,7 +108,8 @@ ion-item,
 ion-input,
 ion-label {
     --color: var(--ion-color-white);
-    opacity: 80%;
+    opacity: 0.8;
+    
 }
 
 ion-note {
