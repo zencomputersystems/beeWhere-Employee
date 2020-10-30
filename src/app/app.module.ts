@@ -32,7 +32,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
-      // registrationStrategy: "registerImmediately",
+      registrationStrategy: "registerImmediately"
     }),
   ],
   providers: [
