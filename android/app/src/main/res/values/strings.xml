@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">beeWhere</string>
     <string name="title_activity_main">beeWhere</string>
-    <string name="package_name">com.example.app</string>
-    <string name="custom_url_scheme">com.example.app</string>
+    <string name="package_name">com.beewhere.app</string>
+    <string name="custom_url_scheme">com.beewhere.app</string>
     <string name="mauron85_bgloc_account_name">$ACCOUNT_NAME</string>
     <string name="mauron85_bgloc_account_type">$ACCOUNT_TYPE</string>
     <string name="mauron85_bgloc_content_authority">$CONTENT_AUTHORITY</string>

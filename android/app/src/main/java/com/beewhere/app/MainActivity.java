@@ -1,4 +1,4 @@
-package com.example.app;
+package com.beewhere.app;
 
 import android.os.Bundle;
 
