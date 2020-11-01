@@ -395,6 +395,7 @@
           </ion-card-content>
 
         </div>
+        <div *ngIf="inboxData.length < 1"  class="no-record">No new message yet</div>
       </ion-card>
       <ion-card *ngIf="errorMsg !== undefined">
         <ion-card-content class="no-record error-text">{{errorMsg.error}}</ion-card-content>
