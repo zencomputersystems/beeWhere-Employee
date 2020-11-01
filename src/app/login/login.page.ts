@@ -110,32 +110,32 @@ export class LoginPage implements OnInit {
    * @memberof LoginPage
    */
   ngOnInit() {
-    console.log("platform");
-    console.log(this.lplatform.description);
-    (async () => {
-      console.log(await this.publicIp.v4());
-    })();
-    this.lGeolocation.getCurrentPosition().then((respLoc) => {
-      console.log(respLoc.timestamp);
-      // console.log(respLoc);
-      console.log(respLoc.coords.latitude);
-      console.log(respLoc.coords.longitude);
-      this.lApi
-        .getWithHeader(
-          "/api/location/search/coordinate/" +
-            respLoc.coords.latitude +
-            "%2C" +
-            respLoc.coords.longitude
-        )
-        .subscribe(
-          (resp: any) => {
-            console.log(resp.results[3].formatted_address);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    });
+    // console.log("platform");
+    // console.log(this.lplatform.description);
+    // (async () => {
+    //   console.log(await this.publicIp.v4());
+    // })();
+    // this.lGeolocation.getCurrentPosition().then((respLoc) => {
+    //   console.log(respLoc.timestamp);
+    //   // console.log(respLoc);
+    //   console.log(respLoc.coords.latitude);
+    //   console.log(respLoc.coords.longitude);
+    //   this.lApi
+    //     .getWithHeader(
+    //       "/api/location/search/coordinate/" +
+    //         respLoc.coords.latitude +
+    //         "%2C" +
+    //         respLoc.coords.longitude
+    //     )
+    //     .subscribe(
+    //       (resp: any) => {
+    //         console.log(resp.results[3].formatted_address);
+    //       },
+    //       (error) => {
+    //         console.log(error);
+    //       }
+    //     );
+    // });
     console.log(atob(localStorage.getItem("val3")));
     console.log(this.lForm);
     const tempVal3 =
@@ -176,6 +176,8 @@ export class LoginPage implements OnInit {
     } else {
       localStorage.removeItem("val1");
       localStorage.removeItem("val2");
+      // localStorage.setItem("val1", "");
+      // localStorage.setItem("val2", "");
     }
   }
 
@@ -184,24 +186,26 @@ export class LoginPage implements OnInit {
    * 1. check remember me logic
    * @memberof LoginPage
    */
-  onLogin() {
+  async onLogin() {
     this.error = null;
     this.checkRememberMe();
     // window.btoa(pass);
     console.log("onlogin");
-    this.lfGlobal.showLoading();
+    this.lfGlobal.showLoading(true);
 
-    this.authenticationService
+    await this.authenticationService
       .login(this.lForm.get("email").value, this.lForm.get("password").value)
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log(data);
+          // console.log(data);
+          // console.log(this.getBasicUserInfo());
           this.lGlobal.getLoggedUserInfo(true);
           // this.router.navigate([this.returnUrl]);
+          // this.router.navigate(["/"]);
         },
         (error) => {
-          console.log(error)
+          console.log(error);
           this.error =
             error.error.message.error + ". " + error.error.message.message;
           this.loading = false;

@@ -71,6 +71,9 @@ export class GlobalService {
         this.globalData.userInfo = resp;
         // console.log(this.globalData);
         this.getJobProfile(isNavToMain);
+        if (isNavToMain) {
+          this.gGF.dissmissLoading();
+        }
       },
       (error) => {
         console.log(error);
@@ -149,7 +152,9 @@ export class GlobalService {
           // console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
           if (isNavToMain) {
-            this.router.navigate(["/"]);
+            setTimeout(() => {
+              this.router.navigate(["/"]);
+            }, 500);
             this.glGeolocation.getCurrentPosition().then((respLoc) => {
               loginLat = respLoc.coords.latitude;
               loginLong = respLoc.coords.longitude;

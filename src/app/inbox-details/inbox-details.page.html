@@ -61,9 +61,9 @@
   <ion-fab-list side="top">
     <ion-fab-button>
       <div class="footer-label" routerLink="/inbox-details">
-        <ion-img class="inbox-noti" src="../../assets/basic/ellipse-notification.png"
+        <!-- <ion-img class="inbox-noti" src="../../assets/basic/ellipse-notification.png"
           *ngIf="data.userInfo.notifications.approval.length !=0 || data.userInfo.notifications.updates.length !=0">
-        </ion-img>
+        </ion-img> -->
         <ion-img src="../../assets/basic/bell.png"></ion-img>
         <ion-label>
           Inbox
@@ -395,6 +395,7 @@
           </ion-card-content>
 
         </div>
+        <div *ngIf="inboxData.length < 1"  class="no-record">No new message yet</div>
       </ion-card>
       <ion-card *ngIf="errorMsg !== undefined">
         <ion-card-content class="no-record error-text">{{errorMsg.error}}</ion-card-content>
