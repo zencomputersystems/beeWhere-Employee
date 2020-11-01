@@ -71,7 +71,9 @@ export class GlobalService {
         this.globalData.userInfo = resp;
         // console.log(this.globalData);
         this.getJobProfile(isNavToMain);
-        this.gGF.dissmissLoading();
+        if (isNavToMain) {
+          this.gGF.dissmissLoading();
+        }
       },
       (error) => {
         console.log(error);
