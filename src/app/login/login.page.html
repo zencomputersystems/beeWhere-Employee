@@ -19,6 +19,7 @@
         </ion-item>
         <ion-note *ngIf="!this.lForm.controls.email.valid">
           *required</ion-note>
+        <ion-note *ngIf="lForm.get('email').value.include('/\s/g')" >cannot contain whitespace in filed</ion-note>
       </ion-item-group>
 
       <!-- password -->
