@@ -56,6 +56,10 @@ export class MainPage implements OnInit {
       .subscribe(
         (histRes: any) => {
           console.log(histRes);
+          histRes.forEach(itemHist => {
+            itemHist.CLOCK_IN_TIME = new Date(itemHist.CLOCK_IN_TIME.replace(/-/g, "/"));
+            itemHist.CLOCK_OUT_TIME = new Date(itemHist.CLOCK_OUT_TIME.replace(/-/g, "/"));
+          });
           histRes.sort((a, b) => new Date(b.CLOCK_IN_TIME).getTime() - new Date(a.CLOCK_IN_TIME).getTime());
           if (this.initReq < 1) {
             this.globalData.histClocks = histRes;
