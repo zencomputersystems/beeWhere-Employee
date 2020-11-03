@@ -62,6 +62,9 @@ export class GlobalService {
   }
 
   getLoggedUserInfo(isNavToMain?) {
+    if (isNavToMain) {
+      this.gGF.dissmissLoading();
+    }
     this.gApi.getWithHeader("/api/user-info").subscribe(
       (resp) => {
         Object.assign(this.userInfo, resp);
@@ -71,9 +74,6 @@ export class GlobalService {
         this.globalData.userInfo = resp;
         // console.log(this.globalData);
         this.getJobProfile(isNavToMain);
-        if (isNavToMain) {
-          this.gGF.dissmissLoading();
-        }
       },
       (error) => {
         console.log(error);
