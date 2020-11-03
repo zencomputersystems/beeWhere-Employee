@@ -93,8 +93,8 @@ export class AuthenticationService {
     localStorage.removeItem("projectList");
     localStorage.removeItem("contractList");
     localStorage.removeItem("currSession");
-    localStorage.removeItem('defJob');
-    localStorage.removeItem('jobProfile');
+    localStorage.removeItem("defJob");
+    localStorage.removeItem("jobProfile");
     // localStorage.setItem('cin_token', 'false');
     localStorage.removeItem("access_token");
     // this.currentUserSubject.next(null);
