@@ -254,7 +254,7 @@
     <ion-item-group class="table-title-group" *ngIf="isShowDateTitle">
       <!-- <div *ngIf="genReport" class="animate-skeleton-background"></div>  -->
       <ion-button fill="clear" *ngIf="countClickPrevButton > -1 && this.countPrevReportEmpty < 2"
-        (click)="showReport('prev');" [style.display]="disabledCustom ? 'none' : 'block' ">
+        (click)="showReport('prev');" [style.display]="disabledCustom ? 'none' : 'block' "><
          </ion-button>
           <div class="table-title">
             {{labelStartDate | date: 'EEE d MMM yyyy'}} - {{labelEndDate | date: 'EEE d MMM yyyy'}}
