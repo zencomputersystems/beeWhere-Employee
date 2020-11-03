@@ -1,7 +1,7 @@
+// import { Refresher } from '@ionic/angular';
 import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
 import * as sampledata from '../sampledata.json';
-import { GlobalFnService } from '@services/global-fn.service';
 
 export let clickedClocks = {};
 
@@ -11,7 +11,7 @@ export let clickedClocks = {};
   styleUrls: ["./main.page.scss"],
 })
 export class MainPage implements OnInit {
-  constructor(public hApi: APIService, public hGlobal: GlobalFnService) { }
+  constructor(public hApi: APIService) { }
 
   /**
    * Get sample data from json
