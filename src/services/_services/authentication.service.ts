@@ -88,13 +88,13 @@ export class AuthenticationService {
     // localStorage.setItem('defJob', '{}');
     // localStorage.setItem('usr', '{}');
     this.authGlobal.addLoginActivity("Logout");
-    localStorage.removeItem('defJob');
     localStorage.removeItem('usr');
-    localStorage.removeItem('jobProfile');
     localStorage.removeItem("clientList");
     localStorage.removeItem("projectList");
     localStorage.removeItem("contractList");
     localStorage.removeItem("currSession");
+    localStorage.removeItem('defJob');
+    localStorage.removeItem('jobProfile');
     // localStorage.setItem('cin_token', 'false');
     localStorage.removeItem("access_token");
     // this.currentUserSubject.next(null);
