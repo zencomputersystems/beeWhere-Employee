@@ -204,7 +204,8 @@
                 <span [ngSwitch]="jobDtl.type">
                   <p *ngSwitchCase="clocksForm.get('jobtype').value">
                     <!-- getting current latitude/longitude position -->
-                    <ion-item-group *ngIf="jobDtl.geofence_filter">
+                    <ion-item-group>
+                    <!-- <ion-item-group *ngIf="jobDtl.geofence_filter"> -->
                       <ion-img src="../../assets/basic/location.png"></ion-img>
                       <ion-label
                         *ngIf="locWatch.lat !== null || locWatch.long 
@@ -244,6 +245,8 @@
                           <div>Please contact Admin or HR to add client's location</div>
                         </ion-select-option>
                       </ion-select>
+                      <ion-note  *ngIf="jobDtl.geofence_filter" class="note-info">
+                        *Your client list is being filtered by your current location</ion-note>
                     </ion-item-group>
 
                     <!-- getting project list -->
