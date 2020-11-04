@@ -1,4 +1,3 @@
-import { GlobalService } from '@services/_providers/global.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
@@ -6,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '@services/_models/user';
+import { GlobalFnService } from '@services/global-fn.service';
 
 /**
  * This service is used to login & logout of the app,
@@ -21,7 +21,7 @@ export class AuthenticationService {
   // private currentUserSubject: BehaviorSubject<User>;
   // public currentUser: Observable<User>;
 
-  constructor(private http: HttpClient, private authGlobal: GlobalService) {
+  constructor(private http: HttpClient, private authGFnService: GlobalFnService) {
     // this.currentUserSubject = new BehaviorSubject<User>(
       // JSON.parse(localStorage.getItem("currentUser"))
     //   JSON.parse(localStorage.getItem("access_token"))
@@ -87,7 +87,7 @@ export class AuthenticationService {
     // localStorage.setItem('jobProfile', '[]');
     // localStorage.setItem('defJob', '{}');
     // localStorage.setItem('usr', '{}');
-    this.authGlobal.addLoginActivity("Logout");
+    this.authGFnService.addLoginActivity("Logout");
     localStorage.removeItem('usr');
     localStorage.removeItem("clientList");
     localStorage.removeItem("projectList");
