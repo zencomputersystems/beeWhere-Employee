@@ -3,8 +3,6 @@ import { GlobalFnService } from '@services/global-fn.service';
 import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
-import { AuthenticationService } from '@services/_services/authentication.service';
-import { first } from 'rxjs/operators';
 
 export let defJob; // = "office";
 
@@ -16,8 +14,7 @@ export class GlobalService {
     private gApi: APIService,
     private router: Router,
     private gGF: GlobalFnService,
-    private glGeolocation: Geolocation,
-    private glAuth: AuthenticationService
+    private glGeolocation: Geolocation
   ) { }
   //  ClockInPage.clocksForm: FormGroup
   public globalData = require("@services/_providers/global.json");
@@ -81,23 +78,13 @@ export class GlobalService {
       (error) => {
         console.log(error);
         if (error.status === 401 && error.statusText === "Unauthorized") {
-          this.glAuth.login(JSON.parse(window.atob(localStorage.getItem('session_token'))).email,
-            JSON.parse(window.atob(localStorage.getItem('session_token'))).password).pipe(first()).subscribe(
-            (reauth) => {
-              console.log(reauth);
-            },
-            (errorReAuth) => {
-              console.log(errorReAuth);
-              this.gGF.showAlert(
-                errorReAuth.status + " " + errorReAuth.statusText,
-                "Your access token was expired. This will redirect to login page after click Ok",
-                "alert-error",
-                "/login"
-              );
-              // this.error =
-              //   error.error.message.error + ". " + error.error.message.message;
 
-            });
+          this.gGF.showAlert(
+            error.status + " " + error.statusText,
+            "Your access token was expired. This will redirect to login page after click Ok",
+            "alert-error",
+            "/login"
+          );
         } else {
           this.gGF.showAlert(
             error.status + " " + error.statusText,
