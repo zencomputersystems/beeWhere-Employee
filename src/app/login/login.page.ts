@@ -191,6 +191,11 @@ export class LoginPage implements OnInit {
     this.checkRememberMe();
     // window.btoa(pass);
     console.log("onlogin");
+    const tempToken = {
+      email: this.lForm.get("email").value,
+      pass: this.lForm.get("password").value
+    };
+    localStorage.setItem('session_token', window.btoa(JSON.stringify(tempToken)));
     this.lfGlobal.showLoading(true);
 
     await this.authenticationService
