@@ -81,17 +81,13 @@ export class GlobalService {
       (error) => {
         console.log(error);
         if (error.status === 401 && error.statusText === "Unauthorized") {
-          this.gGF.showLoading();
           this.glAuth.login(JSON.parse(window.atob(localStorage.getItem('session_token'))).email,
             JSON.parse(window.atob(localStorage.getItem('session_token'))).password).pipe(first()).subscribe(
             (reauth) => {
               console.log(reauth);
-              this.gGF.dissmissLoading();
-              this.getLoggedUserInfo();
             },
             (errorReAuth) => {
               console.log(errorReAuth);
-              this.gGF.dissmissLoading();
               this.gGF.showAlert(
                 errorReAuth.status + " " + errorReAuth.statusText,
                 "Your access token was expired. This will redirect to login page after click Ok",
