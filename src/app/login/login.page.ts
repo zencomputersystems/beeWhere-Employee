@@ -209,6 +209,7 @@ export class LoginPage implements OnInit {
           this.error =
             error.error.message.error + ". " + error.error.message.message;
           this.loading = false;
+          this.lfGlobal.dissmissLoading();
         }
       );
     // ).subscribe(data => {

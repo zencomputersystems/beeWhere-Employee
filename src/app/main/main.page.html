@@ -202,6 +202,7 @@
               <ion-list class="clock-list">
                 <ion-text *ngIf="histList.CLOCK_IN_TIME !== '0000-00-00 00:00:00'">
                   {{histList.CLOCK_IN_TIME | date: 'd MMM yyyy hh:mm a'}}
+                  <!-- {{histList.CLOCK_IN_TIME | date: 'd MMM yyyy hh:mm a'}} -->
                 </ion-text>
                 <ion-text *ngIf="histList.ADDRESS_IN !== 'null, null'">
                   {{histList.ADDRESS_IN}}

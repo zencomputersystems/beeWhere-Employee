@@ -175,11 +175,17 @@ export class ReportPage implements OnInit {
     this.labelEndDate = new Date(end * 1000);
     this.rApi
       .getWithHeader("/api/clock/history/" + type + "/" + start + "/" + end)
-      .subscribe((resp) => {
+      .subscribe((resp: any) => {
         this.genReport = true;
         this.isShowDateTitle = true;
         this.isShowSkeletonText = false;
         this.rGlobalFn.dissmissLoading();
+        if (type === "attendance") {
+          resp.forEach(item => {
+            item.inTime = new Date(item.inTime.replace(/-/g, "/"));
+            item.outTime = new Date(item.outTime.replace(/-/g, "/"));
+          });
+        }
         type === "attendance"
           ? (this.dataAttendance = resp)
           : (this.dataActivtiy = resp);
@@ -211,4 +217,5 @@ export class ReportPage implements OnInit {
       event.target.complete();
     }, 2000);
   }
+
 }

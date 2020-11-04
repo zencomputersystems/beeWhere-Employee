@@ -105,7 +105,7 @@
       </ion-item>
     </ion-item-group>
     <ion-item-group class="logout-list" *ngIf="!openLoginActivityList && !openViewMyProfile">
-      <ion-item routerLink="/login">
+      <ion-item routerLink="/login" (click)="stAuth.logout()">
         <!-- <ion-img src="../../assets/basic/logout.png"></ion-img> -->
         <ion-label>Log out from this device</ion-label>
       </ion-item>

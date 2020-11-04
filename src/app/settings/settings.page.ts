@@ -1,3 +1,4 @@
+import { AuthenticationService } from '@services/_services/authentication.service';
 import { GlobalFnService } from '@services/global-fn.service';
 import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
@@ -60,7 +61,7 @@ export class SettingsPage implements OnInit {
    * @param {GlobalFnService} stFGlobal
    * @memberof SettingsPage
    */
-  constructor(private stApi: APIService, private stFGlobal: GlobalFnService) {}
+  constructor(private stApi: APIService, private stFGlobal: GlobalFnService, public stAuth: AuthenticationService) {}
 
   /**
    * Initialize methods in this component

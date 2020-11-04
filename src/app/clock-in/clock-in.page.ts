@@ -998,6 +998,7 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   logout() {
+    console.log('logouttt')
     this.cinAuthenticationService.logout();
     this.cinRouter.navigate(["/login"]);
   }
