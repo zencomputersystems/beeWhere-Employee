@@ -503,7 +503,7 @@ export class ClockInPage implements OnInit {
     // } else {
       // this.geoLocError = "";
     this.geolocation
-      .getCurrentPosition()
+      .getCurrentPosition({enableHighAccuracy: true , timeout: 30000})
       .then((resp) => {
         // this.lat = resp.coords.latitude;
         // this.long = resp.coords.longitude;
