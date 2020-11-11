@@ -77,27 +77,12 @@ export class GlobalService {
         this.globalData.userInfo = resp;
         // console.log(this.globalData);
         this.getJobProfile(isNavToMain);
+        
       },
       (error) => {
         console.log(error);
         if (error.status === 401 && error.statusText === "Unauthorized") {
-          console.log('otw reauthhh');
-          this.glAuth.login(JSON.parse(window.atob(localStorage.getItem('session_token'))).email,
-            JSON.parse(window.atob(localStorage.getItem('session_token'))).password).pipe(first()).subscribe(
-            (reauth) => {
-              console.log(reauth);
-              console.log('reauthhh');
-            },
-            (errorReAuth) => {
-              console.log(errorReAuth);
-              this.gGF.showAlert(
-                errorReAuth.status + " " + errorReAuth.statusText,
-                "Your access token was expired. This will redirect to login page after click Ok",
-                "alert-error",
-                "/login"
-              );
-            }
-          );
+          this.reauthUser();
         } else {
           this.gGF.showAlert(
             error.status + " " + error.statusText,
@@ -108,12 +93,30 @@ export class GlobalService {
       }
     );
 
-
-    // if (isNavToMain) {
-    //   // this.router.navigate(["/"]);
-    // }
   }
 
+  /**
+   * Check if session expired, reauth user
+   * @memberof GlobalService
+   */
+  reauthUser() {
+      this.glAuth.login(window.atob(localStorage.getItem('val1')),
+        window.atob(localStorage.getItem('val2'))).pipe(first()).subscribe(
+        (reauth) => {
+          this.getLoggedUserInfo();
+        },
+        (errorReAuth) => {
+          console.log(errorReAuth);
+          this.gGF.showAlert(
+            errorReAuth.status + " " + errorReAuth.statusText,
+            "Your access token was expired. This will redirect to login page after click Ok",
+            "alert-error",
+            "/login"
+          );
+        }
+      );
+
+  }
   /**
    * Get job profile
    * @memberof GlobalService
@@ -206,6 +209,7 @@ export class GlobalService {
                     };
                     console.log(tempLoginLog);
                     this.addLoginLog(tempLoginLog);
+                    
                   }
                 );
             });
