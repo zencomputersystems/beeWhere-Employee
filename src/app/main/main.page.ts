@@ -1,3 +1,4 @@
+import { GlobalFnService } from '@services/global-fn.service';
 // import { Refresher } from '@ionic/angular';
 import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,8 +12,6 @@ export let clickedClocks = {};
   styleUrls: ["./main.page.scss"],
 })
 export class MainPage implements OnInit {
-  constructor(public hApi: APIService) { }
-
   /**
    * Get sample data from json
    * @memberof MainPage
@@ -21,25 +20,28 @@ export class MainPage implements OnInit {
   public globalData = require("@services/_providers/global.json");
 
   /**
-   * Get current datetime
-   * @memberof MainPage
-   */
-  public currDate = new Date().toISOString();
-
-  /**
    * Bind value of page for infinite scroll
    * @memberof MainPage
    */
   public initReq = 0;
 
   public checkNoMoreData = false;
+
+  /**
+   * Token to track data was retrieved or not yet.
+   * @memberof MainPage
+   */
+  public loadingHistData;
+
+  constructor(public hApi: APIService, public hGlobalFn: GlobalFnService) { }
+
   /**
    * Initialize this component
    * @memberof MainPage
    */
   ngOnInit() {
-    console.log(this.currDate);
-    // setInterval(this.currDate, 1000);
+    console.log(this.globalData.histClocks);
+    this.loadingHistData = true;
     this.getHistory();
   }
 
@@ -48,9 +50,11 @@ export class MainPage implements OnInit {
    * @param {*} [event]
    * @memberof MainPage
    */
-  getHistory(event?) {
+  async getHistory(event?) {
     console.log(this.initReq);
     console.log('get req history');
+    console.log(this.globalData.histClocks);
+    await this.hGlobalFn.showLoading(true);
     this.hApi
       .getWithHeader("/api/clock/history-list/50/" + this.initReq)
       .subscribe(
@@ -73,10 +77,14 @@ export class MainPage implements OnInit {
             this.checkNoMoreData = (histRes.length < 1) ? true : false;
             event.target.complete();
           }
+          this.loadingHistData = false;
+          this.hGlobalFn.dissmissLoading();
           console.log(this.globalData.histClocks);
         },
         (error) => {
           console.log(error);
+          this.hGlobalFn.dissmissLoading();
+          this.loadingHistData = false;
         }
       );
   }
@@ -93,13 +101,14 @@ export class MainPage implements OnInit {
    */
   doInfinite(event) {
     console.log(event);
-    this.initReq = this.initReq + 50
+    this.initReq = this.initReq + 50;
     this.getHistory(event);
   }
 
   async refreshHistoryPage(event) {
     this.globalData.histClocks = [];
     this.initReq = 0;
+    this.loadingHistData = true;
     // async refreshHistoryPage(event: Refresher) {
     await this.getHistory();
     setTimeout(() => {
