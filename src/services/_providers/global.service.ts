@@ -1,4 +1,3 @@
-import { AuthenticationService } from './../_services/authentication.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GlobalFnService } from '@services/global-fn.service';
 import { Router } from '@angular/router';
