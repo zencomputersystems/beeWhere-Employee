@@ -82,26 +82,7 @@ export class GlobalService {
         console.log(error);
         if (error.status === 401 && error.statusText === "Unauthorized") {
           this.gGF.showLoading();
-          this.glAuth.login(JSON.parse(window.atob(localStorage.getItem('session_token'))).email,
-            JSON.parse(window.atob(localStorage.getItem('session_token'))).password).pipe(first()).subscribe(
-            (reauth) => {
-              console.log(reauth);
-              this.gGF.dissmissLoading();
-              this.getLoggedUserInfo();
-            },
-            (errorReAuth) => {
-              console.log(errorReAuth);
-              this.gGF.dissmissLoading();
-              this.gGF.showAlert(
-                errorReAuth.status + " " + errorReAuth.statusText,
-                "Your access token was expired. This will redirect to login page after click Ok",
-                "alert-error",
-                "/login"
-              );
-              // this.error =
-              //   error.error.message.error + ". " + error.error.message.message;
-
-            });
+          this.reauthUser();
         } else {
           this.gGF.showAlert(
             error.status + " " + error.statusText,
@@ -117,6 +98,39 @@ export class GlobalService {
     //   // this.router.navigate(["/"]);
     // }
   }
+
+  /**
+   * Check if session expired, reauth user
+   * @memberof GlobalService
+   */
+  reauthUser() {
+    if (localStorage.getItem('val1') !== null && localStorage.getItem('val1') !== null) {
+      this.glAuth.login(window.atob(localStorage.getItem('val1')),
+        window.atob(localStorage.getItem('val2'))).pipe(first()).subscribe(
+        (reauth) => {
+          this.getLoggedUserInfo();
+        },
+        (errorReAuth) => {
+          console.log(errorReAuth);
+          this.gGF.showAlert(
+            errorReAuth.status + " " + errorReAuth.statusText,
+            "Your access token was expired. This will redirect to login page after click Ok",
+              "alert-error",
+            "/login"
+          );
+        }
+      );
+    } else {
+      this.gGF.showAlert(
+        "Session Expired",
+        "Your access token was expired. This will redirect to login page after click Ok",
+          "alert-error",
+        "/login"
+      );
+    }
+
+  }
+
 
   /**
    * Get job profile
@@ -168,6 +182,7 @@ export class GlobalService {
           localStorage.setItem("defJob", JSON.stringify(defJob));
           // console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
+          setTimeout(()=> {this.reauthUser()}, 5000);
           if (isNavToMain) {
             setTimeout(() => {
               this.router.navigate(["/"]);
