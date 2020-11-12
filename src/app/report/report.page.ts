@@ -182,8 +182,9 @@ export class ReportPage implements OnInit {
         this.rGlobalFn.dissmissLoading();
         if (type === "attendance") {
           resp.forEach(item => {
-            item.inTime = new Date(item.inTime.replace(/-/g, "/"));
-            item.outTime = new Date(item.outTime.replace(/-/g, "/"));
+            item.inTime = (item.inTime !== null) ? new Date(item.inTime.replace(/-/g, "/")) : null;
+            item.outTime = (item.outTime !== null) ? new Date(item.outTime.replace(/-/g, "/")) : null;
+
           });
         }
         type === "attendance"
