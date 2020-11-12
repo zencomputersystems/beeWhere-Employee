@@ -4,6 +4,7 @@ import { GlobalFnService } from '@services/global-fn.service';
 import { Router } from '@angular/router';
 import { APIService } from '@services/_services/api.service';
 import { Injectable } from '@angular/core';
+import { AuthenticationService } from '@services/_services/authentication.service';
 import { first } from 'rxjs/operators';
 
 export let defJob; // = "office";
@@ -100,6 +101,7 @@ export class GlobalService {
    * @memberof GlobalService
    */
   reauthUser() {
+    if (localStorage.getItem('val1') !== null && localStorage.getItem('val1') !== null) {
       this.glAuth.login(window.atob(localStorage.getItem('val1')),
         window.atob(localStorage.getItem('val2'))).pipe(first()).subscribe(
         (reauth) => {
@@ -110,13 +112,24 @@ export class GlobalService {
           this.gGF.showAlert(
             errorReAuth.status + " " + errorReAuth.statusText,
             "Your access token was expired. This will redirect to login page after click Ok",
-            "alert-error",
+              "alert-error",
+
             "/login"
           );
         }
       );
+    } else {
+      this.gGF.showAlert(
+        "Session Expired",
+        "Your access token was expired. This will redirect to login page after click Ok",
+          "alert-error",
+        "/login"
+      );
+    }
 
   }
+
+
   /**
    * Get job profile
    * @memberof GlobalService

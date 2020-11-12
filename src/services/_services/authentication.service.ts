@@ -1,4 +1,3 @@
-import { GlobalService } from '@services/_providers/global.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
