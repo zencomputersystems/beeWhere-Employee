@@ -182,7 +182,6 @@ export class GlobalService {
           localStorage.setItem("defJob", JSON.stringify(defJob));
           // console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
-          setTimeout(()=> {this.reauthUser()}, 5000);
           if (isNavToMain) {
             setTimeout(() => {
               this.router.navigate(["/"]);
