@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../_services/authentication.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GlobalFnService } from '@services/global-fn.service';
 import { Router } from '@angular/router';
@@ -77,6 +78,7 @@ export class GlobalService {
         this.globalData.userInfo = resp;
         // console.log(this.globalData);
         this.getJobProfile(isNavToMain);
+        
       },
       (error) => {
         console.log(error);
@@ -93,10 +95,6 @@ export class GlobalService {
       }
     );
 
-
-    // if (isNavToMain) {
-    //   // this.router.navigate(["/"]);
-    // }
   }
 
   /**
@@ -116,6 +114,7 @@ export class GlobalService {
             errorReAuth.status + " " + errorReAuth.statusText,
             "Your access token was expired. This will redirect to login page after click Ok",
               "alert-error",
+
             "/login"
           );
         }
@@ -224,6 +223,7 @@ export class GlobalService {
                     };
                     console.log(tempLoginLog);
                     this.addLoginLog(tempLoginLog);
+                    
                   }
                 );
             });

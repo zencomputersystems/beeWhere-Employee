@@ -382,12 +382,12 @@ export class ClockInPage implements OnInit {
    */
   async ionViewDidEnter() {
     console.log("ionViewDidEnter");
-
     await this.getLoc();
     this.cinStartTime();
     this.getAllClient();
     this.getAllProject();
     this.getAllContract();
+    this.checkCurrClocksStatus();
   }
 
   /**
@@ -398,6 +398,50 @@ export class ClockInPage implements OnInit {
     console.log("leaveeeeee");
     clearInterval(this.locationTimerId);
     // this.watchSubscriptions.unsubscribe();
+  }
+
+  /**
+   * To check clockin status of logged user
+   * @memberof ClockInPage
+   */
+  checkCurrClocksStatus() {
+    this.cinApi.getWithHeader("/api/clock/history-list/0/0").subscribe(
+      (resCinStat: any) => {
+        if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null) {
+          localStorage.setItem("cin_token", "true");
+          localStorage.setItem("cid_token", resCinStat[0].CLOCK_LOG_GUID);
+          const jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
+            return jobItem.type === resCinStat[0].JOB_TYPE;
+          });
+          localStorage.setItem("defJob", JSON.stringify(jobSel));
+          this.clocksForm.patchValue({
+            jobtype: resCinStat[0].JOB_TYPE,
+          });
+          const tempArr = {};
+          localStorage.setItem(
+            "cin_info",
+            JSON.stringify(
+              Object.assign(tempArr, {
+                clientId: resCinStat[0].CLIENT_ID,
+                client: resCinStat[0].CLIENT_DATA,
+                project: resCinStat[0].PROJECT_DATA,
+                projectId: resCinStat[0].PROJECT_ID,
+                contract: resCinStat[0].CONTRACT_DATA,
+                contractId: resCinStat[0].CONTRACT_ID,
+                activities: this.checkAddNew,
+                jobType: jobSel[0],
+              })
+            )
+          );
+          this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+        } else {
+          localStorage.setItem("cin_token", "false");
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   /**

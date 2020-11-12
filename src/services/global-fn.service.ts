@@ -168,8 +168,7 @@ export class GlobalFnService {
   isClockin() {
     return localStorage.getItem("cin_token");
   }
-
-
+  
   /**
    * Send request to patch login's activiy based on current logged session (loginId)
    * @param {*} task

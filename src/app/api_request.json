@@ -707,3 +707,37 @@ Request:
         .
     ]
 }
+
+23. to post logged user clockin status and details
+
+Request:
+
+{
+    "userId": "561604d0-f98d-11ea-a922-075dec0319ed",
+    "loginId": "xxxx1",
+    "clockinStatus": true/false,
+    "clockLogGuid": "098bf05d-0862-cb50-dbc2-d4068b91f246", //if false it'll null
+    "jobType": "site",
+    "clientId": "abc",
+    "projectId": "abc",
+    "contractId": "abc",
+}
+
+24. To get logged user clockin status and details
+
+request:
+{
+    "userId": "561604d0-f98d-11ea-a922-075dec0319ed",
+}
+
+response:
+{
+    "userId": "561604d0-f98d-11ea-a922-075dec0319ed",
+    "loginId": "xxxx1",
+    "clockinStatus": true/false,
+    "clockLogGuid": "098bf05d-0862-cb50-dbc2-d4068b91f246", //if false it'll null
+    "jobType": "site",
+    "clientId": "abc",
+    "projectId": "abc",
+    "contractId": "abc"
+}
