@@ -81,7 +81,7 @@ export class GlobalService {
       (error) => {
         console.log(error);
         if (error.status === 401 && error.statusText === "Unauthorized") {
-          this.gGF.showLoading();
+          // this.gGF.showLoading();
           this.reauthUser();
         } else {
           this.gGF.showAlert(
