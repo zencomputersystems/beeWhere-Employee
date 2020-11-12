@@ -382,12 +382,12 @@ export class ClockInPage implements OnInit {
    */
   async ionViewDidEnter() {
     console.log("ionViewDidEnter");
-
     await this.getLoc();
     this.cinStartTime();
     this.getAllClient();
     this.getAllProject();
     this.getAllContract();
+    this.checkCurrClocksStatus();
   }
 
   /**
@@ -398,6 +398,82 @@ export class ClockInPage implements OnInit {
     console.log("leaveeeeee");
     clearInterval(this.locationTimerId);
     // this.watchSubscriptions.unsubscribe();
+  }
+
+  /**
+   * To check clockin status of logged user
+   * @memberof ClockInPage
+   */
+  checkCurrClocksStatus() {
+    this.cinApi.getWithHeader("/api/clock/history-list/0/0").subscribe(
+      (resCinStat: any) => {
+        if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null) {
+          console.log(resCinStat[0]);
+          console.log('clockedInInfoclockedInInfo');
+          localStorage.setItem("cin_token", "true");
+          localStorage.setItem("cid_token", resCinStat[0].CLOCK_LOG_GUID);
+          console.log(JSON.parse(localStorage.getItem("jobProfile")));
+          const jobSel = JSON.parse(localStorage.getItem("jobProfile")).find((x) => {
+            if (x.value) {
+              console.log(x);
+              return x.type;
+            }
+          });
+          console.log(jobSel);
+          const tempArr = {};
+          localStorage.setItem(
+            "cin_info",
+            JSON.stringify(
+              Object.assign(tempArr, {
+                clientId: resCinStat[0].CLIENT_ID,
+                client: resCinStat[0].CLIENT_DATA,
+                project: resCinStat[0].PROJECT_DATA,
+                projectId: resCinStat[0].PROJECT_ID,
+                contract: resCinStat[0].CONTRACT_DATA,
+                contractId: resCinStat[0].CONTRACT_ID,
+                activities: this.checkAddNew,
+                jobType: this.selectedJobType,
+              })
+            )
+          );
+          console.log(tempArr);
+          this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+          console.log(this.clockedInInfo);
+          // this.clocksForm.controls.value = resCinStat[0].JOB_TYPE;
+          // const tempArr = {
+          //   userGuid: resCinStat[0].USER_GUID,
+          //   clockTime: resCinStat[0].CLOCK_IN_TIME,
+          //   jobType: resCinStat[0].JOB_TYPE,
+          //   location: {
+          //     lat: resCinStat[0].LATITUDE_IN,
+          //     long: resCinStat[0].LONGITUDE_IN,
+          //     name: resCinStat[0].ADDRESS_IN,
+          //   },
+          //   clientId: resCinStat[0].CLIENT_ID,
+          //   projectId: resCinStat[0].PROJECT_ID,
+          //   contractId: resCinStat[0].CONTRACT_ID,
+          // };
+          // localStorage.setItem(
+          //   "cin_info",
+          //   JSON.stringify(
+          //     Object.assign(tempArr, {
+          //       client: resCinStat[0].CLIENT_DATA,
+          //       project: resCinStat[0].CLIENT_ID,
+          //       contract: resCinStat[0].CONTRACT_DATA,
+          //       activities: this.checkAddNew,
+          //       jobType: localStorage.getItem("defJob") // this.selectedJobType,
+          //     })
+            // )
+          // );
+          
+        } else {
+          localStorage.setItem("cin_token", "false");
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   /**
