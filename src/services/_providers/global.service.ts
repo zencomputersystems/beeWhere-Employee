@@ -81,10 +81,12 @@ export class GlobalService {
       (error) => {
         console.log(error);
         if (error.status === 401 && error.statusText === "Unauthorized") {
+          console.log('otw reauthhh');
           this.glAuth.login(JSON.parse(window.atob(localStorage.getItem('session_token'))).email,
             JSON.parse(window.atob(localStorage.getItem('session_token'))).password).pipe(first()).subscribe(
             (reauth) => {
               console.log(reauth);
+              console.log('reauthhh');
             },
             (errorReAuth) => {
               console.log(errorReAuth);

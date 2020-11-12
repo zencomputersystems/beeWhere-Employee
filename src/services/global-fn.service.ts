@@ -168,4 +168,25 @@ export class GlobalFnService {
   isClockin() {
     return localStorage.getItem("cin_token");
   }
+
+  /**
+   * Send request to patch login's activiy based on current logged session (loginId)
+   * @param {*} task
+   * @memberof GlobalService
+   */
+  addLoginActivity(task) {
+    const tempActivityLog = {
+      loginId: localStorage.getItem("currSession"),
+      activities: [
+        {
+          timestamp: Math.floor(Date.now() / 1000).toString(),
+          activity: task
+        },
+      ],
+    };
+    this.gfnApi.patchWithHeader("/api/login-log", tempActivityLog).subscribe((resPatchActivtiy) => {
+    }, (error) => {
+      console.log(error);
+    });
+  }
 }
