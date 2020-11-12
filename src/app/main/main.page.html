@@ -69,13 +69,13 @@
   </ion-fab-list>
 </ion-fab>
 
-<div class="clockin-button clockin" *ngIf="!this.data.userInfo.clockIn.status">
+<div class="clockin-button clockin" hidden *ngIf="!this.data.userInfo.clockIn.status">
   <ion-button shape="round" fill="outline" class="clockin" disabled routerLink="/clock-in">
     <!-- <ion-button shape="round" fill="outline" class="clockin" routerLink="/clock-in"> -->
     <ion-label>Clock In Now</ion-label>
   </ion-button>
 </div>
-<div class="clockin-button clockout" *ngIf="this.data.userInfo.clockIn.status">
+<div class="clockin-button clockout" hidden *ngIf="this.data.userInfo.clockIn.status">
   <ion-button shape="round" fill="outline" class="clockout" disabled routerLink="/clock-in">
     <!-- <ion-button shape="round" fill="outline" class="clockout" [routerLink]="['/clock', 'out', 0]"> -->
     <ion-label>Clock Out</ion-label>
