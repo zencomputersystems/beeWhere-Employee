@@ -169,14 +169,17 @@ export class GlobalService {
           // console.log(this.globalData.jobTypes);
           // console.log(tempJob);
           localStorage.setItem("jobProfile", JSON.stringify(tempJob));
-          // defJob = tempJob.find((x) => {
-          //   if (x.value) {
-          //     // console.log(x);
-          //     return x.type;
-          //   }
-          // });
-          // localStorage.setItem("defJob", JSON.stringify(defJob));
-          // console.log(JSON.parse(localStorage.getItem("defJob")));
+          if (localStorage.getItem("defJob") === null || localStorage.getItem("defJob") === undefined) {
+            defJob = tempJob.find((x) => {
+              if (x.value) {
+                // console.log(x);
+                return x.type;
+              }
+            });
+            localStorage.setItem("defJob", JSON.stringify(defJob));
+
+          }
+          console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
           if (isNavToMain) {
             setTimeout(() => {
