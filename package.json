@@ -109,7 +109,7 @@
     },
     "platforms": [
       "browser",
-      "andorid",
+      "android",
       "ios"
     ]
   }
