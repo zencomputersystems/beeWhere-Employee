@@ -54,8 +54,8 @@ export class ReportPage implements OnInit {
 
   constructor(private rpFormBuilder: FormBuilder, private rApi: APIService, public rGlobalFn: GlobalFnService) {
     this.searchForm = this.rpFormBuilder.group({
-      type: [null, Validators.required],
-      duration: [null, Validators.required],
+      type: ["attendance", Validators.required],
+      duration: ["month", Validators.required],
       enableStatus: true,
     });
 
@@ -182,9 +182,8 @@ export class ReportPage implements OnInit {
         this.rGlobalFn.dissmissLoading();
         if (type === "attendance") {
           resp.forEach(item => {
-            item.inTime = (item.inTime !== null) ? new Date(item.inTime.replace(/-/g, "/")) : null;
-            item.outTime = (item.outTime !== null) ? new Date(item.outTime.replace(/-/g, "/")) : null;
-
+            item.inTime = (item.inTime === null) ? null : new Date(item.inTime.replace(/-/g, "/"));
+            item.outTime = (item.outTime === null) ? null : new Date(item.outTime.replace(/-/g, "/"));
           });
         }
         type === "attendance"

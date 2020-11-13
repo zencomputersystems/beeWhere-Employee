@@ -1,4 +1,3 @@
-import { AuthenticationService } from './../_services/authentication.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GlobalFnService } from '@services/global-fn.service';
 import { Router } from '@angular/router';
@@ -83,6 +82,7 @@ export class GlobalService {
       (error) => {
         console.log(error);
         if (error.status === 401 && error.statusText === "Unauthorized") {
+          // this.gGF.showLoading();
           this.reauthUser();
         } else {
           this.gGF.showAlert(
@@ -169,16 +169,17 @@ export class GlobalService {
           // console.log(this.globalData.jobTypes);
           // console.log(tempJob);
           localStorage.setItem("jobProfile", JSON.stringify(tempJob));
-          defJob = tempJob.find((x) => {
-            if (x.value) {
-              // console.log(x);
-              return x.type;
-            }
-          });
-          // console.log(defJob);
+          if (localStorage.getItem("defJob") === null || localStorage.getItem("defJob") === undefined) {
+            defJob = tempJob.find((x) => {
+              if (x.value) {
+                // console.log(x);
+                return x.type;
+              }
+            });
+            localStorage.setItem("defJob", JSON.stringify(defJob));
 
-          localStorage.setItem("defJob", JSON.stringify(defJob));
-          // console.log(JSON.parse(localStorage.getItem("defJob")));
+          }
+          console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
           if (isNavToMain) {
             setTimeout(() => {
