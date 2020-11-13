@@ -408,17 +408,11 @@ export class ClockInPage implements OnInit {
     this.cinApi.getWithHeader("/api/clock/history-list/0/0").subscribe(
       (resCinStat: any) => {
         if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null) {
-          console.log(resCinStat[0]);
-          console.log('clockedInInfoclockedInInfo');
           localStorage.setItem("cin_token", "true");
           localStorage.setItem("cid_token", resCinStat[0].CLOCK_LOG_GUID);
-          console.log(JSON.parse(localStorage.getItem("jobProfile")));
           const jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
             return jobItem.type === resCinStat[0].JOB_TYPE;
           });
-          console.log(jobSel);
-          console.log(jobSel[0]);
-          console.log(JSON.stringify(jobSel));
           localStorage.setItem("defJob", JSON.stringify(jobSel));
           this.clocksForm.patchValue({
             jobtype: resCinStat[0].JOB_TYPE,
@@ -439,36 +433,7 @@ export class ClockInPage implements OnInit {
               })
             )
           );
-          console.log(tempArr);
           this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
-          console.log(this.clockedInInfo);
-          // this.clocksForm.controls.value = resCinStat[0].JOB_TYPE;
-          // const tempArr = {
-          //   userGuid: resCinStat[0].USER_GUID,
-          //   clockTime: resCinStat[0].CLOCK_IN_TIME,
-          //   jobType: resCinStat[0].JOB_TYPE,
-          //   location: {
-          //     lat: resCinStat[0].LATITUDE_IN,
-          //     long: resCinStat[0].LONGITUDE_IN,
-          //     name: resCinStat[0].ADDRESS_IN,
-          //   },
-          //   clientId: resCinStat[0].CLIENT_ID,
-          //   projectId: resCinStat[0].PROJECT_ID,
-          //   contractId: resCinStat[0].CONTRACT_ID,
-          // };
-          // localStorage.setItem(
-          //   "cin_info",
-          //   JSON.stringify(
-          //     Object.assign(tempArr, {
-          //       client: resCinStat[0].CLIENT_DATA,
-          //       project: resCinStat[0].CLIENT_ID,
-          //       contract: resCinStat[0].CONTRACT_DATA,
-          //       activities: this.checkAddNew,
-          //       jobType: localStorage.getItem("defJob") // this.selectedJobType,
-          //     })
-            // )
-          // );
-          
         } else {
           localStorage.setItem("cin_token", "false");
         }
