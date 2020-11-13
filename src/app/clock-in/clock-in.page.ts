@@ -413,13 +413,16 @@ export class ClockInPage implements OnInit {
           localStorage.setItem("cin_token", "true");
           localStorage.setItem("cid_token", resCinStat[0].CLOCK_LOG_GUID);
           console.log(JSON.parse(localStorage.getItem("jobProfile")));
-          const jobSel = JSON.parse(localStorage.getItem("jobProfile")).find((x) => {
-            if (x.value) {
-              console.log(x);
-              return x.type;
-            }
+          const jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
+            return jobItem.type === resCinStat[0].JOB_TYPE;
           });
           console.log(jobSel);
+          console.log(jobSel[0]);
+          console.log(JSON.stringify(jobSel));
+          localStorage.setItem("defJob", JSON.stringify(jobSel));
+          this.clocksForm.patchValue({
+            jobtype: resCinStat[0].JOB_TYPE,
+          });
           const tempArr = {};
           localStorage.setItem(
             "cin_info",
@@ -432,7 +435,7 @@ export class ClockInPage implements OnInit {
                 contract: resCinStat[0].CONTRACT_DATA,
                 contractId: resCinStat[0].CONTRACT_ID,
                 activities: this.checkAddNew,
-                jobType: this.selectedJobType,
+                jobType: jobSel[0],
               })
             )
           );
