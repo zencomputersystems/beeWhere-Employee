@@ -260,9 +260,10 @@ export class ClockInPage implements OnInit {
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
       jobtype:
-        JSON.parse(localStorage.getItem("defJob")).type !== undefined
-          ? JSON.parse(localStorage.getItem("defJob")).type
-          : "office", //"office",
+        (JSON.parse(localStorage.getItem("defJob")).type !== undefined ||
+          JSON.parse(localStorage.getItem("defJob")).type !== null)
+            ? JSON.parse(localStorage.getItem("defJob")).type
+              : "office", //"office",
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
     });
