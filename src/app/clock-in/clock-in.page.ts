@@ -227,6 +227,10 @@ export class ClockInPage implements OnInit {
   // };
   notiLocationMessage: string;
 
+  private cinPlatform = require("platform");
+
+  private cinPublicIp = require("public-ip");
+
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -251,7 +255,7 @@ export class ClockInPage implements OnInit {
     private cinApi: APIService,
     public cinGlobal: GlobalService,
     // private cinBackgroundGeolocation: BackgroundGeolocation,
-    private cinPlatform: Platform
+    // private cinPlatform: Platform
   ) {
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
@@ -269,9 +273,6 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   ngOnInit() {
-    // document.addEventListener("deviceready", onDeviceReady, false);
-    console.log('platformmm');
-    console.log(this.cinPlatform.platforms());
     this.data = this.cinGlobalFn.sampleDataList();
     this.selectedClient = this.clientNone;
     this.selectedProject = this.projectNone;
@@ -902,9 +903,6 @@ export class ClockInPage implements OnInit {
         this.clocksForm.patchValue({
           inTime: timeNow,
         });
-        console.log(this.selectedClient);
-        console.log(this.selectedProject);
-        console.log(this.selectedContract);
         const tempArr = {
           userGuid: this.cinGlobal.userInfo.userId,
           clockTime: timeNow,
@@ -917,6 +915,7 @@ export class ClockInPage implements OnInit {
           clientId: this.selectedClient.CLIENT_GUID,
           projectId: this.selectedProject.PROJECT_GUID,
           contractId: this.selectedContract.CONTRACT_GUID,
+          userAgent: this.cinPlatform.description
         };
         console.log("clocks in");
         console.log(tempArr);
@@ -971,6 +970,7 @@ export class ClockInPage implements OnInit {
             long: this.locWatch.long,
             name: this.locWatch.name,
           },
+          userAgent: this.cinPlatform.description
         };
         console.log("clocks out");
         console.log(coutArr);
