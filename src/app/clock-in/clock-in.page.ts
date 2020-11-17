@@ -238,6 +238,12 @@ export class ClockInPage implements OnInit {
   public allowClockin;
 
   /**
+   * Count timeout getting location error. Need to count until 10 to end the process
+   * @memberof ClockInPage
+   */
+  public countTimeoutReqLocation = 0;
+
+  /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
    * @param {Geolocation} geolocation To get the methods from geolocation
@@ -390,6 +396,7 @@ export class ClockInPage implements OnInit {
    */
   async ionViewDidEnter() {
     console.log("ionViewDidEnter");
+    this.countTimeoutReqLocation = 0;
     await this.getLoc();
     this.cinStartTime();
     this.getAllClient();
@@ -547,6 +554,13 @@ export class ClockInPage implements OnInit {
       .catch((error) => {
         console.log("Error getting location", error);
         this.geoLocError = "Error getting location. " + error.message;
+        if (this.countTimeoutReqLocation < 10) {
+          setTimeout(() => {
+            this.getLoc();
+            this.countTimeoutReqLocation++;
+          }, 3000);
+
+        }
       });
     // }
     this.locationTimerId = setTimeout(() => {
