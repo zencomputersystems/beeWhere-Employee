@@ -232,6 +232,12 @@ export class ClockInPage implements OnInit {
   private cinPublicIp = require("public-ip");
 
   /**
+   * Token to decide disable clockin or not when location is turned off
+   * @memberof ClockInPage
+   */
+  public allowClockin;
+
+  /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
    * @param {Geolocation} geolocation To get the methods from geolocation
@@ -463,6 +469,7 @@ export class ClockInPage implements OnInit {
    */
   getLoc() {
     this.geoLocError = "";
+    this.allowClockin = false;
     // this.cinBackgroundGeolocation.watchLocationMode();
     // if (!this.cinPlatform.is('mobileweb')) {
     //   this.cinBackgroundGeolocation.watchLocationMode().subscribe((res) => {
@@ -530,6 +537,7 @@ export class ClockInPage implements OnInit {
               console.log(resp.coords.latitude);
               console.log(resp.coords.longitude);
               console.log((res as any).results[0].formatted_address);
+              this.allowClockin = true;
             },
             (error) => {
               console.log(error);
