@@ -392,3 +392,22 @@
     padding-left: 0.5em;
     font-size: 10px;
 }
+
+.location-info {
+    font-size: var(--ion-text-10);
+    color: var(--ion-color-red);
+}
+
+.error-location-group {
+    align-items: center;
+}
+
+.location-refresh-button {
+    width: 29px;
+    height: 27px;
+    padding: 0.5em;
+    color: var(--ion-color-submit);
+    min-width: 29px;
+    min-height: 27px;
+    margin-left: auto;
+}

@@ -227,6 +227,22 @@ export class ClockInPage implements OnInit {
   // };
   notiLocationMessage: string;
 
+  private cinPlatform = require("platform");
+
+  private cinPublicIp = require("public-ip");
+
+  /**
+   * Token to decide disable clockin or not when location is turned off
+   * @memberof ClockInPage
+   */
+  public allowClockin;
+
+  /**
+   * Count timeout getting location error. Need to count until 10 to end the process
+   * @memberof ClockInPage
+   */
+  public countTimeoutReqLocation = 0;
+
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -251,14 +267,15 @@ export class ClockInPage implements OnInit {
     private cinApi: APIService,
     public cinGlobal: GlobalService,
     // private cinBackgroundGeolocation: BackgroundGeolocation,
-    private cinPlatform: Platform
+    // private cinPlatform: Platform
   ) {
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
       jobtype:
-        JSON.parse(localStorage.getItem("defJob")).type !== undefined
-          ? JSON.parse(localStorage.getItem("defJob")).type
-          : "office", //"office",
+        (JSON.parse(localStorage.getItem("defJob")).type !== undefined ||
+          JSON.parse(localStorage.getItem("defJob")).type !== null)
+            ? JSON.parse(localStorage.getItem("defJob")).type
+              : "office", //"office",
       inTime: ["", Validators.required],
       outTime: ["", Validators.required],
     });
@@ -269,9 +286,6 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   ngOnInit() {
-    // document.addEventListener("deviceready", onDeviceReady, false);
-    console.log('platformmm');
-    console.log(this.cinPlatform.platforms());
     this.data = this.cinGlobalFn.sampleDataList();
     this.selectedClient = this.clientNone;
     this.selectedProject = this.projectNone;
@@ -382,6 +396,7 @@ export class ClockInPage implements OnInit {
    */
   async ionViewDidEnter() {
     console.log("ionViewDidEnter");
+    this.countTimeoutReqLocation = 0;
     await this.getLoc();
     this.cinStartTime();
     this.getAllClient();
@@ -461,6 +476,7 @@ export class ClockInPage implements OnInit {
    */
   getLoc() {
     this.geoLocError = "";
+    this.allowClockin = false;
     // this.cinBackgroundGeolocation.watchLocationMode();
     // if (!this.cinPlatform.is('mobileweb')) {
     //   this.cinBackgroundGeolocation.watchLocationMode().subscribe((res) => {
@@ -528,6 +544,7 @@ export class ClockInPage implements OnInit {
               console.log(resp.coords.latitude);
               console.log(resp.coords.longitude);
               console.log((res as any).results[0].formatted_address);
+              this.allowClockin = true;
             },
             (error) => {
               console.log(error);
@@ -537,6 +554,13 @@ export class ClockInPage implements OnInit {
       .catch((error) => {
         console.log("Error getting location", error);
         this.geoLocError = "Error getting location. " + error.message;
+        if (this.countTimeoutReqLocation < 10) {
+          setTimeout(() => {
+            this.getLoc();
+            this.countTimeoutReqLocation++;
+          }, 3000);
+
+        }
       });
     // }
     this.locationTimerId = setTimeout(() => {
@@ -902,9 +926,6 @@ export class ClockInPage implements OnInit {
         this.clocksForm.patchValue({
           inTime: timeNow,
         });
-        console.log(this.selectedClient);
-        console.log(this.selectedProject);
-        console.log(this.selectedContract);
         const tempArr = {
           userGuid: this.cinGlobal.userInfo.userId,
           clockTime: timeNow,
@@ -917,6 +938,7 @@ export class ClockInPage implements OnInit {
           clientId: this.selectedClient.CLIENT_GUID,
           projectId: this.selectedProject.PROJECT_GUID,
           contractId: this.selectedContract.CONTRACT_GUID,
+          userAgent: this.cinPlatform.description
         };
         console.log("clocks in");
         console.log(tempArr);
@@ -971,6 +993,7 @@ export class ClockInPage implements OnInit {
             long: this.locWatch.long,
             name: this.locWatch.name,
           },
+          userAgent: this.cinPlatform.description
         };
         console.log("clocks out");
         console.log(coutArr);

@@ -162,7 +162,7 @@ export class GlobalService {
           Object.entries((resp as any).property).forEach((entry) => {
             const temp: any = entry[1];
             temp.type = entry[0];
-            // this.globalData.jobTypes.push(temp);
+            temp.require_location = true;  // for temp only
             tempJob.push(temp);
           });
           // console.log(this.dataGlobal.userInfo);

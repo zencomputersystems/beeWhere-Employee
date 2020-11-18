@@ -68,9 +68,16 @@
   <ion-button shape="round" fill="outline" class="submits" routerLink="/main" (click)="saveClockIn()">
     <ion-label>Save</ion-label>
   </ion-button>
-</div> -->
+</div> --> 
+<!-- 
+                      <ion-note *ngIf="jobDtl.require_location && ( locWatch.lat == null || locWatch.long 
+                        === null)" >fdfd</ion-note>  
+                       -->
 <div class="clockin-button clockin" *ngIf="cinGlobalFn.isClockin() === 'false'">
-  <ion-button shape="round" fill="outline" class="clockin" (click)="saveClockIn('in')">
+  <ion-button shape="round" fill="outline" class="clockin"   (click)="saveClockIn('in')"  *ngIf="allowClockin" >
+    <ion-label>Clock In Now</ion-label>
+  </ion-button>
+  <ion-button shape="round" fill="outline" class="clockin" disabled (click)="saveClockIn('in')" *ngIf="!allowClockin" >
     <ion-label>Clock In Now</ion-label>
   </ion-button>
 </div>
@@ -204,7 +211,7 @@
                 <span [ngSwitch]="jobDtl.type">
                   <p *ngSwitchCase="clocksForm.get('jobtype').value">
                     <!-- getting current latitude/longitude position -->
-                    <ion-item-group>
+                    <ion-item-group class="error-location-group">
                     <!-- <ion-item-group *ngIf="jobDtl.geofence_filter"> -->
                       <ion-img src="../../assets/basic/location.png"></ion-img>
                       <ion-label
@@ -217,11 +224,16 @@
                           {{locWatch.lat}},&nbsp;{{locWatch.long}}
                         </ng-template>
                       </ion-label>
-                      <ion-label *ngIf="(locWatch.lat === null || locWatch.long === null) && geoLocError == ''">
-                        Getting current location..</ion-label>
-                      <ion-label *ngIf="geoLocError !== ''" class="error-location">
-                        {{geoLocError}}
-                      </ion-label>
+                      <div>
+                        <ion-label *ngIf="(locWatch.lat === null || locWatch.long === null) && geoLocError == ''">
+                          Getting current location..</ion-label>
+                        <ion-label *ngIf="geoLocError !== ''" class="error-location">
+                          {{geoLocError}}
+                        </ion-label>
+                        <ion-note  *ngIf="jobDtl.require_location && ( locWatch.lat == null || locWatch.long 
+                        === null);" class="location-info"  >*Require location to clockin/clockout</ion-note>
+                      </div>
+                      <ion-icon name="refresh-circle-outline" class="location-refresh-button" (click)="getLoc()"></ion-icon>
                     </ion-item-group>
 
                     <!-- getting client list -->
@@ -242,7 +254,7 @@
                           </div>
                         </ion-select-option>
                         <ion-select-option *ngIf="globalData.clients.length === 0" disabled class="hide-checkbox">
-                          <div>Please contact Admin or HR to add client's location</div>
+                          <div>Please contact Developer/HR/Admin to add client's location</div>
                         </ion-select-option>
                       </ion-select>
                       <ion-note  *ngIf="jobDtl.geofence_filter" class="note-info">
@@ -262,7 +274,7 @@
                         </ng-container>
                         <ion-select-option *ngIf="globalData.projects.length === 0" disabled class="hide-checkbox">
                           <div>
-                            NOTE: Couldn't find any project. Please contact Admin or HR to add new project
+                            NOTE: Couldn't find any project. Please contact Developer/HR/Admin to add new project
                           </div>
                         </ion-select-option>    
                       </ion-select>
@@ -283,7 +295,7 @@
                         </ng-container>
                         <ion-select-option *ngIf="globalData.contracts.length === 0" disabled class="hide-checkbox">
                           <div>
-                            NOTE: Couldn't find any contract. Please contact Admin or HR to add new contract
+                            NOTE: Couldn't find any contract. Please contact Developer/HR/Admin to add new contract
                           </div>
                         </ion-select-option>
                       </ion-select>
