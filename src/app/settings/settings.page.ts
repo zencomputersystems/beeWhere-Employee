@@ -103,6 +103,9 @@ export class SettingsPage implements OnInit {
       .subscribe(
         (resLog: any) => {
           resLog.forEach((resItem) => {
+
+            resItem.LOGGED_TIMESTAMP = (resItem.LOGGED_TIMESTAMP === null) ? null
+              : new Date(resItem.LOGGED_TIMESTAMP.replace(/-/g, "/"));
             if (resItem.ACTIVITY !== null) {
               if (resItem.ACTIVITY.length === undefined) {
                 resItem.ACTIVITY = [resItem.ACTIVITY];
@@ -114,8 +117,8 @@ export class SettingsPage implements OnInit {
               });
             }
           });
+          
           resLog.sort((a, b) => b.LOGGED_TIMESTAMP - a.LOGGED_TIMESTAMP);
-
           this.loginLog = resLog;
           this.loginId = localStorage.getItem("currSession");
           this.stFGlobal.dissmissLoading();
