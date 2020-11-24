@@ -103,22 +103,22 @@ export class SettingsPage implements OnInit {
       .subscribe(
         (resLog: any) => {
           resLog.forEach((resItem) => {
-            // resItem.LOGGED_TIMESTAMP = new Date(
-            //   resItem.LOGGED_TIMESTAMP * 1000
-            // );
 
+            resItem.LOGGED_TIMESTAMP = (resItem.LOGGED_TIMESTAMP === null) ? null
+              : new Date(resItem.LOGGED_TIMESTAMP.replace(/-/g, "/"));
             if (resItem.ACTIVITY !== null) {
               if (resItem.ACTIVITY.length === undefined) {
                 resItem.ACTIVITY = [resItem.ACTIVITY];
               }
 
-              // resItem.ACTIVITY.forEach((actItem) => {
-              //   actItem.timestamp = new Date(actItem.timestamp * 1000);
-              // });
+              resItem.ACTIVITY.forEach(activList => {
+                activList.timestamp = (activList.timestamp === null) ? null
+                : new Date(activList.timestamp.replace(/-/g, "/"));
+              });
             }
           });
+          
           resLog.sort((a, b) => b.LOGGED_TIMESTAMP - a.LOGGED_TIMESTAMP);
-
           this.loginLog = resLog;
           this.loginId = localStorage.getItem("currSession");
           this.stFGlobal.dissmissLoading();
