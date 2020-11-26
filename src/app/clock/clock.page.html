@@ -174,11 +174,13 @@
               {{histClock.CLIENT_DATA.ABBR}}
             </ion-label>
             <ion-label class="label-project"
-              *ngIf="histClock.PROJECT_DATA.length !== 0 && histClock.PROJECT_DATA.SOC_NO !== null">
+              *ngIf="(histClock.PROJECT_DATA.length !== 0 && histClock.PROJECT_DATA.length !== 'none') 
+              && histClock.PROJECT_DATA.SOC_NO !== null">
               {{histClock.PROJECT_DATA.SOC_NO}}
             </ion-label>
             <ion-label class="label-contract"
-              *ngIf="histClock.CONTRACT_DATA.length !== 0 && histClock.CONTRACT_DATA.CONTRACT_NO !== null">
+              *ngIf="(histClock.CONTRACT_DATA.length !== 0 && histClock.CONTRACT_DATA.length !== 'none') 
+              && histClock.CONTRACT_DATA.CONTRACT_NO !== null">
               {{histClock.CONTRACT_DATA.CONTRACT_NO}}
             </ion-label>
           </ion-card-subtitle>
@@ -223,7 +225,7 @@
                   <ion-input type="text" placeholder="Add task here and press Enter" [(ngModel)]="coutNewActivity"
                     (keyup.enter)="coutGlobalFn.addTask($event, coutNewActivity,
                     histClock.ACTIVITY.root.activity);coutNewActivity=null;"
-                    inputmode="text" type="text" enterkeyhint="done"></ion-input>
+                    inputmode="text" type="submit"></ion-input>
                 </ion-item>
               </ion-item-sliding>
             </ion-list>
