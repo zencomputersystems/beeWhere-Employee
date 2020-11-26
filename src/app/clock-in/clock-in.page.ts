@@ -489,6 +489,7 @@ export class ClockInPage implements OnInit {
           });
           const tempArr = {};
           this.cinApi.getWithHeader("/api/clock/activity/" + resCinStat[0].CLOCK_LOG_GUID).subscribe((resActv: any) => {
+            resActv = (resActv === null) ? [] : resActv;
             localStorage.setItem(
               "cin_info",
               JSON.stringify(
