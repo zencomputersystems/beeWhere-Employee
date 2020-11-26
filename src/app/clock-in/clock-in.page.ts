@@ -245,6 +245,19 @@ export class ClockInPage implements OnInit {
    */
   public countTimeoutReqLocation = 0;
 
+  /**
+   * bind hourly time lapse time
+   * @type {string}
+   * @memberof ClockInPage
+   */
+  public timeDiffHours: string;
+
+  /**
+   * Bind minutes time lapse time
+   * @type {string}
+   * @memberof ClockInPage
+   */
+  public timeDiffMinutes: string;
 
   /**
    * Bind value of public IP of current device
@@ -408,11 +421,30 @@ export class ClockInPage implements OnInit {
    */
   cinStartTime() {
     this.currTime = new Date().toISOString();
+    if (JSON.parse(localStorage.getItem("cin_info")).clockTime !== undefined
+      || JSON.parse(localStorage.getItem("cin_info")).clockTime !== null ) {
+      this.getTimeLaplse(this.currTime, JSON.parse(localStorage.getItem("cin_info")).clockTime);
+
+    }
     setTimeout(() => {
       this.cinStartTime();
     }, 1000);
   }
 
+  /**
+   * To calculate time lapsed from last clocked-in
+   * @param {*} [currTime]
+   * @param {*} [cinTime]
+   * @memberof ClockInPage
+   */
+  getTimeLaplse(currTime?: any , cinTime?: any) {
+    currTime = new Date(currTime);
+    cinTime = new Date(cinTime * 1000);
+    const timeDiff = (currTime.getTime() - cinTime.getTime()) / (1000 * 3600);
+    this.timeDiffHours = timeDiff.toFixed(2).split(".")[0];
+    this.timeDiffMinutes = timeDiff.toFixed(2).split(".")[1];
+  }
+  
   /**
    * will be executed once user enter this page
    * @memberof ClockInPage
@@ -469,6 +501,7 @@ export class ClockInPage implements OnInit {
                   contractId: resCinStat[0].CONTRACT_ID,
                   activities: resActv.activity, // this.checkAddNew,
                   jobType: jobSel[0],
+                  clockTime: resCinStat[0].CLOCK_IN_TIME,
                 })
               )
             );
@@ -487,6 +520,7 @@ export class ClockInPage implements OnInit {
                   contractId: resCinStat[0].CONTRACT_ID,
                   activities: this.checkAddNew,
                   jobType: jobSel[0],
+                  clockTime: resCinStat[0].CLOCK_IN_TIME,
                 })
               )
             );
