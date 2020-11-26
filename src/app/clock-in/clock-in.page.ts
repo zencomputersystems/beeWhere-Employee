@@ -15,7 +15,9 @@ import {
   BackgroundGeolocationResponse,
 } from '@ionic-native/background-geolocation/ngx';
 import { Platform } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 
+const { Device } = Plugins;
 // import { Refresher } from "@ionic/angular";
 /**
  * Clockin component
@@ -243,6 +245,22 @@ export class ClockInPage implements OnInit {
    */
   public countTimeoutReqLocation = 0;
 
+
+  /**
+   * Bind value of public IP of current device
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  cinPublicIPAddr: any;
+
+  /**
+   * Bind value of uuid of current device
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  cinDeviceUUID: any;
+
+
   /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
@@ -269,6 +287,11 @@ export class ClockInPage implements OnInit {
     // private cinBackgroundGeolocation: BackgroundGeolocation,
     // private cinPlatform: Platform
   ) {
+
+    (async () => {
+      this.cinPublicIPAddr = await this.cinPublicIp.v4();
+      this.cinDeviceUUID = await Device.getInfo();
+    })();
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
       jobtype:
@@ -959,7 +982,11 @@ export class ClockInPage implements OnInit {
           clientId: this.selectedClient.CLIENT_GUID,
           projectId: this.selectedProject.PROJECT_GUID,
           contractId: this.selectedContract.CONTRACT_GUID,
-          userAgent: this.cinPlatform.description
+          userAgent: {
+            description: this.cinPlatform.description,
+            publicIp: this.cinPublicIPAddr,
+            deviceID: this.cinDeviceUUID.uuid
+          }
         };
         console.log("clocks in");
         console.log(tempArr);
@@ -1016,7 +1043,11 @@ export class ClockInPage implements OnInit {
             long: this.locWatch.long,
             name: this.locWatch.name,
           },
-          userAgent: this.cinPlatform.description
+          userAgent: {
+            description: this.cinPlatform.description,
+            publicIp: this.cinPublicIPAddr,
+            deviceID: this.cinDeviceUUID.uuid
+          }
         };
         console.log("clocks out");
         console.log(coutArr);
