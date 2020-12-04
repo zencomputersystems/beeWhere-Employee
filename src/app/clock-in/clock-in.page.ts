@@ -433,43 +433,22 @@ export class ClockInPage implements OnInit {
             jobtype: resCinStat[0].JOB_TYPE,
           });
           const tempArr = {};
-          this.cinApi.getWithHeader("/api/clock/activity/" + resCinStat[0].CLOCK_LOG_GUID).subscribe((resActv: any) => {
-            localStorage.setItem(
-              "cin_info",
-              JSON.stringify(
-                Object.assign(tempArr, {
-                  clientId: resCinStat[0].CLIENT_ID,
-                  client: resCinStat[0].CLIENT_DATA,
-                  project: resCinStat[0].PROJECT_DATA,
-                  projectId: resCinStat[0].PROJECT_ID,
-                  contract: resCinStat[0].CONTRACT_DATA,
-                  contractId: resCinStat[0].CONTRACT_ID,
-                  activities: resActv.activity, // this.checkAddNew,
-                  jobType: jobSel[0],
-                })
-              )
-            );
-
-            this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
-          }, (error) => {
-            localStorage.setItem(
-              "cin_info",
-              JSON.stringify(
-                Object.assign(tempArr, {
-                  clientId: resCinStat[0].CLIENT_ID,
-                  client: resCinStat[0].CLIENT_DATA,
-                  project: resCinStat[0].PROJECT_DATA,
-                  projectId: resCinStat[0].PROJECT_ID,
-                  contract: resCinStat[0].CONTRACT_DATA,
-                  contractId: resCinStat[0].CONTRACT_ID,
-                  activities: this.checkAddNew,
-                  jobType: jobSel[0],
-                })
-              )
-            );
-
-            this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
-          });
+          localStorage.setItem(
+            "cin_info",
+            JSON.stringify(
+              Object.assign(tempArr, {
+                clientId: resCinStat[0].CLIENT_ID,
+                client: resCinStat[0].CLIENT_DATA,
+                project: resCinStat[0].PROJECT_DATA,
+                projectId: resCinStat[0].PROJECT_ID,
+                contract: resCinStat[0].CONTRACT_DATA,
+                contractId: resCinStat[0].CONTRACT_ID,
+                activities: this.checkAddNew,
+                jobType: jobSel[0],
+              })
+            )
+          );
+          this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
         } else {
           localStorage.setItem("cin_token", "false");
         }
@@ -620,7 +599,7 @@ export class ClockInPage implements OnInit {
    */
   addNewTask(event) {
     console.log(this.newTask);
-    if (event.key === "Enter" && this.newTask !== null) {
+    if (event.code === "Enter" && this.newTask !== null) {
       console.log(this.clockedInInfo);
       if (this.clockedInInfo !== undefined) {
         this.clockedInInfo.activities.push({
@@ -990,13 +969,11 @@ export class ClockInPage implements OnInit {
             this.data.userInfo.clockIn.status = true;
             this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
             this.cinGlobal.addLoginActivity("Clock in");
-            this.cinGlobalFn.showToast("Success clock-in", "success");
             // this.autoclockoutCheck(); // disabled autoclockout function for release 1
 
             console.log(this.clockedInInfo);
           },
           (error) => {
-            this.cinGlobalFn.showToast("Error clock-in, " + error.error, "error");
             console.log("clkin");
             console.log(error);
           }
@@ -1032,7 +1009,6 @@ export class ClockInPage implements OnInit {
               this.clockedInInfo.activities // this.checkAddNew
             );
             this.cinGlobal.addLoginActivity("Clock out");
-            this.cinGlobalFn.showToast("Success clock-out", "success");
 
             this.globalData.clocksInfo.latest = null;
             localStorage.setItem("cin_token", "false");
@@ -1050,7 +1026,6 @@ export class ClockInPage implements OnInit {
           },
           (error) => {
             console.log("coutResp");
-            this.cinGlobalFn.showToast("Error clock-out, " + error.error, "error");
             console.log(error);
           }
         );

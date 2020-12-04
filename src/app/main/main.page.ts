@@ -40,9 +40,9 @@ export class MainPage implements OnInit {
    * @memberof MainPage
    */
   ngOnInit() {
-    // console.log(this.globalData.histClocks);
-    // this.loadingHistData = true;
-    // this.getHistory();
+    console.log(this.globalData.histClocks);
+    this.loadingHistData = true;
+    this.getHistory();
   }
 
   /**
@@ -114,12 +114,5 @@ export class MainPage implements OnInit {
     setTimeout(() => {
       event.target.complete();
     }, 2000);
-  }
-
-  async ionViewDidEnter(){
-    this.globalData.histClocks = [];
-    this.initReq = 0;
-    this.loadingHistData = true;
-    await this.getHistory().then();
   }
 }

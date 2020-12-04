@@ -160,18 +160,10 @@ export class ClockPage implements OnInit {
       this.clApi.patchWithHeader("/api/clock/activity", tempUpdArray).subscribe(
         (clkAct) => {
           console.log(clkAct);
-          this.coutGlobalFn.showToast("Successfully saved", "success").then(() => {
-            this.clRouter.navigateByUrl("/main");
-
-          });
-          // this.clRouter.navigate["/main"];
-          // setTimeout(() => {
-          //   this.cinStartTime();
-          // }, 1000);
+          this.clRouter.navigate["/main"];
         },
         (error) => {
           console.log(error);
-          this.coutGlobalFn.showToast("Fail to saved", "error");
         }
       );
     }
