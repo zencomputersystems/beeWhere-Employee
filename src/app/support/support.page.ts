@@ -165,7 +165,7 @@ export class SupportPage implements OnInit {
           };
           this.choosenFile !== "No file chosen"
             ? this.postUploadImg()
-            : this.postObj(tempObj);
+            : this.sGFn.showToast("Supporting document is required", "error"); // this.postObj(tempObj);
           // this.postUploadImg();
         } else {
           this.sGFn.showToast("Please fill in required fields ", "error");
@@ -231,8 +231,8 @@ export class SupportPage implements OnInit {
         const obj = {
           requestType: this.mform.get("requestForm").value.type,
           subject: this.mform.get("requestForm").value.title,
-          starttime: new Date(this.reqDetails.value.inTime).valueOf(),
-          endtime: new Date(this.reqDetails.value.outTime).valueOf(),
+          starttime: (new Date(this.reqDetails.value.inTime).valueOf() / 1000),
+          endtime: (new Date(this.reqDetails.value.outTime).valueOf() / 1000),
           supportingDoc: (resp as any).filename,
           description:
             this.mform.get("requestForm").value.description === null
