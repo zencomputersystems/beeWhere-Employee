@@ -169,8 +169,7 @@
         <ion-card-title>
           {{histClock.JOB_TYPE}}
           <ion-card-subtitle>
-            <ion-label class="label-client" *ngIf="(histClock.CLIENT_ID !== null && histClock.CLIENT_ID !== 'none') 
-              && histClock.CLIENT_DATA.ABBR !== null">
+            <ion-label class="label-client" *ngIf="histClock.CLIENT_ID !== null && histClock.CLIENT_DATA.ABBR !== null">
               {{histClock.CLIENT_DATA.ABBR}}
             </ion-label>
             <ion-label class="label-project"
@@ -233,5 +232,67 @@
         </ion-card-content>
       </ion-card>
     </ion-item-group> 
+    <!-- <ion-item-group class="last-clockin" *ngFor="let histClock of currData">
+      <ion-title>
+        {{histClock.clockInTime | date: 'd MMM yyyy'}}
+      </ion-title>
+      <ion-card>
+        <ion-card-title>
+          {{histClock.jobType}}
+          <ion-card-subtitle>
+            <ion-label class="label-client" *ngIf="histClock.clientCode !== null">
+              {{histClock.clientCode}}
+            </ion-label>
+            <ion-label class="label-project" *ngIf="histClock.projectCode !== null">
+              {{histClock.projectCode}}
+            </ion-label>
+            <ion-label class="label-contract" *ngIf="histClock.contractCode !== null">
+              {{histClock.contractCode}}
+            </ion-label>
+          </ion-card-subtitle>
+        </ion-card-title>
+        <ion-card-subtitle class="description-project" *ngIf="histClock.projectDesc !== null">
+          {{histClock.projectDesc}}
+        </ion-card-subtitle>
+        <ion-card-content class="clockout-content">
+          <ion-item-group>
+            <ion-img src="../../assets/basic/location.png"></ion-img>
+            <ion-label *ngIf="currLocation.lat !== null || currLocation.long !== null">
+              {{currLocation.lat}},&nbsp;{{currLocation.long}}</ion-label>
+            <ion-label *ngIf="currLocation.lat === null || currLocation.long === null">
+              Getting current location..</ion-label>
+          </ion-item-group>
+
+          <ion-item-group class="activity-list">
+            <ion-title>Activity List</ion-title>
+            <ion-list>
+              <ion-item-sliding *ngFor="let aList of histClock.activityList">
+                <ion-item lines="none">
+                  <ion-checkbox slot="start" mode="ios" [(ngModel)]="aList.status">
+                  </ion-checkbox>
+                  <ion-input type="text" placeholder="Add task here    " [(ngModel)]="aList.activity" inputmode="text"
+                    type="text" enterkeyhint="done"></ion-input>
+                </ion-item>
+                <ion-item-options side="end">
+                  <ion-item-option
+                    (click)="histClock.activityList=coutGlobalFn.deleteTask(aList, histClock.activityList);">
+                    Del</ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
+              <ion-item-sliding>
+                <ion-item lines="none">
+                  <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
+                  <ion-input type="text" placeholder="Add task here    " [(ngModel)]="coutNewActivity"
+                    (keyup.enter)="coutGlobalFn.addTask($event, coutNewActivity,
+                    histClock.activityList);coutNewActivity=null;"
+                    inputmode="text" type="text" enterkeyhint="done"></ion-input>
+                </ion-item>
+              </ion-item-sliding>
+            </ion-list>
+          </ion-item-group>
+        </ion-card-content>
+      </ion-card>
+    </ion-item-group> -->
+
   </div>
 </ion-content>
