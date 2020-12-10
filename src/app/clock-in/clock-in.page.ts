@@ -421,8 +421,9 @@ export class ClockInPage implements OnInit {
    */
   cinStartTime() {
     this.currTime = new Date().toISOString();
-    if (JSON.parse(localStorage.getItem("cin_info")).clockTime !== undefined
-      || JSON.parse(localStorage.getItem("cin_info")).clockTime !== null ) {
+    if (JSON.parse(localStorage.getItem("cin_info")) !== null && (
+        JSON.parse(localStorage.getItem("cin_info")).clockTime !== undefined
+      || JSON.parse(localStorage.getItem("cin_info")).clockTime !== null) ) {
       this.getTimeLaplse(this.currTime, JSON.parse(localStorage.getItem("cin_info")).clockTime);
 
     }
@@ -1048,7 +1049,9 @@ export class ClockInPage implements OnInit {
             this.globalData.clocksInfo.latest = clkin[0].CLOCK_LOG_GUID;
             console.log(this.globalData.clocksInfo);
             console.log(this.checkAddNew);
-            this.patchActivityList(clkin[0].CLOCK_LOG_GUID, this.checkAddNew);
+            if (this.checkAddNew.length > 0) {
+              this.patchActivityList(clkin[0].CLOCK_LOG_GUID, this.checkAddNew);
+            }
             this.data.userInfo.clockIn.status = true;
             this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
             this.cinGlobal.addLoginActivity("Clock in");
@@ -1091,10 +1094,12 @@ export class ClockInPage implements OnInit {
             console.log(this.checkAddNew);
 
             console.log(this.clockedInInfo);
-            this.patchActivityList(
-              coutResp[0].CLOCK_LOG_GUID,
-              this.clockedInInfo.activities // this.checkAddNew
-            );
+            if (this.checkAddNew.length > 0) {
+              this.patchActivityList(
+                coutResp[0].CLOCK_LOG_GUID,
+                this.clockedInInfo.activities // this.checkAddNew
+              );
+            }
             this.cinGlobal.addLoginActivity("Clock out");
 
             this.globalData.clocksInfo.latest = null;
