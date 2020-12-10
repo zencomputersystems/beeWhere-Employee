@@ -138,7 +138,7 @@ export class ClockPage implements OnInit {
       console.log(this.currData);
       // update activity based on clock guid
       const tempUpdArray = {
-        clockLogGuid: this.currData[0].CLOCK_LOG_GUID, // this.currData.CLOCK_LOG_GUID,
+        clockLogGuid: this.currData[0].CLOCK_LOG_GUID,
         activity: this.currData[0].ACTIVITY.root.activity
         // activity: [
         //   this.currData.ACTIVITY

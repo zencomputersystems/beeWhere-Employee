@@ -20,8 +20,8 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
-        <preference name="ANDROID_SUPPORT_V4_VERSION" default="27.+"/>
-        <framework src="com.android.support:supportv4:$ANDROID_SUPPORT_V4_VERSION"/>
+        <preference default="27.+" name="ANDROID_SUPPORT_V4_VERSION" />
+        <framework src="com.android.support:supportv4:$ANDROID_SUPPORT_V4_VERSION" />
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
         </edit-config>

@@ -223,7 +223,11 @@
                   </div>
                 </ion-item-group>
                 <ion-item-group>
-                  <ion-label>Supporting Document</ion-label>
+                  <div class="error-note">
+                    <ion-label>Supporting Document</ion-label>
+                    <ion-note *ngIf="choosenFile === 'No file chosen'" >
+                      *required</ion-note>
+                  </div>
                   <ion-button fill="clear" (click)="file.click();">Add file</ion-button>
                   <input type="file" #file name="file" type="file" (change)="upload($event)">
                   <ion-text>{{choosenFile}}</ion-text>

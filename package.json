@@ -27,7 +27,7 @@
     "@capacitor/ios": "^2.2.1",
     "@ionic-native/background-geolocation": "^5.28.0",
     "@ionic-native/core": "^5.0.7",
-    "@ionic-native/device": "^5.28.0",
+    "@ionic-native/device": "^5.29.0",
     "@ionic-native/geofence": "^5.27.0",
     "@ionic-native/geolocation": "^5.27.0",
     "@ionic-native/splash-screen": "^5.0.0",

@@ -17,6 +17,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+import { Device } from '@ionic-native/device';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

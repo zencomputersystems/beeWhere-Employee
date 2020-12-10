@@ -15,7 +15,9 @@ import {
   BackgroundGeolocationResponse,
 } from '@ionic-native/background-geolocation/ngx';
 import { Platform } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 
+const { Device } = Plugins;
 // import { Refresher } from "@ionic/angular";
 /**
  * Clockin component
@@ -244,6 +246,35 @@ export class ClockInPage implements OnInit {
   public countTimeoutReqLocation = 0;
 
   /**
+   * bind hourly time lapse time
+   * @type {string}
+   * @memberof ClockInPage
+   */
+  public timeDiffHours: string;
+
+  /**
+   * Bind minutes time lapse time
+   * @type {string}
+   * @memberof ClockInPage
+   */
+  public timeDiffMinutes: string;
+
+  /**
+   * Bind value of public IP of current device
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  cinPublicIPAddr: any;
+
+  /**
+   * Bind value of uuid of current device
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  cinDeviceUUID: any;
+
+
+  /**
    * Creates an instance of ClockInPage.
    * @param {GlobalFnService} cinGlobalFn To get the methods from GlobalFnService
    * @param {Geolocation} geolocation To get the methods from geolocation
@@ -269,6 +300,11 @@ export class ClockInPage implements OnInit {
     // private cinBackgroundGeolocation: BackgroundGeolocation,
     // private cinPlatform: Platform
   ) {
+
+    (async () => {
+      this.cinPublicIPAddr = await this.cinPublicIp.v4();
+      this.cinDeviceUUID = await Device.getInfo();
+    })();
     this.clocksForm = clkFormBuilder.group({
       dateToday: "",
       jobtype:
@@ -385,11 +421,30 @@ export class ClockInPage implements OnInit {
    */
   cinStartTime() {
     this.currTime = new Date().toISOString();
+    if (JSON.parse(localStorage.getItem("cin_info")).clockTime !== undefined
+      || JSON.parse(localStorage.getItem("cin_info")).clockTime !== null ) {
+      this.getTimeLaplse(this.currTime, JSON.parse(localStorage.getItem("cin_info")).clockTime);
+
+    }
     setTimeout(() => {
       this.cinStartTime();
     }, 1000);
   }
 
+  /**
+   * To calculate time lapsed from last clocked-in
+   * @param {*} [currTime]
+   * @param {*} [cinTime]
+   * @memberof ClockInPage
+   */
+  getTimeLaplse(currTime?: any , cinTime?: any) {
+    currTime = new Date(currTime);
+    cinTime = new Date(cinTime * 1000);
+    const timeDiff = (currTime.getTime() - cinTime.getTime()) / (1000 * 3600);
+    this.timeDiffHours = timeDiff.toFixed(2).split(".")[0];
+    this.timeDiffMinutes = timeDiff.toFixed(2).split(".")[1];
+  }
+  
   /**
    * will be executed once user enter this page
    * @memberof ClockInPage
@@ -433,22 +488,46 @@ export class ClockInPage implements OnInit {
             jobtype: resCinStat[0].JOB_TYPE,
           });
           const tempArr = {};
-          localStorage.setItem(
-            "cin_info",
-            JSON.stringify(
-              Object.assign(tempArr, {
-                clientId: resCinStat[0].CLIENT_ID,
-                client: resCinStat[0].CLIENT_DATA,
-                project: resCinStat[0].PROJECT_DATA,
-                projectId: resCinStat[0].PROJECT_ID,
-                contract: resCinStat[0].CONTRACT_DATA,
-                contractId: resCinStat[0].CONTRACT_ID,
-                activities: this.checkAddNew,
-                jobType: jobSel[0],
-              })
-            )
-          );
-          this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+          this.cinApi.getWithHeader("/api/clock/activity/" + resCinStat[0].CLOCK_LOG_GUID).subscribe((resActv: any) => {
+            resActv = (resActv === null) ? [] : resActv;
+            localStorage.setItem(
+              "cin_info",
+              JSON.stringify(
+                Object.assign(tempArr, {
+                  clientId: resCinStat[0].CLIENT_ID,
+                  client: resCinStat[0].CLIENT_DATA,
+                  project: resCinStat[0].PROJECT_DATA,
+                  projectId: resCinStat[0].PROJECT_ID,
+                  contract: resCinStat[0].CONTRACT_DATA,
+                  contractId: resCinStat[0].CONTRACT_ID,
+                  activities: resActv.activity, // this.checkAddNew,
+                  jobType: jobSel[0],
+                  clockTime: resCinStat[0].CLOCK_IN_TIME,
+                })
+              )
+            );
+
+            this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+          }, (error) => {
+            localStorage.setItem(
+              "cin_info",
+              JSON.stringify(
+                Object.assign(tempArr, {
+                  clientId: resCinStat[0].CLIENT_ID,
+                  client: resCinStat[0].CLIENT_DATA,
+                  project: resCinStat[0].PROJECT_DATA,
+                  projectId: resCinStat[0].PROJECT_ID,
+                  contract: resCinStat[0].CONTRACT_DATA,
+                  contractId: resCinStat[0].CONTRACT_ID,
+                  activities: this.checkAddNew,
+                  jobType: jobSel[0],
+                  clockTime: resCinStat[0].CLOCK_IN_TIME,
+                })
+              )
+            );
+
+            this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+          });
         } else {
           localStorage.setItem("cin_token", "false");
         }
@@ -938,7 +1017,11 @@ export class ClockInPage implements OnInit {
           clientId: this.selectedClient.CLIENT_GUID,
           projectId: this.selectedProject.PROJECT_GUID,
           contractId: this.selectedContract.CONTRACT_GUID,
-          userAgent: this.cinPlatform.description
+          userAgent: {
+            description: this.cinPlatform.description,
+            publicIp: this.cinPublicIPAddr,
+            deviceID: this.cinDeviceUUID.uuid
+          }
         };
         console.log("clocks in");
         console.log(tempArr);
@@ -993,7 +1076,11 @@ export class ClockInPage implements OnInit {
             long: this.locWatch.long,
             name: this.locWatch.name,
           },
-          userAgent: this.cinPlatform.description
+          userAgent: {
+            description: this.cinPlatform.description,
+            publicIp: this.cinPublicIPAddr,
+            deviceID: this.cinDeviceUUID.uuid
+          }
         };
         console.log("clocks out");
         console.log(coutArr);
