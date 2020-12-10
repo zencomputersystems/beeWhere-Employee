@@ -421,9 +421,8 @@ export class ClockInPage implements OnInit {
    */
   cinStartTime() {
     this.currTime = new Date().toISOString();
-    if (JSON.parse(localStorage.getItem("cin_info")) !== null && (
-        JSON.parse(localStorage.getItem("cin_info")).clockTime !== undefined
-      || JSON.parse(localStorage.getItem("cin_info")).clockTime !== null) ) {
+    if (JSON.parse(localStorage.getItem("cin_info")).clockTime !== undefined
+      || JSON.parse(localStorage.getItem("cin_info")).clockTime !== null ) {
       this.getTimeLaplse(this.currTime, JSON.parse(localStorage.getItem("cin_info")).clockTime);
 
     }

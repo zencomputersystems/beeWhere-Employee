@@ -1,4 +1,3 @@
-
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GlobalFnService } from '@services/global-fn.service';
 import { Router } from '@angular/router';
@@ -18,7 +17,7 @@ export class GlobalService {
     private router: Router,
     private gGF: GlobalFnService,
     private glGeolocation: Geolocation,
-    private glAuth: AuthenticationService,
+    private glAuth: AuthenticationService
   ) { }
   //  ClockInPage.clocksForm: FormGroup
   public globalData = require("@services/_providers/global.json");
@@ -143,6 +142,7 @@ export class GlobalService {
     let loginAddr;
     let loginPublicIp;
     let tempLoginLog;
+    console.log(JSON.parse(localStorage.getItem("usr")).userId);
     // this.globalData.jobTypes = [];
     localStorage.setItem("jobProfile", "[]");
     (async () => {
@@ -165,17 +165,20 @@ export class GlobalService {
             temp.require_location = true;  // for temp only
             tempJob.push(temp);
           });
+          // console.log(this.dataGlobal.userInfo);
+          // console.log(this.globalData.jobTypes);
+          // console.log(tempJob);
           localStorage.setItem("jobProfile", JSON.stringify(tempJob));
-          // if (localStorage.getItem("defJob") === null || localStorage.getItem("defJob") === undefined) {
-          defJob = tempJob.find((x) => {
-            if (x.value) {
-              // console.log(x);
-              return x.type;
-            }
-          });
-          localStorage.setItem("defJob", JSON.stringify(defJob));
+          if (localStorage.getItem("defJob") === null || localStorage.getItem("defJob") === undefined) {
+            defJob = tempJob.find((x) => {
+              if (x.value) {
+                // console.log(x);
+                return x.type;
+              }
+            });
+            localStorage.setItem("defJob", JSON.stringify(defJob));
 
-          // }
+          }
           console.log(JSON.parse(localStorage.getItem("defJob")));
           // console.log(this.globalData.jobTypes);
           if (isNavToMain) {
@@ -331,36 +334,4 @@ export class GlobalService {
       console.log(error);
     });
   }
-
-  // getUniqueDeviceID() {
-  //   console.log('device info');
-  
-  //   this.glUniqueDeviceID.get()
-  //     .then((uuid: any) => {
-  //       console.log(uuid);
-  //       return uuid;
-  //     })
-  //     .catch((error: any) => {
-  //       console.log(error);
-  //       return "Error! ${error}";
-  //     });
-  // }
-
-  // getPermission(){
-  //   this.glAndroidPermissions.checkPermission(
-  //     this.glAndroidPermissions.PERMISSION.READ_PHONE_STATE
-  //   ).then(res => {
-  //     if(res.hasPermission){
-        
-  //     }else{
-  //       this.glAndroidPermissions.requestPermission(this.glAndroidPermissions.PERMISSION.READ_PHONE_STATE).then(res => {
-  //         alert("Persmission Granted Please Restart App!");
-  //       }).catch(error => {
-  //         alert("Error! "+error);
-  //       });
-  //     }
-  //   }).catch(error => {
-  //     alert("Error! "+error);
-  //   });
-  // }
 }
