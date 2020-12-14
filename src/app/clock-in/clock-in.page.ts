@@ -1049,9 +1049,7 @@ export class ClockInPage implements OnInit {
             this.globalData.clocksInfo.latest = clkin[0].CLOCK_LOG_GUID;
             console.log(this.globalData.clocksInfo);
             console.log(this.checkAddNew);
-            if (this.checkAddNew.length > 0) {
-              this.patchActivityList(clkin[0].CLOCK_LOG_GUID, this.checkAddNew);
-            }
+            this.patchActivityList(clkin[0].CLOCK_LOG_GUID, this.checkAddNew);
             this.data.userInfo.clockIn.status = true;
             this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
             this.cinGlobal.addLoginActivity("Clock in");
@@ -1094,12 +1092,10 @@ export class ClockInPage implements OnInit {
             console.log(this.checkAddNew);
 
             console.log(this.clockedInInfo);
-            if (this.checkAddNew.length > 0) {
-              this.patchActivityList(
-                coutResp[0].CLOCK_LOG_GUID,
-                this.clockedInInfo.activities // this.checkAddNew
-              );
-            }
+            this.patchActivityList(
+              coutResp[0].CLOCK_LOG_GUID,
+              this.clockedInInfo.activities // this.checkAddNew
+            );
             this.cinGlobal.addLoginActivity("Clock out");
 
             this.globalData.clocksInfo.latest = null;
@@ -1136,23 +1132,26 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   patchActivityList(clockGuid, list) {
+
     const actvArr = {
       clockLogGuid: clockGuid,
       activity: list,
     };
 
     console.log(actvArr);
+    if (list !== undefined) {
+      this.cinApi.patchWithHeader("/api/clock/activity", actvArr).subscribe(
+        (actvRes) => {
+          console.log("actvRes");
+          console.log(actvRes);
+        },
+        (error) => {
+          console.log("actvRes");
+          console.log(error);
+        }
+      );
 
-    this.cinApi.patchWithHeader("/api/clock/activity", actvArr).subscribe(
-      (actvRes) => {
-        console.log("actvRes");
-        console.log(actvRes);
-      },
-      (error) => {
-        console.log("actvRes");
-        console.log(error);
-      }
-    );
+    }
   }
 
   /**
