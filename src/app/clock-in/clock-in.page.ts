@@ -272,7 +272,13 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   cinDeviceUUID: any;
-  defJobClock: any;
+
+  /**
+   * Store selected job type
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  public jobSel: any;
 
 
   /**
@@ -364,7 +370,6 @@ export class ClockInPage implements OnInit {
     this.selectedJobType = JSON.parse(localStorage.getItem("defJob"));
     if (localStorage.getItem("cid_token") !== null) {
       this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
-      this.defJobClock = JSON.parse(localStorage.getItem("defJob"))[0];
       // this.autoclockoutCheck(); // Disabled for release 1
     }
     // (window as any).plugins.mocklocation.check(
@@ -483,10 +488,10 @@ export class ClockInPage implements OnInit {
         if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null) {
           localStorage.setItem("cin_token", "true");
           localStorage.setItem("cid_token", resCinStat[0].CLOCK_LOG_GUID);
-          const jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
+          this.jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
             return jobItem.type === resCinStat[0].JOB_TYPE;
           });
-          localStorage.setItem("defJob", JSON.stringify(jobSel));
+          localStorage.setItem("defJob", JSON.stringify(this.jobSel));
           this.clocksForm.patchValue({
             jobtype: resCinStat[0].JOB_TYPE,
           });
@@ -504,7 +509,7 @@ export class ClockInPage implements OnInit {
                   contract: resCinStat[0].CONTRACT_DATA,
                   contractId: resCinStat[0].CONTRACT_ID,
                   activities: resActv.activity, // this.checkAddNew,
-                  jobType: jobSel[0],
+                  jobType: this.jobSel[0],
                   clockTime: resCinStat[0].CLOCK_IN_TIME,
                 })
               )
@@ -523,7 +528,7 @@ export class ClockInPage implements OnInit {
                   contract: resCinStat[0].CONTRACT_DATA,
                   contractId: resCinStat[0].CONTRACT_ID,
                   activities: this.checkAddNew,
-                  jobType: jobSel[0],
+                  jobType: this.jobSel[0],
                   clockTime: resCinStat[0].CLOCK_IN_TIME,
                 })
               )
