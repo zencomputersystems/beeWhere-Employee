@@ -82,8 +82,10 @@
   </ion-button>
 </div>
 <div class="clockin-button clockout" *ngIf="cinGlobalFn.isClockin() === 'true'">
-  <ion-button shape="round" fill="outline" class="clockout" (click)="saveClockIn('out')">
-    <!-- <ion-button shape="round" fill="outline" class="clockout" [routerLink]="['/clock', 'out', 0]"> -->
+  <ion-button shape="round" fill="outline" class="clockout" (click)="saveClockIn('out')" *ngIf="allowClockin" >
+    <ion-label>Clock Out</ion-label>
+  </ion-button>
+  <ion-button shape="round" fill="outline" class="clockout" (click)="saveClockIn('out')" disabled *ngIf="!allowClockin" >
     <ion-label>Clock Out</ion-label>
   </ion-button>
 </div>
