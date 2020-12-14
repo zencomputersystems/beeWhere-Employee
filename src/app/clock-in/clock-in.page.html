@@ -371,7 +371,7 @@
             {{selectedProject.DESCRIPTION }}
           </ion-card-subtitle>
           <ion-card-content class="clockin-details">
-            <ion-item-group class="clocked-in">
+            <!-- <ion-item-group class="clocked-in">
               <ion-img src="../../assets/basic/location.png"></ion-img>
               <ion-label *ngIf="locWatch.lat !== null || locWatch.long 
                         !== null">
@@ -388,6 +388,30 @@
               <ion-label *ngIf="geoLocError !== ''" class="error-location">
                 {{geoLocError}}
               </ion-label>
+              </ion-item-group> -->
+              <ion-item-group class="error-location-group">
+              <!-- <ion-item-group *ngIf="jobDtl.geofence_filter"> -->
+                <ion-img src="../../assets/basic/location.png"></ion-img>
+                <ion-label
+                  *ngIf="locWatch.lat !== null || locWatch.long 
+                  !== null">
+                  <ng-container *ngIf="locWatch.name !== null; else showlatlong">
+                    {{locWatch.name}}
+                  </ng-container>
+                  <ng-template #showlatlong>
+                    {{locWatch.lat}},&nbsp;{{locWatch.long}}
+                  </ng-template>
+                </ion-label>
+                <div>
+                  <ion-label *ngIf="(locWatch.lat === null || locWatch.long === null) && geoLocError == ''">
+                    Getting current location..</ion-label>
+                  <ion-label *ngIf="geoLocError !== ''" class="error-location">
+                    {{geoLocError}}
+                  </ion-label>
+                  <ion-note  *ngIf="defJobClock.require_location && ( locWatch.lat == null || locWatch.long 
+                  === null);" class="location-info"  >*Require location to clockin/clockout</ion-note>
+                </div>
+                <ion-icon name="refresh-circle-outline" class="location-refresh-button" (click)="getLoc()"></ion-icon>
               </ion-item-group>
               <!-- activity list -->
               <ion-item-group class="activity-list">

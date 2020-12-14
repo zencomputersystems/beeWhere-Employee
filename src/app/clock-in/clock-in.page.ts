@@ -272,6 +272,7 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   cinDeviceUUID: any;
+  defJobClock: any;
 
 
   /**
@@ -363,6 +364,7 @@ export class ClockInPage implements OnInit {
     this.selectedJobType = JSON.parse(localStorage.getItem("defJob"));
     if (localStorage.getItem("cid_token") !== null) {
       this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
+      this.defJobClock = JSON.parse(localStorage.getItem("defJob"))[0];
       // this.autoclockoutCheck(); // Disabled for release 1
     }
     // (window as any).plugins.mocklocation.check(
