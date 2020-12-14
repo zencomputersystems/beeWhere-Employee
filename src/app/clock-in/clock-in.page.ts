@@ -638,7 +638,7 @@ export class ClockInPage implements OnInit {
           setTimeout(() => {
             this.getLoc();
             this.countTimeoutReqLocation++;
-          }, 3000);
+          }, 2000);
 
         }
       });
