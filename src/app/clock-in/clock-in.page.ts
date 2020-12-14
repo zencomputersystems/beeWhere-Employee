@@ -684,6 +684,7 @@ export class ClockInPage implements OnInit {
     if (event.code === "Enter" && this.newTask !== null) {
       console.log(this.clockedInInfo);
       if (this.clockedInInfo !== undefined) {
+        this.clockedInInfo.activities = [];
         this.clockedInInfo.activities.push({
           statusFlag: false,
           name: this.newTask,
