@@ -450,8 +450,10 @@ export class ClockInPage implements OnInit {
     cinTime = new Date(cinTime);
     // cinTime = new Date(cinTime * 1000);
     const timeDiff = (currTime.getTime() - cinTime.getTime()) / (1000 * 3600);
-    this.timeDiffHours = timeDiff.toFixed(2).split(".")[0];
-    this.timeDiffMinutes = timeDiff.toFixed(2).split(".")[1];
+    this.timeDiffMinutes = (timeDiff.toFixed(2).split(".")[1] > "59")
+      ? (Number(timeDiff.toFixed(2).split(".")[1]) - 59).toString() : timeDiff.toFixed(2).split(".")[1];
+    this.timeDiffHours = (timeDiff.toFixed(2).split(".")[1] > "59") 
+      ? (Number(timeDiff.toFixed(2).split(".")[0]) + 1).toString() : timeDiff.toFixed(2).split(".")[0];
   }
   
   /**
