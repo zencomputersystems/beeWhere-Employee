@@ -273,6 +273,13 @@ export class ClockInPage implements OnInit {
    */
   cinDeviceUUID: any;
 
+  /**
+   * Store selected job type
+   * @type {*}
+   * @memberof ClockInPage
+   */
+  public jobSel: any;
+
 
   /**
    * Creates an instance of ClockInPage.
@@ -421,9 +428,10 @@ export class ClockInPage implements OnInit {
    */
   cinStartTime() {
     this.currTime = new Date().toISOString();
-    if (JSON.parse(localStorage.getItem("cin_info")).clockTime !== undefined
-      || JSON.parse(localStorage.getItem("cin_info")).clockTime !== null ) {
-      this.getTimeLaplse(this.currTime, JSON.parse(localStorage.getItem("cin_info")).clockTime);
+    if (JSON.parse(localStorage.getItem("cin_info")) !== null && (
+        JSON.parse(localStorage.getItem("cin_info")).clockTime !== undefined
+      || JSON.parse(localStorage.getItem("cin_info")).clockTime !== null) ) {
+      this.getTimeLaplse(this.currTime, new Date(JSON.parse(localStorage.getItem("cin_info")).clockTime).toISOString());
 
     }
     setTimeout(() => {
@@ -439,7 +447,8 @@ export class ClockInPage implements OnInit {
    */
   getTimeLaplse(currTime?: any , cinTime?: any) {
     currTime = new Date(currTime);
-    cinTime = new Date(cinTime * 1000);
+    cinTime = new Date(cinTime);
+    // cinTime = new Date(cinTime * 1000);
     const timeDiff = (currTime.getTime() - cinTime.getTime()) / (1000 * 3600);
     this.timeDiffHours = timeDiff.toFixed(2).split(".")[0];
     this.timeDiffMinutes = timeDiff.toFixed(2).split(".")[1];
@@ -480,10 +489,10 @@ export class ClockInPage implements OnInit {
         if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null) {
           localStorage.setItem("cin_token", "true");
           localStorage.setItem("cid_token", resCinStat[0].CLOCK_LOG_GUID);
-          const jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
+          this.jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
             return jobItem.type === resCinStat[0].JOB_TYPE;
           });
-          localStorage.setItem("defJob", JSON.stringify(jobSel));
+          localStorage.setItem("defJob", JSON.stringify(this.jobSel));
           this.clocksForm.patchValue({
             jobtype: resCinStat[0].JOB_TYPE,
           });
@@ -501,7 +510,7 @@ export class ClockInPage implements OnInit {
                   contract: resCinStat[0].CONTRACT_DATA,
                   contractId: resCinStat[0].CONTRACT_ID,
                   activities: resActv.activity, // this.checkAddNew,
-                  jobType: jobSel[0],
+                  jobType: this.jobSel[0],
                   clockTime: resCinStat[0].CLOCK_IN_TIME,
                 })
               )
@@ -520,7 +529,7 @@ export class ClockInPage implements OnInit {
                   contract: resCinStat[0].CONTRACT_DATA,
                   contractId: resCinStat[0].CONTRACT_ID,
                   activities: this.checkAddNew,
-                  jobType: jobSel[0],
+                  jobType: this.jobSel[0],
                   clockTime: resCinStat[0].CLOCK_IN_TIME,
                 })
               )
@@ -637,7 +646,7 @@ export class ClockInPage implements OnInit {
           setTimeout(() => {
             this.getLoc();
             this.countTimeoutReqLocation++;
-          }, 3000);
+          }, 2000);
 
         }
       });
@@ -681,6 +690,7 @@ export class ClockInPage implements OnInit {
     if (event.code === "Enter" && this.newTask !== null) {
       console.log(this.clockedInInfo);
       if (this.clockedInInfo !== undefined) {
+        this.clockedInInfo.activities = [];
         this.clockedInInfo.activities.push({
           statusFlag: false,
           name: this.newTask,
@@ -1131,23 +1141,26 @@ export class ClockInPage implements OnInit {
    * @memberof ClockInPage
    */
   patchActivityList(clockGuid, list) {
+
     const actvArr = {
       clockLogGuid: clockGuid,
       activity: list,
     };
 
     console.log(actvArr);
+    if (list !== undefined) {
+      this.cinApi.patchWithHeader("/api/clock/activity", actvArr).subscribe(
+        (actvRes) => {
+          console.log("actvRes");
+          console.log(actvRes);
+        },
+        (error) => {
+          console.log("actvRes");
+          console.log(error);
+        }
+      );
 
-    this.cinApi.patchWithHeader("/api/clock/activity", actvArr).subscribe(
-      (actvRes) => {
-        console.log("actvRes");
-        console.log(actvRes);
-      },
-      (error) => {
-        console.log("actvRes");
-        console.log(error);
-      }
-    );
+    }
   }
 
   /**
