@@ -163,7 +163,7 @@
                 </ion-list>
               </ion-item-group>
               <ion-item-group class="activities-setting" *ngIf="histList.ACTIVITY !== null">
-                <ion-list *ngFor="let activities of histList.ACTIVITY.root.activity">
+                <ion-list *ngFor="let activities of histList.ACTIVITY">
                   <ion-checkbox mode="ios" [(ngModel)]="activities.statusFlag" disabled></ion-checkbox>
                   <ion-label *ngIf="activities.name">{{activities.name}}</ion-label>
                 </ion-list>
