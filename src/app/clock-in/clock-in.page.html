@@ -347,6 +347,7 @@
             {{clocksForm.get('jobtype').value}}
             <ion-card-subtitle>
               <ion-label class="label-client" *ngIf="clockedInInfo.clientId !== 'none'">
+              <ion-label class="label-client" *ngIf="clockedInInfo.client.length > 0">
                 {{clockedInInfo.client.ABBR}}
               </ion-label>
               <ion-label class="label-project" *ngIf="clockedInInfo.projectId !== 'none'">
