@@ -347,6 +347,7 @@
             {{clocksForm.get('jobtype').value}}
             <ion-card-subtitle>
               <ion-label class="label-client" *ngIf="clockedInInfo.clientId !== 'none'">
+              <ion-label class="label-client" *ngIf="clockedInInfo.client.length > 0">
                 {{clockedInInfo.client.ABBR}}
               </ion-label>
               <ion-label class="label-project" *ngIf="clockedInInfo.projectId !== 'none'">
@@ -408,7 +409,7 @@
                   <ion-label *ngIf="geoLocError !== ''" class="error-location">
                     {{geoLocError}}
                   </ion-label>
-                  <ion-note  *ngIf="clockedInInfo.jobType.require_location && ( locWatch.lat == null || locWatch.long 
+                  <ion-note  *ngIf=" ( locWatch.lat == null || locWatch.long 
                   === null);" class="location-info"  >*Require location to clockin/clockout</ion-note>
                 </div>
                 <ion-icon name="refresh-circle-outline" class="location-refresh-button" (click)="getLoc()"></ion-icon>
