@@ -409,7 +409,7 @@
                   <ion-label *ngIf="geoLocError !== ''" class="error-location">
                     {{geoLocError}}
                   </ion-label>
-                  <ion-note  *ngIf="clockedInInfo.jobType.require_location && ( locWatch.lat == null || locWatch.long 
+                  <ion-note  *ngIf=" ( locWatch.lat == null || locWatch.long 
                   === null);" class="location-info"  >*Require location to clockin/clockout</ion-note>
                 </div>
                 <ion-icon name="refresh-circle-outline" class="location-refresh-button" (click)="getLoc()"></ion-icon>
