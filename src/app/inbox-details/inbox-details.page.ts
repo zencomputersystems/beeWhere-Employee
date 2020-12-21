@@ -144,6 +144,9 @@ export class InboxDetailsPage implements OnInit {
         console.log(error);
         this.errorMsg = error;
         console.log(this.errorMsg);
+        if (error.status === 401 && error.statusText === "Unauthorized") {
+          this.globalAPI.reauthUser();
+        }
       }
     );
   }
@@ -199,6 +202,9 @@ export class InboxDetailsPage implements OnInit {
       },
       (error) => {
         console.error(error);
+        if (error.status === 401 && error.statusText === "Unauthorized") {
+          this.globalAPI.reauthUser();
+        }
       }
     );
   }
@@ -252,6 +258,9 @@ export class InboxDetailsPage implements OnInit {
         (error) => {
           console.error(error);
           this.ibGlobalFn.showToast(error.error, "error");
+          if (error.status === 401 && error.statusText === "Unauthorized") {
+            this.globalAPI.reauthUser();
+          }
         }
       );
   }
@@ -300,6 +309,10 @@ export class InboxDetailsPage implements OnInit {
           .getElementById("imgupload")
           .setAttribute("src", data.CHOOSEN_FILE_DATA.link);
         this.replyFormData = new FormData();
+      }, (error) => {
+        if (error.status === 401 && error.statusText === "Unauthorized") {
+          this.globalAPI.reauthUser();
+        }
       });
   }
 }

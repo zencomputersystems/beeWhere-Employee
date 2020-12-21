@@ -101,30 +101,35 @@ export class GlobalService {
    * @memberof GlobalService
    */
   reauthUser() {
-    if (localStorage.getItem('val1') !== null && localStorage.getItem('val1') !== null) {
-      this.glAuth.login(window.atob(localStorage.getItem('val1')),
-        window.atob(localStorage.getItem('val2'))).pipe(first()).subscribe(
-        (reauth) => {
-          this.getLoggedUserInfo();
-        },
-        (errorReAuth) => {
-          console.log(errorReAuth);
-          this.gGF.showAlert(
-            errorReAuth.status + " " + errorReAuth.statusText,
-            "Your access token was expired. This will redirect to login page after click Ok",
-              "alert-error",
+    const currDate = new Date();
+    if (currDate > new Date(localStorage.getItem('session_exp'))) {
+      console.log('need to reauth');
+      if (localStorage.getItem('val1') !== null && localStorage.getItem('val1') !== null) {
+        this.glAuth.login(window.atob(localStorage.getItem('val1')),
+          window.atob(localStorage.getItem('val2'))).pipe(first()).subscribe(
+          (reauth) => {
+            this.getLoggedUserInfo();
+          },
+          (errorReAuth) => {
+            console.log(errorReAuth);
+            this.gGF.showAlert(
+              errorReAuth.status + " " + errorReAuth.statusText,
+              "Your access token was expired. This will redirect to login page after click Ok",
+                "alert-error",
 
-            "/login"
-          );
-        }
-      );
-    } else {
-      this.gGF.showAlert(
-        "Session Expired",
-        "Your access token was expired. This will redirect to login page after click Ok",
-          "alert-error",
-        "/login"
-      );
+              "/login"
+            );
+          }
+        );
+      } else {
+        this.gGF.showAlert(
+          "Session Expired",
+          "Your access token was expired. This will redirect to login page after click Ok",
+            "alert-error",
+          "/login"
+        );
+      }
+
     }
 
   }
@@ -140,7 +145,7 @@ export class GlobalService {
     let loginLat;
     let loginLong;
     let loginAddr;
-    let loginPublicIp;
+    let loginPublicIp = "";
     let tempLoginLog;
     console.log(JSON.parse(localStorage.getItem("usr")).userId);
     // this.globalData.jobTypes = [];
