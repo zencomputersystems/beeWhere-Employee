@@ -138,13 +138,13 @@
                     && histList.CLOCK_OUT_TIME !== 'Invalid Date'">
                     {{histList.CLOCK_IN_TIME | date: 'd MMM yyyy hh:mm a'}}
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_IN !== 'null, null'">
+                  <ion-text *ngIf="histList.ADDRESS_IN !== 'null, null' && histList.SOURCE_ID === 1">
                     {{histList.ADDRESS_IN}}
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_IN === 'null, null'">
+                  <ion-text *ngIf="histList.ADDRESS_IN === 'null, null' && histList.SOURCE_ID === 1">
                     No location
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_IN === null">
+                  <ion-text *ngIf="histList.ADDRESS_IN === null && histList.SOURCE_ID === 3">
                     At {{histList.JOB_TYPE}}
                   </ion-text>
                 </ion-list>
@@ -158,13 +158,14 @@
                     || histList.CLOCK_OUT_TIME !== 'Invalid Date'">
                     {{histList.CLOCK_OUT_TIME | date: 'd MMM yyyy hh:mm a'}}
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_OUT !== 'null, null'|| histList.ADDRESS_OUT !== null">
+                  <ion-text *ngIf="histList.ADDRESS_OUT !== 'null, null'|| histList.ADDRESS_OUT !== null 
+                    && histList.SOURCE_ID === 1">
                     {{histList.ADDRESS_OUT}}
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_OUT === 'null, null'">
+                  <ion-text *ngIf="histList.ADDRESS_OUT === 'null, null' && histList.SOURCE_ID === 1">
                     No location
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_OUT === null">
+                  <ion-text *ngIf="histList.ADDRESS_OUT === null && histList.SOURCE_ID === 3">
                     At {{histList.JOB_TYPE}}
                   </ion-text>
                 </ion-list>
