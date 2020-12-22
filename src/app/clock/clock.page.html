@@ -169,7 +169,7 @@
         <ion-card-title>
           {{histClock.JOB_TYPE}}
           <ion-card-subtitle>
-            <ion-label class="label-client" *ngIf="histClock.CLIENT_ID !== null && histClock.CLIENT_DATA.ABBR !== null">
+            <ion-label class="label-client" *ngIf="histClock.CLIENT_ID !== null && histClock.CLIENT_ID !== 'none'">
               {{histClock.CLIENT_DATA.ABBR}}
             </ion-label>
             <ion-label class="label-project"
