@@ -489,6 +489,8 @@ export class ClockInPage implements OnInit {
     this.cinApi.getWithHeader("/api/clock/history-list/0/0").subscribe(
       (resCinStat: any) => {
         if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null) {
+        if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null  
+          && resCinStat[0].SOURCE_ID === 1) {
           localStorage.setItem("cin_token", "true");
           localStorage.setItem("cid_token", resCinStat[0].CLOCK_LOG_GUID);
           this.jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
