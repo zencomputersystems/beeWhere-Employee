@@ -673,7 +673,7 @@ export class ClockInPage implements OnInit {
     console.log(i);
     // this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
     if (this.clockedInInfo !== undefined) {
-      this.clockedInInfo.activities = this.cinGlobalFn.deleteTask(
+      this.clockedInInfo.ACTIVITIES = this.cinGlobalFn.deleteTask(
         selList,
         list,
         i
@@ -693,7 +693,7 @@ export class ClockInPage implements OnInit {
     console.log(this.newTask);
     if (event.code === "Enter" && this.newTask !== null) {
       console.log(this.clockedInInfo);
-      if (this.clockedInInfo !== undefined) {
+      if (this.clockedInInfo !== undefined && this.clockedInInfo.activities.length < 1) {
         this.clockedInInfo.activities = [];
         this.clockedInInfo.activities.push({
           statusFlag: false,
