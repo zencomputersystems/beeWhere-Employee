@@ -692,7 +692,7 @@ export class ClockInPage implements OnInit {
     console.log(this.newTask);
     if (event.code === "Enter" && this.newTask !== null) {
       console.log(this.clockedInInfo);
-      if (this.clockedInInfo !== undefined && this.clockedInInfo.activities.length < 1) {
+      if (this.clockedInInfo !== undefined && this.clockedInInfo.activities !== undefined) {
         this.clockedInInfo.activities = [];
         this.clockedInInfo.activities.push({
           statusFlag: false,
