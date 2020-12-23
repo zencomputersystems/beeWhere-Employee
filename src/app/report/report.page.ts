@@ -1,3 +1,4 @@
+import { GlobalService } from '@services/_providers/global.service';
 import { GlobalFnService } from '@services/global-fn.service';
 // import { Refresher } from '@ionic/angular';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
@@ -52,7 +53,9 @@ export class ReportPage implements OnInit {
   countPrevReportEmpty: any = 0;
   countPrevValueClickPrevButton: number;
 
-  constructor(private rpFormBuilder: FormBuilder, private rApi: APIService, public rGlobalFn: GlobalFnService) {
+  constructor(private rpFormBuilder: FormBuilder, private rApi: APIService,
+              public rGlobalFn: GlobalFnService,
+              public rGlobal: GlobalService) {
     this.searchForm = this.rpFormBuilder.group({
       type: ["attendance", Validators.required],
       duration: ["month", Validators.required],
@@ -195,6 +198,9 @@ export class ReportPage implements OnInit {
             ? this.countPrevReportEmpty + 1 : this.countPrevReportEmpty - 1;
         }
       }, (error) => {
+        if (error.status === 401 && error.statusText === "Unauthorized") {
+          this.rGlobal.reauthUser();
+        }
         this.rGlobalFn.dissmissLoading();
         this.rGlobalFn.showAlert(
           error.status + " " + error.statusText,

@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '@services/_models/user';
 import { GlobalFnService } from '@services/global-fn.service';
+import { first } from 'rxjs/operators';
 
 /**
  * This service is used to login & logout of the app,
@@ -68,6 +69,8 @@ export class AuthenticationService {
             localStorage.setItem("access_token", user.access_token);
             // localStorage.setItem("loginType", user.login_type);
             this.isAuthenticated();
+            const today = new Date();
+            localStorage.setItem('session_exp', new Date(today.setHours(today.getHours() + 8)).toString());
             setTimeout(() => {
               this.isTokenExpired();
               this.isAuthenticated();

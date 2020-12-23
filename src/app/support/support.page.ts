@@ -186,6 +186,10 @@ export class SupportPage implements OnInit {
       this.reqDetails.reset();
       this.choosenFile = "No file chosen";
       this.formData = new FormData();
+    }, (error) => {
+      if (error.status === 401 && error.statusText === "Unauthorized") {
+        this.sGlobal.reauthUser();
+      }
     });
   }
   /**
@@ -243,6 +247,10 @@ export class SupportPage implements OnInit {
         };
         console.log(obj);
         this.postObj(obj);
+      }, (error) => {
+        if (error.status === 401 && error.statusText === "Unauthorized") {
+          this.sGlobal.reauthUser();
+        }
       });
   }
 

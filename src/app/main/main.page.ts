@@ -1,3 +1,4 @@
+import { GlobalService } from '@services/_providers/global.service';
 import { GlobalFnService } from '@services/global-fn.service';
 // import { Refresher } from '@ionic/angular';
 import { APIService } from '@services/_services/api.service';
@@ -33,7 +34,7 @@ export class MainPage implements OnInit {
    */
   public loadingHistData;
 
-  constructor(public hApi: APIService, public hGlobalFn: GlobalFnService) { }
+  constructor(public hApi: APIService, public hGlobalFn: GlobalFnService, public hGlobal: GlobalService) { }
 
   /**
    * Initialize this component
@@ -83,6 +84,9 @@ export class MainPage implements OnInit {
         },
         (error) => {
           console.log(error);
+          if (error.status === 401 && error.statusText === "Unauthorized") {
+            this.hGlobal.reauthUser();
+          }
           this.hGlobalFn.dissmissLoading();
           this.loadingHistData = false;
         }

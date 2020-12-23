@@ -489,6 +489,8 @@ export class ClockInPage implements OnInit {
     this.cinApi.getWithHeader("/api/clock/history-list/0/0").subscribe(
       (resCinStat: any) => {
         if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null) {
+        if (resCinStat[0].CLOCK_OUT_TIME === null && resCinStat[0].CLOCK_IN_TIME !== null  
+          && resCinStat[0].SOURCE_ID === 1) {
           localStorage.setItem("cin_token", "true");
           localStorage.setItem("cid_token", resCinStat[0].CLOCK_LOG_GUID);
           this.jobSel = JSON.parse(localStorage.getItem("jobProfile")).filter((jobItem) => {
@@ -671,7 +673,7 @@ export class ClockInPage implements OnInit {
     console.log(i);
     // this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
     if (this.clockedInInfo !== undefined) {
-      this.clockedInInfo.activities = this.cinGlobalFn.deleteTask(
+      this.clockedInInfo.ACTIVITIES = this.cinGlobalFn.deleteTask(
         selList,
         list,
         i
@@ -691,7 +693,7 @@ export class ClockInPage implements OnInit {
     console.log(this.newTask);
     if (event.code === "Enter" && this.newTask !== null) {
       console.log(this.clockedInInfo);
-      if (this.clockedInInfo !== undefined) {
+      if (this.clockedInInfo !== undefined && this.clockedInInfo.activities.length < 1) {
         this.clockedInInfo.activities = [];
         this.clockedInInfo.activities.push({
           statusFlag: false,
