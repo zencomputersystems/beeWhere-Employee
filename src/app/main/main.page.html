@@ -101,7 +101,7 @@
           </ion-title> -->
           <div>
             <ion-card (click)="clickedInfo(histList)"
-              [routerLink]="['/clock', 'edit', histList.CLOCK_LOG_GUID]">
+              [routerLink]="['/clock', 'edit', histList.CLOCK_LOG_GUID]" *ngIf="histList.SOURCE_ID !== 3" >
               <ion-card-title>
               {{histList.JOB_TYPE}}
               <ion-card-subtitle>
@@ -135,18 +135,18 @@
                 </ion-label>
                 <ion-list class="clock-list">
                   <ion-text *ngIf="histList.CLOCK_IN_TIME !== '0000-00-00 00:00:00' && histList.CLOCK_IN_TIME !== null 
-                    && histList.CLOCK_OUT_TIME !== 'Invalid Date'">
+                    && histList.CLOCK_OUT_TIME !== 'Invalid Date'"> 
                     {{histList.CLOCK_IN_TIME | date: 'd MMM yyyy hh:mm a'}}
                   </ion-text>
                   <ion-text *ngIf="histList.ADDRESS_IN !== 'null, null' && histList.SOURCE_ID === 1">
                     {{histList.ADDRESS_IN}}
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_IN === 'null, null' && histList.SOURCE_ID === 1">
+                  <ion-text *ngIf="histList.ADDRESS_IN === 'null, null'">
                     No location
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_IN === null && histList.SOURCE_ID === 3">
+                  <!-- <ion-text *ngIf="histList.ADDRESS_IN === null && histList.SOURCE_ID === 3 && histList.CLOCK_IN_TIME !== null">
                     At {{histList.JOB_TYPE}}
-                  </ion-text>
+                  </ion-text> -->
                 </ion-list>
               </ion-item-group>
               <ion-item-group class="clock-setting" *ngIf="histList.CLOCK_OUT_TIME !== null">
@@ -162,12 +162,12 @@
                     && histList.SOURCE_ID === 1">
                     {{histList.ADDRESS_OUT}}
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_OUT === 'null, null' && histList.SOURCE_ID === 1">
+                  <ion-text *ngIf="histList.ADDRESS_OUT === 'null, null'">
                     No location
                   </ion-text>
-                  <ion-text *ngIf="histList.ADDRESS_OUT === null && histList.SOURCE_ID === 3">
+                  <!-- <ion-text *ngIf="histList.ADDRESS_OUT === null && histList.SOURCE_ID === 3">
                     At {{histList.JOB_TYPE}}
-                  </ion-text>
+                  </ion-text> -->
                 </ion-list>
               </ion-item-group>
               <ion-item-group class="activities-setting" *ngIf="histList.ACTIVITY !== null">
