@@ -1033,7 +1033,7 @@ export class ClockInPage implements OnInit {
           userAgent: {
             description: this.cinPlatform.description,
             publicIp: this.cinPublicIPAddr,
-            deviceID: this.cinDeviceUUID.uuid
+            deviceID: (this.cinDeviceUUID.uuid !== undefined) ? this.cinDeviceUUID.uuid : null
           }
         };
         console.log("clocks in");
@@ -1092,7 +1092,7 @@ export class ClockInPage implements OnInit {
           userAgent: {
             description: this.cinPlatform.description,
             publicIp: this.cinPublicIPAddr,
-            deviceID: this.cinDeviceUUID.uuid
+            deviceID: (this.cinDeviceUUID.uuid !== undefined) ? this.cinDeviceUUID.uuid : null
           }
         };
         console.log("clocks out");
