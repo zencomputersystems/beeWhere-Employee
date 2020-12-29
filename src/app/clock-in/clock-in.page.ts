@@ -692,7 +692,7 @@ export class ClockInPage implements OnInit {
     console.log(this.newTask);
     if (event.code === "Enter" && this.newTask !== null) {
       console.log(this.clockedInInfo);
-      if (this.clockedInInfo !== undefined && this.clockedInInfo.activities.length < 1) {
+      if (this.clockedInInfo !== undefined && this.clockedInInfo.activities !== undefined) {
         this.clockedInInfo.activities = [];
         this.clockedInInfo.activities.push({
           statusFlag: false,
@@ -1033,7 +1033,7 @@ export class ClockInPage implements OnInit {
           userAgent: {
             description: this.cinPlatform.description,
             publicIp: this.cinPublicIPAddr,
-            deviceID: this.cinDeviceUUID.uuid
+            deviceID: (this.cinDeviceUUID.uuid !== undefined) ? this.cinDeviceUUID.uuid : null
           }
         };
         console.log("clocks in");
@@ -1092,7 +1092,7 @@ export class ClockInPage implements OnInit {
           userAgent: {
             description: this.cinPlatform.description,
             publicIp: this.cinPublicIPAddr,
-            deviceID: this.cinDeviceUUID.uuid
+            deviceID: (this.cinDeviceUUID.uuid !== undefined) ? this.cinDeviceUUID.uuid : null
           }
         };
         console.log("clocks out");
