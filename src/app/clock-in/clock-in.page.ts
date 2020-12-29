@@ -462,6 +462,7 @@ export class ClockInPage implements OnInit {
    */
   async ionViewDidEnter() {
     console.log("ionViewDidEnter");
+    await this.getBasicInfo();
     this.countTimeoutReqLocation = 0;
     await this.getLoc();
     this.cinStartTime();
@@ -1195,7 +1196,7 @@ export class ClockInPage implements OnInit {
    */
   async refreshClockinPage(event) {
     // async refreshClockinPage(event: Refresher) {
-    await this.getBasicInfo();
+    // await this.getBasicInfo();
     await this.ionViewDidEnter();
     setTimeout(() => {
       event.target.complete();
