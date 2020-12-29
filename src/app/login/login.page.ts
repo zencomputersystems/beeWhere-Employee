@@ -176,8 +176,6 @@ export class LoginPage implements OnInit {
     } else {
       localStorage.removeItem("val1");
       localStorage.removeItem("val2");
-      // localStorage.setItem("val1", "");
-      // localStorage.setItem("val2", "");
     }
   }
 
@@ -189,8 +187,6 @@ export class LoginPage implements OnInit {
   async onLogin() {
     this.error = null;
     this.checkRememberMe();
-    // window.btoa(pass);
-    console.log("onlogin");
     const tempToken = {
       email: this.lForm.get("email").value,
       pass: this.lForm.get("password").value
