@@ -513,7 +513,7 @@ export class ClockInPage implements OnInit {
                   projectId: resCinStat[0].PROJECT_ID,
                   contract: resCinStat[0].CONTRACT_DATA,
                   contractId: resCinStat[0].CONTRACT_ID,
-                  activities: resActv.activity, // this.checkAddNew,
+                  activities: (resActv.activity.length === undefined) ? [resActv.activity] : resActv.activity, // this.checkAddNew,
                   jobType: this.jobSel[0],
                   clockTime: resCinStat[0].CLOCK_IN_TIME,
                 })
@@ -694,7 +694,8 @@ export class ClockInPage implements OnInit {
     if (event.code === "Enter" && this.newTask !== null) {
       console.log(this.clockedInInfo);
       if (this.clockedInInfo !== undefined && this.clockedInInfo.activities !== undefined) {
-        this.clockedInInfo.activities = [];
+        this.clockedInInfo.activities = (this.clockedInInfo.activities.length > 0 )
+          ? this.clockedInInfo.activities : [];
         this.clockedInInfo.activities.push({
           statusFlag: false,
           name: this.newTask,
