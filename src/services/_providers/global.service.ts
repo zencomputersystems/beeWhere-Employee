@@ -102,9 +102,9 @@ export class GlobalService {
    */
   reauthUser() {
     const currDate = new Date();
-    if (currDate > new Date(localStorage.getItem('session_exp'))) {
+    if (currDate > new Date(atob(localStorage.getItem('session_exp')))) {
       console.log('need to reauth');
-      if (localStorage.getItem('val1') !== null && localStorage.getItem('val1') !== null) {
+      if (localStorage.getItem('val1') !== null && localStorage.getItem('val2') !== null) {
         this.glAuth.login(window.atob(localStorage.getItem('val1')),
           window.atob(localStorage.getItem('val2'))).pipe(first()).subscribe(
           (reauth) => {
