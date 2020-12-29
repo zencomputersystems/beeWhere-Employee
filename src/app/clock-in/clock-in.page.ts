@@ -1067,6 +1067,7 @@ export class ClockInPage implements OnInit {
             this.data.userInfo.clockIn.status = true;
             this.clockedInInfo = JSON.parse(localStorage.getItem("cin_info"));
             this.cinGlobal.addLoginActivity("Clock in");
+            this.cinGlobalFn.showToast("Success Clocked In", "success");
             // this.autoclockoutCheck(); // disabled autoclockout function for release 1
 
             console.log(this.clockedInInfo);
@@ -1074,6 +1075,7 @@ export class ClockInPage implements OnInit {
           (error) => {
             console.log("clkin");
             console.log(error);
+            this.cinGlobalFn.showToast("Fail Clocked In", "error");
           }
         );
         break;
@@ -1123,12 +1125,14 @@ export class ClockInPage implements OnInit {
             this.data.userInfo.clockIn.status = false;
             this.checkAddNew = [];
             this.clockedInInfo.activities = [];
+            this.cinGlobalFn.showToast("Success Clocked Out", "success");
             // this.clockedInInfo = [];
             // clearInterval(this.autoClockoutLocationTimerId); disable autoclockout function for release 1
           },
           (error) => {
             console.log("coutResp");
             console.log(error);
+            this.cinGlobalFn.showToast("Fail Clocked In", "error");
           }
         );
         break;
