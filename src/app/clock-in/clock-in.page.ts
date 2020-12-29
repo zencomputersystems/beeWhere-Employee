@@ -673,7 +673,7 @@ export class ClockInPage implements OnInit {
     console.log(i);
     // this.checkAddNew = this.cinGlobalFn.deleteTask(selList, list, i);
     if (this.clockedInInfo !== undefined) {
-      this.clockedInInfo.ACTIVITIES = this.cinGlobalFn.deleteTask(
+      this.clockedInInfo.activities = this.cinGlobalFn.deleteTask(
         selList,
         list,
         i
