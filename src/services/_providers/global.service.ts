@@ -167,14 +167,15 @@ export class GlobalService {
           Object.entries((resp as any).property).forEach((entry) => {
             const temp: any = entry[1];
             temp.type = entry[0];
-            temp.require_location = true;  // for temp only
+            // temp.require_location = true;  // for temp only
             tempJob.push(temp);
           });
           // console.log(this.dataGlobal.userInfo);
           // console.log(this.globalData.jobTypes);
           // console.log(tempJob);
           localStorage.setItem("jobProfile", JSON.stringify(tempJob));
-          if (localStorage.getItem("defJob") === null || localStorage.getItem("defJob") === undefined) {
+          if (localStorage.getItem("defJob") === null || localStorage.getItem("defJob") === undefined || 
+            JSON.parse(localStorage.getItem("defJob")).length < 1) {
             defJob = tempJob.find((x) => {
               if (x.value) {
                 // console.log(x);

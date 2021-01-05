@@ -513,7 +513,7 @@ export class ClockInPage implements OnInit {
                   projectId: resCinStat[0].PROJECT_ID,
                   contract: resCinStat[0].CONTRACT_DATA,
                   contractId: resCinStat[0].CONTRACT_ID,
-                  activities: (resActv.activity.length === undefined) ? [resActv.activity] : resActv.activity, // this.checkAddNew,
+                  activities: resActv,
                   jobType: this.jobSel[0],
                   clockTime: resCinStat[0].CLOCK_IN_TIME,
                 })
