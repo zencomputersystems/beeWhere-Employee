@@ -25,6 +25,7 @@
     "@capacitor/android": "^2.2.1",
     "@capacitor/core": "^2.2.1",
     "@capacitor/ios": "^2.2.1",
+    "@ionic-native/app-version": "^5.30.0",
     "@ionic-native/background-geolocation": "^5.28.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/device": "^5.29.0",
@@ -39,6 +40,7 @@
     "bootstrap": "^4.5.2",
     "cordova-browser": "6.0.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
+    "cordova-plugin-app-version": "^0.1.12",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-geofence": "^0.7.0",
     "cordova-plugin-geolocation": "^4.0.2",
@@ -104,7 +106,8 @@
         "ANDROID_SUPPORT_LIBRARY_VERSION": "23+",
         "ALWAYS_USAGE_DESCRIPTION": "App requires ...",
         "MOTION_USAGE_DESCRIPTION": "App requires motion detection"
-      }
+      },
+      "cordova-plugin-app-version": {}
     },
     "platforms": [
       "browser",
