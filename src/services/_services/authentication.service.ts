@@ -70,6 +70,9 @@ export class AuthenticationService {
             // localStorage.setItem("loginType", user.login_type);
             this.isAuthenticated();
             const today = new Date();
+
+            localStorage.setItem("val1", window.btoa(email));
+            localStorage.setItem("val2", password);
             localStorage.setItem('session_exp', btoa(new Date(today.setHours(today.getHours() + 8)).toString()));
             setTimeout(() => {
               this.isTokenExpired();

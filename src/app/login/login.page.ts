@@ -186,7 +186,7 @@ export class LoginPage implements OnInit {
    */
   async onLogin() {
     this.error = null;
-    this.checkRememberMe();
+    // this.checkRememberMe();
     const tempToken = {
       email: this.lForm.get("email").value,
       pass: this.lForm.get("password").value
