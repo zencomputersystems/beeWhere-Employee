@@ -18,6 +18,7 @@ import { environment } from '../environments/environment';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { Device } from '@ionic-native/device';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +43,7 @@ import { Device } from '@ionic-native/device';
     SplashScreen,
     GlobalService,
     Geolocation,
+    AppVersion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],
