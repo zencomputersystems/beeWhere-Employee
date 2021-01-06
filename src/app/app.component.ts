@@ -26,20 +26,20 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-    });
 
-    this.appVersion.getVersionCode().then(value => {
-      if (localStorage.getItem("app_versioncode") === null) {
-        localStorage.setItem("app_versioncode", value.toString());
-      } else {
-        if (Number(localStorage.getItem("app_versioncode")) !== value) {
-          localStorage.clear();
-          this.router.navigate(["/"]);
+      this.appVersion.getVersionCode().then(value => {
+        if (localStorage.getItem("app_versioncode") === null) {
+          localStorage.setItem("app_versioncode", value.toString());
+        } else {
+          if (Number(localStorage.getItem("app_versioncode")) !== value) {
+            localStorage.clear();
+            this.router.navigate(["/"]);
+          }
         }
-      }
-    }).catch(err => {
-      localStorage.clear();
-      this.router.navigate(["/"]);
+      }).catch(err => {
+        localStorage.clear();
+        this.router.navigate(["/"]);
+      });
     });
   }
 }
