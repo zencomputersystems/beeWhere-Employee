@@ -1,3 +1,4 @@
+
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
@@ -41,5 +42,11 @@ export class AppComponent {
         this.router.navigate(["/"]);
       });
     });
+
+    window.addEventListener('offline', () => {
+      alert("Oops! You are offline now!");
+    });
+
+
   }
 }
