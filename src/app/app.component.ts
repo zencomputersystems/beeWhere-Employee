@@ -31,6 +31,11 @@ export class AppComponent {
       this.appVersion.getVersionCode().then(value => {
         if (localStorage.getItem("app_versioncode") === null) {
           localStorage.setItem("app_versioncode", value.toString());
+          // alert(value); to check versionCode
+          this.appVersion.getVersionNumber().then(resVN => {
+            localStorage.setItem("app_versionnumber", resVN.toString());
+            // alert(resVN); to check versionNumber
+          }).catch(err => {});
         } else {
           if (Number(localStorage.getItem("app_versioncode")) !== value) {
             localStorage.clear();
