@@ -94,16 +94,18 @@
       </ion-item>
       <ion-item (click)="navToOtherPage('https://a.beesuite.app/#/')"
         *ngIf="!openLoginActivityList && !openViewMyProfile">
-        <!-- <ion-label>Apply Leave</ion-label> -->
-        <!-- Apply Leave -->
         <div>
           <div>Apply leave</div>
           <div class="small-note">This will redirect to beeSuite page</div>
-
         </div>
-        <!-- <ion-note>This will redirect to beeSuite page</ion-note> -->
+      </ion-item>
+      <ion-item  *ngIf="appVersion !== null">
+        <div>
+          <div>Version: {{appVersion}}</div>
+        </div>
       </ion-item>
     </ion-item-group>
+    
     <ion-item-group class="logout-list" *ngIf="!openLoginActivityList && !openViewMyProfile">
       <ion-item routerLink="/login" (click)="stAuth.logout()">
         <!-- <ion-img src="../../assets/basic/logout.png"></ion-img> -->
@@ -167,52 +169,6 @@
 
     <ion-item-group *ngIf="openViewMyProfile">
       <ion-list-header>ma profileeee</ion-list-header>
-      <!-- <ion-list *ngFor="let log of loginLog; let i=index;" class="login-log-list-group">
-        <ion-item class="login-log-list">
-          <div class="login-log-top">
-            <div class="login-log-title">
-              <div class="login-log-location">
-                <ion-icon name="location-outline"></ion-icon>
-              </div>
-              <div class="login-log-info">
-                <div>
-                  {{log.ADDRESS}}
-                </div>
-                <div>
-                  {{log.LOGGED_TIMESTAMP | date: 'd MMM yyyy hh:mm a' }} &nbsp; &bull; &nbsp;
-                  {{log.DEVICE_PUBLIC_IP}}
-                </div>
-                <div>{{log.DEVICE_INFO}}</div>
-                <div *ngIf="log.LOGIN_LOG_GUID === loginId" class="active-now">Active Now</div>
-              </div>
-              <div class="login-log-expand">
-                <ion-icon name="chevron-down-circle-outline" (click)="isShowLoginActivitiesLog=true;checkShowLoginIndex=i;"
-                  *ngIf="!isShowLoginActivitiesLog || (i!==checkShowLoginIndex)"></ion-icon>
-                <ion-icon name="chevron-up-circle-outline" (click)="isShowLoginActivitiesLog=false;checkShowLoginIndex=null;"
-                  *ngIf="isShowLoginActivitiesLog && (i===checkShowLoginIndex)"></ion-icon>
-              </div>
-            </div>
-            <div class="login-log-card" *ngIf="isShowLoginActivitiesLog && (checkShowLoginIndex === i)">
-              <ion-card>
-                <ion-list-header>Activites</ion-list-header>
-                  <ion-list class="login-log-card-content" *ngIf="log.ACTIVITY !== null">
-                    <div *ngFor="let activityLog of log.ACTIVITY;">
-                        <div>
-                          {{activityLog.timestamp | date: 'd MMM yyyy h:mm a'}} : &nbsp;
-                          {{activityLog.activity}}
-                        </div>
-                    </div>
-                  </ion-list>
-                  <ion-list class="login-log-card-content" *ngIf="log.ACTIVITY === null">
-                      <div class="no-record">
-                        No record found
-                      </div>
-                  </ion-list>
-              </ion-card>
-            </div>
-          </div>
-        </ion-item>
-      </ion-list> -->
     </ion-item-group>
 
   </div>

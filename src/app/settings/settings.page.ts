@@ -2,6 +2,7 @@ import { AuthenticationService } from '@services/_services/authentication.servic
 import { GlobalFnService } from '@services/global-fn.service';
 import { APIService } from '@services/_services/api.service';
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 /**
  * This component for Settings page
@@ -53,7 +54,20 @@ export class SettingsPage implements OnInit {
    * @memberof SettingsPage
    */
   loginId: string;
+
+  /**
+   * Bind logged user info
+   * @type {*}
+   * @memberof SettingsPage
+   */
   myProfileData: any;
+  
+  /**
+   * Bind value of app's version code (on device only)
+   * @type {string}
+   * @memberof SettingsPage
+   */
+  public appVersion: string = null;
 
   /**
    * Creates an instance of SettingsPage.
@@ -61,7 +75,8 @@ export class SettingsPage implements OnInit {
    * @param {GlobalFnService} stFGlobal
    * @memberof SettingsPage
    */
-  constructor(private stApi: APIService, private stFGlobal: GlobalFnService, public stAuth: AuthenticationService) {}
+  constructor(private stApi: APIService, private stFGlobal: GlobalFnService, public stAuth: AuthenticationService,
+              private platform: Platform) {}
 
   /**
    * Initialize methods in this component
@@ -75,6 +90,12 @@ export class SettingsPage implements OnInit {
    */
   ionViewDidEnter() {
     this.loginLog = [];
+    // this.versionCode
+    this.platform.ready().then(() => {
+      console.log('on device ready only');
+      this.appVersion = localStorage.getItem("app_versionnumber");
+      console.log(this.appVersion);
+    });
   }
 
   /**
