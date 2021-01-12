@@ -85,7 +85,7 @@ export class GlobalFnService {
     // console.log(event);
     // console.log(newTask);
     // console.log(taskList);
-    if (event.code === "Enter" && newTask.length > 0) {
+    if ((event.code === "Enter" || event.key === "Enter") && newTask.length > 0) {
       taskList = taskList.push({
         // id: taskList.length,
         statusFlag: false,

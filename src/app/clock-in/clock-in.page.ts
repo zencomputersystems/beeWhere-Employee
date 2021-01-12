@@ -691,9 +691,17 @@ export class ClockInPage implements OnInit {
    */
   addNewTask(event) {
     console.log(this.newTask);
-    if (event.code === "Enter" && this.newTask !== null) {
+    console.log(event)
+    console.log(this.checkAddNew);
+            // this.checkAddNew = [];
+            // this.clockedInInfo.activities = [];
+    if ((event.code === "Enter" || event.key === "Enter") && this.newTask !== null) {
       console.log(this.clockedInInfo);
-      if (this.clockedInInfo !== undefined && this.clockedInInfo.activities !== undefined) {
+
+      // console.log(this.clockedInInfo.activities);
+      // console.log(this.clockedInInfo.activities.length);
+      if (this.clockedInInfo !== undefined &&
+        this.clockedInInfo.activities !== undefined && this.checkAddNew === []) {
         this.clockedInInfo.activities = (this.clockedInInfo.activities.length > 0 )
           ? this.clockedInInfo.activities : [];
         this.clockedInInfo.activities.push({

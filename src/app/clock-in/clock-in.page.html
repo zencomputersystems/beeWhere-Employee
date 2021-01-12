@@ -308,6 +308,43 @@
                     <ion-item-group class="activity-list" *ngIf="jobDtl.activity_list">
                       <ion-title>Activity List</ion-title>
                       <ion-list>
+                        <!-- <ng-container *ngIf="this.clockedInInfo === undefined; else elseActivityList"> -->
+                          <!-- <ion-item-sliding *ngFor="let list of checkAddNew; let i = index;">
+                            <ion-item lines="none">
+                              <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.statusFlag"
+                                [ngModelOptions]="{standalone: true}"></ion-checkbox>
+                              <ion-input type="text" placeholder="Add task here and press Enter"
+                                [(ngModel)]="list.name"
+                                [ngModelOptions]="{standalone: true}" inputmode="text" type="text" enterkeyhint="done">
+                              </ion-input>
+                            </ion-item>
+                            <ion-item-options side="end">
+                              <ion-item-option (click)="onDeleteTask(list, checkAddNew, i)">
+                                <ion-img src="../../assets/basic/trash-can.png"></ion-img>
+                              </ion-item-option>
+                            </ion-item-options>
+                          </ion-item-sliding> -->
+                          
+                        <!-- </ng-container>
+                        <ng-template #elseActivityList>
+                          <ion-item-sliding *ngFor="let list of clockedInInfo.activities; let i = index;">
+                            <ion-item lines="none">
+                              <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.statusFlag"
+                                [ngModelOptions]="{standalone: true}"></ion-checkbox>
+                              <ion-input type="text" placeholder="Add task here and press Enter" [(ngModel)]="list.name"
+                                [ngModelOptions]="{standalone: true}"
+                                inputmode="text" type="text" enterkeyhint="done"></ion-input>
+                            </ion-item>
+                            <ion-item-options side="end">
+                              <ion-item-option (click)="onDeleteTask(list, clockedInInfo.activities, i)">
+                                <ion-img src="../../assets/basic/trash-can.png"></ion-img>
+                              </ion-item-option>
+                            </ion-item-options>
+                          </ion-item-sliding>
+                          
+                          
+                        </ng-template> -->
+                        
                         <ion-item-sliding *ngFor="let list of checkAddNew; let i = index;">
                           <ion-item lines="none">
                             <ion-checkbox slot="start" mode="ios" [(ngModel)]="list.statusFlag"
