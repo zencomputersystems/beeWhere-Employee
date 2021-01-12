@@ -141,26 +141,36 @@
           <ion-item-group class="activity-list">
             <ion-title>Activity List</ion-title>
             <ion-list>
-              <ng-container *ngIf="histClock.ACTIVITY !== null && histClock.ACTIVITY.root !== ''">
+              <!-- <ng-container> -->
+              <!-- <ng-container *ngIf="histClock.ACTIVITY !== null && histClock.ACTIVITY !== ''"> -->
               
-              <ion-item-sliding *ngFor="let aList of histClock.ACTIVITY; let i = index;">
-                <ion-item lines="none">
-                  <ion-checkbox slot="start" mode="ios" [(ngModel)]="aList.statusFlag">
-                  </ion-checkbox>
-                  <ion-input type="text" placeholder="Add task here and press Enter" [(ngModel)]="aList.name"
-                    inputmode="text"
-                    type="text" enterkeyhint="done"></ion-input>
-                </ion-item>
-                <ion-item-options side="end">
-                  <ion-item-option
-                    (click)="histClock.ACTIVITY=coutGlobalFn.deleteTask(aList,
-                    histClock.ACTIVITY, i);">
-                    <ion-img src="../../assets/basic/trash-can.png"></ion-img>
-                  </ion-item-option>
-                </ion-item-options>
-              </ion-item-sliding>
-              </ng-container>
-              <ion-item-sliding>
+                <ion-item-sliding *ngFor="let aList of histClock.ACTIVITY; let i = index;">
+                  <ion-item lines="none">
+                    <ion-checkbox slot="start" mode="ios" [(ngModel)]="aList.statusFlag">
+                    </ion-checkbox>
+                    <ion-input type="text" placeholder="Add task here and press Enter" [(ngModel)]="aList.name"
+                      inputmode="text"
+                      type="text" enterkeyhint="done"></ion-input>
+                  </ion-item>
+                  <ion-item-options side="end">
+                    <ion-item-option
+                      (click)="histClock.ACTIVITY=coutGlobalFn.deleteTask(aList,
+                      histClock.ACTIVITY, i);">
+                      <ion-img src="../../assets/basic/trash-can.png"></ion-img>
+                    </ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+                <ion-item-sliding>
+                  <ion-item lines="none">
+                    <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
+                    <ion-input type="text" placeholder="Add task here and press Enter" [(ngModel)]="coutNewActivity"
+                      [ngModelOptions]="{standalone: true}" (keyup.enter)="coutGlobalFn.addTask($event, coutNewActivity,
+                      histClock.ACTIVITY);coutNewActivity=null;"
+                      inputmode="text" type="text" enterkeyhint="done"></ion-input>
+                  </ion-item>
+                </ion-item-sliding>
+              <!-- </ng-container> -->
+              <!-- <ion-item-sliding>
                 <ion-item lines="none">
                   <ion-checkbox slot="start" mode="ios" disabled></ion-checkbox>
                   <ion-input type="text" placeholder="Add task here and press Enter" [(ngModel)]="coutNewActivity"
@@ -168,7 +178,7 @@
                     histClock.ACTIVITY);coutNewActivity=null;"
                     inputmode="text" type="submit"></ion-input>
                 </ion-item>
-              </ion-item-sliding>
+              </ion-item-sliding> -->
             </ion-list>
           </ion-item-group>
         </ion-card-content>
