@@ -139,28 +139,12 @@ export class ClockPage implements OnInit {
       // update activity based on clock guid
       const tempUpdArray = {
         clockLogGuid: this.currData[0].CLOCK_LOG_GUID,
-        activity: this.currData[0].ACTIVITY.root.activity
-        // activity: [
-        //   this.currData.ACTIVITY
-        //   // {
-        //   //   name: "Update system",
-        //   //   statusFlag: true,
-        //   // },
-        //   // {
-        //   //   name: "task 2",
-        //   //   statusFlag: true,
-        //   // },
-        //   // {
-        //   //   name: "task 3",
-        //   //   statusFlag: false,
-        //   // },
-        // ],
+        activity: this.currData[0].ACTIVITY
       };
-
       this.clApi.patchWithHeader("/api/clock/activity", tempUpdArray).subscribe(
         (clkAct) => {
           console.log(clkAct);
-          this.clRouter.navigate["/main"];
+          this.clRouter.navigate(["/main"]);
         },
         (error) => {
           console.log(error);
